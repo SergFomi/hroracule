@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сергей - Специалист по операционной эффективности</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1547 50%, #2d1b69 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 60px;
+            box-shadow: 0 20px 60px rgba(138, 43, 226, 0.3);
+        }
+
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid #a855f7;
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.6);
+            margin-bottom: 20px;
+            object-fit: cover;
+            object-position: object-position: center 5%;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #a855f7, #ec4899, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: #c084fc;
+            margin-bottom: 10px;
+        }
+
+        .position {
+            font-size: 1.1rem;
+            color: #d1d5db;
+            opacity: 0.9;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2));
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px solid rgba(168, 85, 247, 0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(168, 85, 247, 0.4);
+            border-color: #a855f7;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #a855f7, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #e5e7eb;
+            line-height: 1.5;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #a855f7;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-icon {
+            font-size: 2.5rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .skill-card {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(168, 85, 247, 0.1));
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+        }
+
+        .skill-card.ready {
+            border-left-color: #10b981;
+        }
+
+        .skill-card.learning {
+            border-left-color: #f59e0b;
+        }
+
+        .skill-card:hover {
+            transform: translateX(10px);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(168, 85, 247, 0.2));
+        }
+
+        .skill-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .skill-desc {
+            color: #d1d5db;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .badge-ready {
+            background: linear-gradient(45deg, #10b981, #059669);
+        }
+
+        .badge-learning {
+            background: linear-gradient(45deg, #f59e0b, #d97706);
+        }
+
+        .value-section {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(236, 72, 153, 0.15));
+            border: 2px solid rgba(168, 85, 247, 0.3);
+        }
+
+        .value-cards {
+            display: grid;
+            gap: 20px;
+        }
+
+        .value-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #ec4899;
+        }
+
+        .value-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #fbbf24;
+        }
+
+        .value-desc {
+            color: #e5e7eb;
+            line-height: 1.6;
+        }
+
+        .current-position {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(245, 158, 11, 0.15));
+            border: 2px solid rgba(236, 72, 153, 0.3);
+        }
+
+        .position-details {
+            margin-top: 20px;
+        }
+
+        .position-details ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .position-details li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            color: #e5e7eb;
+        }
+
+        .position-details li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #a855f7;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="container">
+        <div class="hero">
+            <img src="images/serg.png" alt="Сергей" class="profile-img">
+            <h1>Сергей</h1>
+            <div class="subtitle">Специалист по операционной эффективности</div>
+            <div class="position">Заместитель управляющего отдела электронной коммерции</div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">+30%</div>
+                <div class="stat-label">Рост оборота на маркетплейсах за полгода</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">5-40%</div>
+                <div class="stat-label">Рост маржинальности продуктов в нише мебель для хранения</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">10×</div>
+                <div class="stat-label">Ускорение расчетов заказов: с 5 часов до 30 минут</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">-30%</div>
+                <div class="stat-label">Сокращение времени сотрудников на рутину через автоматизацию</div>
+            </div>
+        </div>
+
+        <div class="section value-section">
+            <h2 class="section-title">
+                <span class="section-icon">🎯</span>
+                Где я могу принести максимальную ценность прямо сейчас
+            </h2>
+            <div class="value-cards">
+                <div class="value-card">
+                    <div class="value-title">Операционный аудит</div>
+                    <div class="value-desc">Выявление узких мест в процессах и предложение конкретных инструментов оптимизации</div>
+                </div>
+                <div class="value-card">
+                    <div class="value-title">Наведение порядка в данных</div>
+                    <div class="value-desc">Создание дашбордов, отчётов и систем мониторинга для принятия решений</div>
+                </div>
+                <div class="value-card">
+                    <div class="value-title">Автоматизация рутины</div>
+                    <div class="value-desc">Внедрение скриптов, ботов и интеграций для экономии времени команды</div>
+                </div>
+                <div class="value-card">
+                    <div class="value-title">ИИ-консалтинг</div>
+                    <div class="value-desc">Внедрение ChatGPT/Claude в бизнес-процессы, обучение команд</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">📊</span>
+                Работа с данными и аналитика
+            </h2>
+            <div class="skills-grid">
+                <div class="skill-card ready">
+                    <div class="badge badge-ready">ГОТОВ К ПРОЕКТАМ</div>
+                    <div class="skill-title">Google Таблицы: формулы, сводные таблицы, визуализация</div>
+                    <div class="skill-desc">Трансформация разрозненных данных в понятные инсайты для принятия решений. Снижение времени на поиск информации, повышение прозрачности бизнес-процессов.</div>
+                </div>
+                <div class="skill-card ready">
+                    <div class="badge badge-ready">ГОТОВ К ПРОЕКТАМ</div>
+                    <div class="skill-title">Создание дашбордов и отчётов для бизнес-подразделений</div>
+                    <div class="skill-desc">Превращение разрозненных данных в понятные инсайты для принятия решений. Снижение времени на поиск информации, повышение прозрачности бизнес-процессов.</div>
+                </div>
+                <div class="skill-card learning">
+                    <div class="badge badge-learning">В ПРОЦЕССЕ ОСВОЕНИЯ</div>
+                    <div class="skill-title">SQL для работы с базами данных</div>
+                    <div class="skill-desc"></div>
+                </div>
+                <div class="skill-card learning">
+                    <div class="badge badge-learning">В ПРОЦЕССЕ ОСВОЕНИЯ</div>
+                    <div class="skill-title">Принципы Data Analytics</div>
+                    <div class="skill-desc">SMART, управление ожиданиями, типы данных</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">⚡</span>
+                Автоматизация процессов
+            </h2>
+            <div class="skills-grid">
+                <div class="skill-card ready">
+                    <div class="badge badge-ready">ГОТОВ К ПРОЕКТАМ</div>
+                    <div class="skill-title">Разработка Python-скриптов</div>
+                    <div class="skill-desc">Telegram-боты, автоматизация рутины</div>
+                </div>
+                <div class="skill-card ready">
+                    <div class="badge badge-ready">ГОТОВ К ПРОЕКТАМ</div>
+                    <div class="skill-title">Применение ИИ для оптимизации процессов</div>
+                    <div class="skill-desc">Внедрение скриптов, ботов и интеграций для экономии времени команды</div>
+                </div>
+                <div class="skill-card ready">
+                    <div class="badge badge-ready">ГОТОВ К ПРОЕКТАМ</div>
+                    <div class="skill-title">Интеграция систем и данных</div>
+                    <div class="skill-desc"></div>
+                </div>
+                <div class="skill-card learning">
+                    <div class="badge badge-learning">В ПРОЦЕССЕ ОСВОЕНИЯ</div>
+                    <div class="skill-title">Low-code автоматизация (n8n)</div>
+                    <div class="skill-desc"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🎯</span>
+                Операционное управление
+            </h2>
+            <div class="skills-grid">
+                <div class="skill-card ready">
+                    <div class="badge badge-ready">ГОТОВ К ПРОЕКТАМ</div>
+                    <div class="skill-title">Ведение таск-трекеров и управление задачами команды</div>
+                    <div class="skill-desc"></div>
+                </div>
+                <div class="skill-card ready">
+                    <div class="badge badge-ready">ГОТОВ К ПРОЕКТАМ</div>
+                    <div class="skill-title">Координация работы между подразделениями</div>
+                    <div class="skill-desc"></div>
+                </div>
+                <div class="skill-card ready">
+                    <div class="badge badge-ready">ГОТОВ К ПРОЕКТАМ</div>
+                    <div class="skill-title">Управление поставками и логистикой (e-commerce)</div>
+                    <div class="skill-desc"></div>
+                </div>
+                <div class="skill-card ready">
+                    <div class="badge badge-ready">ГОТОВ К ПРОЕКТАМ</div>
+                    <div class="skill-title">Подготовка управленческих отчётов</div>
+                    <div class="skill-desc">Прозрачность выполнения задач, снижение простоев из-за несогласованности. Своевременное выявление критических проблем. Рост предсказуемости результатов.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">👥</span>
+                HR и подбор персонала
+            </h2>
+            <div class="skills-grid">
+                <div class="skill-card ready">
+                    <div class="badge badge-ready">ГОТОВ К ПРОЕКТАМ</div>
+                    <div class="skill-title">Карьерное консультирование и профориентация</div>
+                    <div class="skill-desc"></div>
+                </div>
+                <div class="skill-card ready">
+                    <div class="badge badge-ready">ГОТОВ К ПРОЕКТАМ</div>
+                    <div class="skill-title">Автоматизация процессов рекрутинга</div>
+                    <div class="skill-desc"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">
+                <span class="section-icon">🤖</span>
+                Работа с искусственным интеллектом
+            </h2>
+            <div class="skills-grid">
+                <div class="skill-card ready">
+                    <div class="badge badge-ready">ГОТОВ К ПРОЕКТАМ</div>
+                    <div class="skill-title">Промпт-инжиниринг и оптимизация работы с LLM</div>
+                    <div class="skill-desc">Многократное ускорение аналитических задач. Генерация гипотез. Обучение команды работе с ИИ.</div>
+                </div>
+                <div class="skill-card ready">
+                    <div class="badge badge-ready">ГОТОВ К ПРОЕКТАМ</div>
+                    <div class="skill-title">Разработка ИИ-инструментов под бизнес-задачи</div>
+                    <div class="skill-desc"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section current-position">
+            <h2 class="section-title">
+                <span class="section-icon">💼</span>
+                Текущая позиция
+            </h2>
+            <div style="margin-bottom: 15px;">
+                <strong style="font-size: 1.3rem; color: #fbbf24;">Заместитель управляющего отдела электронной коммерции</strong>
+                <div style="color: #d1d5db; margin-top: 5px;">(производственный холдинг)</div>
+            </div>
+            <div class="position-details">
+                <ul>
+                    <li>Бизнес-аналитика и визуализация данных для отдела</li>
+                    <li>Операционное управление и ведение таск-трекера</li>
+                    <li>Координация логистики между производством и маркетплейсами</li>
+                    <li>Выявление операционных узких мест и предложение решений</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generate stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+    </script>
+</body>
+</html>
