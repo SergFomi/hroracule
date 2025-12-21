@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Секретарь | Парсинг будущего</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(212, 175, 55, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(212, 175, 55, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+        }
+
+        .glitch {
+            position: relative;
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            background: linear-gradient(180deg, #d4af37 0%, #f4d03f 50%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .tagline {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: #d4af37;
+            text-align: center;
+            max-width: 800px;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 300;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: #d4af37;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 60px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #d4af37 0%, transparent 100%);
+        }
+
+        .problem-box {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(0, 0, 0, 0.8) 100%);
+            border: 2px solid #d4af37;
+            border-left: 6px solid #d4af37;
+            padding: 40px;
+            margin-bottom: 40px;
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
+        }
+
+        .problem-title {
+            font-size: 1.8rem;
+            color: #f4d03f;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .problem-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #c0c0c0;
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .solution-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid #d4af37;
+            padding: 30px;
+            position: relative;
+            transition: all 0.3s ease;
+            clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+        }
+
+        .solution-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
+        }
+
+        .solution-card:hover::before {
+            opacity: 1;
+        }
+
+        .step-number {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #d4af37;
+            opacity: 0.3;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: #f4d03f;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .card-text {
+            color: #b0b0b0;
+            line-height: 1.6;
+        }
+
+        .use-cases {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .use-case {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.05) 0%, rgba(0, 0, 0, 0.8) 100%);
+            border-left: 4px solid #d4af37;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .use-case:hover {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(0, 0, 0, 0.9) 100%);
+            border-left-color: #f4d03f;
+            transform: translateX(10px);
+        }
+
+        .use-case-title {
+            font-size: 1.2rem;
+            color: #d4af37;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .use-case-text {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-top: 40px;
+        }
+
+        .features-list li {
+            padding: 20px 20px 20px 60px;
+            margin-bottom: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .features-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 25px;
+            color: #d4af37;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .features-list li:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: #d4af37;
+            transform: translateX(5px);
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 100px 20px;
+            background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 20px 60px;
+            background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+            color: #0a0a0a;
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: none;
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.5);
+        }
+
+        .hexagon {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: rgba(212, 175, 55, 0.05);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hexagon-1 { top: 10%; right: 10%; animation-delay: 0s; }
+        .hexagon-2 { top: 60%; left: 5%; animation-delay: 2s; }
+        .hexagon-3 { bottom: 20%; right: 15%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @media (max-width: 768px) {
+            .solution-grid,
+            .use-cases {
+                grid-template-columns: 1fr;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-overlay"></div>
+    
+    <div class="hero">
+        <div class="hexagon hexagon-1"></div>
+        <div class="hexagon hexagon-2"></div>
+        <div class="hexagon hexagon-3"></div>
+        
+        <h1 class="glitch">AI-Секретарь</h1>
+        <p class="tagline">Агрегация и саммари новостей, вакансий, клиентов, проектов, связей</p>
+    </div>
+
+    <div class="container">
+        <section class="section">
+            <h2 class="section-title">// Проблема</h2>
+            <div class="problem-box">
+                <div class="problem-title">Информационная перегрузка</div>
+                <div class="problem-text">
+                    Сотни и тысячи событий, научных работ, бизнес-решений и сообщений возникают каждый день на десятках языков. Все это потенциальные возможности для принятия личных решений в мире бизнеса и частной жизни. Но обрабатывать такой объем информации среднему человеку невозможно.
+                    <br><br>
+                    Когда явление или новость стала хайпом, кто-то уже успел снять почти все сливки или защититься, в то время как большинство пребывало в неведении.
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">// Решение</h2>
+            <div class="problem-box">
+                <div class="problem-title">AI-агент, который просматривает ВСЕ источники</div>
+                <div class="problem-text">
+                    Личный помощник, натренированный просматривать и анализировать тысячи постов, новостей и сообщений, чтобы найти нужные для пользователя по его теме.
+                </div>
+            </div>
+
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <div class="step-number">01</div>
+                    <div class="card-title">Подключение</div>
+                    <div class="card-text">Пользователь подключает своего агента</div>
+                </div>
+
+                <div class="solution-card">
+                    <div class="step-number">02</div>
+                    <div class="card-title">Настройка</div>
+                    <div class="card-text">Выбор темы, фильтры по источникам, географии, языку, размеру площадки. Настройка чувствительности и оповещений о молниях</div>
+                </div>
+
+                <div class="solution-card">
+                    <div class="step-number">03</div>
+                    <div class="card-title">Формирование базы</div>
+                    <div class="card-text">Машина создает базу парсинга, подписывается на источники (ТГ, YouTube, почта, переписки)</div>
+                </div>
+
+                <div class="solution-card">
+                    <div class="step-number">04</div>
+                    <div class="card-title">Частота дайджестов</div>
+                    <div class="card-text">Настройка расписания: раз в день, раз в неделю. Новости подбираются в рамках периода</div>
+                </div>
+
+                <div class="solution-card">
+                    <div class="step-number">05</div>
+                    <div class="card-title">Парсинг и анализ</div>
+                    <div class="card-text">Машина парсит источники и определяет релевантность сообщений под заданную тему</div>
+                </div>
+
+                <div class="solution-card">
+                    <div class="step-number">06</div>
+                    <div class="card-title">Саммаризация</div>
+                    <div class="card-text">Создание краткого саммари каждого сообщения (3-5 слов)</div>
+                </div>
+
+                <div class="solution-card">
+                    <div class="step-number">07</div>
+                    <div class="card-title">Формирование дайджеста</div>
+                    <div class="card-text">Сборка дайджеста из мини-саммари со ссылками на источники</div>
+                </div>
+
+                <div class="solution-card">
+                    <div class="step-number">08</div>
+                    <div class="card-title">Доставка</div>
+                    <div class="card-text">Дайджест направляется пользователю для быстрого ознакомления (2-4 минуты)</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">// Юз-кейсы</h2>
+            <div class="use-cases">
+                <div class="use-case">
+                    <div class="use-case-title">Селлер маркетплейсов</div>
+                    <div class="use-case-text">Новости о работе площадки, успешные стратегии, кандидаты в команду, новые товары по нише</div>
+                </div>
+
+                <div class="use-case">
+                    <div class="use-case-title">Программист</div>
+                    <div class="use-case-text">Проекты для вката, вакансии, новые инструменты и методы работы</div>
+                </div>
+
+                <div class="use-case">
+                    <div class="use-case-title">Врач-исследователь</div>
+                    <div class="use-case-text">Новейшие разработки в области, включая КНР и США, возможности релокации</div>
+                </div>
+
+                <div class="use-case">
+                    <div class="use-case-title">Аналитик рынка</div>
+                    <div class="use-case-text">Новости по продуктам, нишам и компаниям для выявления трендов</div>
+                </div>
+
+                <div class="use-case">
+                    <div class="use-case-title">Поиск недвижимости</div>
+                    <div class="use-case-text">Парсинг объявлений о продаже с фильтрацией по критериям</div>
+                </div>
+
+                <div class="use-case">
+                    <div class="use-case-title">Контент-куратор</div>
+                    <div class="use-case-text">Парсинг YouTube, вебинаров через расшифровки для поиска интересного контента</div>
+                </div>
+
+                <div class="use-case">
+                    <div class="use-case-title">Крипто-трейдер</div>
+                    <div class="use-case-text">Новые продукты и инструменты в криптовалютном пространстве</div>
+                </div>
+
+                <div class="use-case">
+                    <div class="use-case-title">Фрилансер</div>
+                    <div class="use-case-text">Парсинг сообщений в ТГ и соцсетях от потенциальных клиентов</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">// Пример дайджеста</h2>
+            <div class="problem-box" style="margin-bottom: 0;">
+                <div class="problem-title" style="margin-bottom: 30px;">Дайджест для Сергея • 1-7 декабря</div>
+                
+                <div style="margin-bottom: 30px;">
+                    <div style="color: #f4d03f; font-size: 1.3rem; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.05em;">Личное</div>
+                    <div style="color: #b0b0b0; line-height: 2;">
+                        1) Коуч-сессия Нячанг, бесплатно, 13 дек <a href="https://t.me/eventnhatrang/4381" style="color: #d4af37;">https://t.me/eventnhatrang/4381</a><br>
+                        2) Никита Чип зовет всех на тусовку <a href="#" style="color: #d4af37;">https://t.me/nhatrang_party/892</a><br>
+                        3) В чате ФАСТ просили ознакомиться с доком о планах на декабрь <a href="#" style="color: #d4af37;">https://t.me/fast_community/1547</a>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 30px;">
+                    <div style="color: #f4d03f; font-size: 1.3rem; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.05em;">Дата-аналитика</div>
+                    <div style="color: #b0b0b0; line-height: 2;">
+                        1) Новый инструмент для визуализации данных вышел в open source <a href="#" style="color: #d4af37;">https://github.com/datatools/viz</a><br>
+                        2) Google обновил BigQuery: теперь бесплатный лимит 10TB в месяц <a href="#" style="color: #d4af37;">https://cloud.google.com/bigquery</a><br>
+                        3) Статья "SQL vs Python для аналитики" набрала 10k лайков <a href="#" style="color: #d4af37;">https://habr.com/analytics/456</a><br>
+                        4) Вебинар от Яндекса про A/B тестирование, 15 декабря <a href="#" style="color: #d4af37;">https://practicum.yandex.ru/webinar</a>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 30px;">
+                    <div style="color: #f4d03f; font-size: 1.3rem; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.05em;">Интересные вакансии</div>
+                    <div style="color: #b0b0b0; line-height: 2;">
+                        1) Дата-аналитик в Яндекс, 200-300k, удаленка <a href="#" style="color: #d4af37;">https://career.yandex.ru/vacancies/123</a><br>
+                        2) Senior Data Analyst в Ozon, 250-350k, Москва <a href="#" style="color: #d4af37;">https://job.ozon.ru/vacancy/456</a><br>
+                        3) BI-разработчик в Тинькофф, 180-250k, гибрид <a href="#" style="color: #d4af37;">https://tinkoff.ru/career/789</a>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 30px;">
+                    <div style="color: #f4d03f; font-size: 1.3rem; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.05em;">Автоматизация и AI</div>
+                    <div style="color: #b0b0b0; line-height: 2;">
+                        1) OpenAI выпустил новую версию GPT с улучшенной работой с таблицами <a href="#" style="color: #d4af37;">https://openai.com/blog/gpt-update</a><br>
+                        2) n8n добавил 50 новых интеграций, включая 1C <a href="#" style="color: #d4af37;">https://n8n.io/updates</a><br>
+                        3) Кейс: автоматизация рекрутинга сократила время на 70% <a href="#" style="color: #d4af37;">https://vc.ru/hr/automation-case</a>
+                    </div>
+                </div>
+
+                <div>
+                    <div style="color: #f4d03f; font-size: 1.3rem; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.05em;">E-commerce</div>
+                    <div style="color: #b0b0b0; line-height: 2;">
+                        1) Wildberries изменил правила логистики с 10 декабря <a href="#" style="color: #d4af37;">https://wb.ru/news/logistics-update</a><br>
+                        2) Селлер заработал 5M на новогодних товарах за 2 недели <a href="#" style="color: #d4af37;">https://t.me/wb_sellers/3421</a><br>
+                        3) Ozon запускает программу для стартапов-производителей <a href="#" style="color: #d4af37;">https://ozon.ru/for-startups</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">// Будущее развитие</h2>
+            <ul class="features-list">
+                <li>Машинное обучение для улучшения релевантности подбора информации</li>
+                <li>Автоматические подсказки вариантов действий по инфоповодам</li>
+                <li>Интегрированный факт-чекинг</li>
+                <li>Автоматическое вступление в переписку с потенциальными клиентами</li>
+                <li>Самостоятельное проведение исследований по интересным новостям</li>
+                <li>Расширение горизонта мышления пользователя через предложение новых тем</li>
+            </ul>
+        </section>
+    </div>
+
+    <div class="cta-section">
+        <h2 class="section-title" style="margin-bottom: 40px;">// Присоединяйтесь</h2>
+        <a href="https://t.me/Thukydides" target="_blank" class="cta-button">Начать сейчас</a>
+    </div>
+</body>
+</html>
