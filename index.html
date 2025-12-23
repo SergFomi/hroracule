@@ -3,23 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Карьерные модули — Сергей</title>
+    <title>Нейросети в жизни и работе - Презентация</title>
     <style>
-        :root {
-            --color-primary: #9D4EDD;
-            --color-primary-light: #C77DFF;
-            --color-primary-dark: #7209B7;
-            --color-success: #00F5FF;
-            --color-accent: #FF006E;
-            --color-warning: #FB5607;
-            --color-bg: #0A0E27;
-            --color-surface: #1A1F3A;
-            --color-text: #E0AAFF;
-            --color-text-light: #B5A3FF;
-            --color-border: #3A2F6B;
-            --color-free: #00D9FF;
-            --color-paid: #FF006E;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap');
 
         * {
             margin: 0;
@@ -27,1014 +13,576 @@
             box-sizing: border-box;
         }
 
-        html, body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            background: radial-gradient(circle at 20% 50%, rgba(146, 78, 221, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(255, 0, 110, 0.1) 0%, transparent 50%),
-                        linear-gradient(135deg, #0A0E27 0%, #1A1F3A 50%, #2D1B4E 100%);
-            color: var(--color-text);
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: #0a0e27;
+            color: #00ff9f;
             line-height: 1.6;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image:
-                radial-gradient(2px 2px at 20% 30%, white, rgba(255, 255, 255, 0.2)),
-                radial-gradient(2px 2px at 60% 70%, #00D9FF, rgba(0, 217, 255, 0.1)),
-                radial-gradient(1px 1px at 50% 50%, white, rgba(255, 255, 255, 0.1)),
-                radial-gradient(1px 1px at 80% 10%, #FF006E, rgba(255, 0, 110, 0.1));
-            background-repeat: repeat;
-            background-size: 200px 200px, 300px 300px, 150px 150px, 250px 250px;
-            animation: drift 20s linear infinite;
-            pointer-events: none;
-            opacity: 0.4;
-            z-index: 0;
-        }
-
-        @keyframes drift {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-
-        .container {
-            position: relative;
-            z-index: 1;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
             padding: 40px 20px;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 159, 0.03) 2px, rgba(0, 255, 159, 0.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 255, 159, 0.03) 2px, rgba(0, 255, 159, 0.03) 4px);
             position: relative;
-            z-index: 1;
         }
 
-        .header {
+        body::after {
+            content: '';
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, 
+                transparent 0%, 
+                #00ff9f 25%, 
+                #00ffff 50%, 
+                #00ff9f 75%, 
+                transparent 100%);
+            animation: electricPulse 4s ease-in-out infinite;
+            box-shadow: 0 0 15px rgba(0, 255, 159, 0.6);
+            z-index: 1000;
+        }
+
+        @keyframes electricPulse {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scaleY(1);
+            }
+            25% {
+                opacity: 0.7;
+                transform: scaleY(1.1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scaleY(0.9);
+            }
+            75% {
+                opacity: 0.8;
+                transform: scaleY(1.05);
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .glitch {
+            position: relative;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 3.5em;
+            color: #00ff9f;
+            text-transform: uppercase;
+            letter-spacing: 3px;
             text-align: center;
             margin-bottom: 60px;
-            background: linear-gradient(135deg, rgba(157, 78, 221, 0.1) 0%, rgba(255, 0, 110, 0.05) 100%);
-            padding: 60px 40px;
-            border-radius: 20px;
-            border: 1px solid var(--color-border);
-            position: relative;
-            overflow: hidden;
+            text-shadow: 
+                0 0 5px rgba(0, 255, 159, 0.3),
+                0 0 10px rgba(0, 255, 159, 0.2);
         }
 
-        .header::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(157, 78, 221, 0.3) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: pulse 8s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-        }
-
-        .header h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--color-text);
-            text-shadow: 0 0 20px rgba(157, 78, 221, 0.5), 0 0 40px rgba(255, 0, 110, 0.2);
-            position: relative;
-            z-index: 1;
-        }
-
-        .header p {
-            font-size: 1.25rem;
-            color: var(--color-success);
-            max-width: 600px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-            text-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
-        }
-
-        .about-section {
-            background: linear-gradient(135deg, rgba(157, 78, 221, 0.15) 0%, rgba(255, 0, 110, 0.1) 100%);
-            border-radius: 20px;
+        .section {
+            background: linear-gradient(135deg, rgba(15, 20, 45, 0.9) 0%, rgba(20, 25, 55, 0.9) 100%);
+            border: 2px solid #00ff9f;
+            border-radius: 0;
             padding: 40px;
-            margin-bottom: 60px;
-            border: 2px solid var(--color-primary);
-            box-shadow: 0 0 30px rgba(157, 78, 221, 0.3), inset 0 0 30px rgba(157, 78, 221, 0.05);
+            margin-bottom: 40px;
             position: relative;
-            overflow: hidden;
+            box-shadow: 
+                0 0 20px rgba(0, 255, 159, 0.3),
+                inset 0 0 20px rgba(0, 255, 159, 0.05);
+            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
         }
 
-        .about-section::before {
-            content: "";
+
+        .section:hover::before {
+            opacity: 0.3;
+        }
+
+        .section-number {
             position: absolute;
-            top: 0;
-            right: 0;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(0, 217, 255, 0.1) 0%, transparent 70%);
-            border-radius: 50%;
+            top: 15px;
+            right: 15px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3em;
+            font-weight: 900;
+            color: rgba(0, 255, 159, 0.2);
+            text-shadow: 0 0 10px rgba(0, 255, 159, 0.5);
         }
 
-        .about-section h2 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--color-success);
-            text-shadow: 0 0 10px rgba(0, 217, 255, 0.4);
-            position: relative;
-            z-index: 1;
-        }
-
-        .about-content {
+        .about-container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 250px 1fr;
             gap: 40px;
-            margin-bottom: 20px;
+            align-items: start;
         }
 
-        .about-bio {
-            font-size: 1rem;
-            color: var(--color-text);
+        .photo-frame {
+    width: 250px;
+    height: 320px; /* Увеличь высоту */
+    position: relative;
+    background: linear-gradient(135deg, #00ff9f, #00ffff);
+    padding: 4px;
+    clip-path: polygon(
+        0 30px,
+        30px 0,
+        calc(100% - 30px) 0,
+        100% 30px,
+        100% calc(100% - 30px),
+        calc(100% - 30px) 100%,
+        30px 100%,
+        0 calc(100% - 30px)
+        );
+        animation: framePulse 3s ease-in-out infinite;
+    }
+
+        @keyframes framePulse {
+            0%, 100% {
+                box-shadow: 
+                    0 0 20px rgba(0, 255, 159, 0.5),
+                    inset 0 0 20px rgba(0, 255, 159, 0.2);
+            }
+            50% {
+                box-shadow: 
+                    0 0 30px rgba(0, 255, 255, 0.7),
+                    inset 0 0 30px rgba(0, 255, 255, 0.3);
+            }
+        }
+
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 1px solid rgba(0, 255, 159, 0.3);
+            clip-path: polygon(
+                0 35px,
+                35px 0,
+                calc(100% - 35px) 0,
+                100% 35px,
+                100% calc(100% - 35px),
+                calc(100% - 35px) 100%,
+                35px 100%,
+                0 calc(100% - 35px)
+            );
+        }
+
+        .photo-inner {
+            width: 100%;
+            height: 100%;
+            background: #1a1a2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            clip-path: polygon(
+                0 28px,
+                28px 0,
+                calc(100% - 28px) 0,
+                100% 28px,
+                100% calc(100% - 28px),
+                calc(100% - 28px) 100%,
+                28px 100%,
+                0 calc(100% - 28px)
+            );
+            color: rgba(0, 255, 159, 0.3);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        .photo-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .section h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2em;
+            color: #00ffff;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px #00ffff;
+            border-bottom: 2px solid #00ff9f;
+            padding-bottom: 15px;
+        }
+
+        .section h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4em;
+            color: #ff00ff;
+            margin: 30px 0 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+
+        .section p {
+            color: #a0e7ff;
+            font-size: 1.15em;
+            margin-bottom: 15px;
             line-height: 1.8;
         }
 
-        .about-bio p {
-            margin-bottom: 12px;
-        }
-
-        .about-bio strong {
-            color: var(--color-primary);
-        }
-
-        .cases-list {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .case-item {
-            background: var(--color-surface);
-            padding: 16px;
-            border-radius: 12px;
-            border-left: 4px solid var(--color-primary);
-            font-size: 0.95rem;
-        }
-
-        .case-item strong {
-            color: var(--color-text);
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .case-item span {
-            color: var(--color-text-light);
-        }
-
-        .about-approach {
-            background: var(--color-surface);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid var(--color-border);
-            grid-column: 1 / -1;
-        }
-
-        .about-approach h3 {
-            font-size: 1.125rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--color-text);
-        }
-
-        .about-approach p {
-            font-size: 0.95rem;
-            color: var(--color-text-light);
-            margin: 0;
-        }
-
-        /* ===== СЕТКИ МОДУЛЕЙ ===== */
-
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            margin-bottom: 40px;
-            align-items: stretch;
-        }
-
-        .modules-grid.no-packages {
-            margin-bottom: 0;
-        }
-
-        /* ОДНА КАРТОЧКА — ЦЕНТРУЕМ */
-        .modules-grid--single {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-        }
-
-        .modules-grid--single .module-card {
-            max-width: 340px;
-            width: 340px;
-        }
-
-        .module-card {
-            background: var(--color-surface);
-            border-radius: 16px;
-            padding: 24px;
-            border: 2px solid var(--color-border);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            width: 100%;
-            height: 100%;
-        }
-
-        .module-card .module-features {
-            flex-grow: 1;
-        }
-
-        .module-card .module-cta {
-            margin-top: auto;
-        }
-
-        .module-icon {
-            position: absolute;
-            top: 16px;
-            right: 16px;
-            font-size: 2rem;
-            opacity: 0.7;
-            transition: all 0.3s ease;
-        }
-
-        .module-card:hover {
-            border-color: var(--color-primary);
-            box-shadow: 0 16px 32px rgba(33, 128, 141, 0.2);
-            transform: translateY(-6px);
-        }
-
-        .module-card:hover .module-icon {
-            opacity: 1;
-            transform: scale(1.1);
-        }
-
-        .module-card.free {
-            border-color: var(--color-free);
-        }
-
-        .module-card.free:hover {
-            box-shadow: 0 12px 24px rgba(16, 185, 129, 0.15);
-            border-color: var(--color-free);
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .badge.free {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--color-free);
-        }
-
-        .badge.paid {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--color-paid);
-        }
-
-        .module-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--color-primary);
-            margin-bottom: 16px;
-            opacity: 0.25;
-        }
-
-        .module-title {
-            font-size: 1.375rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--color-text);
-            text-shadow: 0 0 10px rgba(157, 78, 221, 0.3);
-            min-height: 60px;
-            display: flex;
-            align-items: center;
-        }
-
-        .module-price {
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--color-accent);
-            margin-bottom: 16px;
-            text-shadow: 0 0 10px rgba(255, 0, 110, 0.4);
-        }
-
-        .module-price.free {
-            color: var(--color-success);
-            text-shadow: 0 0 10px rgba(0, 217, 255, 0.4);
-        }
-
-        .module-description {
-            font-size: 0.95rem;
-            color: var(--color-text-light);
-            margin-bottom: 16px;
-            line-height: 1.7;
-        }
-
-        .module-features {
+        .section ul {
             list-style: none;
-            margin-bottom: 16px;
+            margin: 20px 0;
         }
 
-        .module-features li {
-            font-size: 0.9rem;
-            color: var(--color-text-light);
-            padding: 8px 0;
-            padding-left: 20px;
+        .section ul li {
+            padding: 15px 0 15px 40px;
             position: relative;
+            color: #a0e7ff;
+            font-size: 1.1em;
+            border-left: 2px solid rgba(0, 255, 159, 0.3);
+            margin-bottom: 10px;
+            transition: all 0.3s;
         }
 
-        .module-features li:before {
-            content: "→";
+        .section ul li:hover {
+            border-left-color: #00ff9f;
+            padding-left: 50px;
+            background: rgba(0, 255, 159, 0.05);
+        }
+
+        .section ul li::before {
+            content: "►";
             position: absolute;
-            left: 0;
-            color: var(--color-primary);
-            font-weight: 600;
+            left: 15px;
+            color: #00ff9f;
+            font-size: 1.2em;
+            text-shadow: 0 0 10px #00ff9f;
         }
 
-        .module-cta {
-            display: inline-block;
-            padding: 10px 20px;
-            background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
-            color: white;
-            border-radius: 8px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            border: 1px solid var(--color-accent);
-            cursor: pointer;
-            font-size: 0.95rem;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 0 15px rgba(157, 78, 221, 0.3);
+        .section ul li strong {
+            color: #00ffff;
+            font-weight: 700;
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
         }
 
-        .module-cta:hover {
-            background: linear-gradient(135deg, var(--color-accent), var(--color-primary));
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(255, 0, 110, 0.5);
-        }
-
-        .module-cta.free {
-            background: linear-gradient(135deg, var(--color-success), #00B8CC);
-            border-color: var(--color-success);
-        }
-
-        .module-cta.free:hover {
-            background: linear-gradient(135deg, #00D9FF, #00F5FF);
-            box-shadow: 0 0 30px rgba(0, 217, 255, 0.6);
-        }
-
-        .section-divider {
-            text-align: center;
-            margin: 60px 0 40px;
-            position: relative;
-        }
-
-        .section-divider h2 {
-            font-size: 1.5rem;
-            color: var(--color-success);
-            font-weight: 600;
-            display: inline-block;
-            background: var(--color-bg);
-            padding: 0 20px;
-            position: relative;
-            z-index: 1;
-            text-shadow: 0 0 15px rgba(0, 217, 255, 0.5);
-        }
-
-        .section-divider:before {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--color-primary), var(--color-success), var(--color-accent), transparent);
-            z-index: 0;
-            box-shadow: 0 0 20px rgba(157, 78, 221, 0.3);
-        }
-
-        .info-box {
-            background: linear-gradient(135deg, rgba(157, 78, 221, 0.15), rgba(0, 217, 255, 0.1));
-            border-left: 4px solid var(--color-success);
+        .highlight-box {
+            background: rgba(255, 0, 255, 0.1);
+            border-left: 4px solid #ff00ff;
             padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+            margin: 25px 0;
+            border-radius: 0;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.2);
         }
 
-        .info-box p {
-            color: var(--color-text);
-            font-size: 0.95rem;
-            margin: 0;
-            text-shadow: 0 0 5px rgba(0, 217, 255, 0.2);
+        .highlight-box strong {
+            color: #ff00ff;
+            font-size: 1.2em;
+            text-shadow: 0 0 5px #ff00ff;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .tool-card {
+            background: rgba(0, 255, 159, 0.1);
+            border: 1px solid #00ff9f;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+        }
+
+        .tool-card:hover {
+            background: rgba(0, 255, 159, 0.2);
+            box-shadow: 0 0 20px rgba(0, 255, 159, 0.4);
+            transform: translateY(-5px);
+        }
+
+        .tool-card h4 {
+            font-family: 'Orbitron', sans-serif;
+            color: #00ffff;
+            margin-bottom: 10px;
+            font-size: 1.2em;
         }
 
         .footer {
             text-align: center;
-            padding-top: 40px;
-            border-top: 1px solid var(--color-border);
-            color: var(--color-text-light);
-            font-size: 0.9rem;
+            margin-top: 60px;
+            padding: 30px;
+            border-top: 2px solid #00ff9f;
+            color: #00ff9f;
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 10px #00ff9f;
         }
 
-        .cta-button {
+        .contact-btn {
             display: inline-block;
-            padding: 14px 32px;
-            background: linear-gradient(135deg, var(--color-accent), var(--color-primary));
-            color: white;
-            border-radius: 8px;
-            font-weight: 600;
+            margin-top: 30px;
+            padding: 18px 45px;
+            background: linear-gradient(135deg, #00ff9f, #00ffff);
+            color: #0a0e27;
             text-decoration: none;
-            margin-top: 20px;
-            transition: all 0.2s ease;
-            border: 2px solid var(--color-success);
-            cursor: pointer;
-            font-size: 1rem;
-            box-shadow: 0 0 20px rgba(255, 0, 110, 0.3);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: none;
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+            transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(0, 255, 159, 0.5);
         }
 
-        .cta-button:hover {
-            background: linear-gradient(135deg, var(--color-success), var(--color-accent));
-            transform: translateY(-2px);
-            box-shadow: 0 0 40px rgba(0, 217, 255, 0.5);
+        .contact-btn:hover {
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
+            transform: translateY(-3px);
         }
 
-        @media (max-width: 1024px) {
-            .header {
-                padding: 40px 24px;
-            }
-
-            .header h1 {
-                font-size: 2.5rem;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-                gap: 24px;
-            }
-
-            .modules-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        .cyber-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff9f, #00ffff, #ff00ff, transparent);
+            margin: 40px 0;
+            box-shadow: 0 0 10px rgba(0, 255, 159, 0.5);
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 20px 12px;
+            .glitch {
+                font-size: 2em;
+            }
+            
+            .section {
+                padding: 25px;
+            }
+            
+            .section h2 {
+                font-size: 1.5em;
             }
 
-            .header {
-                padding: 40px 20px;
-                margin-bottom: 40px;
-            }
-
-            .header h1 {
-                font-size: 1.75rem;
-                margin-bottom: 8px;
-            }
-
-            .header p {
-                font-size: 1rem;
-            }
-
-            .about-section {
-                padding: 20px;
-                margin-bottom: 40px;
-            }
-
-            .about-section h2 {
-                font-size: 1.5rem;
-                margin-bottom: 16px;
-            }
-
-            .about-content {
+            .about-container {
                 grid-template-columns: 1fr;
-                gap: 16px;
-                margin-bottom: 16px;
+                gap: 30px;
             }
 
-            .about-bio p {
-                font-size: 0.9rem;
-                margin-bottom: 10px;
-            }
-
-            .case-item {
-                padding: 12px;
-                font-size: 0.85rem;
-            }
-
-            .case-item strong {
-                margin-bottom: 2px;
-            }
-
-            .about-approach {
-                padding: 16px;
-            }
-
-            .about-approach h3 {
-                font-size: 1rem;
-                margin-bottom: 8px;
-            }
-
-            .about-approach p {
-                font-size: 0.85rem;
-            }
-
-            .section-divider h2 {
-                font-size: 1.25rem;
-                padding: 0 16px;
-            }
-
-            .modules-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
-                margin-bottom: 32px;
-                align-items: auto;
-            }
-
-            .modules-grid--single {
-                justify-content: center;
-            }
-
-            .modules-grid--single .module-card {
-                max-width: 100%;
-                width: 100%;
-            }
-
-            .module-card {
-                padding: 20px;
-                border-radius: 12px;
-            }
-
-            .module-icon {
-                font-size: 1.75rem;
-                top: 12px;
-                right: 12px;
-            }
-
-            .module-number {
-                font-size: 1.5rem;
-                margin-bottom: 12px;
-            }
-
-            .module-title {
-                font-size: 1.125rem;
-                margin-bottom: 10px;
-            }
-
-            .module-price {
-                font-size: 1.5rem;
-                margin-bottom: 12px;
-            }
-
-            .module-description {
-                font-size: 0.85rem;
-                margin-bottom: 12px;
-            }
-
-            .module-features li {
-                font-size: 0.8rem;
-                padding: 6px 0;
-                padding-left: 16px;
-            }
-
-            .info-box {
-                padding: 16px;
-                margin-bottom: 16px;
-            }
-
-            .info-box p {
-                font-size: 0.85rem;
-            }
-
-            .footer {
-                padding-top: 24px;
-            }
-
-            .footer p {
-                font-size: 0.8rem;
-            }
-
-            .cta-button {
-                padding: 12px 24px;
-                font-size: 0.95rem;
-                margin-top: 16px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 16px 8px;
-            }
-
-            .header {
-                padding: 32px 16px;
-                margin-bottom: 32px;
-                border-radius: 12px;
-            }
-
-            .header h1 {
-                font-size: 1.5rem;
-                margin-bottom: 6px;
-            }
-
-            .header p {
-                font-size: 0.9rem;
-            }
-
-            .about-section {
-                padding: 16px;
-                margin-bottom: 32px;
-                border-radius: 16px;
-            }
-
-            .about-section h2 {
-                font-size: 1.25rem;
-                margin-bottom: 12px;
-            }
-
-            .about-bio p {
-                font-size: 0.85rem;
-                line-height: 1.6;
-                margin-bottom: 8px;
-            }
-
-            .cases-list {
-                gap: 12px;
-            }
-
-            .case-item {
-                padding: 10px;
-                font-size: 0.8rem;
-                border-radius: 8px;
-            }
-
-            .case-item strong {
-                font-size: 0.85rem;
-                margin-bottom: 2px;
-            }
-
-            .case-item span {
-                font-size: 0.75rem;
-            }
-
-            .about-approach {
-                padding: 12px;
-            }
-
-            .about-approach h3 {
-                font-size: 0.95rem;
-                margin-bottom: 6px;
-            }
-
-            .about-approach p {
-                font-size: 0.8rem;
-            }
-
-            .section-divider {
-                margin: 40px 0 24px;
-            }
-
-            .section-divider h2 {
-                font-size: 1.1rem;
-                padding: 0 12px;
-            }
-
-            .modules-grid {
-                gap: 12px;
-                margin-bottom: 24px;
-            }
-
-            .modules-grid--single .module-card {
-                max-width: 100%;
-                width: 100%;
-            }
-
-            .module-card {
-                padding: 16px;
-                border-radius: 10px;
-                border: 1px solid var(--color-border);
-            }
-
-            .badge {
-                font-size: 0.65rem;
-                padding: 4px 8px;
-                margin-bottom: 12px;
-            }
-
-            .module-icon {
-                font-size: 1.5rem;
-                top: 10px;
-                right: 10px;
-            }
-
-            .module-number {
-                font-size: 1.25rem;
-                margin-bottom: 8px;
-                opacity: 0.2;
-            }
-
-            .module-title {
-                font-size: 1rem;
-                margin-bottom: 8px;
-            }
-
-            .module-price {
-                font-size: 1.25rem;
-                margin-bottom: 10px;
-            }
-
-            .module-description {
-                font-size: 0.8rem;
-                margin-bottom: 10px;
-                line-height: 1.5;
-            }
-
-            .module-features {
-                margin-bottom: 12px;
-            }
-
-            .module-features li {
-                font-size: 0.75rem;
-                padding: 4px 0;
-                padding-left: 14px;
-            }
-
-            .module-features li:before {
-                left: 0;
-            }
-
-            .info-box {
-                padding: 12px;
-                margin-bottom: 12px;
-                border-radius: 6px;
-            }
-
-            .info-box p {
-                font-size: 0.8rem;
-            }
-
-            .footer {
-                padding-top: 20px;
-                margin-top: 20px;
-            }
-
-            .footer p {
-                font-size: 0.75rem;
-            }
-
-            .cta-button {
-                padding: 11px 20px;
-                font-size: 0.9rem;
-                margin-top: 12px;
-                width: 100%;
+            .photo-frame {
+                margin: 0 auto;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🌌 Карьера просто космос!</h1>
-            <p>Ваше путешествие к космическим зарплатам</p>
-        </div>
+        <h1 class="glitch">НЕЙРОСЕТИ: ИНСТРУКЦИЯ ПО ПРИМЕНЕНИЮ</h1>
 
-        <!-- ABOUT SECTION -->
-        <div class="about-section">
-            <h2>👋 Как я помогаю</h2>
-            <div class="about-content">
-                <div class="about-bio">
-                    <p><strong>Сергей, 28 лет</strong> — управляющий на заводе, работаю с маркетплейсами удалённо.</p>
-                    <p>Сменил 10 мест работы за 3 года и понял: <strong>поиск работы — это алгоритм</strong>, а не везение.</p>
-                    <p>Собрал систему, которая работает. Теперь помогаю другим:</p>
-                    <p>✓ Разобрать ситуацию<br>✓ Перестроить стратегию<br>✓ Довести до интервью и оффера</p>
-                </div>
-                <div class="cases-list">
-                    <div class="case-item">
-                        <strong>Ярослава: медсестра → бизнес-ассистент</strong>
-                        <span>За 2 недели переписали резюме, получила оффер 100К в Москве</span>
-                    </div>
-                    <div class="case-item">
-                        <strong>Мама из Ухты → спец. по охране труда в Москве</strong>
-                        <span>Из двух работ в регионе в оффер 220К в Москве за месяц</span>
+        <div class="section">
+            <div class="section-number">01</div>
+            <h2>ОБО МНЕ</h2>
+            <div class="about-container">
+                <div class="photo-frame">
+                    <div class="photo-inner">
+                        <img src="images/serg.png" alt="Сергей">
                     </div>
                 </div>
-            </div>
-            <div class="about-approach">
-                <h3>Мой подход</h3>
-                <p>Нет иерархии услуг. Есть модули с разными ценами. Вы сами решаете, что вам нужно — я предложу нужные модули под вашу ситуацию, а вы платите только за то, что выбрали.</p>
-            </div>
-        </div>
-
-        <!-- FREE SECTION -->
-        <div class="section-divider">
-            <h2>🎁 Бесплатно</h2>
-        </div>
-
-        <!-- ВАЖНО: добавлен класс modules-grid--single -->
-        <div class="modules-grid modules-grid--single">
-            <div class="module-card free">
-                <div class="module-icon">📋</div>
-                <div class="badge free">Бесплатно</div>
-                <div class="module-number">1</div>
-                <h3 class="module-title">Предварительная диагностика</h3>
-                <p class="module-price free">0₽</p>
-                <p class="module-description">Ответь на вопросы и получи разбор своей ситуации с дорожной картой действий</p>
-                <ul class="module-features">
-                    <li>Резюме + описание ситуации</li>
-                    <li>Вопросы про предпочтения</li>
-                    <li>Обработка нейросетью</li>
-                    <li>HTML карта ситуации</li>
-                </ul>
+                <div>
+                    <p>Меня зовут <strong style="color: #00ffff;">Сергей</strong>, мне <strong style="color: #00ffff;">28 лет</strong>.</p>
+                    <p>Я:</p>
+                    <ul>
+                        <li><strong>Заместитель управляющего на заводе</strong></li>
+                        <li><strong>Карьерный консультант</strong></li>
+                        <li><strong>ИИ-евангелист</strong></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
-        <!-- PAID MODULES SECTION -->
-        <div class="section-divider">
-            <h2>💎 Платные модули</h2>
+        <div class="section">
+            <div class="section-number">02</div>
+            <h2>ЧТО ТАКОЕ НЕЙРОСЕТИ - БЕЗ КРИНЖА</h2>
+            <ul>
+                <li><strong>Долгое время нейросети не работали:</strong> не было реального мега-прорыва. Они пытались действовать по принципу человеческого мозга, но не получалось.</li>
+                <li><strong>Момент прорыва - 2012 год:</strong> AlexNet победила в конкурсе распознавания изображений с огромным отрывом. Все поняли - это работает!</li>
+                <li><strong>Почему взлет сейчас:</strong> появились GPU (видеокарты для игр), которые случайно идеально подошли для обучения нейросетей. Геймеры косвенно создали революцию ИИ.</li>
+            </ul>
         </div>
 
-        <div class="info-box">
-            <p><strong>Совет:</strong> Модули можно комбинировать. Я предложу нужные тебе после диагностики, или собери свой пакет из предложенных вариантов.</p>
+        <div class="section">
+            <div class="section-number">03</div>
+            <h2>ПОЧЕМУ АКТУАЛЬНО СЕЙЧАС</h2>
+            <ul>
+                <li><strong>Впервые доступно ВСЕМ</strong> - не нужно быть программистом</li>
+                <li><strong>Это настоящее, не будущее</strong> - кто не использует, уже отстает</li>
+                <li><strong>Через 2-3 года = базовый навык</strong> как умение гуглить</li>
+            </ul>
         </div>
 
-        <div class="modules-grid">
-            <div class="module-card">
-                <div class="module-icon">🧭</div>
-                <div class="badge paid">1000₽</div>
-                <div class="module-number">2</div>
-                <h3 class="module-title">Позиционирование на рынке труда</h3>
-                <p class="module-price">1 000₽</p>
-                <p class="module-description">Разберёмся, куда тебе идти, что ты умеешь и сколько стоишь на рынке</p>
-                <ul class="module-features">
-                    <li>Анализ интересов и умений</li>
-                    <li>Оценка рыночной стоимости</li>
-                    <li>Рекомендации начальных позиций</li>
-                    <li>Консультация по выбору вакансий</li>
+        <div class="section">
+            <div class="section-number">04</div>
+            <h2>ПРОМПТЫ - КРАТКИЙ ЛИКБЕЗ</h2>
+            <div class="highlight-box">
+                <p><strong>РАНЬШЕ:</strong> "Ты профессиональный маркетолог с 20-летним опытом работы в B2B сегменте..."</p>
+            </div>
+            <div class="highlight-box">
+                <p><strong>СЕЙЧАС:</strong> Просто говоришь что нужно - машина сама подстраивается</p>
+            </div>
+            <p style="margin-top: 20px; color: #00ffff;"><strong>НО!</strong> Для повторяющихся задач промпты = экономия времени</p>
+        </div>
+
+        <div class="cyber-line"></div>
+
+        <div class="section">
+            <div class="section-number">05</div>
+            <h2>ПРАКТИЧЕСКИЕ КЕЙСЫ</h2>
+
+            <h3>A. СОЗДАНИЕ САЙТОВ/ПРЕЗЕНТАЦИЙ</h3>
+            <ul>
+                <li>Описываешь концепт → машина создает сайт</li>
+                <li>Деплой и готово</li>
+                <li>Для презентации идей, себя, продуктов, анонсов встреч</li>
+                <li><strong>Не нужно руками собирать слайды</strong></li>
+            </ul>
+
+            <h3>B. ЛИЧНЫЙ СОВЕТНИК/ПСИХОЛОГ</h3>
+            <div class="highlight-box">
+                <strong>Кейс №1: История с партнерами</strong>
+                <p>Предложил тему → оба заигнорили → хотел написать резко → спросил у машины → она сказала: "Кому от этого легче?" → написал мягко "понял, тема не актуальна" → оба извинились → разговор продолжился успешно</p>
+            </div>
+            <div class="highlight-box">
+                <strong>Кейс №2: Предложение должности босса</strong>
+                <p>Предложили временно заменить уволенного босса → сомнения → машина посоветовала: можно, но только за больше денег и с четкими сроками → запросил → не дали больше денег → отказался → тоже хороший исход</p>
+            </div>
+            <ul>
+                <li>Подготовка к сложным разговорам (с боссом, увольнение, просьба о повышении)</li>
+                <li>Разбор конфликтов без эмоций</li>
+                <li>Ролевые игры для подготовки к переговорам</li>
+            </ul>
+
+            <h3>C. АНАЛИЗ ВСЕЙ ЖИЗНИ В ЦЕЛОМ</h3>
+            <p>Описываешь <strong>ВСЁ</strong>:</p>
+            <ul>
+                <li>Где работаешь и что делаешь</li>
+                <li>Сколько зарабатываешь</li>
+                <li>Как отдыхаешь и с кем живешь</li>
+                <li>Какие планы и что бесит</li>
+                <li>Проблемы со здоровьем</li>
+            </ul>
+            <p style="color: #00ffff; margin-top: 15px;"><strong>Результат:</strong> Машина выдает обратную связь, советы, выявляет слепые зоны и паттерны поведения</p>
+
+            <h3>D. ПОИСК РАБОТЫ</h3>
+            <ul>
+                <li><strong>Ролевые игры для собеседований:</strong> машина играет интервьюера, тренируешь ответы</li>
+                <li><strong>Редактирование резюме:</strong> оптимизация под конкретную вакансию</li>
+                <li><strong>Примерка профессий:</strong> просишь описать рабочий день конкретного специалиста → примеряешь на себя → понимаешь, нравится или нет</li>
+            </ul>
+
+            <h3>E. РАБОТА С ТАБЛИЦАМИ/EXCEL</h3>
+            <ul>
+                <li>Описываешь нужный результат</li>
+                <li>Машина подсказывает формулы</li>
+                <li>Создание сложных таблиц со ссылками и формулами, которых ты в жизни никогда не видел</li>
+            </ul>
+
+            <h3>F. РЕДАКТИРОВАНИЕ ФОТОГРАФИЙ</h3>
+            <ul>
+                <li>Пример: я в мятой майке → попросил надеть костюм → БАЦ! → я в костюме, всё шикарно</li>
+                <li>Быстро и качественно</li>
+            </ul>
+
+            <h3>G. ГОЛОСОВЫЕ ЗАМЕТКИ → ТЕКСТ</h3>
+            <ul>
+                <li>Записываешь голосовую до 10 минут</li>
+                <li>Машина превращает в структурированный текст</li>
+                <li>Можно дальше работать, отправлять</li>
+                <li><strong>Наговорил мысли → машина сделала понятную историю</strong></li>
+            </ul>
+
+            <h3>H. ВИДЕОГЕНЕРАЦИЯ</h3>
+            <ul>
+                <li>Продвинутые инструменты (Sora, Runway)</li>
+                <li>Индустрия переживает бум</li>
+                <li><strong>Уже неотличимо от реальных съемок!</strong></li>
+                <li>Куча видео, которые мы видим, генерируется с помощью нейросетей</li>
+            </ul>
+
+            <h3>I. МОЙ ПРОЕКТ - AI-СЕКРЕТАРЬ</h3>
+            <div class="highlight-box">
+                <strong>Дайджест новостей, созданный с помощью нейросетей (рабочее название)</strong>
+                <ul style="margin-top: 15px;">
+                    <li>Машина читает все источники в Telegram</li>
+                    <li>Выделяет нужное из потока информации</li>
+                    <li>Сокращает и отправляет со ссылками на оригинал</li>
+                    <li><strong>Не нужно самому разбираться в информационном мусоре</strong></li>
+                    <li>Будет доступен всем желающим</li>
                 </ul>
             </div>
 
-            <div class="module-card">
-                <div class="module-icon">📄</div>
-                <div class="badge paid">1500₽</div>
-                <div class="module-number">3</div>
-                <h3 class="module-title">Работа с резюме</h3>
-                <p class="module-price">1 500₽</p>
-                <p class="module-description">Напишу резюме с нуля или переделаю твоё, чтобы оно работало</p>
-                <ul class="module-features">
-                    <li>Написание/переписание резюме</li>
-                    <li>Правка сроков и должностей</li>
-                    <li>Обучение откликам</li>
-                    <li>Калибровка ожиданий</li>
-                </ul>
-            </div>
+            <h3>J. ПЕРЕВОДЫ</h3>
+            <ul>
+                <li>Загружаешь текст в машину</li>
+                <li>Она переводит и может сразу объяснить контекст</li>
+                <li>Лучше, проще и веселее чем обычный переводчик</li>
+            </ul>
 
-            <div class="module-card">
-                <div class="module-icon">🔧</div>
-                <div class="badge paid">500₽</div>
-                <div class="module-number">4</div>
-                <h3 class="module-title">Нейросети и поиск работы</h3>
-                <p class="module-price">500₽</p>
-                <p class="module-description">Определим твои гэпы в навыках и создадим план их закрытия</p>
-                <ul class="module-features">
-                    <li>Анализ вакансий через нейросеть</li>
-                    <li>Сравнение с твоим опытом</li>
-                    <li>План закрытия разрывов</li>
-                    <li>Подборка курсов и видео</li>
-                </ul>
-            </div>
+            <h3>K. ОБУЧЕНИЕ И РАЗБОР ТЕМ</h3>
+            <ul>
+                <li>Машина помогает обучаться и тренироваться</li>
+                <li>Разбирает сложные темы</li>
+                <li><strong>"Объясни попроще"</strong> → машина максимально упрощает</li>
+                <li>Подсказывает конкретные шаги реализации планов</li>
+                <li>Итеративная работа: сделал шаг → вернулся → получил следующий шаг</li>
+            </ul>
 
-            <div class="module-card">
-                <div class="module-icon">🎤</div>
-                <div class="badge paid">2000₽</div>
-                <div class="module-number">5</div>
-                <h3 class="module-title">Подготовка к собеседованиям</h3>
-                <p class="module-price">2 000₽</p>
-                <p class="module-description">Отработаем вопросы, самопрезентацию и научимся уверенно говорить</p>
-                <ul class="module-features">
-                    <li>Типичные вопросы на интервью</li>
-                    <li>Отработка ответов</li>
-                    <li>Самопрезентация</li>
-                    <li>Практика и обратная связь</li>
-                </ul>
-            </div>
+            <h3>L. ДОПОЛНИТЕЛЬНЫЕ СЦЕНАРИИ</h3>
+            <ul>
+                <li><strong>Планирование путешествий:</strong> полный маршрут с учетом бюджета за 5 минут вместо 5 часов гугления</li>
+                <li><strong>Юридические/медицинские вопросы:</strong> первичная ориентация, "какие вопросы задать специалисту?"</li>
+                <li><strong>Изучение языков:</strong> персональный репетитор 24/7</li>
+                <li><strong>Генерация бизнес-идей:</strong> "У меня навык X, живу в Y, есть Z денег - какие бизнесы запустить?"</li>
+                <li><strong>Автоматизация рутины:</strong> письма, ответы, чек-листы</li>
+                <li><strong>Анализ документов:</strong> контракт на 50 страниц → "выдели ключевые риски"</li>
+            </ul>
+        </div>
 
-            <div class="module-card">
-                <div class="module-icon">🚀</div>
-                <div class="badge paid">3000₽</div>
-                <div class="module-number">6</div>
-                <h3 class="module-title">Сопровождение поиска</h3>
-                <p class="module-price">3 000₽</p>
-                <p class="module-description">Буду с тобой каждый день: отвечу на вопросы, скорректирую стратегию</p>
-                <ul class="module-features">
-                    <li>Регулярный контакт</li>
-                    <li>Разбор отказов и откликов</li>
-                    <li>Коррекция стратегии</li>
-                    <li>Постоянная поддержка</li>
-                </ul>
-            </div>
+        <div class="cyber-line"></div>
 
-            <div class="module-card">
-                <div class="module-icon">🧠</div>
-                <div class="badge paid">1500₽</div>
-                <div class="module-number">7</div>
-                <h3 class="module-title">Работа с психологией</h3>
-                <p class="module-price">1 500₽</p>
-                <p class="module-description">Избавимся от страхов, синдрома самозванца и найдём мотивацию</p>
-                <ul class="module-features">
-                    <li>Проработка страхов</li>
-                    <li>Reframing ситуации</li>
-                    <li>Синдром самозванца</li>
-                    <li>Мотивация и уверенность</li>
-                </ul>
-            </div>
+        <div class="section">
+            <div class="section-number">06</div>
+            <h2>ОГРАНИЧЕНИЯ И ЭТИКА</h2>
+            <ul>
+                <li><strong>ИИ НЕ умеет:</strong> принимать решения за тебя, 100% понимать контекст</li>
+                <li><strong>Проверяй факты:</strong> особенно числа, даты, законы</li>
+                <li><strong>Приватность:</strong> не вводи пароли, конфиденциальные данные клиентов</li>
+            </ul>
+        </div>
 
-            <div class="module-card">
-                <div class="module-icon">🔗</div>
-                <div class="badge paid">2500₽</div>
-                <div class="module-number">8</div>
-                <h3 class="module-title">LinkedIn & Нетворкинг</h3>
-                <p class="module-price">2 500₽</p>
-                <p class="module-description">Оптимизирую профиль и научу искать работу через связи</p>
-                <ul class="module-features">
-                    <li>Оптимизация профиля LinkedIn</li>
-                    <li>Стратегия networking</li>
-                    <li>Как писать потенциальным работодателям</li>
-                    <li>Прямой аутрич без вакансий</li>
-                </ul>
-            </div>
-
-            <div class="module-card">
-                <div class="module-icon">✅</div>
-                <div class="badge paid">5000₽</div>
-                <div class="module-number">9</div>
-                <h3 class="module-title">Тестовые задания</h3>
-                <p class="module-price">5 000₽</p>
-                <p class="module-description">Помогу с выполнением и уверенно сдам любое тестовое задание</p>
-                <ul class="module-features">
-                    <li>Разбор тестового задания</li>
-                    <li>Проверка результата</li>
-                    <li>Улучшение перед отправкой</li>
-                    <li>Стратегия выполнения</li>
-                </ul>
-            </div>
-
-            <div class="module-card">
-                <div class="module-icon">🏢</div>
-                <div class="badge paid">2000₽</div>
-                <div class="module-number">10</div>
-                <h3 class="module-title">Прохождение испытательного срока</h3>
-                <p class="module-price">2 000₽</p>
-                <p class="module-description">Получил оффер? Помогу правильно войти в новую компанию</p>
-                <ul class="module-features">
-                    <li>Первые дни на новой работе</li>
-                    <li>Как произвести впечатление</li>
-                    <li>Навык слушать обратную связь</li>
-                    <li>Успешная адаптация</li>
-                </ul>
+        <div class="section">
+            <h2>ИНСТРУМЕНТЫ</h2>
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <h4>ChatGPT / Claude</h4>
+                    <p>Текст, анализ, советы</p>
+                </div>
+                <div class="tool-card">
+                    <h4>Midjourney / DALL-E</h4>
+                    <p>Генерация изображений</p>
+                </div>
+                <div class="tool-card">
+                    <h4>Runway / Sora</h4>
+                    <p>Генерация видео</p>
+                </div>
+                <div class="tool-card">
+                    <h4>Whisper</h4>
+                    <p>Транскрипция аудио</p>
+                </div>
             </div>
         </div>
 
         <div class="footer">
-            <p>💬 <strong>Не знаешь что выбрать?</strong> Начни с бесплатной диагностики, и я предложу нужные модули</p>
-            <a href="https://t.me/Thukydides" target="_blank" rel="noopener noreferrer" class="cta-button">Написать Сергею</a>
+            <p>Q&A / ВОПРОСЫ И ОТВЕТЫ</p>
+            <a href="https://t.me/Thukydides" class="contact-btn" target="_blank">Связаться с автором</a>
         </div>
     </div>
-
-    <script>
-        // Нет скриптов - они не требуются
-    </script>
 </body>
 </html>
