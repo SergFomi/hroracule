@@ -1,7 +1,7 @@
 import os
 
 # Telegram
-BOT_TOKEN = "6617354983:AAFF8wWNcKvOW4l6_rmEOBTeM-ixusflWFU"
+BOT_TOKEN = 
 ADMIN_ID = 1105899352 # чтобы бот слал только тебе
 
 # Google Sheets
