@@ -1,12 +1,12 @@
 import os
 
 # Telegram
-BOT_TOKEN = "твой_токен_бота"
-ADMIN_ID = твой_telegram_id  # чтобы бот слал только тебе
+BOT_TOKEN = "6617354983:AAFF8wWNcKvOW4l6_rmEOBTeM-ixusflWFU"
+ADMIN_ID = 1105899352 # чтобы бот слал только тебе
 
 # Google Sheets
-SPREADSHEET_NAME = "название_твоей_таблицы"  # или ID таблицы
-WORKSHEET_NAME = "Лист1"  # или как у тебя называется
+SPREADSHEET_NAME = "1GZpq7FEEBt-_2JqybH_LQg7s2z_WaCSGMLKtcqHVRkE"  # или ID таблицы
+WORKSHEET_NAME = "track"  # или как у тебя называется
 
 # Timezone
 TIMEZONE = "Asia/Ho_Chi_Minh"  # UTC+7 для Вьетнама
@@ -24,4 +24,5 @@ SCHEDULE = [
     {"time": "21:00", "question": "Что делал сегодня?", "type": "text"},
     {"time": "21:00", "question": "Продуктивность?", "type": "scale", "range": (1, 10)},
     {"time": "21:00", "question": "Какие проблемы беспокоят?", "type": "text"},
+    {"time": "21:00", "question": "Моя самоценность?", "type": "text"},
 ]
