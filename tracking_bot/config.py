@@ -1,15 +1,15 @@
 import os
 
 # Telegram
-BOT_TOKEN = 
-ADMIN_ID = 1105899352 # чтобы бот слал только тебе
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+ADMIN_ID = int(os.getenv("ADMIN_ID"))
 
 # Google Sheets
-SPREADSHEET_NAME = "1GZpq7FEEBt-_2JqybH_LQg7s2z_WaCSGMLKtcqHVRkE"  # или ID таблицы
-WORKSHEET_NAME = "track"  # или как у тебя называется
+SPREADSHEET_ID = os.getenv("SPREADSHEET_ID")  # ID таблицы
+WORKSHEET_NAME = "track"
 
 # Timezone
-TIMEZONE = "Asia/Ho_Chi_Minh"  # UTC+7 для Вьетнама
+TIMEZONE = "Asia/Ho_Chi_Minh"
 
 # Расписание вопросов
 SCHEDULE = [
