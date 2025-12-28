@@ -12,6 +12,11 @@
             box-sizing: border-box;
         }
 
+        html, body {
+            overflow-x: hidden;
+            max-width: 100vw;
+        }
+
         :root {
             --white-gold: #F5F3EF;
             --gold: #D4AF37;
@@ -389,7 +394,12 @@
             background: rgba(255, 255, 255, 0.6);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(212, 175, 55, 0.2);
-            overflow: hidden;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        .table-content {
+            min-width: 600px;
         }
 
         .table-header {
@@ -597,15 +607,39 @@
                 font-size: 18px;
             }
 
+            .hero {
+                padding: 80px 0 120px;
+            }
+
+            .hero::before {
+                display: none; /* Убираем декоративный элемент на мобильных */
+            }
+
             .solution-grid {
                 grid-template-columns: 1fr;
                 gap: 40px;
             }
 
+            .solution-visual {
+                padding: 20px;
+                display: none; /* Скрываем телефон на мобильных, чтобы не ломал layout */
+            }
+
+            .comparison-table {
+                margin: 40px auto 0;
+                border-left: none;
+                border-right: none;
+            }
+
             .table-header, .table-row {
                 grid-template-columns: 2fr 1fr 1fr 1fr;
-                font-size: 12px;
-                padding: 16px;
+                font-size: 11px;
+                padding: 12px 8px;
+                gap: 4px;
+            }
+
+            .table-cell {
+                font-size: 13px;
             }
 
             .section-title {
@@ -614,10 +648,36 @@
 
             .pain-points {
                 grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .pain-card {
+                padding: 32px 24px;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .final-cta {
+                padding: 100px 0;
             }
 
             .final-cta h2 {
                 font-size: 40px;
+            }
+
+            .hero-cta {
+                padding: 16px 32px;
+                font-size: 14px;
+            }
+
+            .problem-section,
+            .solution-section,
+            .comparison-section,
+            .benefits-section {
+                padding: 80px 0;
             }
         }
     </style>
@@ -748,46 +808,48 @@
             <h2 class="section-title">В 10 раз лучше существующих решений</h2>
             
             <div class="comparison-table">
-                <div class="table-header">
-                    <div>Функция</div>
-                    <div>Ручные приложения</div>
-                    <div>API банков</div>
-                    <div>Наш бот</div>
-                </div>
-                
-                <div class="table-row">
-                    <div class="table-cell">Время настройки</div>
-                    <div class="table-cell">30 мин</div>
-                    <div class="table-cell">1-2 часа</div>
-                    <div class="table-cell"><strong>5 минут</strong></div>
-                </div>
-                
-                <div class="table-row">
-                    <div class="table-cell">Усилия на транзакцию</div>
-                    <div class="table-cell">30-60 сек</div>
-                    <div class="table-cell">Авто</div>
-                    <div class="table-cell"><strong>1 сек (тап)</strong></div>
-                </div>
-                
-                <div class="table-row">
-                    <div class="table-cell">Работает с любым банком</div>
-                    <div class="table-cell"><span class="cross">✗</span></div>
-                    <div class="table-cell"><span class="cross">⚠</span></div>
-                    <div class="table-cell"><span class="check">✓</span></div>
-                </div>
-                
-                <div class="table-row">
-                    <div class="table-cell">Мультивалютность</div>
-                    <div class="table-cell"><span class="cross">⚠</span></div>
-                    <div class="table-cell"><span class="cross">⚠</span></div>
-                    <div class="table-cell"><span class="check">✓</span></div>
-                </div>
-                
-                <div class="table-row">
-                    <div class="table-cell">Платформа</div>
-                    <div class="table-cell">Приложение</div>
-                    <div class="table-cell">Приложение</div>
-                    <div class="table-cell"><strong>Telegram</strong></div>
+                <div class="table-content">
+                    <div class="table-header">
+                        <div>Функция</div>
+                        <div>Ручные приложения</div>
+                        <div>API банков</div>
+                        <div>Наш бот</div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="table-cell">Время настройки</div>
+                        <div class="table-cell">30 мин</div>
+                        <div class="table-cell">1-2 часа</div>
+                        <div class="table-cell"><strong>5 минут</strong></div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="table-cell">Усилия на транзакцию</div>
+                        <div class="table-cell">30-60 сек</div>
+                        <div class="table-cell">Авто</div>
+                        <div class="table-cell"><strong>1 сек (тап)</strong></div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="table-cell">Работает с любым банком</div>
+                        <div class="table-cell"><span class="cross">✗</span></div>
+                        <div class="table-cell"><span class="cross">⚠</span></div>
+                        <div class="table-cell"><span class="check">✓</span></div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="table-cell">Мультивалютность</div>
+                        <div class="table-cell"><span class="cross">⚠</span></div>
+                        <div class="table-cell"><span class="cross">⚠</span></div>
+                        <div class="table-cell"><span class="check">✓</span></div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="table-cell">Платформа</div>
+                        <div class="table-cell">Приложение</div>
+                        <div class="table-cell">Приложение</div>
+                        <div class="table-cell"><strong>Telegram</strong></div>
+                    </div>
                 </div>
             </div>
         </div>
