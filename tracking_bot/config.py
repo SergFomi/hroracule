@@ -20,6 +20,7 @@ SCHEDULE = [
     {"time": "12:00", "question": "Завтрак?", "type": "yes_no"},
     {"time": "15:00", "question": "Обед?", "type": "yes_no"},
     {"time": "18:00", "question": "Ужин?", "type": "yes_no"},
+    {"time": "18:00", "question": "Встречал человека с классификацией DISC?", "type": "text"},
     {"time": "19:00", "question": "Спорт?", "type": "yes_no"},
     {"time": "21:00", "question": "Что делал сегодня?", "type": "text"},
     {"time": "21:00", "question": "Продуктивность?", "type": "scale", "range": (1, 10)},
