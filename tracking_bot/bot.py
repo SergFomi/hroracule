@@ -142,11 +142,12 @@ async def handle_button_answer(callback: types.CallbackQuery):
 
 @dp.message(F.text)
 async def handle_text_answer(message: types.Message):
-    """Обработка текстовых ответов"""
+    """Обработка текстовых ответов и дневниковых записей"""
     if message.from_user.id != ADMIN_ID:
         return
     
     if ADMIN_ID in pending_questions:
+        # Это ответ на вопрос
         question = pending_questions[ADMIN_ID]
         answer = message.text
         
@@ -156,22 +157,40 @@ async def handle_text_answer(message: types.Message):
         await message.answer(f"✅ Записано:\n\n_{question}_\n→ {answer}", parse_mode="Markdown")
         
         await finish_current_question()
+    else:
+        # Это дневниковая запись
+        sheets.log_answer("Дневниковая запись", message.text)
+        await message.answer("📝 Записал в дневник")
 
 # === Настройка расписания ===
 
 def setup_schedule():
     """Настраивает все вопросы по расписанию"""
+    # Группируем вопросы по времени
+    questions_by_time = {}
     for item in SCHEDULE:
-        hour, minute = map(int, item["time"].split(":"))
+        time = item["time"]
+        if time not in questions_by_time:
+            questions_by_time[time] = []
+        questions_by_time[time].append(item)
+    
+    # Создаём задачи для каждого времени
+    for time, questions in questions_by_time.items():
+        hour, minute = map(int, time.split(":"))
+        
+        async def send_batch(q_list=questions):
+            """Отправляет пачку вопросов в очередь"""
+            for q in q_list:
+                await question_queue.put(q)
+            await process_queue()
         
         scheduler.add_job(
-            send_question,
+            send_batch,
             CronTrigger(hour=hour, minute=minute, timezone=TIMEZONE),
-            args=[item],
-            id=f"{item['time']}_{item['question']}"
+            id=f"batch_{time}"
         )
         
-        logging.info(f"📅 Запланирован вопрос: {item['time']} → {item['question']}")
+        logging.info(f"📅 Запланировано {len(questions)} вопросов на {time}")
 
 # === Запуск ===
 
