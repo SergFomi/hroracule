@@ -103,6 +103,11 @@
         /* Problems Section */
         .problems {
             margin: 60px 0;
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .problems h3 {
@@ -110,27 +115,111 @@
             font-size: 2rem;
             text-align: center;
             margin-bottom: 40px;
+            position: relative;
+            z-index: 2;
         }
 
         .problems-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
         }
 
         .problem-item {
-            text-align: center;
-            padding: 20px;
-            position: relative;
+            position: absolute;
+            font-size: 1.2rem;
+            color: var(--accent-red);
+            font-weight: 600;
+            opacity: 0.8;
+            white-space: nowrap;
+            animation: float 20s infinite ease-in-out;
         }
 
-        .problem-item::before {
-            content: '✗';
-            font-size: 3rem;
-            color: var(--accent-red);
-            display: block;
-            margin-bottom: 10px;
-            font-family: 'Caveat', cursive;
+        .problem-item:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            transform: rotate(-8deg);
+            animation-delay: 0s;
+            font-size: 1.1rem;
+        }
+
+        .problem-item:nth-child(2) {
+            top: 15%;
+            right: 10%;
+            transform: rotate(5deg);
+            animation-delay: -3s;
+            font-size: 1.3rem;
+        }
+
+        .problem-item:nth-child(3) {
+            top: 40%;
+            left: 15%;
+            transform: rotate(-12deg);
+            animation-delay: -7s;
+            font-size: 1rem;
+        }
+
+        .problem-item:nth-child(4) {
+            top: 35%;
+            right: 5%;
+            transform: rotate(10deg);
+            animation-delay: -10s;
+            font-size: 1.4rem;
+        }
+
+        .problem-item:nth-child(5) {
+            bottom: 25%;
+            left: 8%;
+            transform: rotate(6deg);
+            animation-delay: -13s;
+            font-size: 1.2rem;
+        }
+
+        .problem-item:nth-child(6) {
+            bottom: 30%;
+            right: 12%;
+            transform: rotate(-7deg);
+            animation-delay: -16s;
+            font-size: 1.15rem;
+        }
+
+        .problem-item:nth-child(7) {
+            bottom: 10%;
+            left: 25%;
+            transform: rotate(9deg);
+            animation-delay: -5s;
+            font-size: 1.25rem;
+        }
+
+        .problem-item:nth-child(8) {
+            top: 60%;
+            left: 45%;
+            transform: rotate(-5deg);
+            animation-delay: -8s;
+            font-size: 1.05rem;
+        }
+
+        .problem-item:nth-child(9) {
+            top: 20%;
+            left: 40%;
+            transform: rotate(12deg);
+            animation-delay: -12s;
+            font-size: 1.3rem;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px) rotate(var(--rotation));
+            }
+            25% {
+                transform: translateY(-15px) translateX(10px) rotate(calc(var(--rotation) + 3deg));
+            }
+            50% {
+                transform: translateY(-5px) translateX(-8px) rotate(var(--rotation));
+            }
+            75% {
+                transform: translateY(-20px) translateX(5px) rotate(calc(var(--rotation) - 3deg));
+            }
         }
 
         /* About Section */
@@ -185,18 +274,43 @@
             text-align: center;
             background: white;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            min-height: 200px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            font-family: 'Caveat', cursive;
-            font-size: 1.3rem;
-            color: #666;
+            gap: 15px;
         }
 
         .case-card:hover {
             transform: translateY(-5px);
             box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .case-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid var(--border-dark);
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Caveat', cursive;
+            font-size: 1.2rem;
+            color: #999;
+        }
+
+        .case-title {
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-top: 5px;
+        }
+
+        .case-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #555;
         }
 
         /* Method Section */
@@ -213,8 +327,8 @@
 
         /* Channel Section */
         .channel {
-            background: var(--border-dark);
-            color: white;
+            background: white;
+            color: var(--text-dark);
             text-align: center;
         }
 
@@ -232,16 +346,16 @@
         }
 
         .channel-photo {
-            border: 3px solid white;
+            border: 3px solid var(--border-dark);
             border-radius: 15px 225px 15px 255px/255px 15px 225px 15px;
             height: 200px;
-            background: rgba(255,255,255,0.1);
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'Caveat', cursive;
             font-size: 1.5rem;
-            color: rgba(255,255,255,0.6);
+            color: #999;
         }
 
         /* FAQ Section */
@@ -364,17 +478,25 @@
             
             <h1>Вы приняты!</h1>
             <p class="subtitle">Системный поиск для тех, кто хочет найти классную работу в сжатые сроки</p>
-            <a href="https://t.me/realsergeifomi" class="cta-button">МОЙ ТГ КАНАЛ</a>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="https://t.me/Thukydides" class="cta-button">найти работу</a>
+                <a href="https://t.me/realsergeifomi" class="cta-button" style="background: white; color: var(--accent-red);">канал с кейсами</a>
+            </div>
         </section>
 
         <!-- Problems Section -->
         <section class="problems">
             <h3>Вам знакомы эти проблемы?</h3>
             <div class="problems-grid">
-                <div class="problem-item">не могу найти работу</div>
-                <div class="problem-item">не зовут на собесы</div>
-                <div class="problem-item">низкая зп</div>
-                <div class="problem-item">не отвечают</div>
+                <div class="problem-item" style="--rotation: -8deg;">Не знаю, чего хочу</div>
+                <div class="problem-item" style="--rotation: 5deg;">Страх смены работы</div>
+                <div class="problem-item" style="--rotation: -12deg;">Отказы после собесов</div>
+                <div class="problem-item" style="--rotation: 10deg;">Нет навыков</div>
+                <div class="problem-item" style="--rotation: 6deg;">Нет опыта работы</div>
+                <div class="problem-item" style="--rotation: -7deg;">Не отвечают</div>
+                <div class="problem-item" style="--rotation: 9deg;">Не могу найти работу</div>
+                <div class="problem-item" style="--rotation: -5deg;">Не зовут на собесы</div>
+                <div class="problem-item" style="--rotation: 12deg;">Низкая ЗП</div>
             </div>
         </section>
 
@@ -382,7 +504,7 @@
         <section class="sketch-border about">
             <div class="about-text">
                 <h3>Привет, меня зовут Сергей!</h3>
-                <p>3 года назад я безуспешно искал работу. У меня не было опыта, только желание стать кем-то. <strong>С тех пор я поменял 10 мест работы, с 0  (большая сумма денег) </strong>, живу во Вьетнаме, работаю удалённо.</p>
+                <p>3 года назад я безуспешно искал работу. У меня не было опыта, только желание стать кем-то. <strong>С тех пор я поменял 10 мест работы, с 0 до 220к</strong> (большая сумма денег), живу во Вьетнаме, работаю удалённо.</p>
                 <p>За это время я создал систему поиска, которая неизбежно дает результат.</p>
                 <p>Я помог десяткам клиентов найти новую работу - помогу и вам.</p>
             </div>
@@ -393,10 +515,26 @@
         <section class="sketch-box">
             <h3 style="font-family: 'Caveat', cursive; font-size: 2.5rem; text-align: center; margin-bottom: 30px;">Кейсы</h3>
             <div class="cases-grid">
-                <div class="case-card">кейс</div>
-                <div class="case-card">кейс</div>
-                <div class="case-card">кейс</div>
-                <div class="case-card">кейс</div>
+                <div class="case-card">
+                    <div class="case-title">Заголовок</div>
+                    <div class="case-photo">фото</div>
+                    <div class="case-text">Описание кейса клиента: результаты, срок поиска, рост зарплаты</div>
+                </div>
+                <div class="case-card">
+                    <div class="case-title">Заголовок</div>
+                    <div class="case-photo">фото</div>
+                    <div class="case-text">Описание кейса клиента: результаты, срок поиска, рост зарплаты</div>
+                </div>
+                <div class="case-card">
+                    <div class="case-title">Заголовок</div>
+                    <div class="case-photo">фото</div>
+                    <div class="case-text">Описание кейса клиента: результаты, срок поиска, рост зарплаты</div>
+                </div>
+                <div class="case-card">
+                    <div class="case-title">Заголовок</div>
+                    <div class="case-photo">фото</div>
+                    <div class="case-text">Описание кейса клиента: результаты, срок поиска, рост зарплаты</div>
+                </div>
             </div>
         </section>
 
@@ -443,9 +581,32 @@
         </section>
 
         <!-- Final CTA -->
-        <div class="final-cta" onclick="window.open('https://t.me/realsergeifomi', '_blank')">
+        <div class="final-cta" onclick="window.open('https://t.me/Thukydides', '_blank')">
             Найти работу!
         </div>
+
+        <!-- Footer -->
+        <footer style="margin-top: 60px; padding: 40px 20px; background: white; border-top: 3px solid var(--border-dark); text-align: center;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 900px; margin: 0 auto;">
+                <div style="text-align: left;">
+                    <h4 style="font-family: 'Caveat', cursive; font-size: 1.8rem; margin-bottom: 15px;">Контакты</h4>
+                    <p style="margin: 8px 0; font-size: 0.95rem;">Telegram: <a href="https://t.me/Thukydides" style="color: var(--accent-red); text-decoration: none;">@Thukydides</a></p>
+                    <p style="margin: 8px 0; font-size: 0.95rem;">Канал: <a href="https://t.me/realsergeifomi" style="color: var(--accent-red); text-decoration: none;">@realsergeifomi</a></p>
+                </div>
+                <div style="text-align: left;">
+                    <h4 style="font-family: 'Caveat', cursive; font-size: 1.8rem; margin-bottom: 15px;">Полезные ссылки</h4>
+                    <p style="margin: 8px 0; font-size: 0.95rem;">[Ссылка 1]</p>
+                    <p style="margin: 8px 0; font-size: 0.95rem;">[Ссылка 2]</p>
+                    <p style="margin: 8px 0; font-size: 0.95rem;">[Ссылка 3]</p>
+                </div>
+                <div>
+                    <a href="https://t.me/Thukydides" class="cta-button" style="display: inline-block; margin-top: 20px;">Оставить заявку</a>
+                </div>
+            </div>
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #e0e0e0; font-size: 0.9rem; color: #666;">
+                <p>© 2025 Карьерный консалтинг. Все права защищены.</p>
+            </div>
+        </footer>
     </div>
 
     <script>
