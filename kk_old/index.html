@@ -63,7 +63,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1200px; /* Увеличили максимальную ширину */
             margin: 0 auto;
             padding: 40px 20px;
             position: relative;
@@ -408,21 +408,14 @@
         /* About Section - Dark Tech Editorial */
         .about {
             display: grid;
-            grid-template-columns: 150px 1fr 280px;
+            grid-template-columns: 1fr 280px; /* Убрали колонку с номером */
             gap: 80px;
             align-items: start;
             padding: 150px 60px;
         }
 
         .about-number {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 7rem;
-            font-weight: 900;
-            color: var(--text-white);
-            line-height: 0.8;
-            position: sticky;
-            top: 100px;
-            opacity: 0.3;
+            display: none; /* Скрываем номер */
         }
 
         .about-text h3 {
@@ -442,6 +435,7 @@
             color: var(--text-gray);
             font-weight: 300;
             line-height: 1.8;
+            max-width: 800px; /* Ограничиваем ширину текста */
         }
 
         .about-text strong {
@@ -466,7 +460,7 @@
             backdrop-filter: blur(10px);
         }
 
-        /* SIMPLE Cases Section - NO horizontal scroll */
+        /* Cases Section - для десктопа 2 колонки */
         .cases-section {
             position: relative;
             width: 100%;
@@ -487,22 +481,21 @@
 
         .cases-wrapper {
             position: relative;
-            max-width: 1200px;
+            max-width: 1400px; /* Увеличили максимальную ширину */
             margin: 0 auto;
         }
 
-        /* Контейнер для карточек - теперь с вертикальным скроллом */
+        /* Контейнер для карточек - 2 колонки на десктопе */
         .cases-container {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Две колонки на десктопе */
             gap: 40px;
-            align-items: center;
+            align-items: start;
             width: 100%;
         }
 
         .case-card {
             width: 100%;
-            max-width: 600px;
             border: 1px solid var(--border-subtle);
             padding: 40px;
             background: rgba(0, 0, 0, 0.4);
@@ -829,10 +822,44 @@
         }
 
         /* Responsive */
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 100%;
+                padding: 0 40px;
+            }
+            
+            .cases-container {
+                grid-template-columns: 1fr; /* На планшетах одна колонка */
+                gap: 30px;
+            }
+            
+            .about {
+                grid-template-columns: 1fr 250px;
+                gap: 60px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .cases-container {
+                grid-template-columns: 1fr;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            
+            .about {
+                grid-template-columns: 1fr 200px;
+                gap: 40px;
+            }
+            
+            .method h3 {
+                font-size: 3.5rem;
+            }
+        }
+
         @media (max-width: 768px) {
             /* Container */
             .container {
-                padding: 0 10px;
+                padding: 0 20px;
             }
 
             /* Navigation */
@@ -911,12 +938,6 @@
                 gap: 30px !important;
             }
 
-            .about-number {
-                font-size: 3rem !important;
-                position: static !important;
-                opacity: 0.5 !important;
-            }
-
             .about-text h3 {
                 font-size: 1.8rem !important;
                 margin-bottom: 25px !important;
@@ -925,6 +946,7 @@
             .about-text p {
                 font-size: 0.9rem !important;
                 line-height: 1.7 !important;
+                max-width: 100% !important;
             }
 
             .photo-placeholder {
@@ -942,6 +964,10 @@
                 font-size: 2rem !important;
                 margin-bottom: 40px !important;
                 padding: 0 10px;
+            }
+
+            .cases-container {
+                grid-template-columns: 1fr !important;
             }
 
             .case-card {
@@ -1152,6 +1178,7 @@
         <nav>
             <div class="nav-container">
                 <div class="nav-links">
+                    <a href="#hero">Начало</a> <!-- Добавлен пункт "Начало" -->
                     <a href="#cases">Кейсы</a>
                     <a href="#method">Метод</a>
                     <a href="#guarantee">Гарантия</a>
@@ -1162,9 +1189,9 @@
         </nav>
 
         <!-- Hero Section -->
-        <section class="hero">
+        <section id="hero" class="hero"> <!-- Добавлен id для якоря -->
             <h1>
-                <span class="highlight">Вы приняты!</span>
+                <span class="highlight">«Вы приняты!»</span>
                 <span class="or-text">или</span>
                 <span class="highlight">Верну деньги</span>
             </h1>
@@ -1206,7 +1233,7 @@
             <div class="photo-placeholder">фото</div>
         </section>
 
-        <!-- Cases Section - SIMPLE VERSION -->
+        <!-- Cases Section - теперь с 2 колонками на десктопе -->
         <section id="cases" class="cases-section">
             <h3>Кейсы</h3>
             <div class="cases-wrapper">
@@ -1272,7 +1299,7 @@
 
         <!-- Method Section -->
         <section id="method" class="sketch-border method">
-            <h3>Почему и как это работает?</h3>
+            <h3>Как это работает?</h3> <!-- Изменен заголовок -->
             
             <!-- Video Placeholder -->
             <div style="width: 100%; max-width: 700px; height: 400px; margin: 30px auto 80px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.9rem; color: rgba(255, 255, 255, 0.3); letter-spacing: 2px; text-transform: uppercase; backdrop-filter: blur(10px);">
