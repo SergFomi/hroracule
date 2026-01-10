@@ -87,32 +87,15 @@
             padding: 100px 40px;
         }
 
-        .hero-photo {
-            width: 300px;
-            height: 400px;
-            background: rgba(255, 255, 255, 0.03);
-            margin-bottom: 80px;
-            border: 1px solid var(--border-subtle);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'IBM Plex Sans', sans-serif;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.3);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            backdrop-filter: blur(10px);
-        }
-
         .hero h1 {
             font-family: 'Montserrat', sans-serif;
-            font-size: 5rem;
+            font-size: 5.5rem;
             font-weight: 900;
             margin-bottom: 40px;
             animation: fadeSlideUp 0.8s ease-out;
             color: var(--text-white);
             letter-spacing: -2px;
-            line-height: 1;
+            line-height: 1.1;
             max-width: 1000px;
             text-transform: uppercase;
         }
@@ -121,11 +104,23 @@
             display: block;
             font-size: 5.5rem;
             font-weight: 900;
-            margin-top: 20px;
-            background: linear-gradient(135deg, #ffffff 0%, #4a9eff 100%);
+            margin-top: 0;
+            background: linear-gradient(135deg, #ff9a3c 0%, #ffc466 50%, #ff8c1a 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            filter: drop-shadow(0 0 30px rgba(255, 154, 60, 0.6));
+        }
+
+        .hero h1 .or-text {
+            display: block;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin: 30px 0;
+            color: var(--text-gray);
+            text-transform: lowercase;
+            letter-spacing: 1px;
+            font-style: normal;
         }
 
         .hero .subtitle {
@@ -216,85 +211,118 @@
         .problem-item {
             position: absolute;
             font-size: 1rem;
-            color: var(--accent-blue);
+            color: #ff4444;
             font-weight: 500;
-            opacity: 0.4;
+            opacity: 0.5;
             white-space: nowrap;
             animation: float 20s infinite ease-in-out;
             font-family: 'IBM Plex Sans', sans-serif;
             letter-spacing: 0.5px;
+            text-shadow: 0 0 20px rgba(255, 68, 68, 0.8), 0 0 40px rgba(255, 68, 68, 0.4);
         }
 
         .problem-item:nth-child(1) {
-            top: 5%;
-            left: 3%;
+            top: 8%;
+            left: 10%;
             transform: rotate(-8deg);
             animation-delay: 0s;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
         }
 
         .problem-item:nth-child(2) {
-            top: 10%;
-            right: 5%;
+            top: 12%;
+            right: 15%;
             transform: rotate(5deg);
             animation-delay: -3s;
-            font-size: 1.3rem;
+            font-size: 1.1rem;
         }
 
         .problem-item:nth-child(3) {
-            top: 35%;
-            left: 8%;
+            top: 25%;
+            left: 5%;
             transform: rotate(-12deg);
             animation-delay: -7s;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         .problem-item:nth-child(4) {
             top: 30%;
-            right: 2%;
+            right: 8%;
             transform: rotate(10deg);
             animation-delay: -10s;
-            font-size: 1.4rem;
-        }
-
-        .problem-item:nth-child(5) {
-            bottom: 20%;
-            left: 5%;
-            transform: rotate(6deg);
-            animation-delay: -13s;
-            font-size: 1.2rem;
-        }
-
-        .problem-item:nth-child(6) {
-            bottom: 25%;
-            right: 8%;
-            transform: rotate(-7deg);
-            animation-delay: -16s;
             font-size: 1.15rem;
         }
 
-        .problem-item:nth-child(7) {
-            bottom: 5%;
-            left: 20%;
-            transform: rotate(9deg);
-            animation-delay: -5s;
-            font-size: 1.25rem;
+        .problem-item:nth-child(5) {
+            top: 45%;
+            left: 12%;
+            transform: rotate(6deg);
+            animation-delay: -13s;
+            font-size: 1rem;
         }
 
-        .problem-item:nth-child(8) {
-            top: 55%;
-            left: 48%;
-            transform: rotate(-5deg);
-            animation-delay: -8s;
+        .problem-item:nth-child(6) {
+            top: 50%;
+            right: 20%;
+            transform: rotate(-7deg);
+            animation-delay: -16s;
             font-size: 1.05rem;
         }
 
+        .problem-item:nth-child(7) {
+            bottom: 30%;
+            left: 18%;
+            transform: rotate(9deg);
+            animation-delay: -5s;
+            font-size: 1.12rem;
+        }
+
+        .problem-item:nth-child(8) {
+            bottom: 25%;
+            right: 12%;
+            transform: rotate(-5deg);
+            animation-delay: -8s;
+            font-size: 0.98rem;
+        }
+
         .problem-item:nth-child(9) {
-            top: 15%;
-            left: 38%;
+            bottom: 12%;
+            left: 25%;
             transform: rotate(12deg);
             animation-delay: -12s;
-            font-size: 1.3rem;
+            font-size: 1.08rem;
+        }
+
+        .problem-item:nth-child(10) {
+            top: 18%;
+            left: 35%;
+            transform: rotate(-10deg);
+            animation-delay: -15s;
+            font-size: 1.02rem;
+        }
+
+        .problem-item:nth-child(11) {
+            top: 55%;
+            left: 48%;
+            transform: rotate(8deg);
+            animation-delay: -18s;
+            font-size: 1.06rem;
+        }
+
+        .problem-item:nth-child(12) {
+            bottom: 18%;
+            right: 25%;
+            transform: rotate(-6deg);
+            animation-delay: -20s;
+            font-size: 1rem;
+        }
+
+        .problem-item:nth-child(13) {
+            top: 38%;
+            right: 35%;
+            transform: rotate(11deg);
+            animation-delay: -22s;
+            font-size: 1.04rem;
         }
 
         @keyframes float {
@@ -385,7 +413,7 @@
             margin: 40px 0;
         }
 
-        /* Cases Section - Dark Minimalist */
+        /* Cases Section - Dark Minimalist with Navigation */
         .cases-container {
             position: relative;
             overflow: hidden;
@@ -395,25 +423,42 @@
         .cases-carousel {
             display: flex;
             gap: 40px;
-            overflow-x: auto;
+            overflow: hidden;
             scroll-behavior: smooth;
-            scroll-snap-type: x mandatory;
-            padding: 20px 40px 40px;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.05);
+            padding: 20px 100px 40px;
+            transition: transform 0.5s ease;
         }
 
-        .cases-carousel::-webkit-scrollbar {
-            height: 2px;
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-white);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            z-index: 10;
         }
 
-        .cases-carousel::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
+        .carousel-nav:hover {
+            background: rgba(212, 175, 55, 0.3);
+            border-color: #d4af37;
         }
 
-        .cases-carousel::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.3);
+        .carousel-nav.prev {
+            left: 20px;
+        }
+
+        .carousel-nav.next {
+            right: 20px;
         }
 
         .case-card {
@@ -505,7 +550,7 @@
             display: none;
         }
 
-        /* Method Section - Dark Block */
+        /* Method Section - Dark Block with Animated Cards */
         .method {
             background: rgba(0, 0, 0, 0.6);
             color: var(--text-white);
@@ -542,6 +587,53 @@
             color: var(--text-white);
         }
 
+        /* Method Cards - Scroll Animation */
+        .method-card {
+            margin-bottom: 100px;
+            padding: 50px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-subtle);
+            backdrop-filter: blur(20px);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .method-card.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .method-card-number {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            color: var(--text-gray);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .method-card-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--text-white);
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .method-card-subtitle {
+            font-size: 1.1rem;
+            color: #ff9a3c;
+            margin-bottom: 30px;
+        }
+
+        .method-card-content p {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
         /* Channel Section */
         .channel {
             background: transparent;
@@ -556,7 +648,7 @@
             color: var(--text-white);
             font-weight: 800;
             letter-spacing: 0px;
-            font-style: italic;
+            font-style: normal;
         }
 
         .channel p {
@@ -599,7 +691,7 @@
             text-align: left;
             color: var(--text-white);
             font-weight: 800;
-            font-style: italic;
+            font-style: normal;
         }
 
         .faq-item {
@@ -751,11 +843,25 @@
 </head>
 <body>
     <div class="container">
+        <!-- Navigation Menu -->
+        <nav style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-subtle); padding: 20px 60px;">
+            <div style="display: flex; justify-content: center; align-items: center; max-width: 1400px; margin: 0 auto;">
+                <div style="display: flex; gap: 40px; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">
+                    <a href="#cases" style="color: var(--text-white); text-decoration: none; transition: color 0.3s;">Кейсы</a>
+                    <a href="#method" style="color: var(--text-white); text-decoration: none; transition: color 0.3s;">Метод</a>
+                    <a href="#guarantee" style="color: var(--text-white); text-decoration: none; transition: color 0.3s;">Гарантия</a>
+                    <a href="#channel" style="color: var(--text-white); text-decoration: none; transition: color 0.3s;">Канал</a>
+                    <a href="#faq" style="color: var(--text-white); text-decoration: none; transition: color 0.3s;">Вопросы</a>
+                </div>
+            </div>
+        </nav>
+
         <!-- Hero Section -->
         <section class="hero">
-            <div class="hero-photo">Фото в горах</div>
             <h1>
-                <span class="highlight">«Вы приняты!»<br>или верну деньги</span>
+                <span class="highlight">«Вы приняты!»</span>
+                <span class="or-text">или</span>
+                <span class="highlight">Верну деньги</span>
             </h1>
             <p class="subtitle">Поиск работы с гарантией трудоустройства</p>
             <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
@@ -777,6 +883,10 @@
                 <div class="problem-item" style="--rotation: 9deg;">Не могу найти работу</div>
                 <div class="problem-item" style="--rotation: -5deg;">Не зовут на собесы</div>
                 <div class="problem-item" style="--rotation: 12deg;">Низкая ЗП</div>
+                <div class="problem-item" style="--rotation: -10deg;">Все бесполезно</div>
+                <div class="problem-item" style="--rotation: 8deg;">Нет образования</div>
+                <div class="problem-item" style="--rotation: -6deg;">В городе нет работы</div>
+                <div class="problem-item" style="--rotation: 11deg;">Работа это каторга</div>
             </div>
         </section>
 
@@ -793,10 +903,12 @@
         </section>
 
         <!-- Cases Section -->
-        <section class="sketch-box">
-            <h3 style="font-family: 'Cinzel', serif; font-size: 2.2rem; text-align: center; margin-bottom: 30px; color: var(--marble-cream); text-shadow: 0 0 15px rgba(0, 255, 247, 0.3); font-weight: 600; letter-spacing: 2px;">Кейсы</h3>
+        <section id="cases" class="sketch-box">
+            <h3 style="font-family: 'Montserrat', sans-serif; font-size: 3.5rem; text-align: center; margin-bottom: 60px; color: var(--text-white); font-weight: 900; letter-spacing: -1px; text-transform: uppercase;">Кейсы</h3>
             <div class="cases-container">
-                <div class="cases-carousel">
+                <div class="carousel-nav prev" onclick="scrollCarousel(-1)">‹</div>
+                <div class="carousel-nav next" onclick="scrollCarousel(1)">›</div>
+                <div class="cases-carousel" id="casesCarousel">
                     <!-- Case 1: Олеся -->
                     <div class="case-card">
                         <div class="case-card-title">Олеся: Из Ухты в Москву</div>
@@ -849,62 +961,72 @@
         </section>
 
         <!-- Method Section -->
-        <section class="sketch-border method">
+        <section id="method" class="sketch-border method">
             <h3>Почему и как это работает?</h3>
             
             <!-- Video Placeholder -->
-            <div style="width: 100%; max-width: 700px; height: 400px; margin: 30px auto; background: linear-gradient(135deg, rgba(232, 220, 196, 0.08) 0%, rgba(245, 239, 227, 0.05) 100%); border: 2px solid rgba(0, 255, 247, 0.3); display: flex; align-items: center; justify-content: center; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: var(--marble-cream); letter-spacing: 2px; text-transform: uppercase; box-shadow: 0 0 30px rgba(0, 255, 247, 0.2), inset 0 0 40px rgba(232, 220, 196, 0.03); clip-path: polygon(0 12px, 12px 0, calc(100% - 12px) 0, 100% 12px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 12px 100%, 0 calc(100% - 12px));">
+            <div style="width: 100%; max-width: 700px; height: 400px; margin: 30px auto 80px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.9rem; color: rgba(255, 255, 255, 0.3); letter-spacing: 2px; text-transform: uppercase; backdrop-filter: blur(10px);">
                 Видео
             </div>
             
             <div class="method-content">
-                <p style="font-family: 'Orbitron', sans-serif; font-size: 1.2rem; color: var(--neon-cyan); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; text-shadow: 0 0 15px rgba(0, 255, 247, 0.4);">3 ключевых этапа от поиска себя до выхода на работу</p>
-                
-                <div style="margin-bottom: 30px; padding: 20px; border-left: 3px solid var(--neon-cyan); background: rgba(0, 255, 247, 0.05);">
-                    <p><strong style="font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--marble-cream);">Этап 1: Глубокая диагностика</strong></p>
-                    <p style="font-size: 0.95rem; color: var(--gold-accent); margin-bottom: 10px;">Вместо «хочу в IT» — находим ваш реальный путь</p>
-                    <p><strong>Анализ:</strong> Изучаем ваш опыт, ценности и «антицели» через структурированные вопросы.</p>
-                    <p><strong>Проверка:</strong> Тестируем выбранное направление через симуляции рабочего дня с помощью ИИ и полевые испытания.</p>
-                    <p><strong>Результат:</strong> Чёткий список из 3-5 целевых позиций, которые вам подходят органично.</p>
+                <!-- Card 1 -->
+                <div class="method-card">
+                    <div class="method-card-number">Этап 01</div>
+                    <div class="method-card-title">Глубокая диагностика</div>
+                    <div class="method-card-subtitle">Вместо «хочу в IT» — находим ваш реальный путь</div>
+                    <div class="method-card-content">
+                        <p><strong>Анализ:</strong> Изучаем ваш опыт, ценности и «антицели» через структурированные вопросы.</p>
+                        <p><strong>Проверка:</strong> Тестируем выбранное направление через симуляции рабочего дня с помощью ИИ и полевые испытания.</p>
+                        <p><strong>Результат:</strong> Чёткий список из 3-5 целевых позиций, которые вам подходят органично.</p>
+                    </div>
                 </div>
 
-                <div style="margin-bottom: 30px; padding: 20px; border-left: 3px solid var(--gold-accent); background: rgba(212, 175, 55, 0.05);">
-                    <p><strong style="font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--marble-cream);">Этап 2: Упаковка и устранение разрывов</strong></p>
-                    <p style="font-size: 0.95rem; color: var(--neon-blue); margin-bottom: 10px;">Делаем вас идеальным кандидатом</p>
-                    <p><strong>План развития:</strong> Составляем программу обучения, которую проверяет действующий эксперт из нужной индустрии.</p>
-                    <p><strong>Сильное позиционирование:</strong> Создаём резюме, которое проходит фильтры HR и ИИ, и настраиваем профессиональные профили (LinkedIn, Telegram).</p>
-                    <p><strong>Результат:</strong> Вы — «готовый продукт» с подтверждёнными навыками и убедительной историей.</p>
+                <!-- Card 2 -->
+                <div class="method-card">
+                    <div class="method-card-number">Этап 02</div>
+                    <div class="method-card-title">Упаковка и устранение разрывов</div>
+                    <div class="method-card-subtitle">Делаем вас идеальным кандидатом</div>
+                    <div class="method-card-content">
+                        <p><strong>План развития:</strong> Составляем программу обучения, которую проверяет действующий эксперт из нужной индустрии.</p>
+                        <p><strong>Сильное позиционирование:</strong> Создаём резюме, которое проходит фильтры HR и ИИ, и настраиваем профессиональные профили (LinkedIn, Telegram).</p>
+                        <p><strong>Результат:</strong> Вы — «готовый продукт» с подтверждёнными навыками и убедительной историей.</p>
+                    </div>
                 </div>
 
-                <div style="padding: 20px; border-left: 3px solid var(--neon-blue); background: rgba(0, 128, 255, 0.05);">
-                    <p><strong style="font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--marble-cream);">Этап 3: Активный поиск и переговоры</strong></p>
-                    <p style="font-size: 0.95rem; color: var(--neon-cyan); margin-bottom: 10px;">Запускаем воронку и заключаем сделку</p>
-                    <p><strong>Автоматизация:</strong> Настраиваем массовые и точечные отклики на ключевых платформах (HH, Telegram).</p>
-                    <p><strong>Подготовка к обороне:</strong> Отрабатываем все виды собеседований — от HR до технических, учимся проходить тестовые задания.</p>
-                    <p><strong>Выбор и переговоры:</strong> Помогаем оценить офферы по вашим критериям и грамотно договориться об условиях.</p>
-                    <p><strong>Результат:</strong> Вы выбираете лучшую из нескольких возможностей, а не соглашаетесь на единственное предложение.</p>
+                <!-- Card 3 -->
+                <div class="method-card">
+                    <div class="method-card-number">Этап 03</div>
+                    <div class="method-card-title">Активный поиск и переговоры</div>
+                    <div class="method-card-subtitle">Запускаем воронку и заключаем сделку</div>
+                    <div class="method-card-content">
+                        <p><strong>Автоматизация:</strong> Настраиваем массовые и точечные отклики на ключевых платформах (HH, Telegram).</p>
+                        <p><strong>Подготовка к обороне:</strong> Отрабатываем все виды собеседований — от HR до технических, учимся проходить тестовые задания.</p>
+                        <p><strong>Выбор и переговоры:</strong> Помогаем оценить офферы по вашим критериям и грамотно договориться об условиях.</p>
+                        <p><strong>Результат:</strong> Вы выбираете лучшую из нескольких возможностей, а не соглашаетесь на единственное предложение.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- For Whom Section -->
-        <section class="sketch-border" style="background: linear-gradient(135deg, rgba(26, 31, 53, 0.95) 0%, rgba(15, 20, 35, 0.98) 100%);">
-            <h3 style="font-family: 'Cinzel', serif; font-size: 2.5rem; margin-bottom: 30px; color: var(--marble-cream); text-shadow: 0 0 15px rgba(0, 255, 247, 0.3); font-weight: 600; letter-spacing: 2px;">Для кого это?</h3>
-            <div style="font-size: 1.1rem; line-height: 1.8; color: var(--marble-light); font-weight: 300;">
-                <p style="margin-bottom: 20px;">Я работаю с теми, кто готов действовать. Если вы ищете волшебную таблетку и не готовы менять мышление, мы потратим время впустую.</p>
+        <!-- Guarantee Section -->
+        <section id="guarantee" class="sketch-border">
+            <h3 style="font-family: 'Montserrat', sans-serif; font-size: 3.5rem; margin-bottom: 50px; color: var(--text-white); font-weight: 900; letter-spacing: -1px; text-transform: uppercase;">Гарантия</h3>
+            <div style="font-size: 1.1rem; line-height: 1.9; color: var(--text-gray); font-weight: 300;">
+                <p style="margin-bottom: 25px;">Я работаю с теми, кто готов действовать. Если вы ищете волшебную таблетку и не готовы менять мышление, мы потратим время впустую.</p>
                 
-                <div style="padding: 25px; background: rgba(230, 57, 70, 0.1); border: 1px solid rgba(230, 57, 70, 0.3); margin: 25px 0; clip-path: polygon(0 8px, 8px 0, calc(100% - 8px) 0, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0 calc(100% - 8px));">
-                    <p style="color: var(--marble-cream); font-style: italic;">У меня был случай: мы идеально составили резюме и запустили отклики, но клиентка внутренне была уверена, что «все начальники — козлы» и «нормальной работы нет». Она ходила на собеседования с этим настроем и сама же их саботировала, возвращаясь к жутким вариантам, где берут всех без разбора. Результата не было.</p>
+                <div style="padding: 30px; background: rgba(255, 68, 68, 0.1); border: 1px solid rgba(255, 68, 68, 0.3); margin: 30px 0;">
+                    <p style="color: var(--text-white); font-style: normal;">У меня был случай: мы идеально составили резюме и запустили отклики, но клиентка внутренне была уверена, что «все начальники — козлы» и «нормальной работы нет». Она ходила на собеседования с этим настроем и сама же их саботировала, возвращаясь к жутким вариантам, где берут всех без разбора. Результата не было.</p>
                 </div>
 
-                <p style="font-size: 1.2rem; color: var(--neon-cyan); font-weight: 600; text-shadow: 0 0 10px rgba(0, 255, 247, 0.5);">Поэтому я беру в работу людей, которые готовы выполнять инструкции и топить до результата.</p>
+                <p style="font-size: 1.3rem; color: #d4af37; font-weight: 700;">Поэтому я беру в работу людей, которые готовы выполнять инструкции и топить до результата.</p>
             </div>
         </section>
 
         <!-- Channel Section -->
-        <section class="sketch-border channel">
-            <h3>Мой ТГ канал</h3>
-            <p>Подписывайся на канал, где я делюсь практическими советами по поиску работы, разбираю кейсы и рассказываю про карьерные стратегии</p>
+        <section id="channel" class="sketch-border channel">
+            <h3 style="font-style: normal;">Мой ТГ канал</h3>
+            <p>Подписывайся, если нужны бесплатные советы по поиску работы</p>
             <div class="channel-photos">
                 <div class="channel-photo">фото поста</div>
                 <div class="channel-photo">фото поста</div>
@@ -916,19 +1038,19 @@
         </section>
 
         <!-- FAQ Section -->
-        <section class="sketch-border faq">
+        <section id="faq" class="sketch-border faq">
             <h3>Ответы на вопросы</h3>
             <div class="faq-item" data-number="1">
                 <h4>Сколько времени займет поиск работы?</h4>
                 <p>При системном подходе — от 2 недель до 2 месяцев. Зависит от твоей сферы и требований к работодателю.</p>
             </div>
             <div class="faq-item" data-number="2">
-                <h4>Какая стоимость консультации?</h4>
-                <p>Первая диагностическая встреча — бесплатно. Далее в пределах трех тысяч рублей.</p>
+                <h4>Какая стоимость?</h4>
+                <p>Первая диагностическая встреча — бесплатно. Далее обсуждаем индивидуально, без грабежа, у всех разная ситуация и возможности.</p>
             </div>
             <div class="faq-item" data-number="3">
                 <h4>Гарантируешь ли ты результат?</h4>
-                <p>При исполнении моих инструкций я гарантирую результат. Если спустя 3 месяца полноценных усилий работы так и нет, я верну деньги (но такого не может быть).</p>
+                <p>При исполнении моих инструкций я гарантирую результат. Если спустя 3 месяца полноценных усилий работы так и нет, я верну деньги (но такого никогда не было).</p>
             </div>
             <div class="faq-item" data-number="4">
                 <h4>Работаешь ли ты с начинающими специалистами?</h4>
@@ -942,34 +1064,15 @@
                 <h4>Работаешь по договору?</h4>
                 <p>Да, при желании подписываем договор.</p>
             </div>
+            <div style="margin-top: 60px; text-align: center;">
+                <a href="https://t.me/Thukydides" style="display: inline-block; background: linear-gradient(135deg, #ff9a3c 0%, #ffc466 50%, #ff8c1a 100%); color: #000; padding: 25px 60px; font-size: 1.1rem; font-weight: 800; text-decoration: none; font-family: 'Montserrat', sans-serif; letter-spacing: 1px; text-transform: uppercase; transition: all 0.3s ease; box-shadow: 0 0 40px rgba(255, 154, 60, 0.6);">Остались вопросы? Напишите мне в ТГ</a>
+            </div>
         </section>
 
-        <!-- Final CTA -->
-        <div class="final-cta" onclick="window.open('https://t.me/Thukydides', '_blank')">
-            Найти работу!
-        </div>
-
         <!-- Footer -->
-        <footer style="margin-top: 60px; padding: 40px 20px; background: linear-gradient(135deg, rgba(26, 31, 53, 0.95) 0%, rgba(15, 20, 35, 0.98) 100%); border-top: 2px solid var(--marble-cream); text-align: center; box-shadow: 0 -20px 40px rgba(0, 255, 247, 0.05);">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 900px; margin: 0 auto;">
-                <div style="text-align: left;">
-                    <h4 style="font-family: 'Orbitron', sans-serif; font-size: 1.4rem; margin-bottom: 15px; color: var(--marble-cream); text-shadow: 0 0 15px rgba(0, 255, 247, 0.3); letter-spacing: 2px; text-transform: uppercase; font-weight: 700;">Контакты</h4>
-                    <p style="margin: 8px 0; font-size: 0.95rem; color: var(--marble-light); font-weight: 300;">Telegram: <a href="https://t.me/Thukydides" style="color: var(--neon-cyan); text-decoration: none; text-shadow: 0 0 10px rgba(0, 255, 247, 0.5);">@Thukydides</a></p>
-                    <p style="margin: 8px 0; font-size: 0.95rem; color: var(--marble-light); font-weight: 300;">Канал: <a href="https://t.me/realsergeifomi" style="color: var(--neon-cyan); text-decoration: none; text-shadow: 0 0 10px rgba(0, 255, 247, 0.5);">@realsergeifomi</a></p>
-                </div>
-                <div style="text-align: left;">
-                    <h4 style="font-family: 'Orbitron', sans-serif; font-size: 1.4rem; margin-bottom: 15px; color: var(--marble-cream); text-shadow: 0 0 15px rgba(212, 175, 55, 0.3); letter-spacing: 2px; text-transform: uppercase; font-weight: 700;">Полезные ссылки</h4>
-                    <p style="margin: 8px 0; font-size: 0.95rem; color: var(--marble-light); font-weight: 300;">[Ссылка 1]</p>
-                    <p style="margin: 8px 0; font-size: 0.95rem; color: var(--marble-light); font-weight: 300;">[Ссылка 2]</p>
-                    <p style="margin: 8px 0; font-size: 0.95rem; color: var(--marble-light); font-weight: 300;">[Ссылка 3]</p>
-                </div>
-                <div>
-                    <a href="https://t.me/Thukydides" class="cta-button" style="display: inline-block; margin-top: 20px;">Оставить заявку</a>
-                </div>
-            </div>
-            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(232, 220, 196, 0.2); font-size: 0.9rem; color: var(--marble-light); opacity: 0.7; font-weight: 300;">
-                <p>© 2025 Карьерный консалтинг. Все права защищены.</p>
-            </div>
+        <footer style="padding: 20px; background: transparent; border-top: 1px solid var(--border-subtle); text-align: center;">
+            <p style="margin: 8px 0; font-size: 0.9rem; color: var(--text-gray); font-weight: 300;">Telegram: <a href="https://t.me/Thukydides" style="color: var(--text-white); text-decoration: none;">@Thukydides</a> · Канал: <a href="https://t.me/realsergeifomi" style="color: var(--text-white); text-decoration: none;">@realsergeifomi</a></p>
+            <p style="margin-top: 10px; font-size: 0.85rem; color: var(--text-gray); opacity: 0.5;">© 2025 Карьерный консалтинг</p>
         </footer>
     </div>
 
@@ -1001,6 +1104,62 @@
 
         document.querySelectorAll('.sketch-border, .sketch-box').forEach(el => {
             observer.observe(el);
+        });
+    </script>
+    <script>
+        // Carousel navigation
+        let currentSlide = 0;
+        const carousel = document.getElementById('casesCarousel');
+        const cards = carousel ? carousel.getElementsByClassName('case-card') : [];
+        const totalSlides = cards.length;
+
+        function scrollCarousel(direction) {
+            if (!carousel || totalSlides === 0) return;
+            
+            currentSlide += direction;
+            
+            if (currentSlide < 0) currentSlide = totalSlides - 1;
+            if (currentSlide >= totalSlides) currentSlide = 0;
+            
+            const cardWidth = cards[0].offsetWidth;
+            const gap = 40;
+            const offset = -(currentSlide * (cardWidth + gap));
+            
+            carousel.style.transform = `translateX(${offset}px)`;
+        }
+
+        // Method cards scroll animation (IntersectionObserver)
+        const methodObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.method-card').forEach(card => {
+            methodObserver.observe(card);
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Navigation hover effects
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.color = '#ff9a3c';
+            });
+            link.addEventListener('mouseleave', function() {
+                this.style.color = 'var(--text-white)';
+            });
         });
     </script>
 </body>
