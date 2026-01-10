@@ -31,7 +31,7 @@
             letter-spacing: 0.3px;
         }
 
-        /* Custom background image - will be replaced via GitHub */
+        /* Custom background image - seamless tiling */
         body::before {
             content: '';
             position: fixed;
@@ -39,12 +39,22 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: url('background.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            opacity: 0.4;
+            background-image: url('background.png');
+            background-size: 100% 100vh;
+            background-position: center top;
+            background-repeat: repeat-y;
+            opacity: 0.6;
             z-index: -1;
+            animation: backgroundFlow 60s linear infinite;
+        }
+
+        @keyframes backgroundFlow {
+            0% {
+                background-position: center 0;
+            }
+            100% {
+                background-position: center 100vh;
+            }
         }
 
         .container {
