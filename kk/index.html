@@ -56,7 +56,7 @@
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
             position: relative;
             z-index: 2;
         }
@@ -68,9 +68,9 @@
                 rgba(218, 165, 32, 0.1) 100%);
             border: 2px solid var(--gold-primary);
             border-radius: 20px;
-            padding: 60px 40px;
+            padding: 40px 25px;
             text-align: center;
-            margin: 40px auto;
+            margin: 20px auto 30px;
             position: relative;
             overflow: hidden;
             backdrop-filter: blur(10px);
@@ -102,34 +102,36 @@
         }
 
         .main-headline {
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             color: var(--text-gold);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-weight: 600;
+            line-height: 1.4;
         }
 
         .main-title {
-            font-size: 3.2rem;
+            font-size: 2.1rem;
             font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 30px;
+            line-height: 1.15;
+            margin-bottom: 20px;
             background: linear-gradient(45deg, #FFD700, #FFF8DC, #FFD700);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
-            letter-spacing: -0.5px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+            letter-spacing: -0.3px;
         }
 
         .main-subtitle {
-            font-size: 1.4rem;
+            font-size: 1.1rem;
             color: var(--text-light);
-            margin-bottom: 40px;
-            max-width: 700px;
+            margin-bottom: 30px;
+            max-width: 100%;
             margin-left: auto;
             margin-right: auto;
             line-height: 1.5;
             font-weight: 500;
+            padding: 0 5px;
         }
 
         /* Кнопка */
@@ -137,10 +139,10 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
-            padding: 24px 50px;
-            border-radius: 16px;
-            font-size: 1.4rem;
+            gap: 12px;
+            padding: 20px 30px;
+            border-radius: 14px;
+            font-size: 1.15rem;
             font-weight: 800;
             text-decoration: none;
             background: linear-gradient(135deg, 
@@ -148,57 +150,58 @@
                 var(--gold-dark) 100%);
             color: #000;
             box-shadow: 
-                0 10px 30px rgba(255, 215, 0, 0.3),
+                0 8px 25px rgba(255, 215, 0, 0.3),
                 0 0 0 1px rgba(255, 215, 0, 0.5);
             transition: all 0.3s ease;
             border: none;
             cursor: pointer;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
             text-transform: uppercase;
-            max-width: 500px;
             width: 100%;
+            max-width: 400px;
             margin: 0 auto;
         }
 
         .cta-button:hover {
             transform: translateY(-5px);
             box-shadow: 
-                0 15px 40px rgba(255, 215, 0, 0.5),
+                0 12px 35px rgba(255, 215, 0, 0.5),
                 0 0 0 2px var(--gold-primary);
             animation: buttonGlow 0.5s ease;
         }
 
         @keyframes buttonGlow {
-            0% { box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3), 0 0 0 1px rgba(255, 215, 0, 0.5); }
-            50% { box-shadow: 0 15px 40px rgba(255, 215, 0, 0.7), 0 0 0 3px var(--gold-primary); }
-            100% { box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5), 0 0 0 2px var(--gold-primary); }
+            0% { box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3), 0 0 0 1px rgba(255, 215, 0, 0.5); }
+            50% { box-shadow: 0 12px 35px rgba(255, 215, 0, 0.7), 0 0 0 3px var(--gold-primary); }
+            100% { box-shadow: 0 12px 35px rgba(255, 215, 0, 0.5), 0 0 0 2px var(--gold-primary); }
         }
 
         /* Блок с выгодами */
         .benefits-block {
             background: var(--card-bg);
-            border-radius: 25px;
-            padding: 60px 50px;
-            margin: 40px 0;
+            border-radius: 20px;
+            padding: 40px 25px;
+            margin: 30px 0;
             border: 1px solid rgba(255, 215, 0, 0.2);
             backdrop-filter: blur(20px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
         }
 
         .benefits-title {
-            font-size: 2.2rem;
+            font-size: 1.7rem;
             text-align: center;
             color: var(--text-gold);
-            margin-bottom: 50px;
+            margin-bottom: 35px;
             line-height: 1.3;
             font-weight: 800;
             text-transform: uppercase;
+            padding: 0 10px;
         }
 
         .benefits-list {
             display: flex;
             flex-direction: column;
-            gap: 35px;
+            gap: 25px;
             max-width: 800px;
             margin: 0 auto;
         }
@@ -206,10 +209,10 @@
         .benefit-item {
             display: flex;
             align-items: flex-start;
-            gap: 25px;
-            padding: 25px;
+            gap: 20px;
+            padding: 20px;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 18px;
+            border-radius: 16px;
             border: 1px solid rgba(255, 215, 0, 0.1);
             transition: all 0.3s ease;
         }
@@ -217,97 +220,177 @@
         .benefit-item:hover {
             transform: translateY(-5px);
             border-color: var(--gold-primary);
-            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.15);
+            box-shadow: 0 12px 25px rgba(255, 215, 0, 0.15);
         }
 
         .benefit-icon {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             color: var(--text-gold);
-            min-width: 60px;
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            min-width: 50px;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+            padding-top: 5px;
         }
 
         .benefit-content h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
             color: var(--text-light);
             font-weight: 700;
+            line-height: 1.3;
         }
 
         .benefit-content p {
             color: var(--text-gray);
-            line-height: 1.6;
-            font-size: 1.1rem;
+            line-height: 1.5;
+            font-size: 1rem;
+        }
+
+        /* Разделитель */
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                var(--gold-primary), 
+                transparent);
+            margin: 25px auto;
+            max-width: 200px;
+            opacity: 0.5;
         }
 
         /* Финальный CTA */
         .final-cta {
             text-align: center;
-            margin-top: 60px;
-            padding: 40px;
+            margin-top: 40px;
+            padding: 35px 25px;
             background: rgba(255, 215, 0, 0.05);
             border-radius: 20px;
             border: 1px solid rgba(255, 215, 0, 0.2);
         }
 
         .final-cta h2 {
-            font-size: 2.2rem;
-            margin-bottom: 25px;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
             color: var(--text-light);
+            line-height: 1.3;
         }
 
         .final-cta p {
             color: var(--text-gray);
-            margin-bottom: 30px;
-            font-size: 1.1rem;
+            margin-bottom: 25px;
+            font-size: 1rem;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
-            line-height: 1.6;
+            line-height: 1.5;
+            padding: 0 10px;
         }
 
         .disclaimer {
             text-align: center;
-            margin-top: 40px;
+            margin-top: 30px;
             color: var(--text-gray);
-            font-size: 0.9rem;
-            line-height: 1.6;
+            font-size: 0.85rem;
+            line-height: 1.5;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+            padding: 0 15px;
         }
 
-        /* Адаптивность */
-        @media (max-width: 768px) {
+        /* Адаптивность для мобильных */
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header-block {
+                padding: 30px 20px;
+                margin: 15px auto 25px;
+                border-radius: 18px;
+            }
+            
             .main-title {
-                font-size: 2.3rem;
+                font-size: 1.8rem;
+                line-height: 1.2;
+            }
+            
+            .main-headline {
+                font-size: 1rem;
+                margin-bottom: 12px;
             }
             
             .main-subtitle {
-                font-size: 1.2rem;
-            }
-            
-            .benefits-title {
-                font-size: 1.8rem;
+                font-size: 1rem;
+                margin-bottom: 25px;
             }
             
             .benefits-block {
-                padding: 40px 25px;
+                padding: 30px 20px;
+                border-radius: 18px;
+            }
+            
+            .benefits-title {
+                font-size: 1.5rem;
+                margin-bottom: 25px;
             }
             
             .benefit-item {
                 flex-direction: column;
                 gap: 15px;
-                padding: 20px;
+                padding: 18px;
             }
             
-            .cta-button {
-                padding: 22px 30px;
+            .benefit-icon {
+                min-width: auto;
+                font-size: 1.6rem;
+                padding-top: 0;
+            }
+            
+            .benefit-content h3 {
                 font-size: 1.2rem;
             }
             
+            .cta-button {
+                padding: 18px 25px;
+                font-size: 1.05rem;
+                border-radius: 12px;
+                max-width: 100%;
+            }
+            
+            .final-cta {
+                padding: 30px 20px;
+                margin-top: 30px;
+            }
+            
+            .final-cta h2 {
+                font-size: 1.6rem;
+            }
+        }
+        
+        @media (min-width: 769px) {
             .header-block {
-                padding: 40px 25px;
+                padding: 60px 40px;
+                margin: 40px auto;
+            }
+            
+            .main-title {
+                font-size: 3.2rem;
+            }
+            
+            .main-headline {
+                font-size: 1.5rem;
+            }
+            
+            .main-subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .benefits-block {
+                padding: 60px 50px;
+            }
+            
+            .benefits-title {
+                font-size: 2.2rem;
             }
         }
     </style>
@@ -317,7 +400,7 @@
         <!-- Верхний блок -->
         <section class="header-block">
             <div class="main-headline">Бесит офис, но на HH одни отказы?</div>
-            <h1 class="main-title">НАЙДИТЕ УДАЛЁННУЮ РАБОТУ ЗА СЧЁТ РЕЗЮМЕ</h1>
+            <h1 class="main-title">НАЙДИТЕ УДАЛЁННУЮ РАБОТУ ЗА СЧЁТ ГРАМОТНОГО РЕЗЮМЕ</h1>
             <p class="main-subtitle">
                 Скачайте гайд «8 шагов к резюме, которое дает результат» + отличный пример
             </p>
@@ -343,6 +426,8 @@
                     </div>
                 </div>
                 
+                <div class="divider"></div>
+                
                 <div class="benefit-item">
                     <div class="benefit-icon">
                         <i class="fas fa-check-circle"></i>
@@ -352,6 +437,8 @@
                         <p>Возьмёте шаблоны для вашего раздела «Опыт», которые сразу показывают вашу ценность.</p>
                     </div>
                 </div>
+                
+                <div class="divider"></div>
                 
                 <div class="benefit-item">
                     <div class="benefit-icon">
@@ -367,11 +454,11 @@
 
         <!-- Финальный CTA -->
         <div class="final-cta">
-            <h2>Получите чек-лист + удачный пример</h2>
-            <p>Готовый шаблон резюме, который проходят удалённые HR</p>
+            <h2>Получите гайд + пример отличного резюме</h2>
+            <p>Скачайте готовый шаблон, который проходят удалённые HR</p>
             <a href="https://t.me/your_bot?start=resume_guide" class="cta-button">
                 <i class="fab fa-telegram-plane"></i>
-                ПОЛУЧИТЬ ЧЕК-ЛИСТ + ПРИМЕР
+                ПОЛУЧИТЬ ГАЙД В TELEGRAM
             </a>
         </div>
         
