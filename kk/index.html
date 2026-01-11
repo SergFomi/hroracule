@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ваша удалённая работа с гарантией</title>
+    <title>Найдите удалённую работу без отказов</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
     <style>
@@ -61,14 +61,14 @@
             z-index: 2;
         }
 
-        /* Главный баннер с гарантией */
-        .guarantee-banner {
+        /* Верхний блок */
+        .header-block {
             background: linear-gradient(135deg, 
                 rgba(255, 215, 0, 0.15) 0%, 
                 rgba(218, 165, 32, 0.1) 100%);
             border: 2px solid var(--gold-primary);
             border-radius: 20px;
-            padding: 40px;
+            padding: 60px 40px;
             text-align: center;
             margin: 40px auto;
             position: relative;
@@ -79,7 +79,7 @@
                 inset 0 0 30px rgba(255, 215, 0, 0.1);
         }
 
-        .guarantee-banner::before {
+        .header-block::before {
             content: '';
             position: absolute;
             top: -2px;
@@ -101,91 +101,48 @@
             50% { opacity: 0.7; }
         }
 
-        .guarantee-title {
-            font-size: 4.5rem;
+        .main-headline {
+            font-size: 1.5rem;
+            color: var(--text-gold);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .main-title {
+            font-size: 3.2rem;
             font-weight: 900;
-            line-height: 1;
-            margin-bottom: 15px;
+            line-height: 1.1;
+            margin-bottom: 30px;
             background: linear-gradient(45deg, #FFD700, #FFF8DC, #FFD700);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             text-shadow: 0 0 40px rgba(255, 215, 0, 0.4);
-            letter-spacing: -1px;
+            letter-spacing: -0.5px;
         }
 
-        .guarantee-subtitle {
-            font-size: 2rem;
-            color: var(--text-gold);
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .guarantee-tagline {
-            font-size: 1.3rem;
-            color: var(--text-gray);
+        .main-subtitle {
+            font-size: 1.4rem;
+            color: var(--text-light);
             margin-bottom: 40px;
-            max-width: 600px;
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
             line-height: 1.5;
-        }
-
-        /* Основной контент */
-        .main-content {
-            background: var(--card-bg);
-            border-radius: 25px;
-            padding: 60px 50px;
-            margin: 40px 0;
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero-subtitle {
-            font-size: 1.8rem;
-            text-align: center;
-            color: var(--text-light);
-            margin-bottom: 50px;
-            line-height: 1.6;
             font-weight: 500;
         }
 
-        .gold-text {
-            color: var(--text-gold);
-            font-weight: 700;
-        }
-
-        /* Кнопки */
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            max-width: 500px;
-            margin: 0 auto 60px;
-        }
-
-        .btn {
-            padding: 25px 40px;
+        /* Кнопка */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 24px 50px;
             border-radius: 16px;
             font-size: 1.4rem;
             font-weight: 800;
             text-decoration: none;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            border: none;
-            cursor: pointer;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .btn-gold {
             background: linear-gradient(135deg, 
                 var(--gold-primary) 0%, 
                 var(--gold-dark) 100%);
@@ -193,9 +150,17 @@
             box-shadow: 
                 0 10px 30px rgba(255, 215, 0, 0.3),
                 0 0 0 1px rgba(255, 215, 0, 0.5);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
         }
 
-        .btn-gold:hover {
+        .cta-button:hover {
             transform: translateY(-5px);
             box-shadow: 
                 0 15px 40px rgba(255, 215, 0, 0.5),
@@ -209,59 +174,70 @@
             100% { box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5), 0 0 0 2px var(--gold-primary); }
         }
 
-        .btn-secondary {
-            background: rgba(255, 215, 0, 0.1);
-            color: var(--text-gold);
-            border: 2px solid var(--gold-primary);
-            backdrop-filter: blur(10px);
+        /* Блок с выгодами */
+        .benefits-block {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 60px 50px;
+            margin: 40px 0;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
 
-        .btn-secondary:hover {
-            background: rgba(255, 215, 0, 0.2);
-            transform: translateY(-3px);
-        }
-
-        /* Преимущества */
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin: 60px 0;
-        }
-
-        .benefit-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 35px 30px;
+        .benefits-title {
+            font-size: 2.2rem;
             text-align: center;
+            color: var(--text-gold);
+            margin-bottom: 50px;
+            line-height: 1.3;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .benefits-list {
+            display: flex;
+            flex-direction: column;
+            gap: 35px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 25px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 18px;
             border: 1px solid rgba(255, 215, 0, 0.1);
             transition: all 0.3s ease;
-            position: relative;
         }
 
-        .benefit-card:hover {
-            transform: translateY(-8px);
+        .benefit-item:hover {
+            transform: translateY(-5px);
             border-color: var(--gold-primary);
             box-shadow: 0 15px 35px rgba(255, 215, 0, 0.15);
         }
 
         .benefit-icon {
-            font-size: 3rem;
-            margin-bottom: 25px;
+            font-size: 2.2rem;
             color: var(--text-gold);
+            min-width: 60px;
             text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
         }
 
-        .benefit-card h3 {
+        .benefit-content h3 {
             font-size: 1.5rem;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             color: var(--text-light);
+            font-weight: 700;
         }
 
-        .benefit-card p {
+        .benefit-content p {
             color: var(--text-gray);
             line-height: 1.6;
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
 
         /* Финальный CTA */
@@ -280,6 +256,16 @@
             color: var(--text-light);
         }
 
+        .final-cta p {
+            color: var(--text-gray);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
         .disclaimer {
             text-align: center;
             margin-top: 40px;
@@ -293,110 +279,111 @@
 
         /* Адаптивность */
         @media (max-width: 768px) {
-            .guarantee-title {
-                font-size: 3rem;
+            .main-title {
+                font-size: 2.3rem;
             }
             
-            .guarantee-subtitle {
-                font-size: 1.5rem;
+            .main-subtitle {
+                font-size: 1.2rem;
             }
             
-            .guarantee-tagline {
-                font-size: 1.1rem;
+            .benefits-title {
+                font-size: 1.8rem;
             }
             
-            .main-content {
+            .benefits-block {
                 padding: 40px 25px;
             }
             
-            .hero-subtitle {
-                font-size: 1.4rem;
+            .benefit-item {
+                flex-direction: column;
+                gap: 15px;
+                padding: 20px;
             }
             
-            .btn {
+            .cta-button {
                 padding: 22px 30px;
                 font-size: 1.2rem;
             }
             
-            .benefits-grid {
-                grid-template-columns: 1fr;
+            .header-block {
+                padding: 40px 25px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Баннер с гарантией -->
-        <div class="guarantee-banner">
-            <h1 class="guarantee-title">ВЫ ПРИНЯТЫ!</h1>
-            <div class="guarantee-subtitle">ИЛИ ВЕРНУ ДЕНЬГИ</div>
-            <div class="guarantee-tagline">Поиск работы с гарантией трудоустройства</div>
-            
-            <div class="button-container">
-                <a href="https://t.me/your_bot?start=resume_guide" class="btn btn-gold">
-                    <i class="fas fa-briefcase"></i>
-                    НАЙТИ РАБОТУ С ГАРАНТИЕЙ
-                </a>
-            </div>
-        </div>
-
-        <!-- Основной контент -->
-        <div class="main-content">
-            <p class="hero-subtitle">
-                Скачайте гайд <span class="gold-text">«8 шагов к мощному резюме»</span> 
-                и найдите удаленную работу по своему профилю!
+        <!-- Верхний блок -->
+        <section class="header-block">
+            <div class="main-headline">Бесит офис, но на HH одни отказы?</div>
+            <h1 class="main-title">НАЙДИТЕ УДАЛЁННУЮ РАБОТУ, А НЕ ОТПРАВЛЯЙТЕ РЕЗЮМЕ В ПУСТОТУ</h1>
+            <p class="main-subtitle">
+                Скачайте гайд «8 шагов к резюме, которое дает результат» + пример отличного резюме
             </p>
             
-            <!-- Преимущества -->
-            <div class="benefits-grid">
-                <div class="benefit-card">
+            <a href="https://t.me/your_bot?start=resume_guide" class="cta-button">
+                <i class="fab fa-telegram-plane"></i>
+                ПОЛУЧИТЬ ГАЙД В TELEGRAM
+            </a>
+        </section>
+
+        <!-- Блок с выгодами -->
+        <section class="benefits-block">
+            <h2 class="benefits-title">ДЛЯ ТЕХ, КТО ХОЧЕТ УДАЛЁНКУ, А НЕ ОЧЕРЕДНОЙ ОТКАЗ</h2>
+            
+            <div class="benefits-list">
+                <div class="benefit-item">
                     <div class="benefit-icon">
-                        <i class="fas fa-bullseye"></i>
+                        <i class="fas fa-check-circle"></i>
                     </div>
-                    <h3>Сфокусировано</h3>
-                    <p>Только критерии удалённых HR. Никакой «воды» и общих советов для офиса.</p>
+                    <div class="benefit-content">
+                        <h3>Как начать получать приглашения</h3>
+                        <p>Способ написать резюме, чтобы пройти фильтры HR и AI</p>
+                    </div>
                 </div>
                 
-                <div class="benefit-card">
+                <div class="benefit-item">
                     <div class="benefit-icon">
-                        <i class="fas fa-road"></i>
+                        <i class="fas fa-check-circle"></i>
                     </div>
-                    <h3>Понятно</h3>
-                    <p>Пошаговый алгоритм: от анализа вашего профиля до отправки резюме.</p>
+                    <div class="benefit-content">
+                        <h3>Готовые формулировки</h3>
+                        <p>Возьмёте шаблоны для вашего раздела «Опыт», которые сразу показывают вашу ценность.</p>
+                    </div>
                 </div>
                 
-                <div class="benefit-card">
+                <div class="benefit-item">
                     <div class="benefit-icon">
-                        <i class="fas fa-bolt"></i>
+                        <i class="fas fa-check-circle"></i>
                     </div>
-                    <h3>Быстро</h3>
-                    <p>Первые результаты уже через 2 часа. Начните сегодня — работайте завтра.</p>
+                    <div class="benefit-content">
+                        <h3>Пример из практики</h3>
+                        <p>В качестве образца будет резюме, которое привлекает внимание</p>
+                    </div>
                 </div>
             </div>
-            
-            <!-- Кнопка внизу -->
-            <div class="final-cta">
-                <h2>Получите чек-лист + удачный пример</h2>
-                <p style="color: var(--text-gray); margin-bottom: 30px; font-size: 1.1rem;">
-                    Готовый шаблон резюме, который проходят удалённые HR
-                </p>
-                <a href="https://t.me/your_bot?start=resume_guide" class="btn btn-gold" style="max-width: 500px; margin: 0 auto;">
-                    <i class="fab fa-telegram-plane"></i>
-                    ПОЛУЧИТЬ ЧЕК-ЛИСТ + ПРИМЕР
-                </a>
-            </div>
-            
-            <div class="disclaimer">
-                Нажимая кнопку, вы соглашаетесь на получение материалов от бота. 
-                Гарантия трудоустройства действует при выполнении всех условий программы. 
-                Подробности у бота. Отписаться можно в любой момент.
-            </div>
+        </section>
+
+        <!-- Финальный CTA -->
+        <div class="final-cta">
+            <h2>Получите чек-лист + удачный пример</h2>
+            <p>Готовый шаблон резюме, который проходят удалённые HR</p>
+            <a href="https://t.me/your_bot?start=resume_guide" class="cta-button">
+                <i class="fab fa-telegram-plane"></i>
+                ПОЛУЧИТЬ ЧЕК-ЛИСТ + ПРИМЕР
+            </a>
+        </div>
+        
+        <div class="disclaimer">
+            Нажимая кнопку, вы соглашаетесь на получение материалов от бота. 
+            Отписаться можно в любой момент.
         </div>
     </div>
 
     <script>
         // Анимация для кнопок
-        document.querySelectorAll('.btn-gold').forEach(btn => {
+        document.querySelectorAll('.cta-button').forEach(btn => {
             btn.addEventListener('mouseenter', function() {
                 this.style.animation = 'buttonGlow 0.5s ease';
             });
