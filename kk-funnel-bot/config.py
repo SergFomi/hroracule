@@ -30,6 +30,15 @@ class Config:
     GOOGLE_SHEETS_CREDENTIALS_JSON = os.getenv('KK_GOOGLE_SHEETS_CREDENTIALS')
     GOOGLE_SHEET_ID = os.getenv('KK_GOOGLE_SHEET_ID')
     
+    # Parse Google credentials immediately
+    GOOGLE_CREDENTIALS = None
+    if GOOGLE_SHEETS_CREDENTIALS_JSON:
+        try:
+            GOOGLE_CREDENTIALS = json.loads(GOOGLE_SHEETS_CREDENTIALS_JSON)
+            logger.info("Google credentials parsed successfully")
+        except json.JSONDecodeError as e:
+            logger.error(f"Failed to parse Google credentials: {e}")
+    
     # Admin
     ADMIN_USER_IDS_STR = os.getenv('KK_ADMIN_USER_IDS', '')
     ADMIN_USER_IDS: List[int] = [
@@ -63,17 +72,13 @@ class Config:
             errors.append("KK_GOOGLE_SHEET_ID is not set")
             logger.error("Missing KK_GOOGLE_SHEET_ID")
         
+        if not cls.GOOGLE_CREDENTIALS:
+            errors.append("Failed to parse KK_GOOGLE_SHEETS_CREDENTIALS JSON")
+            logger.error("Google credentials parsing failed")
+        
         if errors:
             logger.critical(f"Configuration errors: {', '.join(errors)}")
             raise ValueError(f"Configuration errors: {', '.join(errors)}")
-        
-        # Parse Google credentials
-        try:
-            cls.GOOGLE_CREDENTIALS = json.loads(cls.GOOGLE_SHEETS_CREDENTIALS_JSON)
-            logger.info("Google credentials parsed successfully")
-        except json.JSONDecodeError as e:
-            logger.error(f"Failed to parse Google credentials: {e}")
-            raise ValueError(f"Invalid Google credentials JSON: {e}")
         
         logger.info("Configuration validated successfully")
         logger.info(f"Admin users: {cls.ADMIN_USER_IDS}")
