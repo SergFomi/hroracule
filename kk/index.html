@@ -271,13 +271,20 @@
             padding: 0 5px;
         }
 
-        .disclaimer {
+        /* Футер с подписью */
+        .footer-signature {
             text-align: center;
-            margin-top: 25px;
+            margin-top: 40px;
+            padding: 20px 0;
             color: var(--text-tertiary);
-            font-size: 0.8rem;
-            line-height: 1.4;
-            padding: 0 15px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .footer-separator {
+            margin: 0 10px;
+            color: rgba(255, 215, 0, 0.5);
         }
 
         /* Адаптивность для мобильных */
@@ -351,6 +358,16 @@
             .final-cta h2 {
                 font-size: 1.35rem;
             }
+            
+            .footer-signature {
+                margin-top: 30px;
+                font-size: 0.75rem;
+                padding: 15px 0;
+            }
+            
+            .footer-separator {
+                margin: 0 5px;
+            }
         }
         
         @media (min-width: 481px) and (max-width: 768px) {
@@ -364,6 +381,10 @@
             
             .divider {
                 display: block;
+            }
+            
+            .footer-signature {
+                margin-top: 35px;
             }
         }
         
@@ -431,6 +452,11 @@
             .divider {
                 display: block;
                 margin: 20px 0;
+            }
+            
+            .footer-signature {
+                margin-top: 50px;
+                font-size: 0.9rem;
             }
         }
         
@@ -518,6 +544,10 @@
             </a>
         </div>
         
+        <!-- Футер с подписью -->
+        <div class="footer-signature">
+            СЗ Фомичёв Сергей Тимофеевич <span class="footer-separator">|</span> Вы приняты! 2026
+        </div>
     </div>
 
     <script>
