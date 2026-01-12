@@ -1,0 +1,29 @@
+funnel:
+  # Day 0 - Immediate welcome sequence
+  - stage: "welcome"
+    delay_seconds: 0  # Сразу при старте
+    message_key: "welcome"
+    
+  - stage: "guide"
+    delay_seconds: 2  # Через 2 секунды
+    message_key: "guide_intro"
+    
+  - stage: "resume"
+    delay_seconds: 5  # Через 5 секунд после предыдущего
+    message_key: "resume_sample"
+  
+  # Day 1 - Webinar invite
+  - stage: "webinar_invite"
+    delay_seconds: 86400  # Через 24 часа (в секундах)
+    message_key: "webinar_invite"
+  
+  # Day 3 - Follow-up (если не отписался)
+  - stage: "followup_1"
+    delay_seconds: 259200  # Через 3 дня (72 часа)
+    message_key: "followup_1"
+    condition: "not_unsubscribed"  # Отправить только если активен
+
+settings:
+  timezone: "Europe/Moscow"
+  max_retries: 3  # Количество попыток отправки при ошибке
+  retry_delay: 300  # Задержка между попытками (секунды)

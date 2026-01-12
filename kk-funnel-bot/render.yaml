@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: kk-funnel-bot
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    healthCheckPath: /health
+    envVars:
+      - key: KK_TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: KK_TELEGRAM_CHANNEL_ID
+        sync: false
+      - key: KK_GOOGLE_SHEETS_CREDENTIALS
+        sync: false
+      - key: KK_GOOGLE_SHEET_ID
+        sync: false
+      - key: KK_ADMIN_USER_IDS
+        sync: false
+      - key: KK_UPTIME_ROBOT_MONITOR
+        value: true
