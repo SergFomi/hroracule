@@ -14,7 +14,7 @@ messages:
   
   resume_sample:
     text: "А вот образец резюме, который поможет тебе выделиться среди других кандидатов:"
-    file_path: "media/resume_sample.pdf"  # Положи файл в папку media/
+    file_path: "media/example_prodact.pdf"  # Положи файл в папку media/
   
   webinar_invite:
     text: |
