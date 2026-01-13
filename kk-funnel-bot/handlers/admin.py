@@ -128,13 +128,160 @@ async def cmd_help(message: Message):
             "/stats - Статистика бота\n"
             "/reload - Перезагрузить конфигурацию\n"
             "/broadcast - Рассылка (ответь на сообщение)\n"
-            "/help - Это сообщение\n"
+            "/send_webinar - Отправить приглашение на вебинар всем активным\n"
+            "/send_followup - Отправить follow-up всем активным\n"
+            "/help - Это сообщение\n\n"
+            "📥 <b>Входящие сообщения:</b>\n"
+            "Все сообщения от пользователей пересылаются тебе.\n"
+            "Чтобы ответить - сделай Reply на сообщение пользователя.\n"
         )
     else:
         help_text = (
             "👋 Привет! Я бот-помощник для поиска удаленной работы.\n\n"
-            "Просто следуй инструкциям, которые я буду присылать! 🚀"
+            "Просто следуй инструкциям, которые я буду присылать! 🚀\n\n"
+            "Если у тебя есть вопросы - просто напиши мне, и я передам их создателю."
         )
     
     await message.answer(help_text, parse_mode='HTML')
     logger.info(f"Help sent to user {user_id}")
+
+@router.message(Command("send_webinar"))
+async def cmd_send_webinar(message: Message):
+    """Send webinar invite to all active users (admin only)"""
+    user_id = message.from_user.id
+    
+    if not is_admin(user_id):
+        logger.warning(f"Non-admin user {user_id} tried to access /send_webinar")
+        return
+    
+    logger.info(f"Admin {user_id} initiated webinar broadcast")
+    
+    try:
+        from message_sender import MessageSender
+        
+        # Get all active users who completed at least 'resume' stage
+        users = await db.get_all_users()
+        target_users = [
+            u for u in users 
+            if u.get('is_active', False) and 
+            u.get('current_stage') in ['resume', 'webinar_invite', 'webinar_registered', 'webinar_declined', 'followup_1']
+        ]
+        
+        if not target_users:
+            await message.answer("❌ Нет подходящих пользователей для рассылки")
+            return
+        
+        success_count = 0
+        fail_count = 0
+        
+        status_msg = await message.answer(
+            f"📤 Начинаю рассылку вебинара {len(target_users)} пользователям..."
+        )
+        
+        message_sender = MessageSender(message.bot)
+        
+        for user in target_users:
+            try:
+                # Send webinar invite
+                success = await message_sender.send_funnel_message(
+                    user_id=user['user_id'],
+                    stage='webinar_invite'
+                )
+                
+                if success:
+                    success_count += 1
+                    # Update stage
+                    await db.update_user_stage(user['user_id'], 'webinar_invite')
+                else:
+                    fail_count += 1
+                
+                # Update status every 10 users
+                if (success_count + fail_count) % 10 == 0:
+                    await status_msg.edit_text(
+                        f"📤 Отправлено: {success_count}/{len(target_users)}\n"
+                        f"❌ Ошибок: {fail_count}"
+                    )
+                
+            except Exception as e:
+                logger.error(f"Failed to send webinar to user {user['user_id']}: {e}")
+                fail_count += 1
+        
+        await status_msg.edit_text(
+            f"✅ Рассылка вебинара завершена\n"
+            f"Успешно: {success_count}\n"
+            f"Ошибок: {fail_count}"
+        )
+        
+        logger.info(f"Webinar broadcast completed: {success_count} success, {fail_count} failed")
+        
+    except Exception as e:
+        logger.error(f"Error in webinar broadcast: {e}", exc_info=True)
+        await message.answer("❌ Ошибка рассылки вебинара")
+
+@router.message(Command("send_followup"))
+async def cmd_send_followup(message: Message):
+    """Send follow-up message to all active users (admin only)"""
+    user_id = message.from_user.id
+    
+    if not is_admin(user_id):
+        logger.warning(f"Non-admin user {user_id} tried to access /send_followup")
+        return
+    
+    logger.info(f"Admin {user_id} initiated follow-up broadcast")
+    
+    try:
+        from message_sender import MessageSender
+        
+        # Get all active users
+        users = await db.get_all_users()
+        target_users = [u for u in users if u.get('is_active', False)]
+        
+        if not target_users:
+            await message.answer("❌ Нет активных пользователей")
+            return
+        
+        success_count = 0
+        fail_count = 0
+        
+        status_msg = await message.answer(
+            f"📤 Начинаю рассылку follow-up {len(target_users)} пользователям..."
+        )
+        
+        message_sender = MessageSender(message.bot)
+        
+        for user in target_users:
+            try:
+                # Send follow-up
+                success = await message_sender.send_funnel_message(
+                    user_id=user['user_id'],
+                    stage='followup_1'
+                )
+                
+                if success:
+                    success_count += 1
+                    await db.update_user_stage(user['user_id'], 'followup_1')
+                else:
+                    fail_count += 1
+                
+                # Update status every 10 users
+                if (success_count + fail_count) % 10 == 0:
+                    await status_msg.edit_text(
+                        f"📤 Отправлено: {success_count}/{len(target_users)}\n"
+                        f"❌ Ошибок: {fail_count}"
+                    )
+                
+            except Exception as e:
+                logger.error(f"Failed to send follow-up to user {user['user_id']}: {e}")
+                fail_count += 1
+        
+        await status_msg.edit_text(
+            f"✅ Рассылка follow-up завершена\n"
+            f"Успешно: {success_count}\n"
+            f"Ошибок: {fail_count}"
+        )
+        
+        logger.info(f"Follow-up broadcast completed: {success_count} success, {fail_count} failed")
+        
+    except Exception as e:
+        logger.error(f"Error in follow-up broadcast: {e}", exc_info=True)
+        await message.answer("❌ Ошибка рассылки follow-up")
