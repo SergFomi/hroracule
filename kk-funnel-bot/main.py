@@ -10,7 +10,7 @@ from database import db
 from scheduler import get_scheduler
 
 # Import handlers
-from handlers import start, callbacks, admin, messages, user_commands, targeted_broadcasts
+from handlers import start, callbacks, admin, messages, user_commands, targeted_broadcasts, test_commands
 
 logger = logging.getLogger(__name__)
 
@@ -27,6 +27,7 @@ dp.include_router(callbacks.router)
 dp.include_router(admin.router)
 dp.include_router(user_commands.router)
 dp.include_router(targeted_broadcasts.router)
+dp.include_router(test_commands.router)
 dp.include_router(messages.router)  # Обработка текстовых сообщений в последнюю очередь
 
 async def health_check(request):
