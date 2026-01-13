@@ -67,8 +67,17 @@ async def cmd_start(message: Message):
             scheduler = get_scheduler(message.bot)
             await scheduler.schedule_funnel_for_user(user_id)
             
-            # Notify admins (async, don't wait)
+            # Send first message immediately (don't wait for scheduler)
+            from message_sender import MessageSender
             message_sender = MessageSender(message.bot)
+            
+            # Get first funnel stage (delay_seconds = 0)
+            first_stage = funnel_config.get_funnel_stages()[0]
+            if first_stage and first_stage.get('delay_seconds', 0) == 0:
+                logger.info(f"Sending first message immediately to user {user_id}")
+                await message_sender.send_funnel_message(user_id, first_stage['stage'])
+            
+            # Notify admins (async, don't wait)
             admin_msg = funnel_config.get_message('admin').get('user_registered', '')
             if admin_msg:
                 notification = admin_msg.format(
