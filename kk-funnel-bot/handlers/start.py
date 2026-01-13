@@ -2,6 +2,7 @@ import logging
 from aiogram import Router, F
 from aiogram.filters import Command, CommandStart
 from aiogram.types import Message
+from datetime import datetime
 from database import db
 from sheets_service import sheets_service
 from scheduler import get_scheduler
@@ -72,10 +73,26 @@ async def cmd_start(message: Message):
             message_sender = MessageSender(message.bot)
             
             # Get first funnel stage (delay_seconds = 0)
-            first_stage = funnel_config.get_funnel_stages()[0]
-            if first_stage and first_stage.get('delay_seconds', 0) == 0:
+            funnel_stages = funnel_config.get_funnel_stages()
+            if funnel_stages and funnel_stages[0].get('delay_seconds', 0) == 0:
+                first_stage = funnel_stages[0]
                 logger.info(f"Sending first message immediately to user {user_id}")
-                await message_sender.send_funnel_message(user_id, first_stage['stage'])
+                
+                success = await message_sender.send_funnel_message(user_id, first_stage['stage'])
+                
+                if success:
+                    # Mark first message as sent in database to prevent duplicate
+                    import aiosqlite
+                    async with aiosqlite.connect(db.db_path) as conn:
+                        await conn.execute('''
+                            UPDATE scheduled_messages 
+                            SET sent = 1, sent_at = ?
+                            WHERE user_id = ? AND stage = ? AND sent = 0
+                        ''', (datetime.utcnow().isoformat(), user_id, first_stage['stage']))
+                        await conn.commit()
+                    
+                    await db.update_user_stage(user_id, first_stage['stage'])
+                    logger.info(f"First message sent and marked as complete for user {user_id}")
             
             # Notify admins (async, don't wait)
             admin_msg = funnel_config.get_message('admin').get('user_registered', '')
