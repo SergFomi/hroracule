@@ -56,8 +56,8 @@ async def cmd_start(message: Message):
         await db.add_user(user_data)
         await db.add_event(user_id, 'start', 'User started bot')
         
-        # Sync to Google Sheets
-        await sheets_service.add_user(user_data)
+        # Google Sheets sync will happen in background (every 5 min)
+        # No need to sync here - prioritize speed for user
         
         # Send welcome message and schedule funnel
         if is_new_user:
@@ -67,7 +67,7 @@ async def cmd_start(message: Message):
             scheduler = get_scheduler(message.bot)
             await scheduler.schedule_funnel_for_user(user_id)
             
-            # Notify admins
+            # Notify admins (async, don't wait)
             message_sender = MessageSender(message.bot)
             admin_msg = funnel_config.get_message('admin').get('user_registered', '')
             if admin_msg:
@@ -75,7 +75,9 @@ async def cmd_start(message: Message):
                     name=user.first_name or 'Unknown',
                     username=user.username or 'no_username'
                 )
-                await message_sender.send_admin_notification(notification)
+                # Fire and forget - don't await
+                import asyncio
+                asyncio.create_task(message_sender.send_admin_notification(notification))
         else:
             logger.info(f"Returning user {user_id}, reactivating")
             await db.update_user_stage(user_id, 'welcome')
