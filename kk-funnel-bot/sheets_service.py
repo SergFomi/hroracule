@@ -65,10 +65,15 @@ class GoogleSheetsService:
                     'UTM Campaign',
                     'Current Stage',
                     'Is Active',
+                    'Webinar Response',
+                    'Attended Webinar',
+                    'Had Consultation',
+                    'Started Job Search',
+                    'Got Job',
                     'Last Activity'
                 ]
                 
-                self.worksheet.update('A1:M1', [expected_headers])
+                self.worksheet.update('A1:R1', [expected_headers])
                 logger.info("Headers initialized in Google Sheets")
         except Exception as e:
             logger.error(f"Error initializing headers: {e}", exc_info=True)
@@ -101,13 +106,18 @@ class GoogleSheetsService:
                 user_data.get('utm_campaign', ''),
                 user_data.get('current_stage', 'welcome'),
                 'Yes' if user_data.get('is_active', True) else 'No',
+                user_data.get('webinar_response', ''),
+                'Yes' if user_data.get('attended_webinar', 0) else 'No',
+                'Yes' if user_data.get('had_consultation', 0) else 'No',
+                'Yes' if user_data.get('started_job_search', 0) else 'No',
+                'Yes' if user_data.get('got_job', 0) else 'No',
                 timestamp
             ]
             
             if cell:
                 # Update existing row
                 row_num = cell.row
-                self.worksheet.update(f'A{row_num}:M{row_num}', [row_data])
+                self.worksheet.update(f'A{row_num}:R{row_num}', [row_data])
                 logger.info(f"Updated user {user_id} in Google Sheets (row {row_num})")
             else:
                 # Append new row
