@@ -16,6 +16,13 @@ class MessageSender:
         self.bot = bot
         logger.info("MessageSender initialized")
     
+    def _create_webinar_keyboard(self):
+        """Create inline keyboard for webinar invite"""
+        return InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="Да, буду!", callback_data="webinar_yes")],
+            [InlineKeyboardButton(text="Нет, спасибо", callback_data="webinar_no")]
+        ])
+    
     async def send_funnel_message(self, user_id: int, stage: str) -> bool:
         """Send a funnel message to user"""
         try:
