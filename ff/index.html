@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yunu Fulfillment — Начисления ЗМА</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0e1a;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .bg-pattern {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            margin-bottom: 3rem;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .period {
+            display: inline-block;
+            background: var(--bg-card);
+            padding: 0.5rem 1.5rem;
+            border-radius: 2rem;
+            border: 1px solid var(--border);
+            font-size: 0.875rem;
+            margin-top: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.1);
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+            font-family: 'Unbounded', sans-serif;
+        }
+
+        .stat-change {
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            color: var(--success);
+        }
+
+        .months-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .month-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.6s ease-out backwards;
+        }
+
+        .month-card:nth-child(1) { animation-delay: 0.4s; }
+        .month-card:nth-child(2) { animation-delay: 0.5s; }
+        .month-card:nth-child(3) { animation-delay: 0.6s; }
+        .month-card:nth-child(4) { animation-delay: 0.7s; }
+        .month-card:nth-child(5) { animation-delay: 0.8s; }
+        .month-card:nth-child(6) { animation-delay: 0.9s; }
+
+        .month-card:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.15);
+        }
+
+        .month-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .month-name {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .month-total {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .service-item {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.2s ease;
+        }
+
+        .service-item:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: var(--accent-blue);
+        }
+
+        .service-name {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .service-amount {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .total-section {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border-radius: 1.5rem;
+            padding: 3rem;
+            text-align: center;
+            margin-top: 2rem;
+            animation: fadeInUp 0.6s ease-out 1s backwards;
+        }
+
+        .total-label {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .total-amount {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .total-amount {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo-section">
+                <h1>YUNU</h1>
+                <div class="subtitle">Fulfillment Dashboard</div>
+            </div>
+            <div class="period">ЗМА • Июль — Декабрь 2025</div>
+        </header>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Средний месяц</div>
+                <div class="stat-value">1,124,906 ₽</div>
+                <div class="stat-change">↑ Стабильный рост</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Пик начислений</div>
+                <div class="stat-value">2,019,060 ₽</div>
+                <div class="stat-change">Август 2025</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Всего операций</div>
+                <div class="stat-value">6 месяцев</div>
+                <div class="stat-change">Активный период</div>
+            </div>
+        </div>
+
+        <div class="months-grid">
+            <div class="month-card">
+                <div class="month-header">
+                    <div class="month-name">Июль</div>
+                    <div class="month-total">186,252 ₽</div>
+                </div>
+                <div class="services-grid">
+                    <div class="service-item">
+                        <div class="service-name">Приемка</div>
+                        <div class="service-amount">66,537 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Отгрузка</div>
+                        <div class="service-amount">76,728 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Хранение</div>
+                        <div class="service-amount">41,693 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Забор</div>
+                        <div class="service-amount">300 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Страховка</div>
+                        <div class="service-amount">994 ₽</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="month-card">
+                <div class="month-header">
+                    <div class="month-name">Август</div>
+                    <div class="month-total">2,019,060 ₽</div>
+                </div>
+                <div class="services-grid">
+                    <div class="service-item">
+                        <div class="service-name">Приемка</div>
+                        <div class="service-amount">180,908 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Отгрузка</div>
+                        <div class="service-amount">1,458,514 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Хранение</div>
+                        <div class="service-amount">362,715 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Возвраты</div>
+                        <div class="service-amount">6,294 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Забор</div>
+                        <div class="service-amount">300 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Страховка</div>
+                        <div class="service-amount">10,329 ₽</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="month-card">
+                <div class="month-header">
+                    <div class="month-name">Сентябрь</div>
+                    <div class="month-total">1,579,106 ₽</div>
+                </div>
+                <div class="services-grid">
+                    <div class="service-item">
+                        <div class="service-name">Приемка</div>
+                        <div class="service-amount">116,067 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Отгрузка</div>
+                        <div class="service-amount">1,252,638 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Хранение</div>
+                        <div class="service-amount">191,680 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Возвраты</div>
+                        <div class="service-amount">14,477 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Страховка</div>
+                        <div class="service-amount">4,244 ₽</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="month-card">
+                <div class="month-header">
+                    <div class="month-name">Октябрь</div>
+                    <div class="month-total">713,711 ₽</div>
+                </div>
+                <div class="services-grid">
+                    <div class="service-item">
+                        <div class="service-name">Приемка</div>
+                        <div class="service-amount">74,524 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Отгрузка</div>
+                        <div class="service-amount">384,023 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Хранение</div>
+                        <div class="service-amount">241,791 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Возвраты</div>
+                        <div class="service-amount">6,765 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Страховка</div>
+                        <div class="service-amount">6,608 ₽</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="month-card">
+                <div class="month-header">
+                    <div class="month-name">Ноябрь</div>
+                    <div class="month-total">1,144,024 ₽</div>
+                </div>
+                <div class="services-grid">
+                    <div class="service-item">
+                        <div class="service-name">Приемка</div>
+                        <div class="service-amount">102,938 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Отгрузка</div>
+                        <div class="service-amount">616,401 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Хранение</div>
+                        <div class="service-amount">400,880 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Возвраты</div>
+                        <div class="service-amount">11,880 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Страховка</div>
+                        <div class="service-amount">11,925 ₽</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="month-card">
+                <div class="month-header">
+                    <div class="month-name">Декабрь</div>
+                    <div class="month-total">1,107,284 ₽</div>
+                </div>
+                <div class="services-grid">
+                    <div class="service-item">
+                        <div class="service-name">Приемка</div>
+                        <div class="service-amount">83,486 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Отгрузка</div>
+                        <div class="service-amount">510,581 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Хранение</div>
+                        <div class="service-amount">472,684 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Возвраты</div>
+                        <div class="service-amount">25,704 ₽</div>
+                    </div>
+                    <div class="service-item">
+                        <div class="service-name">Страховка</div>
+                        <div class="service-amount">14,829 ₽</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="total-section">
+            <div class="total-label">Итого за период</div>
+            <div class="total-amount">6,749,437 ₽</div>
+        </div>
+    </div>
+</body>
+</html>
