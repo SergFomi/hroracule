@@ -30,7 +30,12 @@ class Database:
                     utm_medium TEXT,
                     utm_campaign TEXT,
                     current_stage TEXT,
-                    is_active INTEGER DEFAULT 1
+                    is_active INTEGER DEFAULT 1,
+                    attended_webinar INTEGER DEFAULT 0,
+                    had_consultation INTEGER DEFAULT 0,
+                    started_job_search INTEGER DEFAULT 0,
+                    got_job INTEGER DEFAULT 0,
+                    webinar_response TEXT
                 )
             ''')
             
@@ -239,16 +244,104 @@ class Database:
                 async with db.execute('SELECT COUNT(*) FROM scheduled_messages WHERE sent = 1') as cursor:
                     sent = (await cursor.fetchone())[0]
                 
+                async with db.execute('SELECT COUNT(*) FROM users WHERE attended_webinar = 1') as cursor:
+                    attended_webinar = (await cursor.fetchone())[0]
+                
+                async with db.execute('SELECT COUNT(*) FROM users WHERE had_consultation = 1') as cursor:
+                    had_consultation = (await cursor.fetchone())[0]
+                
+                async with db.execute('SELECT COUNT(*) FROM users WHERE started_job_search = 1') as cursor:
+                    started_job_search = (await cursor.fetchone())[0]
+                
+                async with db.execute('SELECT COUNT(*) FROM users WHERE found_job = 1') as cursor:
+                    found_job = (await cursor.fetchone())[0]
+                
                 stats = {
                     'total_users': total,
                     'active_users': active,
-                    'messages_sent': sent
+                    'messages_sent': sent,
+                    'attended_webinar': attended_webinar,
+                    'had_consultation': had_consultation,
+                    'started_job_search': started_job_search,
+                    'found_job': found_job
                 }
                 
                 logger.info(f"Stats retrieved: {stats}")
                 return stats
         except Exception as e:
             logger.error(f"Error getting stats: {e}", exc_info=True)
-            return {'total_users': 0, 'active_users': 0, 'messages_sent': 0}
+            return {
+                'total_users': 0, 
+                'active_users': 0, 
+                'messages_sent': 0,
+                'attended_webinar': 0,
+                'had_consultation': 0,
+                'started_job_search': 0,
+                'found_job': 0
+            }
+    
+    async def update_user_flag(self, user_id: int, flag_name: str, value: int = 1) -> bool:
+        """Update user flag (attended_webinar, had_consultation, etc.)"""
+        try:
+            valid_flags = ['attended_webinar', 'had_consultation', 'started_job_search', 'got_job']
+            if flag_name not in valid_flags:
+                logger.error(f"Invalid flag name: {flag_name}")
+                return False
+            
+            async with aiosqlite.connect(self.db_path) as db:
+                await db.execute(f'''
+                    UPDATE users 
+                    SET {flag_name} = ?, updated_at = ?
+                    WHERE user_id = ?
+                ''', (value, datetime.utcnow().isoformat(), user_id))
+                await db.commit()
+            
+            logger.info(f"User {user_id} flag {flag_name} updated to {value}")
+            return True
+        except Exception as e:
+            logger.error(f"Error updating flag {flag_name} for user {user_id}: {e}", exc_info=True)
+            return False
+    
+    async def update_webinar_response(self, user_id: int, response: str) -> bool:
+        """Update user's webinar response (yes/no)"""
+        try:
+            async with aiosqlite.connect(self.db_path) as db:
+                await db.execute('''
+                    UPDATE users 
+                    SET webinar_response = ?, updated_at = ?
+                    WHERE user_id = ?
+                ''', (response, datetime.utcnow().isoformat(), user_id))
+                await db.commit()
+            
+            logger.info(f"User {user_id} webinar response updated to {response}")
+            return True
+        except Exception as e:
+            logger.error(f"Error updating webinar response for user {user_id}: {e}", exc_info=True)
+            return False
+    
+    async def get_users_by_filter(self, **filters) -> List[Dict[str, Any]]:
+        """Get users by filters (attended_webinar, had_consultation, etc.)"""
+        try:
+            conditions = ['is_active = 1']  # Always filter active users
+            params = []
+            
+            for key, value in filters.items():
+                if key in ['attended_webinar', 'had_consultation', 'started_job_search', 'got_job', 'webinar_response']:
+                    conditions.append(f"{key} = ?")
+                    params.append(value)
+            
+            query = f"SELECT * FROM users WHERE {' AND '.join(conditions)} ORDER BY created_at DESC"
+            
+            async with aiosqlite.connect(self.db_path) as db:
+                db.row_factory = aiosqlite.Row
+                async with db.execute(query, tuple(params)) as cursor:
+                    rows = await cursor.fetchall()
+                    result = [dict(row) for row in rows]
+                    
+                    logger.info(f"Found {len(result)} users matching filters: {filters}")
+                    return result
+        except Exception as e:
+            logger.error(f"Error getting users by filter: {e}", exc_info=True)
+            return []
 
 db = Database()
