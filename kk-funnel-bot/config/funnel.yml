@@ -12,16 +12,8 @@ funnel:
     delay_seconds: 5  # Через 5 секунд после предыдущего
     message_key: "resume_sample"
   
-  # Day 1 - Webinar invite
-  - stage: "webinar_invite"
-    delay_seconds: 86400  # Через 24 часа (в секундах)
-    message_key: "webinar_invite"
-  
-  # Day 3 - Follow-up (если не отписался)
-  - stage: "followup_1"
-    delay_seconds: 259200  # Через 3 дня (72 часа)
-    message_key: "followup_1"
-    condition: "not_unsubscribed"  # Отправить только если активен
+  # Webinar invite - отправляется вручную админом через /send_webinar
+  # Follow-up также отправляется вручную при необходимости
 
 settings:
   timezone: "Europe/Moscow"
