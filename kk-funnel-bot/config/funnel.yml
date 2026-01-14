@@ -1,16 +1,20 @@
 funnel:
-  # Day 0 - Immediate welcome sequence
+  # All messages sent immediately one after another
   - stage: "welcome"
-    delay_seconds: 0  # Сразу при старте
+    delay_seconds: 0
     message_key: "welcome"
     
   - stage: "guide"
-    delay_seconds: 2  # Через 2 секунды
+    delay_seconds: 0
     message_key: "guide_intro"
     
   - stage: "resume"
-    delay_seconds: 5  # Через 5 секунд после предыдущего
+    delay_seconds: 0
     message_key: "resume_sample"
+  
+  - stage: "channel_subscribe"
+    delay_seconds: 0
+    message_key: "channel_subscribe"
   
   # Webinar invite - отправляется вручную админом через /send_webinar
   # Follow-up также отправляется вручную при необходимости
