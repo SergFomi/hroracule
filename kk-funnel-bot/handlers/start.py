@@ -62,37 +62,25 @@ async def cmd_start(message: Message):
         
         # Send welcome message and schedule funnel
         if is_new_user:
-            logger.info(f"New user {user_id}, scheduling funnel")
+            logger.info(f"New user {user_id}, sending welcome sequence")
             
-            # Get scheduler and schedule funnel
-            scheduler = get_scheduler(message.bot)
-            await scheduler.schedule_funnel_for_user(user_id)
-            
-            # Send first message immediately (don't wait for scheduler)
             from message_sender import MessageSender
             message_sender = MessageSender(message.bot)
             
-            # Get first funnel stage (delay_seconds = 0)
+            # Send all funnel messages immediately
             funnel_stages = funnel_config.get_funnel_stages()
-            if funnel_stages and funnel_stages[0].get('delay_seconds', 0) == 0:
-                first_stage = funnel_stages[0]
-                logger.info(f"Sending first message immediately to user {user_id}")
-                
-                success = await message_sender.send_funnel_message(user_id, first_stage['stage'])
-                
-                if success:
-                    # Mark first message as sent in database to prevent duplicate
-                    import aiosqlite
-                    async with aiosqlite.connect(db.db_path) as conn:
-                        await conn.execute('''
-                            UPDATE scheduled_messages 
-                            SET sent = 1, sent_at = ?
-                            WHERE user_id = ? AND stage = ? AND sent = 0
-                        ''', (datetime.utcnow().isoformat(), user_id, first_stage['stage']))
-                        await conn.commit()
+            
+            for stage in funnel_stages:
+                if stage.get('delay_seconds', 0) == 0:
+                    logger.info(f"Sending message '{stage['stage']}' to user {user_id}")
                     
-                    await db.update_user_stage(user_id, first_stage['stage'])
-                    logger.info(f"First message sent and marked as complete for user {user_id}")
+                    success = await message_sender.send_funnel_message(user_id, stage['stage'])
+                    
+                    if success:
+                        await db.update_user_stage(user_id, stage['stage'])
+                        logger.info(f"Message '{stage['stage']}' sent to user {user_id}")
+                    else:
+                        logger.warning(f"Failed to send '{stage['stage']}' to user {user_id}")
             
             # Notify admins (async, don't wait)
             admin_msg = funnel_config.get_message('admin').get('user_registered', '')
