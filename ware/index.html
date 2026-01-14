@@ -61,13 +61,30 @@
         }
 
         /* Карточки */
-        .summary-card, .chart-card, .table-card, .conclusions-card {
+        .summary-card, .chart-card, .table-card, .conclusions-card, .deposit-card {
             background-color: white;
             border-radius: 12px;
             padding: 30px;
             margin-bottom: 30px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             border: 1px solid #e2e8f0;
+        }
+
+        .deposit-card {
+            background-color: #fff7ed;
+            border-left: 5px solid #f59e0b;
+        }
+
+        .deposit-card h3 {
+            color: #9a3412;
+            margin-bottom: 15px;
+        }
+
+        .deposit-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ea580c;
+            margin: 10px 0;
         }
 
         /* Сводка экономии */
@@ -478,8 +495,12 @@
                 height: 250px;
             }
             
-            .table-card, .conclusions-card, .summary-card, .chart-card {
+            .table-card, .conclusions-card, .summary-card, .chart-card, .deposit-card {
                 padding: 20px;
+            }
+            
+            .deposit-amount {
+                font-size: 1.7rem;
             }
         }
     </style>
@@ -496,7 +517,7 @@
         <!-- Основная информация -->
         <section class="summary-section">
             <div class="summary-card">
-                <h2><i class="fas fa-balance-scale"></i> Сводка экономии</h2>
+                <h2><i class="fas fa-balance-scale"></i> Сводка экономии (в месяц)</h2>
                 <div class="summary-grid">
                     <div class="summary-item current">
                         <h3>Текущий фулфилмент</h3>
@@ -505,13 +526,13 @@
                     </div>
                     <div class="summary-item new">
                         <h3>Собственный склад</h3>
-                        <div class="amount">775-1,040 тыс. ₽/мес</div>
+                        <div class="amount">811-1,076 тыс. ₽/мес</div>
                         <p>Электросталь, фиксированные + переменные</p>
                     </div>
                     <div class="summary-item savings">
                         <h3>Экономия</h3>
-                        <div class="amount">до 960 тыс. ₽/мес</div>
-                        <p>Максимальная экономия: до 48%</p>
+                        <div class="amount">до 1,189 тыс. ₽/мес</div>
+                        <p>Максимальная экономия: до ~59%</p>
                     </div>
                 </div>
             </div>
@@ -520,7 +541,7 @@
         <!-- Диаграмма распределения расходов -->
         <section class="chart-section">
             <div class="chart-card">
-                <h2><i class="fas fa-chart-pie"></i> Распределение расходов собственного склада</h2>
+                <h2><i class="fas fa-chart-pie"></i> Распределение ежемесячных расходов собственного склада</h2>
                 <div class="chart-container">
                     <canvas id="expensesChart"></canvas>
                 </div>
@@ -528,7 +549,7 @@
                     <p><span class="legend-color" style="background-color:#3b82f6;"></span> Аренда склада: 300,000 ₽</p>
                     <p><span class="legend-color" style="background-color:#10b981;"></span> ФОТ (3 сотрудника): 252,000 ₽</p>
                     <p><span class="legend-color" style="background-color:#f59e0b;"></span> Коммунальные услуги: 80,000 ₽</p>
-                    <p><span class="legend-color" style="background-color:#ef4444;"></span> Логистика до ВБ: 44,000 ₽</p>
+                    <p><span class="legend-color" style="background-color:#ef4444;"></span> Логистика до ВБ: 80,000 ₽</p>
                     <p><span class="legend-color" style="background-color:#8b5cf6;"></span> Оборудование и охрана: 45,000 ₽</p>
                     <p><span class="legend-color" style="background-color:#6366f1;"></span> Прочее: 69,000 ₽</p>
                 </div>
@@ -538,7 +559,7 @@
         <!-- Сравнительная таблица -->
         <section class="table-section">
             <div class="table-card">
-                <h2><i class="fas fa-table"></i> Сравнительная таблица</h2>
+                <h2><i class="fas fa-table"></i> Сравнительная таблица (расходы в месяц)</h2>
                 <div class="table-container">
                     <table>
                         <thead>
@@ -553,8 +574,8 @@
                             <tr>
                                 <td><strong>Средние месячные затраты</strong></td>
                                 <td class="current-cost">1,000,000 – 2,000,000 ₽</td>
-                                <td class="new-cost">775,000 – 1,040,000 ₽</td>
-                                <td class="savings">↓ 225,000 – 960,000 ₽</td>
+                                <td class="new-cost">811,000 – 1,076,000 ₽</td>
+                                <td class="savings">-76,000 – 1,189,000 ₽</td>
                             </tr>
                             <tr>
                                 <td>Прогнозируемость затрат</td>
@@ -589,6 +610,16 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </section>
+
+        <!-- Обеспечительный платеж -->
+        <section class="deposit-section">
+            <div class="deposit-card">
+                <h3><i class="fas fa-exclamation-circle"></i> Единовременный обеспечительный платеж (депозит)</h3>
+                <p>При заключении договора аренды склада необходимо внести обеспечительный платеж в размере аренды за 1 месяц. Он является гарантией исполнения обязательств и возвращается при окончании аренды, если нет повреждений и задолженностей.</p>
+                <div class="deposit-amount">+300,000 ₽</div>
+                <p><em>Эта сумма не является ежемесячным расходом, а представляет собой разовый платеж на старте проекта.</em></p>
             </div>
         </section>
 
@@ -683,7 +714,7 @@
     <script>
         // Инициализация диаграммы расходов
         document.addEventListener('DOMContentLoaded', function() {
-            // Данные для диаграммы
+            // Данные для диаграммы (Логистика увеличена до 80,000)
             const expensesData = {
                 labels: [
                     'Аренда склада',
@@ -694,7 +725,7 @@
                     'Прочее'
                 ],
                 datasets: [{
-                    data: [300000, 252000, 80000, 44000, 45000, 69000],
+                    data: [300000, 252000, 80000, 80000, 45000, 69000], // Изменено с 44000 на 80000
                     backgroundColor: [
                         '#3b82f6', // Синий
                         '#10b981', // Зеленый
@@ -768,13 +799,13 @@
 
             // Обработка ошибок загрузки изображений
             document.getElementById('warehouse-photo').onerror = function() {
-                this.alt = 'Фото склада не загружено. Добавьте warehouse.jpg в ту же папку';
-                console.warn('Фото склада не найдено. Добавьте warehouse.jpg в ту же папку');
+                this.alt = 'Фото склада не загружено. Добавьте warehouse.png в ту же папку';
+                console.warn('Фото склада не найдено. Добавьте warehouse.png в ту же папку');
             };
             
             document.getElementById('location-map').onerror = function() {
-                this.alt = 'Карта не загружена. Добавьте location.jpg в ту же папку';
-                console.warn('Карта расположения не найдена. Добавьте location.jpg в ту же папку');
+                this.alt = 'Карта не загружена. Добавьте location.png в ту же папку';
+                console.warn('Карта расположения не найдена. Добавьте location.png в ту же папку');
             };
             
             // Проверка наличия изображений при загрузке страницы
@@ -783,11 +814,11 @@
                 const locationImg = document.getElementById('location-map');
                 
                 if (!warehouseImg.complete || warehouseImg.naturalHeight === 0) {
-                    console.log('Фото склада не загружено - ожидание файла warehouse.jpg');
+                    console.log('Фото склада не загружено - ожидание файла warehouse.png');
                 }
                 
                 if (!locationImg.complete || locationImg.naturalHeight === 0) {
-                    console.log('Карта не загружена - ожидание файла location.jpg');
+                    console.log('Карта не загружена - ожидание файла location.png');
                 }
             }, 1000);
         });
