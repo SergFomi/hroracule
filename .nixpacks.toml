@@ -1,0 +1,8 @@
+[phases.setup]
+nixPkgs = ["python3"]
+
+[phases.install]
+cmds = ["pip install -r tracking_bot/requirements.txt"]
+
+[start]
+cmd = "python tracking_bot/bot.py"
