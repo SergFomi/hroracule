@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rocket Work — Полная автоматизация работы с внештатными сотрудниками</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Arial', sans-serif;
+        }
+        
+        :root {
+            --primary-black: #0a0a0a;
+            --secondary-black: #1a1a1a;
+            --primary-white: #ffffff;
+            --secondary-white: #f8f8f8;
+            --accent-gray: #e8e8e8;
+            --text-gray: #666;
+            --dark-gray: #333;
+            --border-gray: #ddd;
+        }
+        
+        body {
+            background-color: var(--primary-white);
+            color: var(--primary-black);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Навигация */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--primary-black);
+        }
+        
+        .logo span {
+            font-weight: 300;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-gray);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary-black);
+        }
+        
+        .cta-button {
+            background-color: var(--primary-black);
+            color: var(--primary-white);
+            border: none;
+            padding: 0.8rem 1.8rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .cta-button:hover {
+            background-color: var(--dark-gray);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Основные секции */
+        .section {
+            padding: 6rem 5%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-bottom: 1px solid var(--border-gray);
+        }
+        
+        .section:nth-child(even) {
+            background-color: var(--secondary-white);
+        }
+        
+        .section-header {
+            margin-bottom: 3.5rem;
+            text-align: center;
+        }
+        
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Герой секция */
+        .hero {
+            background: linear-gradient(135deg, var(--secondary-white) 0%, var(--primary-white) 100%);
+            text-align: center;
+            padding-top: 8rem;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: var(--text-gray);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+        }
+        
+        /* Проблемы и решения */
+        .problem-list, .solution-list, .result-list {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .problem-item, .solution-item, .result-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: var(--primary-white);
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .problem-item i, .solution-item i, .result-item i {
+            font-size: 1.5rem;
+            margin-right: 1.5rem;
+            margin-top: 0.3rem;
+            color: var(--primary-black);
+        }
+        
+        .item-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .item-content p {
+            color: var(--text-gray);
+        }
+        
+        /* Как это работает */
+        .process-flow {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .process-step {
+            flex: 1;
+            min-width: 220px;
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background-color: var(--primary-white);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            background-color: var(--primary-black);
+            color: var(--primary-white);
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .process-step h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Контроль финансов */
+        .finance-control {
+            display: flex;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+            gap: 4rem;
+        }
+        
+        .finance-text {
+            flex: 1;
+        }
+        
+        .finance-visual {
+            flex: 1;
+            height: 300px;
+            background-color: var(--accent-gray);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+        
+        /* Интеграции */
+        .integrations {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+        
+        .integration-item {
+            text-align: center;
+            width: 180px;
+        }
+        
+        .integration-icon {
+            width: 80px;
+            height: 80px;
+            background-color: var(--accent-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            color: var(--primary-black);
+        }
+        
+        /* Результаты */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .result-card {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--primary-white);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .result-card i {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-black);
+        }
+        
+        /* Масштаб и надежность */
+        .metrics {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 3rem;
+            margin: 3rem auto;
+        }
+        
+        .metric-item {
+            text-align: center;
+            min-width: 200px;
+        }
+        
+        .metric-value {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--primary-black);
+        }
+        
+        .metric-label {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+        
+        .partners {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+        
+        .partner-logo {
+            width: 150px;
+            height: 70px;
+            background-color: var(--accent-gray);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--text-gray);
+        }
+        
+        /* Начало работы */
+        .onboarding-steps {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 3rem auto;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            padding: 2.5rem 2rem;
+            background-color: var(--primary-white);
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .step h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .step p {
+            color: var(--text-gray);
+        }
+        
+        /* Футер */
+        .footer {
+            background-color: var(--primary-black);
+            color: var(--primary-white);
+            padding: 4rem 5% 2rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--border-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-white);
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .contact-info a {
+            color: var(--primary-white);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--dark-gray);
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Место для фото */
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-gray);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+        
+        .placeholder-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--border-gray);
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .section-title {
+                font-size: 2.4rem;
+            }
+            
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            
+            .finance-control {
+                flex-direction: column;
+                gap: 3rem;
+            }
+            
+            .finance-visual {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .section {
+                padding: 4rem 5%;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .hero-title {
+                font-size: 2.3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .metrics {
+                gap: 2rem;
+            }
+            
+            .metric-value {
+                font-size: 2.5rem;
+            }
+            
+            .process-flow {
+                flex-direction: column;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .navbar {
+                padding: 1rem 5%;
+            }
+            
+            .hero {
+                padding-top: 6rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .cta-button {
+                padding: 0.7rem 1.5rem;
+                font-size: 0.85rem;
+            }
+            
+            .onboarding-steps {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar">
+        <div class="logo">ROCKET<span>WORK</span></div>
+        <div class="nav-links">
+            <a href="#problem">Проблема</a>
+            <a href="#solution">Решение</a>
+            <a href="#process">Как это работает</a>
+            <a href="#results">Результат</a>
+            <a href="#scale">Масштаб</a>
+        </div>
+        <a href="#onboarding" class="cta-button">Начать работу</a>
+    </nav>
+
+    <!-- Герой секция -->
+    <section class="section hero" id="hero">
+        <div class="section-header">
+            <h1 class="hero-title">Полная автоматизация работы<br>с самозанятыми, ИП и ГПХ</h1>
+            <p class="hero-subtitle">Rocket Work — единая платформа для контроля и автоматизации всех процессов работы с внештатными исполнителями. Обеспечивает юридическую, налоговую и операционную безопасность.</p>
+            <a href="#onboarding" class="cta-button">Подключить за 3 дня</a>
+        </div>
+    </section>
+
+    <!-- Проблема -->
+    <section class="section" id="problem">
+        <div class="section-header">
+            <h2 class="section-title">Ключевая проблема</h2>
+            <p class="section-subtitle">Работа с внештатными исполнителями создаёт риски и операционные издержки</p>
+        </div>
+        <div class="problem-list">
+            <div class="problem-item">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div class="item-content">
+                    <h3>Риск переквалификации договоров ФНС</h3>
+                    <p>Проверки налоговой могут привести к переквалификации договоров ГПХ в трудовые отношения со всеми вытекающими штрафами и обязательствами.</p>
+                </div>
+            </div>
+            <div class="problem-item">
+                <i class="fas fa-tasks"></i>
+                <div class="item-content">
+                    <h3>Ручная работа с выплатами, налогами и документами</h3>
+                    <p>Ежемесячная рутина: расчёты, формирование и подписание документов, отправка выплат, декларации в ФНС отнимают время и ресурсы.</p>
+                </div>
+            </div>
+            <div class="problem-item">
+                <i class="fas fa-chart-line"></i>
+                <div class="item-content">
+                    <h3>Сложности контроля и масштабирования</h3>
+                    <p>При увеличении числа исполнителей процессы становятся неуправляемыми. Нет единой системы контроля и аналитики.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Решение -->
+    <section class="section" id="solution">
+        <div class="section-header">
+            <h2 class="section-title">Решение</h2>
+            <p class="section-subtitle">Rocket Work — единая платформа для контроля и автоматизации</p>
+        </div>
+        <div class="solution-list">
+            <div class="solution-item">
+                <i class="fas fa-shield-alt"></i>
+                <div class="item-content">
+                    <h3>Юридическая и налоговая безопасность</h3>
+                    <p>Автоматическое формирование правильных договоров, проверка статуса исполнителей, контроль соблюдения лимитов НПД.</p>
+                </div>
+            </div>
+            <div class="solution-item">
+                <i class="fas fa-robot"></i>
+                <div class="item-content">
+                    <h3>Полная автоматизация процессов</h3>
+                    <p>От создания задания до выплаты и формирования отчётности. Исключение человеческого фактора и ошибок.</p>
+                </div>
+            </div>
+            <div class="solution-item">
+                <i class="fas fa-expand-arrows-alt"></i>
+                <div class="item-content">
+                    <h3>Масштабирование без роста издержек</h3>
+                    <p>Подключайте 10 или 1000 исполнителей — операционные затраты не увеличиваются. Все процессы остаются под контролем.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Как это работает -->
+    <section class="section" id="process">
+        <div class="section-header">
+            <h2 class="section-title">Как это работает</h2>
+            <p class="section-subtitle">Основной цикл работы платформы</p>
+        </div>
+        <div class="process-flow">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <h3>Договор</h3>
+                <p>Подписывается онлайн усиленной электронной подписью (УНЭП)</p>
+                <div class="image-placeholder" style="height: 150px; margin-top: 1.5rem;">
+                    <div class="placeholder-icon">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <div>Место для изображения</div>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <h3>Задание и акцепт</h3>
+                <p>Исполнитель получает и принимает задание в приложении</p>
+                <div class="image-placeholder" style="height: 150px; margin-top: 1.5rem;">
+                    <div class="placeholder-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div>Место для изображения</div>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <h3>Выплата и налоги</h3>
+                <p>Автоматический расчёт, моментальная выплата, декларация и уплата НПД/НДФЛ</p>
+                <div class="image-placeholder" style="height: 150px; margin-top: 1.5rem;">
+                    <div class="placeholder-icon">
+                        <i class="fas fa-money-check-alt"></i>
+                    </div>
+                    <div>Место для изображения</div>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <h3>Закрывающие документы</h3>
+                <p>Акт и чек формируются и хранятся автоматически</p>
+                <div class="image-placeholder" style="height: 150px; margin-top: 1.5rem;">
+                    <div class="placeholder-icon">
+                        <i class="fas fa-receipt"></i>
+                    </div>
+                    <div>Место для изображения</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контроль финансов -->
+    <section class="section" id="finance">
+        <div class="section-header">
+            <h2 class="section-title">Контроль финансов</h2>
+            <p class="section-subtitle">Номинальный счёт для полной прозрачности</p>
+        </div>
+        <div class="finance-control">
+            <div class="finance-text">
+                <div class="solution-item" style="box-shadow: none; padding: 0; margin-bottom: 2rem;">
+                    <i class="fas fa-chart-pie"></i>
+                    <div class="item-content">
+                        <h3>Ваши деньги под вашим контролем</h3>
+                        <p>Средства остаются на номинальном счёте до момента выплаты исполнителю. Вы в любой момент видите остаток и движение средств.</p>
+                    </div>
+                </div>
+                <div class="solution-item" style="box-shadow: none; padding: 0; margin-bottom: 2rem;">
+                    <i class="fas fa-list-alt"></i>
+                    <div class="item-content">
+                        <h3>Единый реестр операций</h3>
+                        <p>Все выплаты, договоры и документы в одной системе. Полная история взаимоотношений с каждым исполнителем.</p>
+                    </div>
+                </div>
+                <div class="solution-item" style="box-shadow: none; padding: 0;">
+                    <i class="fas fa-database"></i>
+                    <div class="item-content">
+                        <h3>Интеграция с 1С</h3>
+                        <p>Готовые проводки для загрузки в бухгалтерские системы. Корректное отражение операций в учёте.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="finance-visual">
+                <div class="image-placeholder">
+                    <div class="placeholder-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div>Место для схемы движения средств</div>
+                    <div style="font-size: 0.8rem; margin-top: 0.5rem;">Счёт компании → Номинальный счёт → Исполнитель + ФНС</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Интеграция -->
+    <section class="section" id="integration">
+        <div class="section-header">
+            <h2 class="section-title">Интеграция в ваши процессы</h2>
+            <p class="section-subtitle">Работайте без смены привычных инструментов</p>
+        </div>
+        <div class="integrations">
+            <div class="integration-item">
+                <div class="integration-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>API</h3>
+                <p>Для массовых операций и интеграции с вашими системами</p>
+            </div>
+            <div class="integration-item">
+                <div class="integration-icon">
+                    <i class="fas fa-calculator"></i>
+                </div>
+                <h3>1С</h3>
+                <p>Готовые решения для 1С (в т.ч. ЗУП)</p>
+            </div>
+            <div class="integration-item">
+                <div class="integration-icon">
+                    <i class="fas fa-file-import"></i>
+                </div>
+                <h3>Импорт реестров</h3>
+                <p>Исполнителей и заданий из CSV/Excel</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Результат -->
+    <section class="section" id="results">
+        <div class="section-header">
+            <h2 class="section-title">Результат</h2>
+            <p class="section-subtitle">Что вы получаете, используя Rocket Work</p>
+        </div>
+        <div class="results-grid">
+            <div class="result-card">
+                <i class="fas fa-gavel"></i>
+                <h3>Снижение рисков</h3>
+                <p>Юридических и налоговых</p>
+            </div>
+            <div class="result-card">
+                <i class="far fa-clock"></i>
+                <h3>Экономия времени</h3>
+                <p>Операционных и бухгалтерских отделов</p>
+            </div>
+            <div class="result-card">
+                <i class="fas fa-folder-open"></i>
+                <h3>Полный документооборот</h3>
+                <p>В цифровом виде с ЭП</p>
+            </div>
+            <div class="result-card">
+                <i class="fas fa-expand"></i>
+                <h3>Масштабирование</h3>
+                <p>Модели работы без роста издержек</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Масштаб и надежность -->
+    <section class="section" id="scale">
+        <div class="section-header">
+            <h2 class="section-title">Масштаб и надёжность</h2>
+            <p class="section-subtitle">Rocket Work — инфраструктура для работы с исполнителями</p>
+        </div>
+        <div class="metrics">
+            <div class="metric-item">
+                <div class="metric-value">2 000+</div>
+                <div class="metric-label">компаний</div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-value">15M+</div>
+                <div class="metric-label">исполнителей</div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-value">₽Млрд</div>
+                <div class="metric-label">ежемесячные обороты</div>
+            </div>
+            <div class="metric-item">
+                <div class="metric-value">100%</div>
+                <div class="metric-label">география РФ</div>
+            </div>
+        </div>
+        <div class="section-subtitle" style="margin-top: 2rem; margin-bottom: 2rem;">Официальный технологический партнёр <strong>ФНС России</strong></div>
+        <div class="partners">
+            <div class="partner-logo">ЛОГОТИП 1</div>
+            <div class="partner-logo">ЛОГОТИП 2</div>
+            <div class="partner-logo">ЛОГОТИП 3</div>
+            <div class="partner-logo">ЛОГОТИП 4</div>
+        </div>
+    </section>
+
+    <!-- Начало работы -->
+    <section class="section" id="onboarding">
+        <div class="section-header">
+            <h2 class="section-title">Начните работу</h2>
+            <p class="section-subtitle">Подключите систему за 3 рабочих дня</p>
+        </div>
+        <div class="onboarding-steps">
+            <div class="step">
+                <h3>1. Выберите модель оплаты</h3>
+                <p>Обсудим с вашей командой подходящий тарифный план и модель работы.</p>
+                <div class="image-placeholder" style="height: 120px; margin-top: 1.5rem;">
+                    <div class="placeholder-icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <div>Место для изображения</div>
+                </div>
+            </div>
+            <div class="step">
+                <h3>2. Подключите систему</h3>
+                <p>Поможем с загрузкой реестров, шаблонов договоров и интеграцией.</p>
+                <div class="image-placeholder" style="height: 120px; margin-top: 1.5rem;">
+                    <div class="placeholder-icon">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <div>Место для изображения</div>
+                </div>
+            </div>
+            <div class="step">
+                <h3>3. Исключите риски</h3>
+                <p>Работайте с исполнителями через платформу, контролируя все процессы.</p>
+                <div class="image-placeholder" style="height: 120px; margin-top: 1.5rem;">
+                    <div class="placeholder-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div>Место для изображения</div>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <h2 style="font-size: 2.2rem; margin-bottom: 1.5rem;">Rocket Work. Порядок и контроль.</h2>
+            <a href="mailto:onboarding@rocketwork.ru" class="cta-button" style="font-size: 1.1rem; padding: 1rem 2.5rem;">onboarding@rocketwork.ru</a>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div>
+                <div class="footer-logo">ROCKET<span>WORK</span></div>
+                <p>Полная автоматизация работы<br>с внештатными исполнителями</p>
+            </div>
+            <div class="footer-links">
+                <h3>Разделы</h3>
+                <a href="#problem">Проблема</a>
+                <a href="#solution">Решение</a>
+                <a href="#process">Как это работает</a>
+                <a href="#results">Результат</a>
+                <a href="#scale">Масштаб</a>
+                <a href="#onboarding">Начало работы</a>
+            </div>
+            <div class="contact-info">
+                <h3>Контакты</h3>
+                <a href="mailto:onboarding@rocketwork.ru">onboarding@rocketwork.ru</a>
+                <p>Техническая поддержка: 24/7</p>
+                <p>Официальный партнёр ФНС России</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2026 Rocket Work. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Плавная прокрутка для навигации
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Изменение навигации при прокрутке
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
+                navbar.style.padding = '0.8rem 5%';
+            } else {
+                navbar.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
+                navbar.style.padding = '1.2rem 5%';
+            }
+        });
+    </script>
+</body>
+</html>
