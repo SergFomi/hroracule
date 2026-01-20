@@ -41,7 +41,8 @@ pending_questions = {}
 question_queue = asyncio.Queue()
 currently_asking = False
 
-# Файл для сохранения состояния - используем /data если существует, иначе текущую директорию
+# Определяем путь для файла состояния с приоритетом /data
+# Это важно для работы с персистентным хранилищем в Docker
 if os.path.exists('/data'):
     STATE_FILE = "/data/bot_state.json"
     logging.info("📁 Используем /data для сохранения состояния")
@@ -60,6 +61,12 @@ def save_state():
             "currently_asking": currently_asking,
             "question_queue": list(question_queue._queue)
         }
+        
+        # Создаем директорию для файла состояния, если её нет
+        state_dir = os.path.dirname(STATE_FILE)
+        if state_dir and not os.path.exists(state_dir):
+            os.makedirs(state_dir, exist_ok=True)
+            logging.info(f"📁 Создана директория для состояния: {state_dir}")
         
         # Сохраняем в файл
         with open(STATE_FILE, 'w', encoding='utf-8') as f:
@@ -93,11 +100,16 @@ def load_state():
                 
                 # Загружаем сохранённые вопросы
                 saved_queue = state.get("question_queue", [])
+                loaded_count = 0
                 for q in saved_queue:
-                    question_queue.put_nowait(q)
+                    try:
+                        question_queue.put_nowait(q)
+                        loaded_count += 1
+                    except Exception as e:
+                        logging.error(f"❌ Ошибка загрузки вопроса из состояния: {e}")
                 
                 logging.info(f"📂 Состояние загружено из {STATE_FILE}")
-                logging.info(f"  - Загружено в очередь: {len(saved_queue)} вопросов")
+                logging.info(f"  - Загружено в очередь: {loaded_count}/{len(saved_queue)} вопросов")
                 logging.info(f"  - Ожидает ответа: {'Да' if ADMIN_ID in pending_questions else 'Нет'}")
                 
                 # Если есть ожидающий вопрос, но бот не спрашивает, исправляем состояние
@@ -322,7 +334,10 @@ async def main():
     # Проверяем доступность /data
     if os.path.exists('/data'):
         logging.info("✅ Директория /data доступна")
-        logging.info(f"Содержимое /data: {os.listdir('/data')}")
+        try:
+            logging.info(f"Содержимое /data: {os.listdir('/data')}")
+        except Exception as e:
+            logging.warning(f"⚠️ Не удалось прочитать содержимое /data: {e}")
     else:
         logging.info("⚠️ Директория /data недоступна, состояние будет сохранено локально")
     
