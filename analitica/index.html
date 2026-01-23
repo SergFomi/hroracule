@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рекламные каналы RocketWork</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 50px;
+            font-size: 36px;
+        }
+
+        .channel {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .channel-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #3498db;
+        }
+
+        .path {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .path-label {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .flow {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .node {
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 15px;
+            white-space: nowrap;
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        .node:hover {
+            transform: translateY(-2px);
+        }
+
+        .node-ad {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .node-site {
+            background: #9b59b6;
+            color: white;
+        }
+
+        .node-form {
+            background: #e67e22;
+            color: white;
+        }
+
+        .node-service {
+            background: #f39c12;
+            color: white;
+        }
+
+        .node-bot {
+            background: #1abc9c;
+            color: white;
+        }
+
+        .node-final {
+            background: #27ae60;
+            color: white;
+            font-weight: bold;
+            padding: 18px 30px;
+        }
+
+        .arrow {
+            font-size: 24px;
+            color: #95a5a6;
+            font-weight: bold;
+        }
+
+        .summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .summary h2 {
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .summary-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .flow {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .arrow {
+                transform: rotate(90deg);
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Карта рекламных каналов</h1>
+
+        <!-- Facebook -->
+        <div class="channel">
+            <div class="channel-title">Facebook</div>
+            
+            <div class="path">
+                <div class="path-label">Путь 1:</div>
+                <div class="flow">
+                    <div class="node node-ad">Объявление</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-site">Сайт (Тильда)</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-final">Битрикс</div>
+                </div>
+            </div>
+
+            <div class="path">
+                <div class="path-label">Путь 2:</div>
+                <div class="flow">
+                    <div class="node node-form">Форма заявки</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-service">Альбато</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-final">Битрикс</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Яндекс.Директ -->
+        <div class="channel">
+            <div class="channel-title">Яндекс.Директ</div>
+            
+            <div class="path">
+                <div class="path-label">Путь 1:</div>
+                <div class="flow">
+                    <div class="node node-ad">Объявление</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-site">Сайт (Тильда)</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-final">Битрикс</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Холодная рассылка -->
+        <div class="channel">
+            <div class="channel-title">Холодная рассылка (Email)</div>
+            
+            <div class="path">
+                <div class="path-label">Путь 1:</div>
+                <div class="flow">
+                    <div class="node node-ad">Письмо с кнопкой</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-site">Сайт (Тильда)</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-final">Битрикс</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- YouTube блогеры -->
+        <div class="channel">
+            <div class="channel-title">YouTube блогеры</div>
+            
+            <div class="path">
+                <div class="path-label">Путь 1:</div>
+                <div class="flow">
+                    <div class="node node-ad">Видео</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-site">Сайт (Тильда)</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-final">Битрикс</div>
+                </div>
+            </div>
+
+            <div class="path">
+                <div class="path-label">Путь 2:</div>
+                <div class="flow">
+                    <div class="node node-ad">Видео</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-bot">ТГ бот</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-final">Битрикс</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Google (YouTube) -->
+        <div class="channel">
+            <div class="channel-title">Google (YouTube Ads)</div>
+            
+            <div class="path">
+                <div class="path-label">Путь 1:</div>
+                <div class="flow">
+                    <div class="node node-ad">Реклама</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-site">Сайт (Тильда)</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-final">Битрикс</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ВКонтакте -->
+        <div class="channel">
+            <div class="channel-title">ВКонтакте</div>
+            
+            <div class="path">
+                <div class="path-label">Путь 1:</div>
+                <div class="flow">
+                    <div class="node node-ad">Объявление</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-site">Сайт (Тильда)</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-final">Битрикс</div>
+                </div>
+            </div>
+
+            <div class="path">
+                <div class="path-label">Путь 2:</div>
+                <div class="flow">
+                    <div class="node node-form">Форма заявки</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-service">Альбато</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-final">Битрикс</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Telegram Ads -->
+        <div class="channel">
+            <div class="channel-title">Telegram Ads</div>
+            
+            <div class="path">
+                <div class="path-label">Путь 1:</div>
+                <div class="flow">
+                    <div class="node node-ad">Реклама</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-site">Сайт (Тильда)</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-final">Битрикс</div>
+                </div>
+            </div>
+
+            <div class="path">
+                <div class="path-label">Путь 2:</div>
+                <div class="flow">
+                    <div class="node node-ad">Реклама</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-bot">ТГ бот</div>
+                    <span class="arrow">→</span>
+                    <div class="node node-final">Битрикс</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary -->
+        <div class="summary">
+            <h2>🎯 Итоговая статистика</h2>
+            <div class="summary-stats">
+                <div class="stat">
+                    <span class="stat-number">8</span>
+                    <div class="stat-label">Рекламных каналов</div>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">11</span>
+                    <div class="stat-label">Путей клиента</div>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">1</span>
+                    <div class="stat-label">Точка сбора (Битрикс)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
