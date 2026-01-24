@@ -232,6 +232,48 @@ async def finish_current_question():
 async def cmd_start(message: types.Message):
     await message.answer("🤖 Бот для трекинга запущен!\n\nВопросы будут приходить по расписанию.")
 
+@dp.message(Command("debug"))
+async def cmd_debug(message: types.Message):
+    """Показывает текущее состояние бота"""
+    if message.from_user.id != ADMIN_ID:
+        return
+    
+    status = f"""🔍 Статус бота:
+📋 В очереди: {question_queue.qsize()} вопросов
+⏳ Ждёт ответа: {'Да' if ADMIN_ID in pending_questions else 'Нет'}
+🔒 currently_asking: {currently_asking}
+📁 Файл состояния: {STATE_FILE}
+✅ Файл существует: {os.path.exists(STATE_FILE)}
+"""
+    
+    # Показываем текущий ожидающий вопрос, если есть
+    if ADMIN_ID in pending_questions:
+        current_q = pending_questions[ADMIN_ID].get("question", "")
+        status += f"\n❓ Текущий вопрос: {current_q[:50]}..."
+    
+    await message.answer(status)
+
+@dp.message(Command("reset"))
+async def cmd_reset(message: types.Message):
+    """Сбрасывает состояние бота"""
+    if message.from_user.id != ADMIN_ID:
+        return
+    
+    global currently_asking
+    pending_questions.clear()
+    currently_asking = False
+    
+    # Очищаем очередь
+    while not question_queue.empty():
+        try:
+            question_queue.get_nowait()
+        except:
+            break
+    
+    save_state()
+    await message.answer("✅ Состояние сброшено. Новые вопросы придут по расписанию.")
+    logging.info("🔄 Состояние бота сброшено через команду /reset")
+
 @dp.callback_query(F.data.startswith("answer:"))
 async def handle_button_answer(callback: types.CallbackQuery):
     """Обработка ответов через кнопки"""
