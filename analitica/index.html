@@ -104,6 +104,16 @@
             color: white;
         }
 
+        .node-email {
+            background: #34495e;
+            color: white;
+        }
+
+        .node-video {
+            background: #c0392b;
+            color: white;
+        }
+
         .node-final {
             background: #27ae60;
             color: white;
@@ -115,44 +125,6 @@
             font-size: 24px;
             color: #95a5a6;
             font-weight: bold;
-        }
-
-        .summary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 12px;
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        .summary h2 {
-            margin-bottom: 20px;
-            font-size: 28px;
-        }
-
-        .summary-stats {
-            display: flex;
-            justify-content: center;
-            gap: 50px;
-            flex-wrap: wrap;
-            margin-top: 30px;
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 48px;
-            font-weight: bold;
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 16px;
-            opacity: 0.9;
-            margin-top: 5px;
         }
 
         @media (max-width: 768px) {
@@ -193,6 +165,8 @@
             <div class="path">
                 <div class="path-label">Путь 2:</div>
                 <div class="flow">
+                    <div class="node node-ad">Объявление</div>
+                    <span class="arrow">→</span>
                     <div class="node node-form">Форма заявки</div>
                     <span class="arrow">→</span>
                     <div class="node node-service">Альбато</div>
@@ -225,7 +199,7 @@
             <div class="path">
                 <div class="path-label">Путь 1:</div>
                 <div class="flow">
-                    <div class="node node-ad">Письмо с кнопкой</div>
+                    <div class="node node-email">Письмо с кнопкой</div>
                     <span class="arrow">→</span>
                     <div class="node node-site">Сайт (Тильда)</div>
                     <span class="arrow">→</span>
@@ -234,14 +208,14 @@
             </div>
         </div>
 
-        <!-- YouTube блогеры -->
+        <!-- Блогеры -->
         <div class="channel">
-            <div class="channel-title">YouTube блогеры</div>
+            <div class="channel-title">Блогеры</div>
             
             <div class="path">
                 <div class="path-label">Путь 1:</div>
                 <div class="flow">
-                    <div class="node node-ad">Видео</div>
+                    <div class="node node-video">Видео</div>
                     <span class="arrow">→</span>
                     <div class="node node-site">Сайт (Тильда)</div>
                     <span class="arrow">→</span>
@@ -252,7 +226,7 @@
             <div class="path">
                 <div class="path-label">Путь 2:</div>
                 <div class="flow">
-                    <div class="node node-ad">Видео</div>
+                    <div class="node node-video">Видео</div>
                     <span class="arrow">→</span>
                     <div class="node node-bot">ТГ бот</div>
                     <span class="arrow">→</span>
@@ -268,7 +242,7 @@
             <div class="path">
                 <div class="path-label">Путь 1:</div>
                 <div class="flow">
-                    <div class="node node-ad">Реклама</div>
+                    <div class="node node-ad">Объявление</div>
                     <span class="arrow">→</span>
                     <div class="node node-site">Сайт (Тильда)</div>
                     <span class="arrow">→</span>
@@ -295,6 +269,8 @@
             <div class="path">
                 <div class="path-label">Путь 2:</div>
                 <div class="flow">
+                    <div class="node node-ad">Объявление</div>
+                    <span class="arrow">→</span>
                     <div class="node node-form">Форма заявки</div>
                     <span class="arrow">→</span>
                     <div class="node node-service">Альбато</div>
@@ -311,7 +287,7 @@
             <div class="path">
                 <div class="path-label">Путь 1:</div>
                 <div class="flow">
-                    <div class="node node-ad">Реклама</div>
+                    <div class="node node-ad">Объявление</div>
                     <span class="arrow">→</span>
                     <div class="node node-site">Сайт (Тильда)</div>
                     <span class="arrow">→</span>
@@ -322,7 +298,7 @@
             <div class="path">
                 <div class="path-label">Путь 2:</div>
                 <div class="flow">
-                    <div class="node node-ad">Реклама</div>
+                    <div class="node node-ad">Объявление</div>
                     <span class="arrow">→</span>
                     <div class="node node-bot">ТГ бот</div>
                     <span class="arrow">→</span>
@@ -331,24 +307,6 @@
             </div>
         </div>
 
-        <!-- Summary -->
-        <div class="summary">
-            <h2>🎯 Итоговая статистика</h2>
-            <div class="summary-stats">
-                <div class="stat">
-                    <span class="stat-number">8</span>
-                    <div class="stat-label">Рекламных каналов</div>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">11</span>
-                    <div class="stat-label">Путей клиента</div>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">1</span>
-                    <div class="stat-label">Точка сбора (Битрикс)</div>
-                </div>
-            </div>
-        </div>
     </div>
 </body>
 </html>
