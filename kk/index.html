@@ -144,6 +144,40 @@
             padding: 0 5px;
         }
 
+        /* Форма */
+        .lead-form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-tertiary);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+        }
+
         /* Кнопка */
         .cta-button {
             display: inline-flex;
@@ -168,9 +202,25 @@
             margin: 0 auto;
         }
 
-        .cta-button:hover {
+        .cta-button:hover:not(:disabled) {
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(255, 215, 0, 0.35);
+        }
+
+        .cta-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.9rem;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
         }
 
         /* Блок с выгодами */
@@ -245,10 +295,10 @@
             color: var(--text-tertiary);
             line-height: 1.5;
             font-size: 0.95rem;
-            padding-left: 36px; /* Выравнивание с иконкой */
+            padding-left: 36px;
         }
 
-        /* Разделитель - только на десктопе */
+        /* Разделитель */
         .divider {
             height: 1px;
             background: linear-gradient(90deg, 
@@ -257,31 +307,6 @@
                 transparent);
             margin: 15px 0;
             display: none;
-        }
-
-        /* Финальный CTA */
-        .final-cta {
-            text-align: center;
-            margin-top: 30px;
-            padding: 25px 20px;
-            background: rgba(255, 215, 0, 0.03);
-            border-radius: 18px;
-            border: 1px solid rgba(255, 215, 0, 0.1);
-        }
-
-        .final-cta h2 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--text-primary);
-            line-height: 1.3;
-        }
-
-        .final-cta p {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            padding: 0 5px;
         }
 
         /* Футер с подписью */
@@ -326,6 +351,11 @@
                 font-size: 0.95rem;
                 margin-bottom: 20px;
             }
+
+            .form-input {
+                padding: 14px 18px;
+                font-size: 0.95rem;
+            }
             
             .benefits-block {
                 padding: 25px 15px;
@@ -360,16 +390,6 @@
                 font-size: 1rem;
                 border-radius: 10px;
                 max-width: 100%;
-            }
-            
-            .final-cta {
-                padding: 20px 15px;
-                margin-top: 25px;
-                border-radius: 16px;
-            }
-            
-            .final-cta h2 {
-                font-size: 1.35rem;
             }
             
             .footer-signature {
@@ -425,6 +445,15 @@
             .main-subtitle {
                 font-size: 1.3rem;
                 margin-bottom: 35px;
+            }
+
+            .lead-form {
+                max-width: 450px;
+            }
+
+            .form-input {
+                padding: 18px 24px;
+                font-size: 1.05rem;
             }
             
             .benefits-block {
@@ -491,10 +520,31 @@
                 Скачайте гайд «8 шагов к резюме, которое дает результат» + отличный пример 
             </p>
             
-            <a href="https://t.me/SoulOraculbot?start" class="cta-button">
-                <i class="fab fa-telegram-plane"></i>
-                ПОЛУЧИТЬ ГАЙД В TELEGRAM
-            </a>
+            <form class="lead-form" id="leadForm">
+                <div class="form-group">
+                    <input 
+                        type="text" 
+                        class="form-input" 
+                        id="nameInput" 
+                        placeholder="Ваше имя" 
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <input 
+                        type="text" 
+                        class="form-input" 
+                        id="telegramInput" 
+                        placeholder="Ваш логин в Telegram (например: @username)" 
+                        required
+                    >
+                </div>
+                <div class="error-message" id="errorMessage">Пожалуйста, заполните все поля</div>
+                <button type="submit" class="cta-button" id="submitBtn">
+                    <i class="fas fa-download"></i>
+                    ПОЛУЧИТЬ ГАЙД БЕСПЛАТНО
+                </button>
+            </form>
         </section>
 
         <!-- Блок с выгодами -->
@@ -546,16 +596,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- Финальный CTA -->
-        <div class="final-cta">
-            <h2>Получите гайд + пример отличного резюме</h2>
-            <p>Ваш путь к свободе начинается сегодня!</p>
-            <a href="https://t.me/SoulOraculbot?start" class="cta-button">
-                <i class="fab fa-telegram-plane"></i>
-                ПОЛУЧИТЬ ГАЙД В TELEGRAM
-            </a>
-        </div>
         
         <!-- Футер с подписью -->
         <div class="footer-signature">
@@ -564,44 +604,57 @@
     </div>
 
     <script>
-        // Анимация для кнопок
-        document.querySelectorAll('.cta-button').forEach(btn => {
-            btn.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-3px)';
-                this.style.boxShadow = '0 10px 25px rgba(255, 215, 0, 0.35)';
-            });
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbysJxc_wn_Ui8UGfYu9WA-J5LlhJlQrYPlbF7BUrh8r8BSegQ7ne53qwP9uqFMNoT-5/exec';
+        
+        document.getElementById('leadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
             
-            btn.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0)';
-                this.style.boxShadow = '0 6px 20px rgba(255, 215, 0, 0.25)';
-            });
-        });
-
-        // Отслеживание кликов
-        document.querySelectorAll('a[href*="t.me"]').forEach(link => {
-            link.addEventListener('click', function() {
-                // Для Google Analytics
-                if (typeof gtag !== 'undefined') {
-                    gtag('event', 'tg_conversion', {
-                        'event_category': 'engagement',
-                        'event_label': this.textContent.trim()
-                    });
-                }
+            const nameInput = document.getElementById('nameInput');
+            const telegramInput = document.getElementById('telegramInput');
+            const submitBtn = document.getElementById('submitBtn');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            const name = nameInput.value.trim();
+            const telegram = telegramInput.value.trim();
+            
+            // Валидация
+            if (!name || !telegram) {
+                errorMessage.classList.add('show');
+                return;
+            }
+            
+            errorMessage.classList.remove('show');
+            
+            // Блокируем кнопку
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ОТПРАВКА...';
+            
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        telegram: telegram
+                    })
+                });
                 
-                // Для Яндекс.Метрики
+                // Метрика
                 if (typeof ym !== 'undefined') {
-                    ym(XXXXXX, 'reachGoal', 'tg_click');
+                    ym(106247185, 'reachGoal', 'form_submit');
                 }
                 
-                console.log('Конверсия: переход в Telegram');
-            });
-        });
-
-        // Плавный скролл для анимации фона
-        window.addEventListener('scroll', function() {
-            const scrolled = window.pageYOffset;
-            const background = document.body;
-            background.style.backgroundPosition = `0% ${scrolled * 0.5}px`;
+                // Редирект на страницу благодарности
+                window.location.href = 'thankyou.html';
+                
+            } catch (error) {
+                console.error('Ошибка отправки:', error);
+                // Все равно редиректим (из-за no-cors)
+                window.location.href = 'thankyou.html';
+            }
         });
     </script>
 </body>
