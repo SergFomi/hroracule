@@ -154,7 +154,7 @@
             margin-bottom: 15px;
         }
 
-        .form-input {
+        .form-input, .form-select {
             width: 100%;
             padding: 16px 20px;
             border-radius: 12px;
@@ -167,15 +167,33 @@
             backdrop-filter: blur(10px);
         }
 
+        .form-select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23B0B0B0' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            padding-right: 45px;
+        }
+
+        .form-select option {
+            background: #1a1a1f;
+            color: var(--text-primary);
+        }
+
         .form-input::placeholder {
             color: var(--text-tertiary);
         }
 
-        .form-input:focus {
+        .form-input:focus, .form-select:focus {
             outline: none;
             border-color: var(--gold-primary);
             background: rgba(255, 255, 255, 0.08);
             box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+        }
+
+        .form-input.error, .form-select.error {
+            border-color: #ef4444;
         }
 
         /* Кнопка */
@@ -352,7 +370,7 @@
                 margin-bottom: 20px;
             }
 
-            .form-input {
+            .form-input, .form-select {
                 padding: 14px 18px;
                 font-size: 0.95rem;
             }
@@ -451,7 +469,7 @@
                 max-width: 450px;
             }
 
-            .form-input {
+            .form-input, .form-select {
                 padding: 18px 24px;
                 font-size: 1.05rem;
             }
@@ -535,11 +553,22 @@
                         type="text" 
                         class="form-input" 
                         id="telegramInput" 
-                        placeholder="Ваш логин в Telegram (например: @username)" 
+                        placeholder="Ваш логин в Telegram (@username)" 
                         required
+                        pattern="@[a-zA-Z0-9_]{5,32}"
                     >
                 </div>
-                <div class="error-message" id="errorMessage">Пожалуйста, заполните все поля</div>
+                <div class="form-group">
+                    <select class="form-select" id="jobSearchInput" required>
+                        <option value="" disabled selected>Как давно вы ищете работу?</option>
+                        <option value="Меньше месяца">Меньше месяца</option>
+                        <option value="1-3 месяца">1-3 месяца</option>
+                        <option value="3-6 месяцев">3-6 месяцев</option>
+                        <option value="Больше 6 месяцев">Больше 6 месяцев</option>
+                        <option value="Пока не ищу">Пока не ищу</option>
+                    </select>
+                </div>
+                <div class="error-message" id="errorMessage">Пожалуйста, заполните все поля корректно</div>
                 <button type="submit" class="cta-button" id="submitBtn">
                     <i class="fas fa-download"></i>
                     ПОЛУЧИТЬ ГАЙД БЕСПЛАТНО
@@ -606,24 +635,74 @@
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbysJxc_wn_Ui8UGfYu9WA-J5LlhJlQrYPlbF7BUrh8r8BSegQ7ne53qwP9uqFMNoT-5/exec';
         
+        const telegramInput = document.getElementById('telegramInput');
+        
+        // Автоматически добавляем @ если его нет
+        telegramInput.addEventListener('input', function(e) {
+            let value = e.target.value;
+            
+            // Удаляем все кириллические символы
+            value = value.replace(/[а-яА-ЯёЁ]/g, '');
+            
+            // Если не начинается с @, добавляем
+            if (value && !value.startsWith('@')) {
+                value = '@' + value;
+            }
+            
+            // Оставляем только латиницу, цифры, подчеркивания и @
+            value = value.replace(/[^@a-zA-Z0-9_]/g, '');
+            
+            e.target.value = value;
+        });
+        
         document.getElementById('leadForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const nameInput = document.getElementById('nameInput');
             const telegramInput = document.getElementById('telegramInput');
+            const jobSearchInput = document.getElementById('jobSearchInput');
             const submitBtn = document.getElementById('submitBtn');
             const errorMessage = document.getElementById('errorMessage');
             
             const name = nameInput.value.trim();
             const telegram = telegramInput.value.trim();
+            const jobSearch = jobSearchInput.value;
+            
+            // Сброс ошибок
+            nameInput.classList.remove('error');
+            telegramInput.classList.remove('error');
+            jobSearchInput.classList.remove('error');
+            errorMessage.classList.remove('show');
             
             // Валидация
-            if (!name || !telegram) {
-                errorMessage.classList.add('show');
-                return;
+            let hasError = false;
+            
+            if (!name) {
+                nameInput.classList.add('error');
+                hasError = true;
             }
             
-            errorMessage.classList.remove('show');
+            // Проверка Telegram логина
+            const telegramRegex = /^@[a-zA-Z0-9_]{5,32}$/;
+            if (!telegram || !telegramRegex.test(telegram)) {
+                telegramInput.classList.add('error');
+                hasError = true;
+                errorMessage.textContent = 'Telegram логин должен начинаться с @ и содержать только латинские буквы, цифры и _';
+                errorMessage.classList.add('show');
+            }
+            
+            if (!jobSearch) {
+                jobSearchInput.classList.add('error');
+                hasError = true;
+            }
+            
+            if (hasError) {
+                if (!errorMessage.classList.contains('show')) {
+                    errorMessage.textContent = 'Пожалуйста, заполните все поля корректно';
+                    errorMessage.classList.add('show');
+                }
+                return;
+            }
             
             // Блокируем кнопку
             submitBtn.disabled = true;
@@ -638,7 +717,8 @@
                     },
                     body: JSON.stringify({
                         name: name,
-                        telegram: telegram
+                        telegram: telegram,
+                        jobSearch: jobSearch
                     })
                 });
                 
@@ -648,12 +728,12 @@
                 }
                 
                 // Редирект на страницу благодарности
-                window.location.href = 'index.html';
+                window.location.href = 'thankyou/index.html';
                 
             } catch (error) {
                 console.error('Ошибка отправки:', error);
                 // Все равно редиректим (из-за no-cors)
-                window.location.href = 'index.html';
+                window.location.href = 'thankyou/index.html';
             }
         });
     </script>
