@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Операционная трансформация Rocket Work — Дорожная карта 90 дней</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: #000;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 100px 0 80px;
+            text-align: center;
+            background: linear-gradient(180deg, #000 0%, #1a1a1a 100%);
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero .subtitle {
+            font-size: 24px;
+            color: #999;
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+
+        .timeline-visual {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+
+        .phase-badge {
+            background: #1a1a1a;
+            padding: 20px 30px;
+            border-radius: 12px;
+            border: 2px solid #333;
+        }
+
+        .phase-badge h3 {
+            color: #ff6b6b;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .phase-badge p {
+            color: #999;
+            font-size: 14px;
+        }
+
+        /* Two Focus Section */
+        .two-focus {
+            padding: 80px 0;
+            background: #0a0a0a;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .focus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 40px;
+        }
+
+        .focus-block {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: 16px;
+            border: 2px solid #333;
+        }
+
+        .focus-block h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .focus-block h3 {
+            font-size: 20px;
+            color: #ff6b6b;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        .focus-block h4 {
+            font-size: 18px;
+            color: #fff;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .impact-table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+
+        .impact-table th {
+            background: #0a0a0a;
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+            color: #ff6b6b;
+            border-bottom: 2px solid #333;
+        }
+
+        .impact-table td {
+            padding: 12px;
+            font-size: 14px;
+            border-bottom: 1px solid #333;
+            color: #ccc;
+        }
+
+        .highlight-box {
+            background: #0a0a0a;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .highlight-box strong {
+            color: #ff6b6b;
+        }
+
+        ul {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin: 8px 0;
+            color: #ccc;
+        }
+
+        .check-list li::marker {
+            content: "✅ ";
+        }
+
+        /* Current Situation */
+        .current-situation {
+            padding: 80px 0;
+            background: #000;
+        }
+
+        .situation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .situation-card {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid #333;
+        }
+
+        .situation-card h3 {
+            color: #ff6b6b;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .situation-card p {
+            color: #999;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Framework Section */
+        .framework {
+            padding: 80px 0;
+            background: #0a0a0a;
+        }
+
+        .framework-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .framework-card {
+            background: #1a1a1a;
+            padding: 35px;
+            border-radius: 12px;
+            border: 2px solid #333;
+            text-align: center;
+        }
+
+        .framework-icon {
+            width: 60px;
+            height: 60px;
+            background: #ff6b6b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 28px;
+        }
+
+        .framework-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .framework-card ul {
+            text-align: left;
+            list-style: none;
+            padding: 0;
+        }
+
+        .framework-card li {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 14px;
+        }
+
+        .framework-card li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #ff6b6b;
+        }
+
+        /* Roadmap Section */
+        .roadmap {
+            padding: 80px 0;
+            background: #000;
+        }
+
+        .phase-section {
+            margin-bottom: 60px;
+        }
+
+        .phase-header {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff8787 100%);
+            padding: 30px 40px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .phase-header h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .phase-header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .roadmap-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .roadmap-table th {
+            background: #0a0a0a;
+            padding: 15px;
+            text-align: left;
+            font-size: 14px;
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+
+        .roadmap-table td {
+            padding: 20px 15px;
+            border-bottom: 1px solid #333;
+            font-size: 14px;
+            color: #ccc;
+            vertical-align: top;
+        }
+
+        .roadmap-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .metric-box {
+            background: #0a0a0a;
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 30px;
+            border-left: 4px solid #ff6b6b;
+        }
+
+        .metric-box h4 {
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .metric-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .metric-box li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .metric-box li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        /* Impact Section */
+        .impact {
+            padding: 80px 0;
+            background: #0a0a0a;
+        }
+
+        .impact-table-main {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 40px;
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .impact-table-main th {
+            background: #ff6b6b;
+            padding: 18px;
+            text-align: left;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .impact-table-main td {
+            padding: 20px 18px;
+            border-bottom: 1px solid #333;
+            font-size: 15px;
+        }
+
+        .impact-table-main tr:last-child td {
+            border-bottom: none;
+        }
+
+        .before {
+            color: #ff6b6b;
+        }
+
+        .after {
+            color: #4ade80;
+            font-weight: 600;
+        }
+
+        /* Risks Section */
+        .risks {
+            padding: 80px 0;
+            background: #000;
+        }
+
+        .risks-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 40px;
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .risks-table th {
+            background: #0a0a0a;
+            padding: 18px;
+            text-align: left;
+            font-size: 15px;
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+
+        .risks-table td {
+            padding: 20px 18px;
+            border-bottom: 1px solid #333;
+            font-size: 14px;
+            color: #ccc;
+            vertical-align: top;
+        }
+
+        .risks-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .risk-level {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .high {
+            background: #ff6b6b;
+            color: #000;
+        }
+
+        .medium {
+            background: #fbbf24;
+            color: #000;
+        }
+
+        .low {
+            background: #4ade80;
+            color: #000;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 40px 0;
+            background: #000;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero .subtitle {
+                font-size: 18px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .focus-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .roadmap-table {
+                font-size: 12px;
+            }
+
+            .roadmap-table th,
+            .roadmap-table td {
+                padding: 10px;
+            }
+
+            .phase-header h2 {
+                font-size: 24px;
+            }
+        }
+
+        .source-note {
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Операционная трансформация Rocket Work</h1>
+            <p class="subtitle">От хаоса к управляемому росту за 90 дней</p>
+            <p style="font-size: 18px; color: #999; max-width: 800px; margin: 0 auto;">
+                Конкретный план внедрения операционной инфраструктуры для компании на стадии scale-up
+            </p>
+
+            <div class="timeline-visual">
+                <div class="phase-badge">
+                    <h3>Фаза 1: Дни 1-30</h3>
+                    <p>Диагностика и быстрые победы</p>
+                </div>
+                <div class="phase-badge">
+                    <h3>Фаза 2: Дни 31-60</h3>
+                    <p>Базовая инфраструктура</p>
+                </div>
+                <div class="phase-badge">
+                    <h3>Фаза 3: Дни 61-90</h3>
+                    <p>Масштабирование</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Two Focus Section -->
+    <section class="two-focus">
+        <div class="container">
+            <h2 class="section-title">Две главные цели: деньги и порядок</h2>
+            
+            <div class="focus-grid">
+                <!-- Block 1: Money -->
+                <div class="focus-block">
+                    <h2>💰 Больше денег в компании</h2>
+                    <h3>Как операционная эффективность влияет на выручку:</h3>
+                    
+                    <table class="impact-table">
+                        <thead>
+                            <tr>
+                                <th>Что делаем</th>
+                                <th>Как это приносит деньги</th>
+                                <th>Влияние</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Сокращаем время обработки клиента</td>
+                                <td>Более быстрое время получения дохода: клиент быстрее начинает платить комиссию</td>
+                                <td>+15-25% к конверсии</td>
+                            </tr>
+                            <tr>
+                                <td>Убираем потери лидов на стыках отделов</td>
+                                <td>Маркетинг → Продажи без разрывов = больше закрытых сделок</td>
+                                <td>+20-30% к закрытию</td>
+                            </tr>
+                            <tr>
+                                <td>Снижаем издержки на координацию</td>
+                                <td>Время сотрудников = деньги. 20% экономии = можно взять больше клиентов без найма</td>
+                                <td>Эквивалент 10+ сотрудников</td>
+                            </tr>
+                            <tr>
+                                <td>Ускоряем онбординг новых продуктов</td>
+                                <td>Быстрее выводим новые портфели на рынок</td>
+                                <td>Время выхода на рынок -40%</td>
+                            </tr>
+                            <tr>
+                                <td>Прозрачность по портфелям</td>
+                                <td>Видим, какие продукты приносят деньги → перераспределяем ресурсы</td>
+                                <td>+15-20% к EBITDA</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="highlight-box">
+                        <h4>Итого по деньгам:</h4>
+                        <p><strong>+20-35% к выручке через 6-9 месяцев</strong> за счёт операционной эффективности без увеличения маркетингового бюджета</p>
+                    </div>
+
+                    <p class="source-note">
+                        Источник: McKinsey (2021) — "Operations as growth engine"; Bain & Company (2020) — "The cost of chaos"
+                    </p>
+                </div>
+
+                <!-- Block 2: Processes -->
+                <div class="focus-block">
+                    <h2>🎯 Прозрачные, эффективные процессы</h2>
+                    <h3>Почему это критично для роста:</h3>
+
+                    <h4>Без прозрачности:</h4>
+                    <ul>
+                        <li>❌ Невозможно планировать (не знаем загруженность команд)</li>
+                        <li>❌ Невозможно масштабироваться (каждый новый человек создаёт хаос)</li>
+                        <li>❌ Невозможно делегировать (только владелец знает, как это работает)</li>
+                        <li>❌ Невозможно измерить эффективность (что работает, что нет)</li>
+                    </ul>
+
+                    <h4>С прозрачностью:</h4>
+                    <ul class="check-list">
+                        <li><strong>Планирование:</strong> Видим загрузку → можем планировать рост</li>
+                        <li><strong>Масштабирование:</strong> Новый человек включается за 2-3 недели, а не 1.5 месяца</li>
+                        <li><strong>Делегирование:</strong> Процессы документированы → владельцы могут расти</li>
+                        <li><strong>Управление:</strong> Метрики показывают, где улучшать</li>
+                    </ul>
+
+                    <h4>Что значит "эффективный процесс":</h4>
+                    <ul>
+                        <li><strong>Минимум ручной работы</strong> — автоматизация рутины</li>
+                        <li><strong>Минимум передач между людьми</strong> — каждая передача = риск ошибки</li>
+                        <li><strong>Максимум ясности</strong> — любой может понять, что происходит</li>
+                        <li><strong>Измеримый результат</strong> — знаем, работает или нет</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <h4>Итого по процессам:</h4>
+                        <p><strong>Прозрачность и эффективность = фундамент для 2-3x роста</strong> без пропорционального роста головной боли</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Current Situation -->
+    <section class="current-situation">
+        <div class="container">
+            <h2 class="section-title">Текущая ситуация: рост через боль</h2>
+            
+            <div class="situation-grid">
+                <div class="situation-card">
+                    <h3>Что есть сейчас</h3>
+                    <p>Информация живёт в головах людей и в Telegram</p>
+                    <p style="margin-top: 15px;">Задачи передаются устно или в мессенджерах</p>
+                    <p style="margin-top: 15px;">Каждый отдел работает в своей логике</p>
+                    <p style="margin-top: 15px;">Нет единой картины загрузки команд</p>
+                </div>
+
+                <div class="situation-card">
+                    <h3>Почему это проблема</h3>
+                    <p>Новые сотрудники теряют 2-3 недели на понимание "как тут всё работает"</p>
+                    <p style="margin-top: 15px;">Теряется контекст, дублируется работа</p>
+                    <p style="margin-top: 15px;">Конфликты на стыках (маркетинг ↔ продажи)</p>
+                    <p style="margin-top: 15px;">Перегружены одни, простаивают другие</p>
+                </div>
+
+                <div class="situation-card">
+                    <h3>К чему ведёт</h3>
+                    <p>Онбординг занимает 1.5 месяца вместо 2 недель</p>
+                    <p style="margin-top: 15px;">30-40% времени уходит на выяснение "кто что делает"</p>
+                    <p style="margin-top: 15px;">Потеря лидов, недовольство клиентов, потеря денег</p>
+                    <p style="margin-top: 15px;">Выгорание + низкая эффективность</p>
+                </div>
+            </div>
+
+            <p class="source-note" style="margin-top: 30px; text-align: center;">
+                Источник метрик: Harvard Business Review (2019), McKinsey (2020)
+            </p>
+        </div>
+    </section>
+
+    <!-- Framework -->
+    <section class="framework">
+        <div class="container">
+            <h2 class="section-title">Операционная модель: 4 столпа управляемого роста</h2>
+            
+            <div class="framework-grid">
+                <div class="framework-card">
+                    <div class="framework-icon">👁️</div>
+                    <h3>Прозрачность</h3>
+                    <ul>
+                        <li>Все задачи и их статусы видны всем стейкхолдерам</li>
+                        <li>Единая система учёта (Битрикс)</li>
+                        <li>Операционные дашборды</li>
+                    </ul>
+                </div>
+
+                <div class="framework-card">
+                    <div class="framework-icon">👤</div>
+                    <h3>Владение</h3>
+                    <ul>
+                        <li>У каждого процесса есть ответственный</li>
+                        <li>Чёткие границы зон ответственности</li>
+                        <li>RACI-матрицы</li>
+                    </ul>
+                </div>
+
+                <div class="framework-card">
+                    <div class="framework-icon">📊</div>
+                    <h3>Предсказуемость</h3>
+                    <ul>
+                        <li>Стандартизированные процессы</li>
+                        <li>План-факт анализ</li>
+                        <li>Регулярный менеджмент (еженедельные синхронизации)</li>
+                    </ul>
+                </div>
+
+                <div class="framework-card">
+                    <div class="framework-icon">📈</div>
+                    <h3>Масштабируемость</h3>
+                    <ul>
+                        <li>Процессы документированы</li>
+                        <li>Новый сотрудник включается за 1-2 дня</li>
+                        <li>Стандартные операционные процедуры (СОП)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <p class="source-note" style="margin-top: 30px; text-align: center;">
+                Источник: Operations Management Theory (Slack, Brandon-Jones, Johnston)
+            </p>
+        </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section class="roadmap">
+        <div class="container">
+            <h2 class="section-title">90-дневный план трансформации</h2>
+
+            <!-- Phase 1 -->
+            <div class="phase-section">
+                <div class="phase-header">
+                    <h2>ФАЗА 1: ДИАГНОСТИКА И БЫСТРЫЕ ПОБЕДЫ (Дни 1-30)</h2>
+                    <p>Цель фазы: Понять реальную картину + дать быстрые результаты</p>
+                </div>
+
+                <table class="roadmap-table">
+                    <thead>
+                        <tr>
+                            <th>Неделя</th>
+                            <th>Действие</th>
+                            <th>Зачем</th>
+                            <th>Результат</th>
+                            <th>Дедлайн</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1-2</td>
+                            <td><strong>Операционный аудит</strong><br>
+                            • Интервью с руководителями (6-8 человек, 1-1.5 часа)<br>
+                            • Интервью с ключевыми исполнителями (8-10 человек)<br>
+                            • Анализ текущих инструментов</td>
+                            <td>Выявить 3-5 критических узких мест и понять причины сопротивления</td>
+                            <td>Карта проблемных зон<br>Список быстрых побед<br>Анализ разрывов</td>
+                            <td>18 февраля</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><strong>Документация текущего состояния</strong><br>
+                            • Картирование ключевых процессов (3-5 процессов)<br>
+                            • Создание списка "проблемных стыков"<br>
+                            • Изучение продуктов компании<br>
+                            • RACI-матрица по продуктам</td>
+                            <td>Визуализировать, где теряется информация и где отделы работают вслепую</td>
+                            <td>Процессные карты<br>Матрица конфликтных зон<br>RACI по продуктам</td>
+                            <td>25 февраля</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td><strong>Быстрые победы (2-3 действия)</strong><br>
+                            • Внедрение ежедневных стендапов в 1-2 отделах<br>
+                            • Создание общей базы часто задаваемых вопросов по топ-10 вопросам<br>
+                            • Настройка Битрикс (пилот в одном отделе)</td>
+                            <td>Дать быстрый результат для доверия и разгрузить руководителей</td>
+                            <td>Снижение потерь времени на 20-30%<br>-50% повторяющихся вопросов<br>Пилот Битрикс запущен</td>
+                            <td>6 марта</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="metric-box">
+                    <h4>Метрика успеха фазы 1:</h4>
+                    <ul>
+                        <li>Топ-5 узких мест документированы и приоритизированы</li>
+                        <li>2-3 быстрые победы внедрены, есть измеримый результат</li>
+                        <li>Команда видит, что изменения = результаты (построение доверия)</li>
+                    </ul>
+                    <p class="source-note">Источник: Gemba Walk — Lean Management (Toyota), Kotter's 8-Step Change Model</p>
+                </div>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="phase-section">
+                <div class="phase-header">
+                    <h2>ФАЗА 2: БАЗОВАЯ ИНФРАСТРУКТУРА (Дни 31-60)</h2>
+                    <p>Цель фазы: Внедрить минимальную операционную систему</p>
+                </div>
+
+                <table class="roadmap-table">
+                    <thead>
+                        <tr>
+                            <th>Неделя</th>
+                            <th>Действие</th>
+                            <th>Зачем</th>
+                            <th>Результат</th>
+                            <th>Дедлайн</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>5-6</td>
+                            <td><strong>Масштабирование Битрикс</strong><br>
+                            • Презентация результатов пилота<br>
+                            • Обучение оставшихся команд (по 2 сессии)<br>
+                            • Назначение владельцев досок в каждом отделе<br>
+                            • Еженедельный контроль использования</td>
+                            <td>Показать работающий пример и снять барьер "непонятно, как пользоваться"</td>
+                            <td>Презентация проведена<br>Все отделы обучены<br>Владельцы во всех отделах<br>Вовлеченность 90%+</td>
+                            <td>16 марта</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td><strong>Регулярный менеджмент</strong><br>
+                            • Внедрение еженедельных синхронизаций между отделами (30-45 минут)<br>
+                            • Формат: план на неделю, блокеры, план-факт<br>
+                            • Назначение фасилитатора встреч</td>
+                            <td>Убрать информационные разрывы и разгрузить топов</td>
+                            <td>Синхронизации каждую неделю<br>Шаблон повестки<br>Фасилитатор назначен</td>
+                            <td>30 марта</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td><strong>Система план-факт и метрики</strong><br>
+                            • Внедрение еженедельного план-факт обзора<br>
+                            • Определение 3-5 ключевых операционных метрик<br>
+                            • Создание KPI дашборда</td>
+                            <td>Видеть отклонения и измерять прогресс</td>
+                            <td>Еженедельные отчеты<br>Дашборд создан</td>
+                            <td>2 апреля</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="metric-box">
+                    <h4>Метрика успеха фазы 2:</h4>
+                    <ul>
+                        <li>Битрикс работает во всех отделах с вовлеченностью 80%+</li>
+                        <li>Еженедельные синхронизации проходят регулярно (не срываются)</li>
+                        <li>Руководители отделов видят снижение "пожаров" на 30-40%</li>
+                        <li>Операционные метрики видны и трекаются еженедельно</li>
+                    </ul>
+                    <p class="source-note">Источник: RACI matrix — PMI, Operations Management (Heizer, Render), Prosci ADKAR</p>
+                </div>
+            </div>
+
+            <!-- Phase 3 -->
+            <div class="phase-section">
+                <div class="phase-header">
+                    <h2>ФАЗА 3: МАСШТАБИРОВАНИЕ И ЗАКРЕПЛЕНИЕ (Дни 61-90)</h2>
+                    <p>Цель фазы: Распространить систему на всю компанию + документировать</p>
+                </div>
+
+                <table class="roadmap-table">
+                    <thead>
+                        <tr>
+                            <th>Неделя</th>
+                            <th>Действие</th>
+                            <th>Зачем</th>
+                            <th>Результат</th>
+                            <th>Дедлайн</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>9-10</td>
+                            <td><strong>Документация процессов (СОП)</strong><br>
+                            • Создание стандартных операционных процедур для топ-3 критических процессов<br>
+                            • Формат: цель, шаги, ответственные, чек-листы<br>
+                            • Обучение команды использованию СОП</td>
+                            <td>Новый сотрудник может включиться без вопросов</td>
+                            <td>3 СОП документа<br>Готовые шаблоны<br>Команда обучена</td>
+                            <td>14 апреля</td>
+                        </tr>
+                        <tr>
+                            <td>11</td>
+                            <td><strong>Оптимизация онбординга</strong><br>
+                            • Анализ текущего процесса онбординга<br>
+                            • Создание программы онбординга с использованием СОП<br>
+                            • Тестирование с новым сотрудником</td>
+                            <td>Сократить время до продуктивности нового сотрудника</td>
+                            <td>Программа онбординга<br>Проведено тестирование</td>
+                            <td>22 апреля</td>
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td><strong>Автоматизация рутины</strong><br>
+                            • Выявление рутинных задач для автоматизации<br>
+                            • Настройка автоматических уведомлений и напоминаний в Битрикс<br>
+                            • Создание шаблонов для часто повторяющихся процессов</td>
+                            <td>Освободить время сотрудников для более важных задач</td>
+                            <td>Список автоматизированных процессов<br>Настроенные уведомления<br>Библиотека шаблонов</td>
+                            <td>30 апреля</td>
+                        </tr>
+                        <tr>
+                            <td>13</td>
+                            <td><strong>Ретроспектива и планирование следующего квартала</strong><br>
+                            • Ретроспектива с командой: что сработало, что нет<br>
+                            • План на Q2: приоритеты для углубления</td>
+                            <td>Непрерывное улучшение и показать долгосрочное видение</td>
+                            <td>Извлеченные уроки<br>Дорожная карта на Q2</td>
+                            <td>5 мая</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="metric-box">
+                    <h4>Метрика успеха фазы 3:</h4>
+                    <ul>
+                        <li>Битрикс вовлеченность во всей компании 80%+</li>
+                        <li>3+ процесса документированы как стандартные операционные процедуры</li>
+                        <li>Время онбординга новых сотрудников сократился с 1.5 месяцев до 2-3 недель</li>
+                        <li>Автоматизация освободила 15-20% времени сотрудников</li>
+                    </ul>
+                    <p class="source-note">Источник: ISO 9001 Quality Management, Agile/Scrum retrospectives</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact -->
+    <section class="impact">
+        <div class="container">
+            <h2 class="section-title">Что изменится через 90 дней</h2>
+
+            <table class="impact-table-main">
+                <thead>
+                    <tr>
+                        <th>Метрика</th>
+                        <th>Сейчас</th>
+                        <th>Через 90 дней</th>
+                        <th>Методология измерения</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Время онбординга</strong></td>
+                        <td class="before">1.5 месяца</td>
+                        <td class="after">2-3 недели</td>
+                        <td>Отслеживание времени до продуктивности</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Время на координацию</strong></td>
+                        <td class="before">30-40% рабочего времени</td>
+                        <td class="after">15-20%</td>
+                        <td>Аудит времени (выборочное исследование)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Процент выполнения задач</strong></td>
+                        <td class="before">~60% (много забывается/теряется)</td>
+                        <td class="after">85%+</td>
+                        <td>Аналитика Битрикс</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Время межотделовых передач</strong></td>
+                        <td class="before">3-5 дней</td>
+                        <td class="after">1-2 дня</td>
+                        <td>Измерение времени цикла процесса</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Конверсия лидов</strong></td>
+                        <td class="before">Базовый уровень</td>
+                        <td class="after">+20-30%</td>
+                        <td>Аналитика CRM</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Количество "пожаров"/неделю</strong></td>
+                        <td class="before">5-7</td>
+                        <td class="after">1-2</td>
+                        <td>Отслеживание инцидентов</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Вовлеченность в Битрикс</strong></td>
+                        <td class="before">&lt;20%</td>
+                        <td class="after">80%+</td>
+                        <td>Аналитика использования</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Потенциальное влияние на выручку</strong></td>
+                        <td class="before">Базовый уровень</td>
+                        <td class="after">+20-35% через 6-9 месяцев</td>
+                        <td>Модель операционной эффективности McKinsey</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p class="source-note" style="margin-top: 30px; text-align: center;">
+                Источник метрик: Benchmarks основаны на исследованиях McKinsey (2020), Harvard Business Review (2019)
+            </p>
+        </div>
+    </section>
+
+    <!-- Risks -->
+    <section class="risks">
+        <div class="container">
+            <h2 class="section-title">Что может пойти не так и как это предотвратить</h2>
+
+            <table class="risks-table">
+                <thead>
+                    <tr>
+                        <th>Риск</th>
+                        <th>Вероятность</th>
+                        <th>Как снизить</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Сопротивление изменениям от опытных сотрудников</td>
+                        <td><span class="risk-level high">Высокая</span></td>
+                        <td>
+                            • Поддержка от руководства до старта<br>
+                            • Вовлечение скептиков в пилот<br>
+                            • Быстрые победы для демонстрации ценности
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Откат к старым привычкам после 2-3 недель</td>
+                        <td><span class="risk-level medium">Средняя</span></td>
+                        <td>
+                            • Еженедельный контроль использования<br>
+                            • Публичное признание команд, которые следуют новым правилам<br>
+                            • KPI для владельцев досок
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Перегрузка команды новыми требованиями</td>
+                        <td><span class="risk-level medium">Средняя</span></td>
+                        <td>
+                            • Постепенное внедрение (не всё сразу)<br>
+                            • Автоматизация рутины (чек-листы, шаблоны)<br>
+                            • Делегирование: не один человек тащит всё
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Битрикс оказывается неудобным для специфики финтеха</td>
+                        <td><span class="risk-level low">Низкая</span></td>
+                        <td>
+                            • Гибкость в адаптации: если не работает, ищем альтернативу<br>
+                            • Фокус на принципах (прозрачность, владение), а не на инструменте
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <section class="footer">
+        <div class="container">
+            <p>Фомичев Сергей для Rocket Work, 2026</p>
+        </div>
+    </section>
+</body>
+</html>
