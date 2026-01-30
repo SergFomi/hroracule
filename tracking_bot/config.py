@@ -14,7 +14,7 @@ TIMEZONE = "Asia/Ho_Chi_Minh"
 # Расписание вопросов
 SCHEDULE = [
     {"time": "08:30", "question": "Какой уровень энергии?", "type": "scale", "range": (1, 10)},
-    {"time": "10:30", "question": "Встал в 8:00?", "type": "yes_no"},
+    {"time": "10:30", "question": "Встал в 9:00?", "type": "yes_no"},
     {"time": "10:30", "question": "Зубы утром?", "type": "yes_no"},
     {"time": "08:30", "question": "План на день?", "type": "text"},
     {"time": "08:30", "question": "Во сколько вчера лег?", "type": "choice", "options": ["23-00", "после 00"]},
