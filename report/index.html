@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Операционный аудит Rocketwork</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #2C2C2C;
+            background: #FFFFFF;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 20px;
+            position: relative;
+            background: linear-gradient(135deg, rgba(212,175,55,0.03) 0%, rgba(255,255,255,1) 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(0deg, rgba(212,175,55,0.08) 0px, transparent 1px, transparent 60px),
+                repeating-linear-gradient(90deg, rgba(212,175,55,0.08) 0px, transparent 1px, transparent 60px);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            color: #D4AF37;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            color: #6B6B6B;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .hero-author {
+            font-size: 1rem;
+            color: #D4AF37;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .hero-date {
+            font-size: 0.95rem;
+            color: #6B6B6B;
+            margin-bottom: 50px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 45px;
+            background: #D4AF37;
+            color: #FFFFFF;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212,175,55,0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(212,175,55,0.4);
+        }
+
+        .section {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(1.3rem, 3vw, 2rem);
+            color: #D4AF37;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: #6B6B6B;
+            margin-bottom: 50px;
+            font-weight: 400;
+        }
+
+        .columns {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .card {
+            background: #FFFFFF;
+            border: 2px solid #D4AF37;
+            border-radius: 12px;
+            padding: 35px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(212,175,55,0.2);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            color: #2C2C2C;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card li {
+            padding-left: 25px;
+            margin-bottom: 12px;
+            position: relative;
+            color: #2C2C2C;
+            line-height: 1.6;
+        }
+
+        .card li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #D4AF37;
+            font-weight: bold;
+        }
+
+        .conclusion {
+            background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(245,245,220,0.3) 100%);
+            border: 2px solid #D4AF37;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #2C2C2C;
+            line-height: 1.8;
+        }
+
+        .problem-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .problem-card {
+            background: #FFFFFF;
+            border-left: 5px solid #D4AF37;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .problem-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 4px 20px rgba(212,175,55,0.15);
+        }
+
+        .problem-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            color: #D4AF37;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .problem-card p {
+            color: #2C2C2C;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        .timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin: 50px 0;
+            position: relative;
+        }
+
+        .timeline-item {
+            background: #FFFFFF;
+            border: 2px solid #D4AF37;
+            border-radius: 12px;
+            padding: 35px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(212,175,55,0.2);
+        }
+
+        .timeline-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .timeline-item h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            color: #D4AF37;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .timeline-item ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .timeline-item li {
+            padding-left: 25px;
+            margin-bottom: 12px;
+            position: relative;
+            color: #2C2C2C;
+            line-height: 1.6;
+        }
+
+        .timeline-item li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #D4AF37;
+            font-weight: bold;
+        }
+
+        .audit-intro {
+            background: linear-gradient(135deg, rgba(245,245,220,0.4) 0%, rgba(255,255,255,1) 100%);
+            border: 2px solid #D4AF37;
+            border-radius: 12px;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .audit-intro h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.4rem;
+            color: #D4AF37;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .audit-intro p {
+            font-size: 1.15rem;
+            color: #2C2C2C;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .requirements {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .requirement-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            background: #FFFFFF;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .requirement-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(212,175,55,0.15);
+        }
+
+        .requirement-icon {
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+
+        .requirement-content h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            color: #D4AF37;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .requirement-content p {
+            color: #2C2C2C;
+            line-height: 1.7;
+        }
+
+        .final-cta {
+            background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(212,175,55,0.15) 100%);
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: #D4AF37;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .final-cta p {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: #6B6B6B;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .signature {
+            margin-top: 50px;
+            color: #6B6B6B;
+            font-size: 1rem;
+        }
+
+        .signature strong {
+            display: block;
+            color: #D4AF37;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+            margin: 60px auto;
+            max-width: 600px;
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 60px 20px;
+            }
+
+            .columns {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline {
+                grid-template-columns: 1fr;
+            }
+
+            .requirements {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .section:nth-child(odd) {
+            animation-delay: 0.1s;
+        }
+
+        .section:nth-child(even) {
+            animation-delay: 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Операционный аудит Rocketwork</h1>
+            <p class="hero-subtitle">Что было сделано за 2 недели и план на следующий месяц</p>
+            <p class="hero-author">Сергей Фомичев, Ресеч менеджер</p>
+            <p class="hero-date">Февраль 2026</p>
+            <a href="#section-1" class="cta-button">Прокрутить вниз ↓</a>
+        </div>
+    </section>
+
+    <!-- Section 1: Что было сделано -->
+    <section class="section" id="section-1">
+        <h2 class="section-header">01 / Погружение в процессы</h2>
+        <p class="section-subtitle">За две недели я изучил ключевые направления работы компании</p>
+        
+        <div class="columns">
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h3>Маркетинг и лидген</h3>
+                <ul>
+                    <li>Изучил рекламу YouTube-блогеров</li>
+                    <li>Исследовал инструменты email-рассылок</li>
+                    <li>Отфильтровал базу лидов для таргета</li>
+                    <li>Настроил аналитику по всем рекламным каналам</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🔍</div>
+                <h3>Квалификация и аналитика</h3>
+                <ul>
+                    <li>Квалифицировал иностранные лиды</li>
+                    <li>Разобрался в работе DataLens</li>
+                    <li>Настроил дашборды для отслеживания</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">💼</div>
+                <h3>Поддержка продаж</h3>
+                <ul>
+                    <li>Создал черновые презентации для клиентов</li>
+                    <li>Изучил процесс коммуникации с лидами</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Section 2: Что я увидел -->
+    <section class="section">
+        <h2 class="section-header" style="text-align: right;">02 / Выявленные проблемы</h2>
+        <p class="section-subtitle">Пока погружался в процессы, обнаружил 5 критических точек роста</p>
+
+        <div class="problem-cards">
+            <div class="problem-card">
+                <h3>⚠️ Непрозрачность продаж</h3>
+                <p>Продажи происходят в "чёрном ящике". Менеджер созванивается с клиентом — результат неясен. РОП настраивает Bitrix, но сроки размыты.</p>
+            </div>
+
+            <div class="problem-card">
+                <h3>⚠️ Разрыв между маркетингом и продажами</h3>
+                <p>Постоянное непонимание между отделами. Маркетинг генерирует лиды, но непонятно качество работы с лидами, скорость и того, как проходят продажи, отсюда конфликты.</p>
+            </div>
+
+            <div class="problem-card">
+                <h3>⚠️ Отсутствие управленческой отчётности</h3>
+                <p>Нет понимания: какой продукт сколько зарабатывает. Отсутствует финансовая прозрачность по направлениям.</p>
+            </div>
+
+            <div class="problem-card">
+                <h3>⚠️ Bitrix не используется полноценно</h3>
+                <p>Инструмент есть, но требуется хорошее обучение, погружение и настойчивость, чтобы команда реально начала его использовать. Процессы не выстроены.</p>
+            </div>
+
+            <div class="problem-card">
+                <h3>⚠️ Отсутствие системы взаимодействия</h3>
+                <p>Каждый отдел будто в эхо камере, взаимодействие разбросано по чатам, люди иногда игнорируют запросы.</p>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            Эти проблемы решаемы. Но сначала нужно понять полную картину.
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Section 3: Операционный аудит -->
+    <section class="section">
+        <h2 class="section-header" style="text-align: center;">Я ПРЕДЛАГАЮ ПРОВЕСТИ ОПЕРАЦИОННЫЙ АУДИТ КОМПАНИИ</h2>
+        <p class="section-subtitle" style="text-align: center;"></p>
+
+        <div class="audit-intro">
+            <h4>Что это значит:</h4>
+            <p>Чтобы исправить проблемы, мне нужно сначала понять <strong>КАК ВСЁ РАБОТАЕТ СЕЙЧАС</strong></p>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-icon">🗺️</div>
+                <h3>Этап 1: Картирование процессов<br>(Неделя 1-2)</h3>
+                <ul>
+                    <li>Опросить каждого key person в компании</li>
+                    <li>Зафиксировать функционал, задачи, результаты</li>
+                    <li>Понять как информация движется между отделами</li>
+                    <li>Создать визуальную карту процессов</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-icon">📈</div>
+                <h3>Этап 2: Измерение эффективности<br>(Неделя 3)</h3>
+                <ul>
+                    <li>Посчитать результат деятельности каждого отдела</li>
+                    <li>Найти узкие места (где теряем время/деньги)</li>
+                    <li>Определить что работает, что нет</li>
+                    <li>Собрать количественные данные</li>
+                </ul>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-icon">⚡</div>
+                <h3>Этап 3: Оптимизация<br>(Неделя 4)</h3>
+                <ul>
+                    <li>Карта "Как есть" vs "Как должно быть"</li>
+                    <li>План трансформации процессов</li>
+                    <li>Roadmap на 90 дней</li>
+                    <li>Презентация результатов</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Section 4: Результат аудита -->
+    <section class="section">
+        <h2 class="section-header">04 / Что вы получите через месяц</h2>
+
+        <div class="columns">
+            <div class="card">
+                <div class="card-icon">📋</div>
+                <h3>Документация процессов</h3>
+                <p>Полная карта того, кто что делает, как взаимодействуют отделы, где находятся узкие места</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h3>Метрики эффективности</h3>
+                <p>Количественная оценка работы каждого отдела с выявлением точек роста</p>
+            </div>
+        </div>
+
+        <div class="conclusion">
+            Через месяц у вас будет полная картина операционной эффективности и план как её улучшить
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Section 5: Что мне нужно -->
+    <section class="section">
+        <h2 class="section-header">05 / Условия для работы</h2>
+
+        <div class="requirements">
+            <div class="requirement-item">
+                <div class="requirement-icon">🔓</div>
+                <div class="requirement-content">
+                    <h4>1. Доступ</h4>
+                    <p>Возможность созваниваться с любым сотрудником и задавать вопросы об их работе</p>
+                </div>
+            </div>
+
+            <div class="requirement-item">
+                <div class="requirement-icon">✅</div>
+                <div class="requirement-content">
+                    <h4>2. Мандат</h4>
+                    <p>Официальное объявление что я провожу операционный аудит (чтобы люди не воспринимали это как угрозу)</p>
+                </div>
+            </div>
+
+            <div class="requirement-item">
+                <div class="requirement-icon">⏰</div>
+                <div class="requirement-content">
+                    <h4>3. Время</h4>
+                    <p>Один месяц на аудит. Параллельно продолжу текущие задачи, но приоритет — аудит</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <h2>Готов начать</h2>
+        <p>Дайте мандат — и через месяц у вас будет план трансформации Rocketwork</p>
+        <a href="#contact" class="cta-button">Обсудить детали</a>
+        
+        <div class="signature">
+            <strong>Сергей Фомичев</strong>
+            Ресеч менеджер<br>
+            Февраль 2026
+        </div>
+    </section>
+
+</body>
+</html>
