@@ -550,11 +550,19 @@
                 </div>
                 <div class="form-group">
                     <input 
+                        type="tel" 
+                        class="form-input" 
+                        id="phoneInput" 
+                        placeholder="Телефон (+7 или 8)" 
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <input 
                         type="text" 
                         class="form-input" 
                         id="telegramInput" 
-                        placeholder="Ваш логин в Telegram (@username)" 
-                        required
+                        placeholder="Telegram (@username)" 
                         pattern="@[a-zA-Z0-9_]{5,32}"
                     >
                 </div>
@@ -635,21 +643,55 @@
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZGVtO0w-BAoXlygNrwjXnvQnyYZvFumNhOMCSVR-RehidsOSVTecZN3XFNuqam-Im/exec';
         
+        const phoneInput = document.getElementById('phoneInput');
         const telegramInput = document.getElementById('telegramInput');
         
-        // Автоматически добавляем @ если его нет
+        // Форматирование телефона
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            
+            if (value.startsWith('8')) {
+                value = '7' + value.slice(1);
+            }
+            
+            if (value.length > 0 && !value.startsWith('7')) {
+                value = '7' + value;
+            }
+            
+            if (value.length > 11) {
+                value = value.slice(0, 11);
+            }
+            
+            let formatted = '+7';
+            if (value.length > 1) {
+                formatted += ' (' + value.slice(1, 4);
+            }
+            if (value.length >= 5) {
+                formatted += ') ' + value.slice(4, 7);
+            }
+            if (value.length >= 8) {
+                formatted += '-' + value.slice(7, 9);
+            }
+            if (value.length >= 10) {
+                formatted += '-' + value.slice(9, 11);
+            }
+            
+            e.target.value = formatted;
+        });
+        
+        // Автоматически добавляем @ в Telegram
         telegramInput.addEventListener('input', function(e) {
             let value = e.target.value;
             
-            // Удаляем все кириллические символы
+            // Удаляем кириллицу
             value = value.replace(/[а-яА-ЯёЁ]/g, '');
             
-            // Если не начинается с @, добавляем
+            // Добавляем @ если нет
             if (value && !value.startsWith('@')) {
                 value = '@' + value;
             }
             
-            // Оставляем только латиницу, цифры, подчеркивания и @
+            // Только латиница, цифры, подчеркивания и @
             value = value.replace(/[^@a-zA-Z0-9_]/g, '');
             
             e.target.value = value;
@@ -659,17 +701,20 @@
             e.preventDefault();
             
             const nameInput = document.getElementById('nameInput');
+            const phoneInput = document.getElementById('phoneInput');
             const telegramInput = document.getElementById('telegramInput');
             const jobSearchInput = document.getElementById('jobSearchInput');
             const submitBtn = document.getElementById('submitBtn');
             const errorMessage = document.getElementById('errorMessage');
             
             const name = nameInput.value.trim();
+            const phone = phoneInput.value.replace(/\D/g, '');
             const telegram = telegramInput.value.trim();
             const jobSearch = jobSearchInput.value;
             
             // Сброс ошибок
             nameInput.classList.remove('error');
+            phoneInput.classList.remove('error');
             telegramInput.classList.remove('error');
             jobSearchInput.classList.remove('error');
             errorMessage.classList.remove('show');
@@ -682,13 +727,23 @@
                 hasError = true;
             }
             
-            // Проверка Telegram логина
-            const telegramRegex = /^@[a-zA-Z0-9_]{5,32}$/;
-            if (!telegram || !telegramRegex.test(telegram)) {
-                telegramInput.classList.add('error');
+            // Проверка телефона (должно быть 11 цифр)
+            if (!phone || phone.length !== 11) {
+                phoneInput.classList.add('error');
                 hasError = true;
-                errorMessage.textContent = 'Telegram логин должен начинаться с @ и содержать только латинские буквы, цифры и _';
+                errorMessage.textContent = 'Укажите корректный номер телефона';
                 errorMessage.classList.add('show');
+            }
+            
+            // Telegram не обязательный, но если указан - проверяем
+            if (telegram) {
+                const telegramRegex = /^@[a-zA-Z0-9_]{5,32}$/;
+                if (!telegramRegex.test(telegram)) {
+                    telegramInput.classList.add('error');
+                    hasError = true;
+                    errorMessage.textContent = 'Telegram логин должен начинаться с @ и содержать латинские буквы';
+                    errorMessage.classList.add('show');
+                }
             }
             
             if (!jobSearch) {
@@ -717,22 +772,22 @@
                     },
                     body: JSON.stringify({
                         name: name,
-                        telegram: telegram,
+                        phone: '+' + phone,
+                        telegram: telegram || 'Не указан',
                         jobSearch: jobSearch
                     })
                 });
                 
                 // Метрика
                 if (typeof ym !== 'undefined') {
-                    ym(106247185, 'reachGoal', 'form_submit');
+                    ym(106450881, 'reachGoal', 'form_submit');
                 }
                 
-                // Редирект на страницу благодарности
+                // Редирект
                 window.location.href = 'thankyou/index.html';
                 
             } catch (error) {
                 console.error('Ошибка отправки:', error);
-                // Все равно редиректим (из-за no-cors)
                 window.location.href = 'thankyou/index.html';
             }
         });
