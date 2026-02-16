@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Удалённая работа 150K+ | Системный подход</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Cinzel:wght@400;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --white-gold: #F5F5DC;
+            --cream: #FFFEF0;
+            --marble: #F8F8F8;
+            --dark: #1A1A1A;
+            --neon-emerald: #10B981;
+            --neon-pink: #FF10F0;
+            --neon-gold: #FFD700;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Crimson Text', serif;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--white-gold) 100%);
+            color: var(--dark);
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Мраморная текстура фона */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 16, 240, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Анимированные неоновые частицы */
+        .neon-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: float 20s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            25% { transform: translate(100px, -100px) scale(1.2); opacity: 0.6; }
+            50% { transform: translate(-50px, -200px) scale(0.8); opacity: 0.4; }
+            75% { transform: translate(-100px, -100px) scale(1.1); opacity: 0.5; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Навигация */
+        nav {
+            padding: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--neon-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+
+        .cta-button {
+            padding: 16px 40px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--neon-gold) 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3),
+                        0 0 40px rgba(16, 185, 129, 0.2);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.5),
+                        0 0 60px rgba(16, 185, 129, 0.3),
+                        0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Hero секция */
+        .hero {
+            padding: 120px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.5; }
+            50% { transform: translateX(-50%) scale(1.2); opacity: 0.8; }
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 72px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--gold) 50%, var(--neon-emerald) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            color: var(--dark);
+            opacity: 0.8;
+            margin-bottom: 50px;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        /* Секции */
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 48px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--neon-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 20px;
+            opacity: 0.7;
+            margin-bottom: 60px;
+        }
+
+        /* Карточки проблем */
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+
+        .problem-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .problem-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-emerald), var(--neon-pink), var(--neon-gold));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .problem-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .problem-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(212, 175, 55, 0.2),
+                        0 0 40px rgba(16, 185, 129, 0.1);
+        }
+
+        .problem-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+        }
+
+        .problem-title {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .problem-text {
+            font-size: 18px;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+
+        /* Формула */
+        .formula {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 30px;
+            padding: 60px;
+            margin: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .formula::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--neon-emerald), var(--neon-pink), var(--neon-gold), var(--neon-emerald));
+            background-size: 300% 300%;
+            border-radius: 30px;
+            z-index: -1;
+            opacity: 0;
+            animation: gradientBorder 6s ease infinite;
+            transition: opacity 0.4s;
+        }
+
+        .formula:hover::before {
+            opacity: 0.3;
+        }
+
+        @keyframes gradientBorder {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .formula-text {
+            font-family: 'Cinzel', serif;
+            font-size: 36px;
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
+
+        .formula-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .formula-step {
+            text-align: center;
+        }
+
+        .step-number {
+            font-family: 'Cinzel', serif;
+            font-size: 72px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--neon-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .step-title {
+            font-family: 'Cinzel', serif;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .step-text {
+            font-size: 18px;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+
+        /* Кейсы */
+        .cases-grid {
+            display: grid;
+            gap: 40px;
+            margin: 60px 0;
+        }
+
+        .case-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 50px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .case-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%);
+            border: 3px solid rgba(212, 175, 55, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .case-photo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23D4AF37" stroke-width="1.5"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM12 14c-4.42 0-8 1.79-8 4v2h16v-2c0-2.21-3.58-4-8-4z"/></svg>') center/60px no-repeat;
+            opacity: 0.3;
+        }
+
+        .case-content {
+            display: grid;
+            gap: 20px;
+        }
+
+        .case-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(40px);
+            transition: all 0.5s ease;
+        }
+
+        .case-card:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .case-name {
+            font-family: 'Cinzel', serif;
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .case-result {
+            font-family: 'Cinzel', serif;
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--neon-emerald);
+            text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+        }
+
+        .case-before, .case-after {
+            margin: 20px 0;
+        }
+
+        .case-label {
+            font-family: 'Cinzel', serif;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--gold);
+        }
+
+        .case-text {
+            font-size: 18px;
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        /* Pricing */
+        .pricing-container {
+            max-width: 900px;
+            margin: 80px auto;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(245, 245, 220, 0.8) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 80px;
+            border: 2px solid rgba(212, 175, 55, 0.4);
+            position: relative;
+            box-shadow: 0 30px 90px rgba(212, 175, 55, 0.2),
+                        0 0 60px rgba(16, 185, 129, 0.1);
+        }
+
+        .pricing-container::before {
+            content: '✨';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 60px;
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.8));
+        }
+
+        .price {
+            font-family: 'Cinzel', serif;
+            font-size: 72px;
+            font-weight: 700;
+            text-align: center;
+            margin: 30px 0;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--neon-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 40px 0;
+        }
+
+        .pricing-features li {
+            font-size: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            display: flex;
+            align-items: center;
+        }
+
+        .pricing-features li::before {
+            content: '◆';
+            color: var(--gold);
+            font-size: 24px;
+            margin-right: 20px;
+        }
+
+        /* FOMO секция */
+        .fomo {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(26, 26, 26, 0.98) 100%);
+            color: white;
+            padding: 100px 0;
+            margin: 100px 0;
+            border-radius: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fomo::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(45deg, transparent 30%, rgba(16, 185, 129, 0.1) 50%, transparent 70%),
+                linear-gradient(-45deg, transparent 30%, rgba(255, 16, 240, 0.1) 50%, transparent 70%);
+            background-size: 200% 200%;
+            animation: shimmer 8s ease infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin: 60px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .comparison-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 50px;
+        }
+
+        .comparison-card.bad {
+            border-color: rgba(255, 16, 240, 0.3);
+        }
+
+        .comparison-card.good {
+            border-color: rgba(16, 185, 129, 0.3);
+            box-shadow: 0 0 40px rgba(16, 185, 129, 0.2);
+        }
+
+        .comparison-title {
+            font-family: 'Cinzel', serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .comparison-card.bad .comparison-title {
+            color: var(--neon-pink);
+        }
+
+        .comparison-card.good .comparison-title {
+            color: var(--neon-emerald);
+        }
+
+        .comparison-list {
+            list-style: none;
+        }
+
+        .comparison-list li {
+            font-size: 20px;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .highlight {
+            font-family: 'Cinzel', serif;
+            font-size: 52px;
+            font-weight: 700;
+            color: var(--neon-gold);
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+        }
+
+        /* Footer CTA */
+        .footer-cta {
+            text-align: center;
+            padding: 120px 0;
+        }
+
+        .footer-cta h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .bonus-list {
+            max-width: 600px;
+            margin: 50px auto;
+            list-style: none;
+        }
+
+        .bonus-list li {
+            font-size: 22px;
+            padding: 20px;
+            margin: 15px 0;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            border-left: 4px solid var(--gold);
+        }
+
+        .urgency {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            color: var(--neon-pink);
+            margin: 40px 0;
+            text-shadow: 0 0 20px rgba(255, 16, 240, 0.5);
+        }
+
+        /* Орнаменты */
+        .ornament {
+            position: absolute;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .ornament-top {
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, var(--gold) 0%, transparent 70%);
+            filter: blur(40px);
+        }
+
+        .ornament-bottom {
+            bottom: -50px;
+            left: -50px;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, var(--neon-emerald) 0%, transparent 70%);
+            filter: blur(50px);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            h1 { font-size: 42px; }
+            .hero-subtitle { font-size: 18px; }
+            .section-title { font-size: 36px; }
+            .formula-steps { grid-template-columns: 1fr; }
+            .comparison { grid-template-columns: 1fr; }
+            .pricing-container { padding: 40px 30px; }
+            .container { padding: 0 20px; }
+            .case-header { flex-direction: column; align-items: flex-start; }
+            .case-card {
+                grid-template-columns: 1fr;
+                padding: 30px;
+            }
+            .case-photo {
+                width: 120px;
+                height: 120px;
+                margin: 0 auto 20px;
+            }
+        }
+
+        /* Scroll reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Неоновые частицы -->
+    <div class="neon-particles" id="particles"></div>
+
+    <!-- Навигация -->
+    <div class="container">
+        <nav>
+            <div class="logo">УДАЛЁНКА 150K+</div>
+            <a href="https://t.me/Thukydides" class="cta-button">Записаться</a>
+        </nav>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <h1>Системный подход к поиску<br>удалённой работы</h1>
+            <p class="hero-subtitle">Пошаговая методология для перехода на удалёнку с зарплатой 150+ тысяч</p>
+            <a href="https://t.me/Thukydides" class="cta-button" style="font-size: 20px; padding: 20px 50px;">Начать путь</a>
+        </div>
+    </section>
+
+    <!-- Актуальность -->
+    <section class="reveal">
+        <div class="container">
+            <div class="ornament ornament-top"></div>
+            <h2 class="section-title">Удалёнка в 2026</h2>
+            <p class="section-subtitle">Рынок изменился. Подход тоже должен измениться.</p>
+            
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">✓</div>
+                    <h3 class="problem-title">Рынок растёт</h3>
+                    <p class="problem-text">Компании массово открывают удалённые вакансии на 150-200к без привязки к локации</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">⚠</div>
+                    <h3 class="problem-title">Конкуренция высока</h3>
+                    <p class="problem-text">На одну вакансию 500+ откликов. Без системы ты невидимка</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">✗</div>
+                    <h3 class="problem-title">Старые методы мертвы</h3>
+                    <p class="problem-text">100 откликов = 0 ответов. Пора менять подход</p>
+                </div>
+            </div>
+
+            <div style="max-width: 900px; margin: 60px auto; background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%); border: 2px solid rgba(212, 175, 55, 0.3); border-radius: 30px; padding: 50px; position: relative; overflow: hidden;">
+                <div style="position: absolute; top: -2px; left: -2px; right: -2px; bottom: -2px; background: linear-gradient(45deg, var(--neon-emerald), var(--gold), var(--neon-emerald)); background-size: 300% 300%; border-radius: 30px; z-index: -1; opacity: 0.2; animation: gradientBorder 6s ease infinite;"></div>
+                
+                <h3 style="font-family: 'Cinzel', serif; font-size: 32px; text-align: center; margin-bottom: 30px; color: var(--dark);">Что требуется от кандидатов в 2026</h3>
+                
+                <div style="display: grid; gap: 25px;">
+                    <div style="display: flex; align-items: start; gap: 20px;">
+                        <div style="font-size: 36px; min-width: 50px;">🤖</div>
+                        <div>
+                            <h4 style="font-family: 'Cinzel', serif; font-size: 22px; margin-bottom: 10px; color: var(--gold);">Владение инструментами ИИ</h4>
+                            <p style="font-size: 18px; line-height: 1.6; opacity: 0.9;">ChatGPT, Claude, автоматизация рутины — это не бонус, а базовое требование для удалённой работы</p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: start; gap: 20px;">
+                        <div style="font-size: 36px; min-width: 50px;">📊</div>
+                        <div>
+                            <h4 style="font-family: 'Cinzel', serif; font-size: 22px; margin-bottom: 10px; color: var(--gold);">Аналитическое мышление</h4>
+                            <p style="font-size: 18px; line-height: 1.6; opacity: 0.9;">Умение работать с данными, принимать решения на основе метрик, видеть паттерны</p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: start; gap: 20px;">
+                        <div style="font-size: 36px; min-width: 50px;">⏱️</div>
+                        <div>
+                            <h4 style="font-family: 'Cinzel', serif; font-size: 22px; margin-bottom: 10px; color: var(--gold);">Мастерство тайм-менеджмента</h4>
+                            <p style="font-size: 18px; line-height: 1.6; opacity: 0.9;">На удалёнке никто не контролирует каждый шаг — нужна самодисциплина и система управления задачами</p>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: start; gap: 20px;">
+                        <div style="font-size: 36px; min-width: 50px;">🎯</div>
+                        <div>
+                            <h4 style="font-family: 'Cinzel', serif; font-size: 22px; margin-bottom: 10px; color: var(--gold);">Высокий уровень экспертизы</h4>
+                            <p style="font-size: 18px; line-height: 1.6; opacity: 0.9;">Компании ищут не просто исполнителей, а профессионалов, которые могут работать автономно и приносить результат</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: rgba(16, 185, 129, 0.1); margin-top: 30px; padding: 25px; border-radius: 15px; text-align: center;">
+                    <p style="font-size: 20px; line-height: 1.6; font-weight: 600;">
+                        Без этих навыков конкурировать за удалёнку 150К+ почти невозможно
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Проблематика -->
+    <section class="reveal">
+        <div class="container">
+            <h2 class="section-title">Почему не получается?</h2>
+            <p class="section-subtitle">4 типичных ошибки, которые убивают все попытки</p>
+            
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <div class="problem-icon">🎯</div>
+                    <h3 class="problem-title">Нет фокуса</h3>
+                    <p class="problem-text">Не понимают, кем хотят быть → откликаются на всё подряд, резюме размазанное</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">📄</div>
+                    <h3 class="problem-title">Резюме не продаёт</h3>
+                    <p class="problem-text">Шаблонное, не заточено под конкретные вакансии, эйчар пролистал за 2 секунды</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">📧</div>
+                    <h3 class="problem-title">Хаос в откликах</h3>
+                    <p class="problem-text">HH, Telegram, но без системы = потеря времени и энергии в пустоту</p>
+                </div>
+                <div class="problem-card">
+                    <div class="problem-icon">💬</div>
+                    <h3 class="problem-title">Слив на собесах</h3>
+                    <p class="problem-text">Не готовы, нет структуры ответов, теряются в стрессе</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Почему старые подходы не работают -->
+    <section class="reveal">
+        <div class="container">
+            <div class="ornament ornament-top"></div>
+            <h2 class="section-title">Почему старые подходы не работают</h2>
+            <p class="section-subtitle">Отстройка от того, что советуют другие</p>
+            
+            <div style="max-width: 900px; margin: 60px auto; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 30px; padding: 50px; border: 1px solid rgba(212, 175, 55, 0.3);">
+                <p style="font-size: 22px; line-height: 1.8; margin-bottom: 30px; font-style: italic;">
+                    "Большинство карьерных консультантов говорят: сделай красивое резюме, разошли 500 откликов, жди. <span style="color: var(--neon-pink); font-weight: 700;">Это не работает в 2026.</span>"
+                </p>
+                
+                <div style="margin: 40px 0;">
+                    <h3 style="font-family: 'Cinzel', serif; font-size: 28px; margin-bottom: 20px; color: var(--gold);">Почему:</h3>
+                    <ul style="list-style: none; font-size: 20px; line-height: 2;">
+                        <li style="margin: 15px 0; padding-left: 40px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--gold); font-size: 24px;">✗</span>
+                            Красивое резюме ≠ продающее резюме (эйчары ищут ключевые слова, а не дизайн)
+                        </li>
+                        <li style="margin: 15px 0; padding-left: 40px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--gold); font-size: 24px;">✗</span>
+                            500 откликов без стратегии = слив времени и мотивации
+                        </li>
+                        <li style="margin: 15px 0; padding-left: 40px; position: relative;">
+                            <span style="position: absolute; left: 0; color: var(--gold); font-size: 24px;">✗</span>
+                            Никто не учит системе: самоопределение → позиционирование → целевые каналы → прохождение собесов
+                        </li>
+                    </ul>
+                </div>
+
+                <div style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%); padding: 30px; border-radius: 20px; border-left: 4px solid var(--neon-emerald);">
+                    <p style="font-size: 20px; line-height: 1.8;">
+                        <strong>Моя методология</strong> — это 9 блоков, которые я прошёл сам и провёл через них 50+ клиентов. От "кто я и чего хочу" до "как пройти онбординг и закрепиться".
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Что будет сегодня -->
+    <section class="reveal">
+        <div class="container">
+            <h2 class="section-title">Что ты узнаешь</h2>
+            <p class="section-subtitle">3 ключевых блока для перехода на удалёнку</p>
+            
+            <div class="formula-steps" style="margin: 60px 0;">
+                <div style="background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(10px); border-radius: 20px; padding: 40px; border: 1px solid rgba(212, 175, 55, 0.3);">
+                    <div style="font-family: 'Cinzel', serif; font-size: 72px; font-weight: 700; background: linear-gradient(135deg, var(--gold) 0%, var(--neon-gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 20px;">01</div>
+                    <h3 style="font-family: 'Cinzel', serif; font-size: 28px; margin-bottom: 15px;">Самоопределение</h3>
+                    <p style="font-size: 18px; line-height: 1.6; opacity: 0.8;">Как понять, на какие позиции откликаться (чтобы не распыляться)</p>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(10px); border-radius: 20px; padding: 40px; border: 1px solid rgba(212, 175, 55, 0.3);">
+                    <div style="font-family: 'Cinzel', serif; font-size: 72px; font-weight: 700; background: linear-gradient(135deg, var(--gold) 0%, var(--neon-gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 20px;">02</div>
+                    <h3 style="font-family: 'Cinzel', serif; font-size: 28px; margin-bottom: 15px;">Позиционирование</h3>
+                    <p style="font-size: 18px; line-height: 1.6; opacity: 0.8;">Как сделать резюме и профиль, которые продают (а не просто красивые)</p>
+                </div>
+                <div style="background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(10px); border-radius: 20px; padding: 40px; border: 1px solid rgba(212, 175, 55, 0.3);">
+                    <div style="font-family: 'Cinzel', serif; font-size: 72px; font-weight: 700; background: linear-gradient(135deg, var(--gold) 0%, var(--neon-gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 20px;">03</div>
+                    <h3 style="font-family: 'Cinzel', serif; font-size: 28px; margin-bottom: 15px;">Система поиска</h3>
+                    <p style="font-size: 18px; line-height: 1.6; opacity: 0.8;">Как превратить 100 откликов в 2-3 оффера (вместо нуля ответов)</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; background: rgba(255, 255, 255, 0.5); border-radius: 20px; padding: 40px; max-width: 800px; margin: 40px auto;">
+                <p style="font-size: 22px; line-height: 1.8;">
+                    <strong>По итогу ты узнаешь:</strong><br>
+                    ✓ Как найти свою нишу на удалёнке<br>
+                    ✓ Как выделиться среди 200 кандидатов<br>
+                    ✓ Как пройти собесы и получить несколько офферов для выбора
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Личный опыт -->
+    <section class="reveal">
+        <div class="container">
+            <div class="ornament ornament-bottom"></div>
+            <h2 class="section-title">Почему я могу об этом говорить</h2>
+            <p class="section-subtitle">Мой путь от хаоса к системе</p>
+            
+            <div style="max-width: 1200px; margin: 60px auto; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 30px; padding: 60px; border: 1px solid rgba(212, 175, 55, 0.3); position: relative; overflow: hidden;">
+                <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 70%); border-radius: 50%; filter: blur(40px);"></div>
+                
+                <div style="display: grid; grid-template-columns: 300px 1fr; gap: 50px; align-items: center; margin-bottom: 50px;">
+                    <!-- Место для фото -->
+                    <div style="position: relative;">
+                        <div style="width: 300px; height: 400px; background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(16, 185, 129, 0.1) 100%); border-radius: 20px; border: 3px solid rgba(212, 175, 55, 0.4); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;">
+                            <img src="iam.png" alt="Сергей" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                        </div>
+                        <!-- Декоративная рамка -->
+                        <div style="position: absolute; top: -10px; left: -10px; right: -10px; bottom: -10px; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 25px; z-index: -1;"></div>
+                    </div>
+
+                    <div>
+                        <h3 style="font-family: 'Cinzel', serif; font-size: 32px; margin-bottom: 25px; color: var(--gold);">Личный опыт:</h3>
+                        <p style="font-size: 20px; line-height: 1.8; margin-bottom: 20px;">
+                            Сам прошёл путь от "не понимаю, кем хочу быть" до удалённой работы в менеджменте, <span style="color: var(--neon-emerald); font-weight: 700;">живу во Вьетнаме у океана</span>.
+                        </p>
+                        <p style="font-size: 20px; line-height: 1.8; margin-bottom: 20px;">
+                            Начал работать в 2022 году и с тех пор поменял <strong>10 мест работы</strong>, чтобы начать находить и удерживаться в хороших местах. Пробовал разные роли — были провалы, были успехи.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(16, 185, 129, 0.1) 100%); padding: 30px; border-radius: 20px; border-left: 4px solid var(--gold); margin-bottom: 40px;">
+                    <p style="font-size: 22px; line-height: 1.8; font-weight: 600;">
+                        Понял: без системы это лотерея.<br>
+                        С системой — 2 месяца и ты с хорошими офферами.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 style="font-family: 'Cinzel', serif; font-size: 28px; margin-bottom: 20px; color: var(--gold);">Результаты с клиентами:</h3>
+                    <p style="font-size: 20px; line-height: 1.8;">
+                        Провёл через методологию <strong>20+ клиентов</strong> — от студентов до профи с 10-летним опытом, которые хотели сменить нишу или перейти на удалёнку.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Формула -->
+    <section class="reveal">
+        <div class="container">
+            <div class="ornament ornament-bottom"></div>
+            <div class="formula">
+                <div class="formula-text">ФОКУС × УПАКОВКА × СИСТЕМА = ОФФЕРЫ</div>
+                <div class="formula-steps">
+                    <div class="formula-step">
+                        <div class="step-number">01</div>
+                        <h3 class="step-title">ФОКУС</h3>
+                        <p class="step-text">Не "ищу любую работу", а "я [конкретная роль] для [конкретной ниши]"</p>
+                    </div>
+                    <div class="formula-step">
+                        <div class="step-number">02</div>
+                        <h3 class="step-title">УПАКОВКА</h3>
+                        <p class="step-text">Резюме и профиль заточены под целевые вакансии с ключевыми словами</p>
+                    </div>
+                    <div class="formula-step">
+                        <div class="step-number">03</div>
+                        <h3 class="step-title">СИСТЕМА</h3>
+                        <p class="step-text">100 целевых откликов + автоматизация + подготовка к собесам</p>
+                    </div>
+                </div>
+            </div>
+            
+            <p style="text-align: center; font-size: 24px; margin-top: 40px; opacity: 0.8;">
+                Результат: <span style="color: var(--neon-emerald); font-family: 'Cinzel', serif; font-weight: 700; font-size: 32px;">100 откликов → 10-15 ответов → 5-7 собесов → 2-3 оффера</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- Детально про метод -->
+    <section class="reveal">
+        <div class="container">
+            <h2 class="section-title">Как это работает</h2>
+            <p class="section-subtitle">Пошаговая система от хаоса к офферам</p>
+            
+            <div style="max-width: 1100px; margin: 60px auto;">
+                <!-- Этап 1 -->
+                <div style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 30px; padding: 50px; margin-bottom: 40px; border: 1px solid rgba(212, 175, 55, 0.3); position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, var(--gold), var(--neon-gold));"></div>
+                    
+                    <div style="display: grid; grid-template-columns: auto 1fr; gap: 40px; align-items: start;">
+                        <div style="font-family: 'Cinzel', serif; font-size: 96px; font-weight: 700; background: linear-gradient(135deg, var(--gold) 0%, var(--neon-gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1;">01</div>
+                        <div>
+                            <h3 style="font-family: 'Cinzel', serif; font-size: 36px; margin-bottom: 20px; color: var(--dark);">ЭТАП 1: ФОКУС — Найди свою нишу</h3>
+                            <p style="font-size: 20px; line-height: 1.8; margin-bottom: 25px; opacity: 0.9;">
+                                <strong>Суть:</strong> Вместо "ищу любую работу" → "я [конкретная роль] для [конкретной ниши]"
+                            </p>
+                            <div style="background: rgba(212, 175, 55, 0.1); padding: 25px; border-radius: 15px; margin-bottom: 20px;">
+                                <p style="font-size: 18px; line-height: 1.8;">
+                                    <span style="opacity: 0.6;">Непонятно кем быть</span> → <strong>Анализ + тесты</strong> → <span style="color: var(--neon-emerald); font-weight: 700;">Выбор 3-5 целевых позиций</span>
+                                </p>
+                            </div>
+                            <p style="font-size: 19px; line-height: 1.8; margin-bottom: 15px;">
+                                <strong>Пример:</strong> "маркетолог вообще" → <span style="color: var(--gold); font-weight: 700;">"контент-маркетолог для SaaS-продуктов"</span>
+                            </p>
+                            <div style="background: rgba(16, 185, 129, 0.05); padding: 20px; border-radius: 10px; border-left: 3px solid var(--neon-emerald);">
+                                <p style="font-size: 18px; font-style: italic;">
+                                    <strong>"Но я не знаю чего хочу"</strong> → Есть инструменты, которые помогают это понять за 1-2 недели, не годы проб и ошибок.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Этап 2 -->
+                <div style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 30px; padding: 50px; margin-bottom: 40px; border: 1px solid rgba(212, 175, 55, 0.3); position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, var(--neon-emerald), var(--neon-pink));"></div>
+                    
+                    <div style="display: grid; grid-template-columns: auto 1fr; gap: 40px; align-items: start;">
+                        <div style="font-family: 'Cinzel', serif; font-size: 96px; font-weight: 700; background: linear-gradient(135deg, var(--neon-emerald) 0%, var(--neon-pink) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1;">02</div>
+                        <div>
+                            <h3 style="font-family: 'Cinzel', serif; font-size: 36px; margin-bottom: 20px; color: var(--dark);">ЭТАП 2: УПАКОВКА — Сделай так, чтобы тебя заметили</h3>
+                            <p style="font-size: 20px; line-height: 1.8; margin-bottom: 25px; opacity: 0.9;">
+                                <strong>Суть:</strong> Резюме и профиль = твоя витрина. Если она не продаёт — ты невидимка.
+                            </p>
+                            <div style="background: rgba(212, 175, 55, 0.1); padding: 25px; border-radius: 15px; margin-bottom: 20px;">
+                                <p style="font-size: 18px; line-height: 1.8;">
+                                    <span style="opacity: 0.6;">Шаблонное резюме</span> → <strong>Анализ целевых вакансий</strong> → <span style="color: var(--neon-emerald); font-weight: 700;">Резюме под конкретную нишу</span>
+                                </p>
+                            </div>
+                            <p style="font-size: 19px; line-height: 1.8; margin-bottom: 15px;">
+                                <strong>Результат:</strong> эйчар читает 10 секунд и думает <span style="color: var(--gold); font-weight: 700;">"надо позвонить"</span>
+                            </p>
+                            <div style="background: rgba(16, 185, 129, 0.05); padding: 20px; border-radius: 10px; border-left: 3px solid var(--neon-emerald);">
+                                <p style="font-size: 18px; font-style: italic;">
+                                    <strong>"Но у меня нет опыта в удалёнке"</strong> → Есть способы докрутить резюме, которые работают легально и этично.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Этап 3 -->
+                <div style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border-radius: 30px; padding: 50px; border: 1px solid rgba(212, 175, 55, 0.3); position: relative; overflow: hidden;">
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, var(--neon-pink), var(--neon-gold));"></div>
+                    
+                    <div style="display: grid; grid-template-columns: auto 1fr; gap: 40px; align-items: start;">
+                        <div style="font-family: 'Cinzel', serif; font-size: 96px; font-weight: 700; background: linear-gradient(135deg, var(--neon-pink) 0%, var(--neon-gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1;">03</div>
+                        <div>
+                            <h3 style="font-family: 'Cinzel', serif; font-size: 36px; margin-bottom: 20px; color: var(--dark);">ЭТАП 3: СИСТЕМА — Превращай отклики в офферы</h3>
+                            <p style="font-size: 20px; line-height: 1.8; margin-bottom: 25px; opacity: 0.9;">
+                                <strong>Суть:</strong> Не 500 хаотичных откликов, а 100 целевых + правильная подготовка к собесам.
+                            </p>
+                            <div style="background: rgba(212, 175, 55, 0.1); padding: 25px; border-radius: 15px; margin-bottom: 20px;">
+                                <p style="font-size: 18px; line-height: 1.8; margin-bottom: 15px;">
+                                    <strong>Путь клиента:</strong>
+                                </p>
+                                <p style="font-size: 18px; line-height: 1.8; margin-bottom: 10px;">
+                                    <span style="opacity: 0.6;">Отклики в пустоту</span> → <strong>Автоматизация + каналы</strong> → <span style="color: var(--neon-emerald); font-weight: 700;">10-15 ответов</span>
+                                </p>
+                                <p style="font-size: 18px; line-height: 1.8;">
+                                    <span style="opacity: 0.6;">Слив на собесах</span> → <strong>Подготовка по структуре</strong> → <span style="color: var(--neon-emerald); font-weight: 700;">5-7 собесов → 2-3 оффера</span>
+                                </p>
+                            </div>
+                            <div style="background: rgba(16, 185, 129, 0.05); padding: 20px; border-radius: 10px; border-left: 3px solid var(--neon-emerald);">
+                                <p style="font-size: 18px; font-style: italic;">
+                                    <strong>"Это сложно, у меня нет времени на автоматизацию"</strong> → Настраивается один раз за час, дальше работает само.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Кейсы -->
+    <section class="reveal">
+        <div class="container">
+            <h2 class="section-title">Реальные результаты</h2>
+            <p class="section-subtitle">Клиенты, которые прошли путь от хаоса к офферам</p>
+            
+            <div class="cases-grid">
+                <div class="case-card">
+                    <div class="case-photo">
+                        <img src="1.png" alt="Яра" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                    </div>
+                    <div class="case-content">
+                        <div class="case-header">
+                            <div class="case-name">Яра, 25 лет</div>
+                            <div class="case-result">160K</div>
+                        </div>
+                        <div class="case-before">
+                            <div class="case-label">БЫЛО:</div>
+                            <p class="case-text">Медсестра в ковид, кроме этого больше никем не работала. Искала удалёнку 1.5 года. 950 откликов — отвечали только скамеры.</p>
+                        </div>
+                        <div class="case-after">
+                            <div class="case-label">СТАЛО:</div>
+                            <p class="case-text">Прошли самоопределение — поняла, что может работать как БА. Переделали резюме. 50 целевых откликов → 5 собесов → 2 оффера (140к и 160к). Выбрала 120к, гибрид. Вышла через 5 недель.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-card">
+                    <div class="case-photo">
+                        <img src="2.png" alt="Олеся" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                    </div>
+                    <div class="case-content">
+                        <div class="case-header">
+                            <div class="case-name">Олеся, 39 лет</div>
+                            <div class="case-result">220K</div>
+                        </div>
+                        <div class="case-before">
+                            <div class="case-label">БЫЛО:</div>
+                            <p class="case-text">20 лет опыта в пром. безопасности, но резюме "обо всём и ни о чём". Хотела переехать в Москву из Ухты, боялась потерять доход. На неё вообще никто не реагировал из-за геолокации.</p>
+                        </div>
+                        <div class="case-after">
+                            <div class="case-label">СТАЛО:</div>
+                            <p class="case-text">Сфокусировались на нише: пром. безопасность. Докрутили резюме с кейсами и цифрами. Поменяли гео на Москву. 3 оффера: 180к, 210к, 220к. Выбрала 220К в топовой компании в центре Москвы.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-card">
+                    <div class="case-photo">
+                        <img src="3.png" alt="Никита" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                    </div>
+                    <div class="case-content">
+                        <div class="case-header">
+                            <div class="case-name">Никита, CGI-дизайнер</div>
+                            <div class="case-result">300K</div>
+                        </div>
+                        <div class="case-before">
+                            <div class="case-label">БЫЛО:</div>
+                            <p class="case-text">Безработный в декабре. Непонятно, как продавать свои навыки и находить клиентов.</p>
+                        </div>
+                        <div class="case-after">
+                            <div class="case-label">СТАЛО:</div>
+                            <p class="case-text">Раскачали нетворк, запустили личный бренд, активизировали усилия по созданию видимости. Получил несколько офферов в январе. Сейчас доход 300K.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-card">
+                    <div class="case-photo">
+                        <img src="4.png" alt="Ольга" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                    </div>
+                    <div class="case-content">
+                        <div class="case-header">
+                            <div class="case-name">Ольга, дизайнер</div>
+                            <div class="case-result">1 месяц</div>
+                        </div>
+                        <div class="case-before">
+                            <div class="case-label">БЫЛО:</div>
+                            <p class="case-text">Фрилансер с плавающим доходом. Хотела найти стабильную работу в корпорации, но не знала как.</p>
+                        </div>
+                        <div class="case-after">
+                            <div class="case-label">СТАЛО:</div>
+                            <p class="case-text">Причесали портфолио на уровне топов рынка, обогатили резюме. Нашла стабильную работу дизайнером в корпорации за месяц.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-card">
+                    <div class="case-photo">
+                        <img src="5.png" alt="Даниил" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                    </div>
+                    <div class="case-content">
+                        <div class="case-header">
+                            <div class="case-name">Даниил, 18 лет</div>
+                            <div class="case-result">БА</div>
+                        </div>
+                        <div class="case-before">
+                            <div class="case-label">БЫЛО:</div>
+                            <p class="case-text">Вообще без опыта работы. Много амбиций, но не понимал, куда их направить.</p>
+                        </div>
+                        <div class="case-after">
+                            <div class="case-label">СТАЛО:</div>
+                            <p class="case-text">Направили амбиции в верное русло, определили позицию. Нашёл работу как Бизнес-ассистент в феврале 2026.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="reveal">
+        <div class="container">
+            <h2 class="section-title">Как я работаю</h2>
+            
+            <div class="pricing-container">
+                <h3 style="font-family: 'Cinzel', serif; font-size: 32px; text-align: center; margin-bottom: 20px;">Консультация + Сопровождение</h3>
+                <div class="price">10 000 ₽</div>
+                <p style="text-align: center; font-size: 20px; opacity: 0.7; margin-bottom: 40px;">Стартовая консультация</p>
+                
+                <ul class="pricing-features">
+                    <li>Анализ твоей ситуации и определение фокуса</li>
+                    <li>Составление индивидуального плана поиска</li>
+                    <li>Помощь в самоопределении и выборе ниши</li>
+                    <li>Создание продающего резюме и профиля</li>
+                    <li>Настройка каналов поиска и автоматизация</li>
+                    <li>Подготовка к собеседованиям с отработкой</li>
+                    <li>Оценка офферов и помощь в выборе</li>
+                    <li>Сопровождение до выхода на работу</li>
+                </ul>
+
+                <div style="text-align: center; margin-top: 50px;">
+                    <a href="https://t.me/Thukydides" class="cta-button" style="font-size: 20px; padding: 20px 50px;">Записаться на консультацию</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOMO -->
+    <section class="fomo reveal">
+        <div class="container">
+            <h2 class="section-title" style="color: white;">Посчитай экономику</h2>
+            
+            <div class="comparison">
+                <div class="comparison-card bad">
+                    <h3 class="comparison-title">Самостоятельно</h3>
+                    <ul class="comparison-list">
+                        <li>Ещё 3-6 месяцев хаотичных поисков</li>
+                        <li>Сотни откликов в никуда</li>
+                        <li>Выгорание и неопределённость</li>
+                        <li>Упущенная зарплата:</li>
+                        <li class="highlight">900 000 ₽</li>
+                        <li style="opacity: 0.6; font-size: 16px;">150k × 6 месяцев</li>
+                    </ul>
+                </div>
+
+                <div class="comparison-card good">
+                    <h3 class="comparison-title">С сопровождением</h3>
+                    <ul class="comparison-list">
+                        <li>Инвестиция: 10 000 рублей</li>
+                        <li>Срок: 1-2 месяца до офферов</li>
+                        <li>Результат: 150k+ удалённо</li>
+                        <li>Возврат инвестиций:</li>
+                        <li class="highlight">×15</li>
+                        <li style="opacity: 0.6; font-size: 16px;">Первая зарплата окупает всё</li>
+                    </ul>
+                </div>
+            </div>
+
+            <p style="text-align: center; font-size: 28px; margin-top: 60px; position: relative; z-index: 1;">
+                Вопрос не "стоит ли?", а <span style="color: var(--neon-gold); font-family: 'Cinzel', serif; font-weight: 700;">"сколько стоит ещё полгода сидеть на нелюбимой работе?"</span>
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer CTA -->
+    <section class="footer-cta reveal">
+        <div class="container">
+            <div class="ornament ornament-top"></div>
+            <h2>Что делать прямо сейчас</h2>
+            
+            <ul class="bonus-list">
+                <li>🎁 Чек-лист "10 ошибок в резюме"</li>
+                <li>📝 Шаблон сопроводительного письма</li>
+                <li>🔗 Список каналов для удалёнки 2026</li>
+            </ul>
+
+            <p class="urgency">⚡ Беру в сопровождение 5-7 человек в месяц ⚡</p>
+            <p style="font-size: 22px; opacity: 0.8; margin-bottom: 40px;">Не жди идеального момента. Каждый день без действий — упущенные деньги.</p>
+            
+            <a href="https://t.me/Thukydides" class="cta-button" style="font-size: 24px; padding: 24px 60px;">Записаться на консультацию</a>
+        </div>
+    </section>
+
+    <script>
+        // Создание неоновых частиц
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const colors = ['#00FFFF', '#FF10F0', '#FFD700'];
+            
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.width = Math.random() * 8 + 4 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (Math.random() * 15 + 15) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Scroll reveal animation
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.reveal');
+            
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                }
+            });
+        }
+
+        // Smooth scroll для якорных ссылок
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Инициализация
+        window.addEventListener('load', () => {
+            createParticles();
+            revealOnScroll();
+        });
+
+        window.addEventListener('scroll', revealOnScroll);
+    </script>
+</body>
+</html>
