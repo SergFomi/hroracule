@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анна Петрова | Правая рука фаундера в digital-проекте</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 20px 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #1a1a1a;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .btn-telegram {
+            background: #0088cc;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-telegram:hover {
+            background: #0099dd;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 136, 204, 0.3);
+        }
+
+        .lang-switch {
+            color: #666;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 100px;
+            padding: 100px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 48px;
+            line-height: 1.2;
+            color: white;
+            margin-bottom: 24px;
+            font-weight: 700;
+        }
+
+        .hero-text p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+            padding: 18px 40px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            display: inline-block;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .hero-image {
+            position: relative;
+        }
+
+        .hero-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+
+        /* Cases Section */
+        .cases {
+            padding: 120px 0;
+            background: #f8f9fa;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 60px;
+            color: #1a1a1a;
+            font-weight: 700;
+        }
+
+        .case-item {
+            margin-bottom: 80px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+
+        .case-header {
+            padding: 40px;
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .case-header h3 {
+            font-size: 32px;
+            color: #1a1a1a;
+        }
+
+        .case-image {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+        }
+
+        .case-content {
+            padding: 40px;
+        }
+
+        .case-content p {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Footer / CTA Section */
+        .footer-cta {
+            padding: 120px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/></svg>');
+            opacity: 0.3;
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-cta h2 {
+            font-size: 42px;
+            color: white;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .footer-cta p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: #667eea;
+            color: white;
+            padding: 18px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .telegram-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            padding: 15px 30px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .telegram-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-text h1 {
+                font-size: 32px;
+            }
+
+            .hero-text p {
+                font-size: 16px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .case-header h3 {
+                font-size: 24px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .case-item {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Анна Петрова</a>
+                <ul class="nav-menu">
+                    <li><a href="#about">Обо мне</a></li>
+                    <li><a href="#services">Услуги</a></li>
+                    <li><a href="#cases">Кейсы</a></li>
+                    <li><a href="#format">Формат</a></li>
+                    <li><a href="#contacts">Контакты</a></li>
+                </ul>
+                <div class="header-actions">
+                    <a href="https://t.me/username" class="btn-telegram">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                        </svg>
+                        Связаться в Telegram
+                    </a>
+                    <span class="lang-switch">RU / EN</span>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Правая рука фаундера в digital-проекте. Закрываю операционку, контролирую маркетинг и навожу порядок в процессах</h1>
+                    <p>Помогаю фаундеру освободить время для стратегии. Прозрачно, с цифрами, удаленно. Экономия фонда оплаты труда до 40% по сравнению с наймом трех сотрудников</p>
+                    <a href="#contacts" class="btn-primary">Обсудить проект</a>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=700&fit=crop" alt="Анна Петрова - Executive Assistant">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cases Section -->
+    <section class="cases" id="cases">
+        <div class="container">
+            <h2 class="section-title">Опыт в цифрах</h2>
+
+            <!-- Case 1 -->
+            <div class="case-item">
+                <div class="case-header">
+                    <h3>Оптимизация процессов в e-commerce проекте</h3>
+                </div>
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=500&fit=crop" alt="Case 1" class="case-image">
+                <div class="case-content">
+                    <p>Взяла на себя полное управление операционной деятельностью интернет-магазина с оборотом 50 млн ₽/мес. Внедрила систему CRM, автоматизировала процессы работы с клиентами и сократила время обработки заказов на 60%.</p>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <span class="stat-number">60%</span>
+                            <div class="stat-label">Сокращение времени обработки</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">3</span>
+                            <div class="stat-label">Сотрудника заменено</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">40%</span>
+                            <div class="stat-label">Экономия ФОТ</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case 2 -->
+            <div class="case-item">
+                <div class="case-header">
+                    <h3>Запуск маркетинговой стратегии для EdTech стартапа</h3>
+                </div>
+                <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&h=500&fit=crop" alt="Case 2" class="case-image">
+                <div class="case-content">
+                    <p>Координировала работу маркетингового отдела из 5 человек. Разработала и внедрила систему KPI, что привело к росту конверсии на 45% и снижению стоимости лида на 35%.</p>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <span class="stat-number">45%</span>
+                            <div class="stat-label">Рост конверсии</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">35%</span>
+                            <div class="stat-label">Снижение CPL</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">5</span>
+                            <div class="stat-label">Человек в команде</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case 3 -->
+            <div class="case-item">
+                <div class="case-header">
+                    <h3>Построение удаленной команды с нуля</h3>
+                </div>
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&h=500&fit=crop" alt="Case 3" class="case-image">
+                <div class="case-content">
+                    <p>Сформировала и обучила удаленную команду поддержки из 8 человек. Внедрила систему онбординга и контроля качества, что позволило достичь уровня удовлетворенности клиентов 98%.</p>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <span class="stat-number">98%</span>
+                            <div class="stat-label">CSAT клиентов</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">8</span>
+                            <div class="stat-label">Сотрудников в команде</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">2</span>
+                            <div class="stat-label">Месяца на запуск</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case 4 -->
+            <div class="case-item">
+                <div class="case-header">
+                    <h3>Автоматизация бизнес-процессов</h3>
+                </div>
+                <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&h=500&fit=crop" alt="Case 4" class="case-image">
+                <div class="case-content">
+                    <p>Внедрила 15+ инструментов автоматизации: от CRM до систем аналитики. Это освободило 20+ часов в неделю фаундера и сократило количество рутинных операций на 75%.</p>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <span class="stat-number">20+</span>
+                            <div class="stat-label">Часов сэкономлено в неделю</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">75%</span>
+                            <div class="stat-label">Сокращение рутины</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">15+</span>
+                            <div class="stat-label">Инструментов внедрено</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Case 5 -->
+            <div class="case-item">
+                <div class="case-header">
+                    <h3>Управление проектом по выходу на новые рынки</h3>
+                </div>
+                <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&h=500&fit=crop" alt="Case 5" class="case-image">
+                <div class="case-content">
+                    <p>Координировала запуск продукта на 3 новых рынка (СНГ, Европа, Азия). Организовала работу локальных команд, адаптировала маркетинговые материалы и обеспечила выход на окупаемость за 4 месяца.</p>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <span class="stat-number">3</span>
+                            <div class="stat-label">Новых рынка</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">4</span>
+                            <div class="stat-label">Месяца до окупаемости</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">200K€</span>
+                            <div class="stat-label">Выручки в первый квартал</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer CTA -->
+    <section class="footer-cta" id="contacts">
+        <div class="container">
+            <div class="footer-content">
+                <h2>Готовы навести порядок в бизнесе?</h2>
+                <p>Оставьте заявку, чтобы я смог связаться с вами</p>
+                
+                <form class="contact-form" onsubmit="event.preventDefault(); alert('Спасибо за заявку! Я свяжусь с вами в ближайшее время.');">
+                    <div class="form-group">
+                        <label for="name">Имя</label>
+                        <input type="text" id="name" name="name" required placeholder="Ваше имя">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact">Телефон / Ник в Telegram</label>
+                        <input type="text" id="contact" name="contact" required placeholder="@username или +7 (___) ___-__-__">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Кратко о задаче</label>
+                        <textarea id="message" name="message" required placeholder="Опишите вашу задачу в нескольких предложениях..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Отправить заявку</button>
+                </form>
+
+                <a href="https://t.me/username" class="telegram-link">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                    </svg>
+                    Написать в Telegram
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+            } else {
+                header.style.boxShadow = '0 2px 20px rgba(0,0,0,0.05)';
+            }
+        });
+    </script>
+</body>
+</html>
