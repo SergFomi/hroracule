@@ -91,12 +91,6 @@
             box-shadow: 0 5px 15px rgba(0, 136, 204, 0.3);
         }
 
-        .lang-switch {
-            color: #666;
-            cursor: pointer;
-            font-weight: 500;
-        }
-
         /* Hero Section */
         .hero {
             margin-top: 100px;
@@ -169,6 +163,76 @@
             box-shadow: 0 30px 60px rgba(0,0,0,0.3);
         }
 
+        /* About Service Section */
+        .about-service {
+            padding: 120px 0;
+            background: #fff;
+        }
+
+        .service-intro {
+            max-width: 900px;
+            margin: 0 auto 60px;
+            text-align: center;
+        }
+
+        .service-intro h2 {
+            font-size: 42px;
+            margin-bottom: 30px;
+            color: #1a1a1a;
+            font-weight: 700;
+        }
+
+        .service-intro > p {
+            font-size: 20px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .service-blocks {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .service-block {
+            padding: 40px 30px;
+            background: #f8f9fa;
+            border-radius: 16px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .service-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .service-block-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+        }
+
+        .service-block h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+
+        .service-block p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #666;
+        }
+
         /* Cases Section */
         .cases {
             padding: 120px 0;
@@ -191,15 +255,30 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.08);
         }
 
-        .case-header {
+        .case-before {
             padding: 40px;
-            text-align: center;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
+            border-bottom: 3px solid #ffcdd2;
         }
 
-        .case-header h3 {
-            font-size: 32px;
-            color: #1a1a1a;
+        .case-before h4 {
+            font-size: 20px;
+            color: #c62828;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .case-before h4::before {
+            content: '↓';
+            font-size: 24px;
+        }
+
+        .case-before p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: #555;
         }
 
         .case-image {
@@ -208,38 +287,55 @@
             object-fit: cover;
         }
 
-        .case-content {
+        .case-after {
             padding: 40px;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-top: 3px solid #a5d6a7;
         }
 
-        .case-content p {
-            font-size: 18px;
-            line-height: 1.8;
+        .case-after h4 {
+            font-size: 20px;
+            color: #2e7d32;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .case-after h4::before {
+            content: '↑';
+            font-size: 24px;
+        }
+
+        .case-after p {
+            font-size: 17px;
+            line-height: 1.7;
             color: #555;
         }
 
-        .stats {
+        .case-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-            margin-top: 30px;
+            gap: 20px;
+            margin-top: 25px;
         }
 
-        .stat-item {
+        .case-stat {
             text-align: center;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 12px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
         }
 
-        .stat-number {
-            font-size: 36px;
+        .case-stat-number {
+            font-size: 28px;
             font-weight: 700;
             color: #667eea;
             display: block;
         }
 
-        .stat-label {
+        .case-stat-label {
+            font-size: 14px;
             color: #666;
             margin-top: 5px;
         }
@@ -386,12 +482,12 @@
                 font-size: 28px;
             }
 
-            .stats {
+            .service-blocks {
                 grid-template-columns: 1fr;
             }
 
-            .case-header h3 {
-                font-size: 24px;
+            .case-stats {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -421,9 +517,7 @@
                 <a href="#" class="logo">Анна Петрова</a>
                 <ul class="nav-menu">
                     <li><a href="#about">Обо мне</a></li>
-                    <li><a href="#services">Услуги</a></li>
                     <li><a href="#cases">Кейсы</a></li>
-                    <li><a href="#format">Формат</a></li>
                     <li><a href="#contacts">Контакты</a></li>
                 </ul>
                 <div class="header-actions">
@@ -433,7 +527,6 @@
                         </svg>
                         Связаться в Telegram
                     </a>
-                    <span class="lang-switch">RU / EN</span>
                 </div>
             </nav>
         </div>
@@ -455,6 +548,36 @@
         </div>
     </section>
 
+    <!-- About Service Section -->
+    <section class="about-service" id="services">
+        <div class="container">
+            <div class="service-intro">
+                <h2>О моей услуге</h2>
+                <p>Я помогаю фаундерам digital-проектов освободиться от операционной рутины и сфокусироваться на стратегии развития бизнеса. Беру на себя управление командой, контроль маркетинга и оптимизацию бизнес-процессов. Работаю удаленно, прозрачно и с измеримыми результатами.</p>
+            </div>
+            
+            <div class="service-blocks">
+                <div class="service-block">
+                    <div class="service-block-icon">📊</div>
+                    <h3>Операционное управление</h3>
+                    <p>Полное управление операционной деятельностью: от постановки задач команде до контроля исполнения. Внедряю системы учета и отчетности.</p>
+                </div>
+                
+                <div class="service-block">
+                    <div class="service-block-icon">🎯</div>
+                    <h3>Контроль маркетинга</h3>
+                    <p>Координация работы маркетингового отдела, контроль бюджета, анализ эффективности каналов продвижения и оптимизация расходов.</p>
+                </div>
+                
+                <div class="service-block">
+                    <div class="service-block-icon">⚙️</div>
+                    <h3>Автоматизация процессов</h3>
+                    <p>Внедрение CRM, систем автоматизации и оптимизация бизнес-процессов. Сокращаю рутину и увеличиваю эффективность команды.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Cases Section -->
     <section class="cases" id="cases">
         <div class="container">
@@ -462,24 +585,26 @@
 
             <!-- Case 1 -->
             <div class="case-item">
-                <div class="case-header">
-                    <h3>Оптимизация процессов в e-commerce проекте</h3>
+                <div class="case-before">
+                    <h4>Было</h4>
+                    <p>Интернет-магазин с оборотом 50 млн ₽/мес работал без системного подхода: заказы обрабатывались вручную в разрозненных таблицах, команда из 3 человек тратила до 6 часов в день на рутинные операции, клиенты жаловались на долгие ответы. Фаундер был вынужден лично контролировать каждый этап.</p>
                 </div>
                 <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&h=500&fit=crop" alt="Case 1" class="case-image">
-                <div class="case-content">
-                    <p>Взяла на себя полное управление операционной деятельностью интернет-магазина с оборотом 50 млн ₽/мес. Внедрила систему CRM, автоматизировала процессы работы с клиентами и сократила время обработки заказов на 60%.</p>
-                    <div class="stats">
-                        <div class="stat-item">
-                            <span class="stat-number">60%</span>
-                            <div class="stat-label">Сокращение времени обработки</div>
+                <div class="case-after">
+                    <h4>Стало</h4>
+                    <p>Внедрила CRM-систему, автоматизировала процессы работы с клиентами и сократила время обработки заказов на 60%. Команда теперь работает эффективно, фаундер освобожден от операционки.</p>
+                    <div class="case-stats">
+                        <div class="case-stat">
+                            <span class="case-stat-number">60%</span>
+                            <div class="case-stat-label">Сокращение времени обработки</div>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">3</span>
-                            <div class="stat-label">Сотрудника заменено</div>
+                        <div class="case-stat">
+                            <span class="case-stat-number">3</span>
+                            <div class="case-stat-label">Сотрудника заменено</div>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">40%</span>
-                            <div class="stat-label">Экономия ФОТ</div>
+                        <div class="case-stat">
+                            <span class="case-stat-number">40%</span>
+                            <div class="case-stat-label">Экономия ФОТ</div>
                         </div>
                     </div>
                 </div>
@@ -487,24 +612,26 @@
 
             <!-- Case 2 -->
             <div class="case-item">
-                <div class="case-header">
-                    <h3>Запуск маркетинговой стратегии для EdTech стартапа</h3>
+                <div class="case-before">
+                    <h4>Было</h4>
+                    <p>EdTech стартап с командой из 5 маркетологов не имел четкой системы KPI: рекламный бюджет расходовался неэффективно, конверсия была низкой, стоимость лида постоянно росла. Отсутствовала прозрачность в результатах работы маркетингового отдела.</p>
                 </div>
                 <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&h=500&fit=crop" alt="Case 2" class="case-image">
-                <div class="case-content">
-                    <p>Координировала работу маркетингового отдела из 5 человек. Разработала и внедрила систему KPI, что привело к росту конверсии на 45% и снижению стоимости лида на 35%.</p>
-                    <div class="stats">
-                        <div class="stat-item">
-                            <span class="stat-number">45%</span>
-                            <div class="stat-label">Рост конверсии</div>
+                <div class="case-after">
+                    <h4>Стало</h4>
+                    <p>Разработала и внедрила систему KPI для каждого канала продвижения. Настроила сквозную аналитику и регулярную отчетность. Команда теперь работает на результат с понятными метриками.</p>
+                    <div class="case-stats">
+                        <div class="case-stat">
+                            <span class="case-stat-number">45%</span>
+                            <div class="case-stat-label">Рост конверсии</div>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">35%</span>
-                            <div class="stat-label">Снижение CPL</div>
+                        <div class="case-stat">
+                            <span class="case-stat-number">35%</span>
+                            <div class="case-stat-label">Снижение CPL</div>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">5</span>
-                            <div class="stat-label">Человек в команде</div>
+                        <div class="case-stat">
+                            <span class="case-stat-number">5</span>
+                            <div class="case-stat-label">Человек в команде</div>
                         </div>
                     </div>
                 </div>
@@ -512,24 +639,26 @@
 
             <!-- Case 3 -->
             <div class="case-item">
-                <div class="case-header">
-                    <h3>Построение удаленной команды с нуля</h3>
+                <div class="case-before">
+                    <h4>Было</h4>
+                    <p>Компания планировала масштабировать службу поддержки, но не было ни процессов онбординга, ни системы контроля качества. Существующие сотрудники работали хаотично, уровень удовлетворенности клиентов был низким, текучка кадров высокой.</p>
                 </div>
                 <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1200&h=500&fit=crop" alt="Case 3" class="case-image">
-                <div class="case-content">
+                <div class="case-after">
+                    <h4>Стало</h4>
                     <p>Сформировала и обучила удаленную команду поддержки из 8 человек. Внедрила систему онбординга и контроля качества, что позволило достичь уровня удовлетворенности клиентов 98%.</p>
-                    <div class="stats">
-                        <div class="stat-item">
-                            <span class="stat-number">98%</span>
-                            <div class="stat-label">CSAT клиентов</div>
+                    <div class="case-stats">
+                        <div class="case-stat">
+                            <span class="case-stat-number">98%</span>
+                            <div class="case-stat-label">CSAT клиентов</div>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">8</span>
-                            <div class="stat-label">Сотрудников в команде</div>
+                        <div class="case-stat">
+                            <span class="case-stat-number">8</span>
+                            <div class="case-stat-label">Сотрудников в команде</div>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">2</span>
-                            <div class="stat-label">Месяца на запуск</div>
+                        <div class="case-stat">
+                            <span class="case-stat-number">2</span>
+                            <div class="case-stat-label">Месяца на запуск</div>
                         </div>
                     </div>
                 </div>
@@ -537,24 +666,26 @@
 
             <!-- Case 4 -->
             <div class="case-item">
-                <div class="case-header">
-                    <h3>Автоматизация бизнес-процессов</h3>
+                <div class="case-before">
+                    <h4>Было</h4>
+                    <p>Фаундер тратил более 20 часов в неделю на рутинные операции: ручной ввод данных, сведение отчетов из разных источников, координация команды через личные сообщения. Отсутствие единой системы приводило к постоянным ошибкам и потерям времени.</p>
                 </div>
                 <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&h=500&fit=crop" alt="Case 4" class="case-image">
-                <div class="case-content">
+                <div class="case-after">
+                    <h4>Стало</h4>
                     <p>Внедрила 15+ инструментов автоматизации: от CRM до систем аналитики. Это освободило 20+ часов в неделю фаундера и сократило количество рутинных операций на 75%.</p>
-                    <div class="stats">
-                        <div class="stat-item">
-                            <span class="stat-number">20+</span>
-                            <div class="stat-label">Часов сэкономлено в неделю</div>
+                    <div class="case-stats">
+                        <div class="case-stat">
+                            <span class="case-stat-number">20+</span>
+                            <div class="case-stat-label">Часов сэкономлено в неделю</div>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">75%</span>
-                            <div class="stat-label">Сокращение рутины</div>
+                        <div class="case-stat">
+                            <span class="case-stat-number">75%</span>
+                            <div class="case-stat-label">Сокращение рутины</div>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">15+</span>
-                            <div class="stat-label">Инструментов внедрено</div>
+                        <div class="case-stat">
+                            <span class="case-stat-number">15+</span>
+                            <div class="case-stat-label">Инструментов внедрено</div>
                         </div>
                     </div>
                 </div>
@@ -562,24 +693,26 @@
 
             <!-- Case 5 -->
             <div class="case-item">
-                <div class="case-header">
-                    <h3>Управление проектом по выходу на новые рынки</h3>
+                <div class="case-before">
+                    <h4>Было</h4>
+                    <p>Продукт успешно работал на локальном рынке, но выход на международные рынки (СНГ, Европа, Азия) казался сложной задачей. Не было понимания локальной специфики, процессов адаптации продукта и маркетинговых материалов.</p>
                 </div>
                 <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1200&h=500&fit=crop" alt="Case 5" class="case-image">
-                <div class="case-content">
-                    <p>Координировала запуск продукта на 3 новых рынка (СНГ, Европа, Азия). Организовала работу локальных команд, адаптировала маркетинговые материалы и обеспечила выход на окупаемость за 4 месяца.</p>
-                    <div class="stats">
-                        <div class="stat-item">
-                            <span class="stat-number">3</span>
-                            <div class="stat-label">Новых рынка</div>
+                <div class="case-after">
+                    <h4>Стало</h4>
+                    <p>Координировала запуск продукта на 3 новых рынка. Организовала работу локальных команд, адаптировала маркетинговые материалы и обеспечила выход на окупаемость за 4 месяца.</p>
+                    <div class="case-stats">
+                        <div class="case-stat">
+                            <span class="case-stat-number">3</span>
+                            <div class="case-stat-label">Новых рынка</div>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">4</span>
-                            <div class="stat-label">Месяца до окупаемости</div>
+                        <div class="case-stat">
+                            <span class="case-stat-number">4</span>
+                            <div class="case-stat-label">Месяца до окупаемости</div>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-number">200K€</span>
-                            <div class="stat-label">Выручки в первый квартал</div>
+                        <div class="case-stat">
+                            <span class="case-stat-number">200K€</span>
+                            <div class="case-stat-label">Выручки в первый квартал</div>
                         </div>
                     </div>
                 </div>
