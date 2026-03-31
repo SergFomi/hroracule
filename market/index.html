@@ -259,12 +259,31 @@
             padding: 30px 40px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             text-align: center;
+            position: relative;
         }
 
         .case-header h3 {
             font-size: 28px;
             color: white;
             font-weight: 700;
+        }
+
+        .case-link {
+            position: absolute;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            text-decoration: underline;
+            font-size: 16px;
+            font-weight: 600;
+            opacity: 0.9;
+            transition: all 0.3s;
+        }
+
+        .case-link:hover {
+            opacity: 1;
+            text-decoration: none;
         }
 
         .case-before {
@@ -504,6 +523,15 @@
 
             .case-header h3 {
                 font-size: 22px;
+                padding-right: 0;
+            }
+
+            .case-link {
+                position: static;
+                transform: none;
+                display: block;
+                margin-top: 10px;
+                font-size: 14px;
             }
         }
 
@@ -602,7 +630,7 @@
             <!-- Case 1: Мебельная фирма -->
             <div class="case-item">
                 <div class="case-header">
-                    <h3>🪑 Кейс 1: Мебельная фирма (с нуля → система)</h3>
+                    <h3>🪑 Кейс 1: Мебельная фирма Дениса (с нуля → система)</h3>
                 </div>
                 <div class="case-before">
                     <h4>Было</h4>
@@ -629,16 +657,17 @@
                 </div>
             </div>
 
-            <!-- Case 2: Завод металлической мебели -->
+            <!-- Case 2: Завод ЗМИ -->
             <div class="case-item">
                 <div class="case-header">
-                    <h3>🏭 Кейс 2: Завод металлической мебели (операционка e-com)</h3>
+                    <h3>🏭 Кейс 2: Завод ЗМИ (операционка e-com)</h3>
+                    <a href="https://zmi59.ru/" target="_blank" class="case-link">ссылка →</a>
                 </div>
                 <div class="case-before">
                     <h4>Было</h4>
                     <p>Отрицательная юнит-экономика, хаос в отгрузках на маркетплейсы, штрафы, ручное планирование производства.</p>
                 </div>
-                <img src="https://images.unsplash.com/photo-1565689157206-0fddef7589a2?w=1200&h=500&fit=crop" alt="Case 2 - Завод металлической мебели" class="case-image">
+                <img src="https://images.unsplash.com/photo-1565689157206-0fddef7589a2?w=1200&h=500&fit=crop" alt="Case 2 - Завод ЗМИ" class="case-image">
                 <div class="case-after">
                     <h4>Стало</h4>
                     <p>Автоматизированное планирование спроса, налажена логистика складов, внедрен ABC-анализ ассортимента.</p>
@@ -662,7 +691,8 @@
             <!-- Case 3: Rocket Work -->
             <div class="case-item">
                 <div class="case-header">
-                    <h3>🚀 Кейс 3: Rocket Work (fintech, 65 человек)</h3>
+                    <h3>🚀 Кейс 3: Rocket Work (аналитика маркетинга)</h3>
+                    <a href="https://b2b.rocketwork.ru" target="_blank" class="case-link">ссылка →</a>
                 </div>
                 <div class="case-before">
                     <h4>Было</h4>
@@ -692,7 +722,8 @@
             <!-- Case 4: E-com seller -->
             <div class="case-item">
                 <div class="case-header">
-                    <h3>🛍️ Кейс 4: E-com seller (WB/Ozon, 250 млн/год)</h3>
+                    <h3>🛍️ Кейс 4: Селлеры Максим и Настя (построение операц. менеджмента)</h3>
+                    <a href="https://www.wildberries.ru/seller/38701" target="_blank" class="case-link">ссылка →</a>
                 </div>
                 <div class="case-before">
                     <h4>Было</h4>
