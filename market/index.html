@@ -233,6 +233,16 @@
             color: #666;
         }
 
+        .service-block a {
+            color: #667eea;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
+        .service-block a:hover {
+            text-decoration: none;
+        }
+
         /* Cases Section */
         .cases {
             padding: 120px 0;
@@ -256,7 +266,7 @@
         }
 
         .case-header {
-            padding: 30px 40px;
+            padding: 30px 120px 30px 40px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             text-align: center;
             position: relative;
@@ -279,6 +289,7 @@
             font-weight: 600;
             opacity: 0.9;
             transition: all 0.3s;
+            white-space: nowrap;
         }
 
         .case-link:hover {
@@ -359,136 +370,16 @@
         }
 
         .case-stat-number {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 700;
             color: #667eea;
             display: block;
+            margin-bottom: 5px;
         }
 
         .case-stat-label {
             font-size: 14px;
             color: #666;
-            margin-top: 5px;
-        }
-
-        /* Footer / CTA Section */
-        .footer-cta {
-            padding: 120px 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .footer-cta::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/></svg>');
-            opacity: 0.3;
-        }
-
-        .footer-content {
-            position: relative;
-            z-index: 1;
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .footer-cta h2 {
-            font-size: 42px;
-            color: white;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .footer-cta p {
-            font-size: 20px;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 40px;
-        }
-
-        .contact-form {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #1a1a1a;
-            font-weight: 600;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            font-size: 16px;
-            font-family: inherit;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .btn-submit {
-            width: 100%;
-            background: #667eea;
-            color: white;
-            padding: 18px;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-submit:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-
-        .telegram-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 30px;
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: 600;
-            padding: 15px 30px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 10px;
-            transition: all 0.3s;
-        }
-
-        .telegram-link:hover {
-            background: rgba(255,255,255,0.3);
-            transform: translateY(-2px);
         }
 
         /* Responsive */
@@ -517,12 +408,12 @@
                 grid-template-columns: 1fr;
             }
 
-            .case-stats {
-                grid-template-columns: 1fr;
+            .case-header {
+                padding: 30px 20px;
             }
 
             .case-header h3 {
-                font-size: 22px;
+                font-size: 20px;
                 padding-right: 0;
             }
 
@@ -532,6 +423,10 @@
                 display: block;
                 margin-top: 10px;
                 font-size: 14px;
+            }
+
+            .case-stats {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -596,27 +491,27 @@
     <section class="about-service" id="services">
         <div class="container">
             <div class="service-intro">
-                <h2>О моей услуге</h2>
-                <p>Я помогаю фаундерам digital-проектов освободиться от операционной рутины и сфокусироваться на стратегии развития бизнеса. Беру на себя управление командой, контроль маркетинга и оптимизацию бизнес-процессов. Работаю удаленно, прозрачно и с измеримыми результатами.</p>
+                <h2>Обо мне</h2>
+                <p>Меня зовут Сергей, я бизнес-ассистент с 8-ми летним опытом. Помогаю фаундерам digital-проектов освободиться от операционной рутины и сфокусироваться на стратегии развития бизнеса. Беру на себя управление командой, контроль маркетинга и оптимизацию бизнес-процессов. Работаю удаленно, прозрачно и по KPI</p>
             </div>
             
             <div class="service-blocks">
                 <div class="service-block">
                     <div class="service-block-icon">📊</div>
                     <h3>Операционное управление</h3>
-                    <p>Полное управление операционной деятельностью: от постановки задач команде до контроля исполнения. Внедряю системы учета и отчетности.</p>
+                    <p>Управление командой, отделом продаж, внедрение CRM и финансового учета</p>
                 </div>
                 
                 <div class="service-block">
                     <div class="service-block-icon">🎯</div>
                     <h3>Контроль маркетинга</h3>
-                    <p>Координация работы маркетингового отдела, контроль бюджета, анализ эффективности каналов продвижения и оптимизация расходов.</p>
+                    <p>Настройка аналитики, контроль бюджета, Meta, Google Ads, Яндекс Директ</p>
                 </div>
                 
                 <div class="service-block">
                     <div class="service-block-icon">⚙️</div>
                     <h3>Автоматизация процессов</h3>
-                    <p>Внедрение CRM, систем автоматизации и оптимизация бизнес-процессов. Сокращаю рутину и увеличиваю эффективность команды.</p>
+                    <p>Создание ИИ-ботов: <a href="https://hr-oracul.ru/finbot" target="_blank">ФинБот</a>, <a href="https://hr-oracul.ru/ai" target="_blank">ДайджестБот</a></p>
                 </div>
             </div>
         </div>
@@ -625,7 +520,7 @@
     <!-- Cases Section -->
     <section class="cases" id="cases">
         <div class="container">
-            <h2 class="section-title">Опыт в цифрах</h2>
+            <h2 class="section-title">Мои результаты</h2>
 
             <!-- Case 1: Мебельная фирма -->
             <div class="case-item">
@@ -642,16 +537,16 @@
                     <p>Системный бизнес: отдел продаж, замерщики, внедрена CRM и финучет, фаундер освобожден от операционки.</p>
                     <div class="case-stats">
                         <div class="case-stat">
-                            <span class="case-stat-number">300к → 1.5 млн ₽</span>
+                            <span class="case-stat-number">300к → 1.5 млн ₽<br><small>в месяц</small></span>
                             <div class="case-stat-label">Рост оборота</div>
                         </div>
                         <div class="case-stat">
-                            <span class="case-stat-number">2</span>
-                            <div class="case-stat-label">Менеджера</div>
+                            <span class="case-stat-number">10%</span>
+                            <div class="case-stat-label">Конверсия с холодного трафика</div>
                         </div>
                         <div class="case-stat">
-                            <span class="case-stat-number">1</span>
-                            <div class="case-stat-label">CRM внедрена</div>
+                            <span class="case-stat-number">10 млн ₽</span>
+                            <div class="case-stat-label">Оборота сейчас</div>
                         </div>
                     </div>
                 </div>
@@ -670,19 +565,19 @@
                 <img src="https://images.unsplash.com/photo-1565689157206-0fddef7589a2?w=1200&h=500&fit=crop" alt="Case 2 - Завод ЗМИ" class="case-image">
                 <div class="case-after">
                     <h4>Стало</h4>
-                    <p>Автоматизированное планирование спроса, налажена логистика складов, внедрен ABC-анализ ассортимента.</p>
+                    <p>Автоматизированное планирование поставок, налажена логистика складов, управление продажами на МП.</p>
                     <div class="case-stats">
                         <div class="case-stat">
-                            <span class="case-stat-number">0 → Auto</span>
-                            <div class="case-stat-label">Штрафы</div>
+                            <span class="case-stat-number">1,5 млн → 10К</span>
+                            <div class="case-stat-label">Штрафы в месяц</div>
                         </div>
                         <div class="case-stat">
-                            <span class="case-stat-number">ABC</span>
-                            <div class="case-stat-label">Анализ внедрен</div>
+                            <span class="case-stat-number">30%</span>
+                            <div class="case-stat-label">Рост продаж г/г</div>
                         </div>
                         <div class="case-stat">
-                            <span class="case-stat-number">Auto</span>
-                            <div class="case-stat-label">Таблицы расчета</div>
+                            <span class="case-stat-number">Положительная</span>
+                            <div class="case-stat-label">Юнит-экономика</div>
                         </div>
                     </div>
                 </div>
@@ -704,16 +599,16 @@
                     <p>Построена сквозная аналитика (Реклама → CRM → Деньги), дашборд для фаундеров, прозрачный цикл сделки.</p>
                     <div class="case-stats">
                         <div class="case-stat">
-                            <span class="case-stat-number">65</span>
-                            <div class="case-stat-label">Человек в системе</div>
+                            <span class="case-stat-number">25 лидов/день</span>
+                            <div class="case-stat-label">Аналитика</div>
                         </div>
                         <div class="case-stat">
-                            <span class="case-stat-number">3</span>
-                            <div class="case-stat-label">Месяца</div>
+                            <span class="case-stat-number">Meta, Google, Директ</span>
+                            <div class="case-stat-label">Найдены связки</div>
                         </div>
                         <div class="case-stat">
-                            <span class="case-stat-number">1</span>
-                            <div class="case-stat-label">Дашборд</div>
+                            <span class="case-stat-number">Яндекс Ленс</span>
+                            <div class="case-stat-label">Дашборд создан</div>
                         </div>
                     </div>
                 </div>
@@ -778,39 +673,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer CTA -->
-    <section class="footer-cta" id="contacts">
-        <div class="container">
-            <div class="footer-content">
-                <h2>Готовы навести порядок в бизнесе?</h2>
-                <p>Оставьте заявку, чтобы я смог связаться с вами</p>
-                
-                <form class="contact-form" onsubmit="event.preventDefault(); alert('Спасибо за заявку! Я свяжусь с вами в ближайшее время.');">
-                    <div class="form-group">
-                        <label for="name">Имя</label>
-                        <input type="text" id="name" name="name" required placeholder="Ваше имя">
-                    </div>
-                    <div class="form-group">
-                        <label for="contact">Телефон / Ник в Telegram</label>
-                        <input type="text" id="contact" name="contact" required placeholder="@username или +7 (___) ___-__-__">
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Кратко о задаче</label>
-                        <textarea id="message" name="message" required placeholder="Опишите вашу задачу в нескольких предложениях..."></textarea>
-                    </div>
-                    <button type="submit" class="btn-submit">Отправить заявку</button>
-                </form>
-
-                <a href="https://t.me/username" class="telegram-link">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.054 5.56-5.022c.242-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
-                    </svg>
-                    Написать в Telegram
-                </a>
             </div>
         </div>
     </section>
