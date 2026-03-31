@@ -107,7 +107,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></svg>');
+            background: url('image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></svg>');
             opacity: 0.3;
         }
 
@@ -253,6 +253,18 @@
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+
+        .case-header {
+            padding: 30px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            text-align: center;
+        }
+
+        .case-header h3 {
+            font-size: 28px;
+            color: white;
+            font-weight: 700;
         }
 
         .case-before {
@@ -489,6 +501,10 @@
             .case-stats {
                 grid-template-columns: 1fr;
             }
+
+            .case-header h3 {
+                font-size: 22px;
+            }
         }
 
         /* Animations */
@@ -585,6 +601,9 @@
 
             <!-- Case 1: Мебельная фирма -->
             <div class="case-item">
+                <div class="case-header">
+                    <h3>🪑 Кейс 1: Мебельная фирма (с нуля → система)</h3>
+                </div>
                 <div class="case-before">
                     <h4>Было</h4>
                     <p>Частный мастер, оборот ~300к/мес, всё на себе, хаос в заявках и учете.</p>
@@ -612,6 +631,9 @@
 
             <!-- Case 2: Завод металлической мебели -->
             <div class="case-item">
+                <div class="case-header">
+                    <h3>🏭 Кейс 2: Завод металлической мебели (операционка e-com)</h3>
+                </div>
                 <div class="case-before">
                     <h4>Было</h4>
                     <p>Отрицательная юнит-экономика, хаос в отгрузках на маркетплейсы, штрафы, ручное планирование производства.</p>
@@ -639,6 +661,9 @@
 
             <!-- Case 3: Rocket Work -->
             <div class="case-item">
+                <div class="case-header">
+                    <h3>🚀 Кейс 3: Rocket Work (fintech, 65 человек)</h3>
+                </div>
                 <div class="case-before">
                     <h4>Было</h4>
                     <p>Нет маркетинга, нет аналитики, решения на интуиции, непонятно какие каналы работают.</p>
@@ -666,6 +691,9 @@
 
             <!-- Case 4: E-com seller -->
             <div class="case-item">
+                <div class="case-header">
+                    <h3>🛍️ Кейс 4: E-com seller (WB/Ozon, 250 млн/год)</h3>
+                </div>
                 <div class="case-before">
                     <h4>Было</h4>
                     <p>Фаундеры выгорели от операционки, нет команды, ручное управление ассортиментом и рекламой.</p>
@@ -693,6 +721,9 @@
 
             <!-- Case 5: Карьерная школа -->
             <div class="case-item">
+                <div class="case-header">
+                    <h3>🎓 Кейс 5: Карьерная школа (продукт с нуля)</h3>
+                </div>
                 <div class="case-before">
                     <h4>Было</h4>
                     <p>Идея и потребность в кадрах, нет продукта, нет воронки, нет экономики.</p>
