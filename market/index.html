@@ -350,6 +350,18 @@
             width: 100%;
             height: 500px;
             object-fit: cover;
+            object-position: center;
+        }
+
+        /* Специальные стили для конкретных кейсов */
+        .case-item:nth-child(3) .case-image {
+            /* ЗМИ - выравнивание по левому краю */
+            object-position: left center;
+        }
+
+        .case-item:nth-child(6) .case-image {
+            /* Школа - более вертикальная */
+            object-position: center top;
         }
 
         .case-after {
