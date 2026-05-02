@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Сергей Фомичев | Внедрение CRM и кейсы</title>
+    <title>Сергей Фомичев | Операционный менеджер / Project Manager</title>
     <!-- Google Fonts & Libraries -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
@@ -32,9 +32,8 @@
             overflow-x: hidden;
             cursor: none;
             font-size: 18px;
-            padding-bottom: 80px; /* отступ под нижнюю навигацию */
+            padding-bottom: 80px;
         }
-        /* ---- Кастомный курсор ---- */
         .cursor {
             width: 20px; height: 20px; border: 2px solid var(--highlight);
             border-radius: 50%; position: fixed; pointer-events: none; z-index: 10000;
@@ -46,7 +45,7 @@
             position: fixed; pointer-events: none; z-index: 10000;
             box-shadow: 0 0 15px var(--highlight);
         }
-        /* ---- Фиксированное нижнее меню ---- */
+        /* Фиксированное нижнее меню */
         .bottom-nav-hero {
             position: fixed; bottom: 0; left: 0; width: 100%; height: 54px;
             background: rgba(10,10,15,0.9); backdrop-filter: blur(12px); z-index: 1000;
@@ -65,10 +64,9 @@
             font-weight: 800; border: 1px solid var(--highlight);
             font-family: 'Orbitron', monospace; transition: all 0.2s;
         }
-        /* ---- Общий контейнер контента ---- */
         .main-container { max-width: 1400px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 20; }
         
-        /* ===== СЕКЦИЯ HERO (Обо мне + Внедрение CRM) ===== */
+        /* ===== НОВЫЙ HERO (Операционный менеджер) ===== */
         .hero-section {
             padding: 100px 0 60px;
             display: flex;
@@ -77,31 +75,40 @@
             gap: 60px;
             flex-wrap: wrap;
         }
-        .hero-content {
-            flex: 1;
-            text-align: left;
-        }
+        .hero-content { flex: 1; text-align: left; }
         .hero-content h1 {
             font-family: 'Orbitron', monospace;
             font-size: 64px;
             font-weight: 900;
             line-height: 1.1;
             margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff, var(--techno-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
-        .hero-content h1 .cyan { color: var(--techno-cyan); text-shadow: 0 0 20px rgba(0,245,255,0.5); }
-        .hero-content h1 .orange { color: var(--techno-orange); text-shadow: 0 0 20px rgba(255,69,0,0.5); }
-        .hero-content p {
+        .status-badge {
+            display: inline-block;
+            background: rgba(0, 245, 255, 0.12);
+            border: 1px solid rgba(0, 245, 255, 0.4);
+            border-radius: 100px;
+            padding: 6px 18px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--techno-cyan);
+            margin: 16px 0 20px;
+            backdrop-filter: blur(4px);
+            font-family: 'Inter', monospace;
+            letter-spacing: 0.3px;
+        }
+        .hero-description {
             font-size: 18px;
             color: var(--text-secondary);
             margin-bottom: 32px;
             max-width: 540px;
+            line-height: 1.5;
         }
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
-        }
+        .hero-buttons { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 16px; }
         .btn {
             padding: 14px 28px;
             border-radius: 100px;
@@ -125,6 +132,15 @@
             background: transparent;
         }
         .btn-secondary:hover { background: rgba(0,245,255,0.1); transform: translateY(-2px); }
+        .hero-footnote {
+            margin-top: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+            border-top: 1px dashed rgba(255,255,255,0.15);
+            display: inline-block;
+            padding-top: 12px;
+            letter-spacing: 0.5px;
+        }
         .hero-photo {
             width: 360px;
             height: 420px;
@@ -134,25 +150,10 @@
             box-shadow: 0 0 40px rgba(0,245,255,0.2);
             flex-shrink: 0;
         }
-        .hero-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        /* Доп блок об опыте */
-        .about-badge {
-            display: inline-block;
-            background: rgba(0,245,255,0.1);
-            border-left: 3px solid var(--techno-cyan);
-            padding: 12px 18px;
-            border-radius: 12px;
-            margin-top: 16px;
-            font-size: 15px;
-            color: var(--text-secondary);
-        }
+        .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
         
-        /* ===== ТАЙМЛАЙН 6 ДНЕЙ ===== */
-        .timeline-section {
+        /* ===== НОВЫЙ БЛОК: ЭТАПЫ РАБОТЫ / ПОДХОД ===== */
+        .approach-section {
             padding: 60px 0 40px;
         }
         .section-title {
@@ -161,7 +162,6 @@
             margin-bottom: 16px;
             font-weight: 800;
         }
-        .section-title .orange { color: var(--techno-orange); }
         .section-title .cyan { color: var(--techno-cyan); }
         .section-subtitle {
             color: var(--text-muted);
@@ -169,13 +169,13 @@
             margin-bottom: 60px;
             max-width: 700px;
         }
-        .timeline-grid {
+        .steps-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 28px;
             margin-bottom: 70px;
         }
-        .timeline-card {
+        .step-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 24px;
@@ -185,55 +185,52 @@
             opacity: 0;
             transform: translateY(30px);
         }
-        .timeline-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .timeline-card:hover {
+        .step-card.visible { opacity: 1; transform: translateY(0); }
+        .step-card:hover {
             border-color: var(--techno-cyan);
             transform: translateY(-6px);
             box-shadow: 0 20px 35px rgba(0,245,255,0.1);
         }
-        .timeline-day {
+        .step-number {
             font-family: 'Orbitron', monospace;
             font-size: 48px;
             font-weight: 900;
             margin-bottom: 12px;
+            color: var(--techno-orange);
+            text-shadow: 0 0 10px rgba(255,69,0,0.3);
         }
-        .timeline-day .cyan { color: var(--techno-cyan); }
-        .timeline-day .orange { color: var(--techno-orange); }
-        .timeline-card h3 {
+        .step-card h3 {
             font-size: 22px;
             margin-bottom: 12px;
             font-weight: 700;
         }
-        .timeline-card p {
+        .step-card p {
             color: var(--text-secondary);
             font-size: 15px;
             line-height: 1.5;
         }
         
-        /* ===== Блок "Для кого" и результат ===== */
-        .for-who-block {
+        /* Блок "Кому подходит" (для найма) */
+        .who-for-block {
             margin: 40px 0 50px;
         }
-        .for-who-block h2 {
+        .who-for-block h2 {
             font-size: 28px;
             margin-bottom: 24px;
             font-family: 'Orbitron', monospace;
             letter-spacing: 1px;
         }
-        .for-who-list {
+        .who-list {
             list-style: none;
             margin-bottom: 40px;
         }
-        .for-who-list li {
+        .who-list li {
             padding: 14px 0;
             border-bottom: 1px solid rgba(255,255,255,0.08);
             color: var(--text-secondary);
             font-size: 17px;
         }
-        .for-who-list li:before {
+        .who-list li:before {
             content: "▸ ";
             color: var(--techno-cyan);
             font-weight: bold;
@@ -259,7 +256,7 @@
             line-height: 1.6;
         }
         
-        /* ===== СТИЛИ КЕЙСОВ (из второй страницы) ===== */
+        /* ===== СТИЛИ КЕЙСОВ (без изменений) ===== */
         .cases-header {
             text-align: center;
             padding: 80px 0 60px;
@@ -349,11 +346,10 @@
             .content-left, .content-right, .content-empty { width: 100%; margin: 0; }
             .content-row { flex-direction: column; gap: 50px; margin-bottom: 60px; }
             .content-right .case-card { transform: translateX(-40px); }
-            .case-comparison { grid-template-columns: 1fr; gap: 30px; }
-            .timeline-grid { grid-template-columns: repeat(2, 1fr); }
+            .steps-grid { grid-template-columns: repeat(2, 1fr); }
             .hero-section { flex-direction: column; text-align: center; }
             .hero-content { text-align: center; }
-            .hero-content p { margin-left: auto; margin-right: auto; }
+            .hero-description { margin-left: auto; margin-right: auto; }
             .hero-buttons { justify-content: center; }
         }
         @media (max-width: 768px) {
@@ -361,16 +357,14 @@
             .cursor, .cursor-follower { display: none; }
             .bottom-nav-hero { height: 48px; gap: 18px; }
             .bottom-nav-hero a { font-size: 11px; }
-            .bottom-nav-hero .btn-telegram { padding: 6px 14px; font-size: 10px; }
             .main-container { padding: 0 20px; }
             .hero-content h1 { font-size: 42px; }
             .hero-photo { width: 280px; height: 340px; margin: 0 auto; }
             .section-title { font-size: 32px; }
-            .timeline-grid { grid-template-columns: 1fr; }
+            .steps-grid { grid-template-columns: 1fr; }
             .case-title { font-size: 28px; }
             .case-card { padding: 32px 24px; }
             .cases-header h2 { font-size: 42px; }
-            .case-stat-number { font-size: 22px; }
         }
     </style>
 </head>
@@ -378,7 +372,6 @@
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
 
-    <!-- Нижнее меню навигации -->
     <nav class="bottom-nav-hero">
         <a href="#about" class="magnetic">ОБО МНЕ</a>
         <a href="#cases" class="magnetic">КЕЙСЫ</a>
@@ -386,21 +379,22 @@
     </nav>
 
     <div class="main-container">
-        <!-- СЕКЦИЯ: Обо мне + Hero CRM -->
+        <!-- HERO БЛОК (Операционный менеджер) -->
         <section id="about">
             <div class="hero-section">
                 <div class="hero-content">
-                    <h1>
-                        <span class="cyan">Внедрю CRM</span><br>
-                        <span class="orange">за 6 дней</span>
-                    </h1>
-                    <p>Переведу учёт клиентов из чатов и таблиц в единую систему. Без потери данных и срывов сроков. Системный подход, прозрачность и автоматизация.</p>
+                    <h1>Операционный менеджер / Project Manager</h1>
+                    <div class="status-badge">🔍 В поиске постоянной позиции (full-time)</div>
+                    <p class="hero-description">
+                        Выстраиваю процессы и навожу порядок в операционке. Автоматизирую рутину, 
+                        чтобы команда фокусировалась на росте, а не на хаосе.
+                    </p>
                     <div class="hero-buttons">
-                        <a href="https://t.me/Thukydides" class="btn btn-primary">Обсудить внедрение</a>
+                        <a href="https://t.me/Thukydides" class="btn btn-primary">Обсудить задачи</a>
                         <a href="#cases" class="btn btn-secondary">Смотреть кейсы</a>
                     </div>
-                    <div class="about-badge">
-                        ⚡ Опыт: мебельное производство, завод ЗМИ, финтех Rocket Work, селлеры маркетплейсов | 5+ лет в операционном управлении
+                    <div class="hero-footnote">
+                        Открыт к предложениям о найме. Готов к собеседованию.
                     </div>
                 </div>
                 <div class="hero-photo">
@@ -409,50 +403,48 @@
             </div>
         </section>
 
-        <!-- Таймлайн внедрения CRM за 6 дней -->
-        <section class="timeline-section">
-            <h2 class="section-title">
-                <span class="orange">Настройка и миграция</span> <span class="cyan">CRM за 6 дней</span>
-            </h2>
-            <p class="section-subtitle">Переведу учёт клиентов из чатов и таблиц в единую систему. Без потери данных и технического жаргона.</p>
-            <div class="timeline-grid">
-                <div class="timeline-card" data-side="left"><div class="timeline-day"><span class="cyan">День</span> <span class="orange">1</span></div><h3>Аудит процессов</h3><p>Анализ текущих процессов и базы клиентов. Интервью с командой.</p></div>
-                <div class="timeline-card" data-side="left"><div class="timeline-day"><span class="cyan">День</span> <span class="orange">2</span></div><h3>Проектирование</h3><p>Проектирование воронок, полей, прав доступа. Согласование структуры.</p></div>
-                <div class="timeline-card" data-side="left"><div class="timeline-day"><span class="cyan">День</span> <span class="orange">3</span></div><h3>Импорт данных</h3><p>Импорт контактов, настройка статусов, интеграции с почтой и мессенджерами.</p></div>
-                <div class="timeline-card" data-side="left"><div class="timeline-day"><span class="cyan">День</span> <span class="orange">4</span></div><h3>Настройка автоматизации</h3><p>Настройка триггеров, уведомлений и автоматических сценариев.</p></div>
-                <div class="timeline-card" data-side="left"><div class="timeline-day"><span class="cyan">День</span> <span class="orange">5</span></div><h3>Тестирование</h3><p>Тестирование всех сценариев, исправление недочётов, запись видео-инструкций.</p></div>
-                <div class="timeline-card" data-side="left"><div class="timeline-day"><span class="cyan">День</span> <span class="orange">6</span></div><h3>Запуск и обучение</h3><p>Передача доступов, онбординг команды, финальный созвон и поддержка.</p></div>
-            </div>
-            <div class="for-who-block">
-                <h2>🎯 Для кого подходит</h2>
-                <ul class="for-who-list">
-                    <li>Малый бизнес: 2–10 человек в отделе продаж</li>
-                    <li>Заявки уже собираются, но ведутся в Excel, чатах или устаревшей CRM</li>
-                    <li>Готовы выделить 1–2 часа на интервью и согласование структуры</li>
-                </ul>
-                <div class="result-box">
-                    <h3>Итоговый результат</h3>
-                    <p>Прозрачная воронка, единый стандарт работы с клиентами, отсутствие ручного переноса данных. Система готова к масштабированию. Вместе с CRM вы получаете внедрённые бизнес-процессы и обученную команду.</p>
-                </div>
+        <!-- НОВЫЙ БЛОК: Этапы работы (замена таймлайна CRM) -->
+        <section class="approach-section">
+            <h2 class="section-title"><span class="cyan">Мой подход</span> к наведению порядка</h2>
+            <p class="section-subtitle">Системно, без хайпа и переработок. Беру на себя операционку и освобождаю время собственнику.</p>
+            <div class="steps-grid">
+                <div class="step-card"><div class="step-number">01</div><h3>Аудит и диагностика</h3><p>Анализирую текущие процессы, точки сбоев, загрузку команды. Выявляю скрытые потери и узкие места.</p></div>
+                <div class="step-card"><div class="step-number">02</div><h3>Проектирование решений</h3><p>Разрабатываю новую структуру процессов, регламенты, матрицу ответственности. Согласовываю с вами и командой.</p></div>
+                <div class="step-card"><div class="step-number">03</div><h3>Внедрение и автоматизация</h3><p>Провожу изменения, настраиваю CRM/задачники, учёт, отчёты. Обучаю сотрудников работать по-новому.</p></div>
+                <div class="step-card"><div class="step-number">04</div><h3>Контроль и масштабирование</h3><p>Передаю управление, выстраиваю KPI и систему контроля. Упаковываю процессы под дальнейший рост.</p></div>
             </div>
         </section>
 
-        <!-- БЛОК КЕЙСОВ (вторая страница) -->
+        <!-- БЛОК: Кому подходит (для найма) -->
+        <div class="who-for-block">
+            <h2>🎯 Кому подходит моё сотрудничество</h2>
+            <ul class="who-list">
+                <li>Малому и среднему бизнесу (10–100+ сотрудников), где хаос в процессах мешает росту</li>
+                <li>Основателям, которые устали быть «пожарным» и хотят передать операционку</li>
+                <li>Компаниям, которые растут, но начинают терять контроль над качеством и сроками</li>
+                <li>Проектам, где требуется навести порядок в логистике, продажах, клиентском сервисе или внутренней рутине</li>
+            </ul>
+        </div>
+
+        <!-- БЛОК: Результат для компании -->
+        <div class="result-box">
+            <h3>Итоговый результат после моего выхода</h3>
+            <p>Прозрачные и измеримые процессы, снижение операционных издержек, рост скорости выполнения задач. Вы перестаёте тушить пожары — команда работает как часы, а бизнес масштабируется без сбоев.</p>
+        </div>
+
+        <!-- БЛОК КЕЙСОВ (полностью без изменений) -->
         <header class="cases-header" id="cases">
             <h2>КЕЙСЫ</h2>
             <p>Внедрение CRM, операционное управление, развитие бизнеса.</p>
         </header>
 
         <!-- Кейс 1: Мебельная фирма -->
-        <div class="content-row">
-            <div class="content-empty"></div>
-            <div class="content-right"><div class="case-card" data-side="right">
-                <div class="case-header"><h3 class="case-title">Мебельная фирма</h3><a href="#" class="case-link">ПОДРОБНЕЕ →</a></div>
-                <div class="case-comparison"><div class="case-col before"><h4>▸ Было</h4><p>Частный мастер, ~300к/мес, всё на себе, хаос в заявках.</p></div><div class="case-col after"><h4>▸ Сделал лично</h4><ul><li>Найм менеджеров</li><li>Внедрение CRM</li><li>Сайт</li><li>Пост-продажное обслуживание</li></ul></div></div>
-                <p class="case-description">Я и мой босс с нуля делали мебельную фирму. Профессионал в производстве, он не имел опыта в продажах, интернет-рекламе и найме. Поэтому эти блоки я взял на себя: были наняты продавцы, внедрена CRM, запущена реклама. Бизнес существует уже 3 года, создано собственное производство мебели на заказ в Москве.</p>
-                <div class="case-stats"><div class="case-stat"><span class="case-stat-number">300к → 1.5М ₽</span><span class="case-stat-label">Оборот/мес</span></div><div class="case-stat"><span class="case-stat-number">10%</span><span class="case-stat-label">Конверсия</span></div><div class="case-stat"><span class="case-stat-number">10М ₽</span><span class="case-stat-label">Сейчас</span></div></div>
-            </div></div>
-        </div>
+        <div class="content-row"><div class="content-empty"></div><div class="content-right"><div class="case-card" data-side="right">
+            <div class="case-header"><h3 class="case-title">Мебельная фирма</h3><a href="#" class="case-link">ПОДРОБНЕЕ →</a></div>
+            <div class="case-comparison"><div class="case-col before"><h4>▸ Было</h4><p>Частный мастер, ~300к/мес, всё на себе, хаос в заявках.</p></div><div class="case-col after"><h4>▸ Сделал лично</h4><ul><li>Найм менеджеров</li><li>Внедрение CRM</li><li>Сайт</li><li>Пост-продажное обслуживание</li></ul></div></div>
+            <p class="case-description">Я и мой босс с нуля делали мебельную фирму. Профессионал в производстве, он не имел опыта в продажах, интернет-рекламе и найме. Поэтому эти блоки я взял на себя: были наняты продавцы, внедрена CRM, запущена реклама. Бизнес существует уже 3 года, создано собственное производство мебели на заказ в Москве.</p>
+            <div class="case-stats"><div class="case-stat"><span class="case-stat-number">300к → 1.5М ₽</span><span class="case-stat-label">Оборот/мес</span></div><div class="case-stat"><span class="case-stat-number">10%</span><span class="case-stat-label">Конверсия</span></div><div class="case-stat"><span class="case-stat-number">10М ₽</span><span class="case-stat-label">Сейчас</span></div></div>
+        </div></div></div>
 
         <!-- Кейс 2: Завод ЗМИ -->
         <div class="content-row"><div class="content-left"><div class="case-card" data-side="left">
@@ -501,27 +493,21 @@
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
-        // Lenis сглаживание
         const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
         window.lenis = lenis;
 
-        // Анимация для timeline карточек, case-карточек и result-box
-        const animateOnScroll = (elements, xOffset = 0, yOffset = 30) => {
+        // Анимация для карточек этапов и прочих блоков
+        const animateCards = (elements, yOffset = 30) => {
             elements.forEach(el => {
-                let startX = 0, startY = yOffset;
-                if (el.classList.contains('case-card') && el.closest('.content-right')) startX = 40;
-                else if (el.classList.contains('case-card') && el.closest('.content-left')) startX = -40;
-                else if (el.classList.contains('timeline-card')) startY = 40;
-                gsap.set(el, { opacity: 0, x: startX, y: startY });
-                ScrollTrigger.create({ trigger: el, start: "top 85%", onEnter: () => gsap.to(el, { opacity: 1, x: 0, y: 0, duration: 0.7, ease: "power2.out" }), once: true });
+                gsap.set(el, { opacity: 0, y: yOffset });
+                ScrollTrigger.create({ trigger: el, start: "top 85%", onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: 0.7, ease: "power2.out" }), once: true });
             });
         };
-        animateOnScroll(document.querySelectorAll('.timeline-card'));
-        animateOnScroll(document.querySelectorAll('.case-card'));
-        animateOnScroll(document.querySelectorAll('.result-box, .for-who-list'), 0, 20);
-        animateOnScroll(document.querySelectorAll('.hero-content, .hero-photo'), 0, 25);
+        animateCards(document.querySelectorAll('.step-card'));
+        animateCards(document.querySelectorAll('.case-card'));
+        animateCards(document.querySelectorAll('.result-box, .who-list'), 20);
         
         // Курсор для десктопа
         if (window.innerWidth > 768 && !window.cursorActive) {
@@ -537,7 +523,7 @@
                     requestAnimationFrame(animCursor);
                 }
                 animCursor();
-                document.querySelectorAll('a, button, .magnetic, .timeline-card, .case-card, .btn').forEach(el => {
+                document.querySelectorAll('a, button, .magnetic, .step-card, .case-card, .btn').forEach(el => {
                     el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
                     el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
                 });
@@ -545,7 +531,7 @@
             }
         }
         
-        // Магнитный эффект для кнопок навигации
+        // Магнитные кнопки
         document.querySelectorAll('.magnetic').forEach(btn => {
             btn.addEventListener('mousemove', e => {
                 const rect = btn.getBoundingClientRect();
@@ -556,7 +542,7 @@
             btn.addEventListener('mouseleave', () => btn.style.transform = 'translate(0,0)');
         });
         
-        // Плавный скролл к якорям
+        // Плавный скролл по якорям
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', e => {
                 e.preventDefault();
@@ -565,7 +551,7 @@
             });
         });
         
-        // Активное меню при скролле
+        // Активное меню
         const sections = document.querySelectorAll('#about, #cases');
         const navLinks = document.querySelectorAll('.bottom-nav-hero a[href^="#"]');
         function updateActiveLink() {
