@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AVITOLIGATOR — агрегатор авитологов для авто-ниши</title>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --text: #f0f0f0;
+      --accent: #ff3c3c;
+      --muted: #888;
+      --border: #333;
+      --font-mono: 'Courier New', monospace;
+      --font-sans: system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-mono);
+      line-height: 1.5;
+      font-size: 16px;
+      overflow-x: hidden;
+    }
+
+    /* === UTILS === */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #000;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 16px 32px;
+      border: 3px solid var(--accent);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font-mono);
+    }
+    .btn:hover {
+      background: transparent;
+      color: var(--accent);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border: 3px solid var(--accent);
+    }
+    .btn-outline:hover {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .section {
+      padding: 80px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h1, h2, h3 {
+      font-family: var(--font-sans);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    h1 { font-size: clamp(40px, 8vw, 80px); }
+    h2 { font-size: clamp(32px, 5vw, 48px); margin-bottom: 40px; }
+    h3 { font-size: 20px; margin-bottom: 12px; }
+
+    .muted { color: var(--muted); }
+    .accent { color: var(--accent); }
+
+    /* === HEADER === */
+    header {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 100;
+    }
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-weight: 900;
+      font-size: 24px;
+      letter-spacing: -1px;
+    }
+    .logo span { color: var(--accent); }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      margin-left: 24px;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+    nav a:hover { color: var(--accent); }
+
+    /* === HERO === */
+    .hero {
+      padding: 120px 0;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .hero h1 {
+      margin-bottom: 24px;
+    }
+    .hero p {
+      font-size: 18px;
+      margin-bottom: 32px;
+      max-width: 500px;
+    }
+    .hero-stats {
+      background: #111;
+      border: 2px solid var(--border);
+      padding: 24px;
+    }
+    .stat {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+    .stat:last-child { border-bottom: 0; }
+    .stat-value { font-weight: 700; color: var(--accent); }
+
+    /* === ADVANTAGES === */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .card {
+      border: 2px solid var(--border);
+      padding: 24px;
+      background: #0f0f0f;
+    }
+    .card:hover {
+      border-color: var(--accent);
+    }
+    .card-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+      color: var(--accent);
+    }
+
+    /* === WORKS === */
+    .works-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .work-item {
+      display: flex;
+      gap: 16px;
+      padding: 16px;
+      border-left: 3px solid var(--accent);
+      background: #0f0f0f;
+    }
+    .work-num {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 24px;
+    }
+
+    /* === SAVINGS === */
+    .savings {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .savings-box {
+      background: #111;
+      border: 2px solid var(--border);
+      padding: 32px;
+    }
+    .savings-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px dashed var(--border);
+      font-size: 18px;
+    }
+    .savings-row.total {
+      border-bottom: 0;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--accent);
+    }
+
+    /* === PRICING === */
+    .pricing {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .price-tag {
+      font-size: 64px;
+      font-weight: 900;
+      color: var(--accent);
+      margin: 24px 0;
+      line-height: 1;
+    }
+    .price-note {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    /* === CTA === */
+    .cta {
+      text-align: center;
+      padding: 100px 0;
+    }
+    .cta h2 { margin-bottom: 24px; }
+    .cta p { margin-bottom: 40px; font-size: 18px; }
+
+    /* === FOOTER === */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .savings { grid-template-columns: 1fr; }
+      nav { display: none; }
+    }
+
+    /* === ANIMATIONS (minimal brutal) === */
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .blink { animation: blink 2s infinite; }
+
+    /* === RAW GRID LINES (brutalist touch) === */
+    .grid-line {
+      position: fixed;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: rgba(255,255,255,0.05);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .grid-line:nth-child(1) { left: 25%; }
+    .grid-line:nth-child(2) { left: 50%; }
+    .grid-line:nth-child(3) { left: 75%; }
+  </style>
+</head>
+<body>
+
+  <!-- Brutalist grid lines -->
+  <div class="grid-line"></div>
+  <div class="grid-line"></div>
+  <div class="grid-line"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="container header-inner">
+      <div class="logo">AVITO<span>LIGATOR</span></div>
+      <nav>
+        <a href="#advantages">Преимущества</a>
+        <a href="#works">Что делаем</a>
+        <a href="#pricing">Цена</a>
+        <a href="#contact">Контакты</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero container">
+    <div>
+      <h1>Агрегатор мощных авитологов для авто-ниши</h1>
+      <p>Подбираем специалиста под вашу задачу. Продаём ваши авто <span class="accent">выше рынка</span>. Без воды, без обучения, без потери времени.</p>
+      <a href="#contact" class="btn">Получить авитолога →</a>
+      <p class="muted" style="margin-top:16px;font-size:14px;">* первый подбор — бесплатно</p>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span>Средний рост цены продажи</span><span class="stat-value">+12–25%</span></div>
+      <div class="stat"><span>Время на продажу</span><span class="stat-value">−40%</span></div>
+      <div class="stat"><span>Экономия времени клиента</span><span class="stat-value">15–20 ч/нед</span></div>
+      <div class="stat"><span>Авитологов в пуле</span><span class="stat-value">27+</span></div>
+    </div>
+  </section>
+
+  <!-- Advantages -->
+  <section id="advantages" class="section">
+    <div class="container">
+      <h2>Почему это работает</h2>
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <h3>Индивидуальный подбор</h3>
+          <p class="muted">Не «один шаблон для всех». Анализируем ваш автопарк, цели и бюджет — и подключаем авитолога с релевантным опытом именно в вашей поднише.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📈</div>
+          <h3>Продажа выше рынка</h3>
+          <p class="muted">Профессионалы знают, как упаковать объявление, чтобы покупатель видел ценность, а не цену. Работаем с психологией, визуалом и воронкой.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🔒</div>
+          <h3>Без рисков</h3>
+          <p class="muted">Все специалисты проверены, с кейсами и отзывами. Если авитолог не показывает результат за 14 дней — заменяем бесплатно.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What avitologist does -->
+  <section id="works" class="section">
+    <div class="container">
+      <h2>Что делает авитолог вместо вас</h2>
+      <div class="works-list">
+        <div class="work-item"><span class="work-num">01</span><div><strong>Аудит текущего профиля</strong><br><span class="muted">Анализ объявлений, фото, описаний, цен, статистики. Выявление точек роста.</span></div></div>
+        <div class="work-item"><span class="work-num">02</span><div><strong>Стратегия ценообразования</strong><br><span class="muted">Расчёт оптимальной цены с учётом сезона, региона, конкуренции и психологии покупателя.</span></div></div>
+        <div class="work-item"><span class="work-num">03</span><div><strong>Упаковка объявлений</strong><br><span class="muted">Написание продающих текстов, подбор ключевых слов, структурирование преимуществ.</span></div></div>
+        <div class="work-item"><span class="work-num">04</span><div><strong>Работа с визуалом</strong><br><span class="muted">Рекомендации по фото/видео, помощь в подборе ракурсов, света, обработки.</span></div></div>
+        <div class="work-item"><span class="work-num">05</span><div><strong>Продвижение и аналитика</strong><br><span class="muted">Настройка платных услуг Авито, тесты, A/B-тесты заголовков, отслеживание конверсий.</span></div></div>
+        <div class="work-item"><span class="work-num">06</span><div><strong>Коммуникация с покупателями</strong><br><span class="muted">Шаблоны ответов, скрипты, помощь в обработке возражений, ускорение сделки.</span></div></div>
+        <div class="work-item"><span class="work-num">07</span><div><strong>Еженедельные отчёты</strong><br><span class="muted">Прозрачная аналитика: просмотры, звонки, конверсия, рекомендации по улучшению.</span></div></div>
+        <div class="work-item"><span class="work-num">08</span><div><strong>Оптимизация под алгоритмы Авито</strong><br><span class="muted">Понимание ранжирования, работа с поведенческими факторами, предотвращение банов.</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Savings -->
+  <section class="section">
+    <div class="container savings">
+      <div>
+        <h2>Сколько вы экономите</h2>
+        <p class="muted" style="margin-bottom:24px;">Без авитолога вы тратите время на рутину, которую можно делегировать за 15 000 ₽/мес.</p>
+        <div class="savings-box">
+          <div class="savings-row"><span>Создание и правка объявлений</span><span>5–7 ч/нед</span></div>
+          <div class="savings-row"><span>Фото/видео подготовка</span><span>3–4 ч/нед</span></div>
+          <div class="savings-row"><span>Ответы на сообщения</span><span>4–6 ч/нед</span></div>
+          <div class="savings-row"><span>Анализ конкурентов</span><span>2–3 ч/нед</span></div>
+          <div class="savings-row"><span>Настройка продвижения</span><span>2–3 ч/нед</span></div>
+          <div class="savings-row total"><span>ИТОГО</span><span>16–23 ч/нед</span></div>
+        </div>
+        <p style="margin-top:24px;font-size:14px;" class="muted">Это ~60–90 часов в месяц. Ваша ставка времени: посчитайте, сколько это стоит для вас.</p>
+      </div>
+      <div>
+        <div style="border:2px solid var(--border);padding:24px;background:#0f0f0f;">
+          <h3 style="color:var(--accent);">Результат через 30 дней</h3>
+          <ul style="margin:20px 0 20px 20px;line-height:2;">
+            <li>Объявления в ТОП-3 выдачи по ключам</li>
+            <li>Рост количества звонков на 40–120%</li>
+            <li>Средний чек продажи выше рынка на 12–25%</li>
+            <li>Сокращение времени продажи на 30–50%</li>
+            <li>Прозрачная аналитика и контроль</li>
+          </ul>
+          <a href="#contact" class="btn btn-outline" style="width:100%;text-align:center;">Хочу такой результат</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="section">
+    <div class="container pricing">
+      <h2>Цена вопроса</h2>
+      <div class="price-tag">15 000 ₽<span style="font-size:20px;color:var(--muted);">/мес</span></div>
+      <p class="price-note">Фиксированная стоимость. Без скрытых платежей. Без % от сделки.<br>Оплата помесячно. Отмена в любой момент.</p>
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+        <a href="#contact" class="btn">Заказать подбор</a>
+        <a href="#works" class="btn btn-outline">Смотреть работы</a>
+      </div>
+      <p class="muted" style="margin-top:24px;font-size:14px;">* Если за 14 дней нет роста просмотров и звонков — меняем авитолога или возвращаем деньги.</p>
+    </div>
+  </section>
+
+  <!-- CTA / Contact -->
+  <section id="contact" class="cta">
+    <div class="container">
+      <h2>Готовы продавать дороже и быстрее?</h2>
+      <p>Оставьте заявку — подберём авитолога под вашу задачу в течение 24 часов.</p>
+      <form style="max-width:500px;margin:0 auto;display:grid;gap:16px;text-align:left;">
+        <input type="text" placeholder="Ваше имя *" required style="padding:16px;background:#111;border:2px solid var(--border);color:var(--text);font-family:var(--font-mono);">
+        <input type="tel" placeholder="Телефон или Telegram *" required style="padding:16px;background:#111;border:2px solid var(--border);color:var(--text);font-family:var(--font-mono);">
+        <input type="text" placeholder="Сколько авто в работе? (опционально)" style="padding:16px;background:#111;border:2px solid var(--border);color:var(--text);font-family:var(--font-mono);">
+        <button type="submit" class="btn" style="width:100%;">Отправить заявку</button>
+        <p class="muted" style="font-size:12px;text-align:center;">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>AVITOLIGATOR © 2026 — агрегатор авитологов для авто-ниши</p>
+      <p class="muted" style="margin-top:8px;">Не является публичной офертой. Результаты зависят от множества факторов.</p>
+      <p style="margin-top:16px;">
+        <a href="#" style="color:var(--text);margin:0 12px;">Политика конфиденциальности</a>
+        <a href="#" style="color:var(--text);margin:0 12px;">Договор оферты</a>
+        <a href="#" style="color:var(--text);margin:0 12px;">Telegram</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Simple form handler (demo)
+    document.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('button');
+      const originalText = btn.textContent;
+      btn.textContent = 'Отправлено ✓';
+      btn.style.background = '#4CAF50';
+      btn.style.borderColor = '#4CAF50';
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.background = '';
+        btn.style.borderColor = '';
+        this.reset();
+      }, 3000);
+    });
+  </script>
+</body>
+</html>
