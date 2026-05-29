@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Духовные финансы — Калькулятор дохода</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF6EE;
+    --cream-deep: #F2EBD9;
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-pale: #F5E9C8;
+    --blush: #E8D5C4;
+    --lavender: #C8BDD9;
+    --lavender-pale: #EDE8F5;
+    --sage: #A8B89C;
+    --text-dark: #2C2416;
+    --text-mid: #5C4F38;
+    --text-light: #9B8E78;
+    --shadow: rgba(100, 80, 30, 0.12);
+    --card-bg: rgba(255, 252, 244, 0.85);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--text-dark);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Celestial background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(232, 201, 122, 0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 90%, rgba(200, 189, 217, 0.22) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 40% at 60% 40%, rgba(232, 213, 196, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .stars-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    text-align: center;
+    padding: 64px 0 48px;
+    position: relative;
+  }
+
+  .header-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    opacity: 0.7;
+  }
+
+  .header-ornament span {
+    font-size: 22px;
+  }
+
+  .header-line {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(32px, 5vw, 52px);
+    line-height: 1.15;
+    color: var(--text-dark);
+    letter-spacing: 0.02em;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .subtitle {
+    margin-top: 14px;
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-light);
+  }
+
+  .header-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .header-divider::before,
+  .header-divider::after {
+    content: '';
+    flex: 1;
+    max-width: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-light));
+  }
+  .header-divider::after {
+    background: linear-gradient(90deg, var(--gold-light), transparent);
+  }
+
+  .diamond {
+    width: 6px;
+    height: 6px;
+    background: var(--gold);
+    transform: rotate(45deg);
+  }
+
+  /* ─── CARDS ─── */
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--cream-deep), transparent);
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid rgba(201, 168, 76, 0.25);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 16px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 24px var(--shadow), 0 1px 0 rgba(255,255,255,0.8) inset;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .card-l1::before { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+  .card-l2::before { background: linear-gradient(90deg, var(--lavender), #a98ecf); }
+  .card-l3::before { background: linear-gradient(90deg, var(--sage), #7da88c); }
+  .card-tax::before { background: linear-gradient(90deg, var(--blush), #d4a88a); }
+  .card-result::before { background: linear-gradient(90deg, var(--gold), var(--lavender)); }
+
+  .card:hover {
+    box-shadow: 0 8px 40px rgba(100, 80, 30, 0.18), 0 1px 0 rgba(255,255,255,0.8) inset;
+    transform: translateY(-2px);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+
+  .card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .icon-l1 { background: var(--gold-pale); }
+  .icon-l2 { background: var(--lavender-pale); }
+  .icon-l3 { background: rgba(168, 184, 156, 0.25); }
+  .icon-tax { background: rgba(232, 213, 196, 0.5); }
+
+  .card-title-group { flex: 1; }
+
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text-dark);
+    line-height: 1.2;
+  }
+
+  .card-rate {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-top: 2px;
+  }
+
+  .card-income {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--gold);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* ─── INPUTS GRID ─── */
+  .inputs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .input-group { display: flex; flex-direction: column; gap: 6px; }
+
+  .input-label {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    line-height: 1.3;
+  }
+
+  .input-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    background: rgba(255, 252, 244, 0.9);
+    border: 1px solid rgba(201, 168, 76, 0.3);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--text-dark);
+    text-align: center;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+  input[type="number"]:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.12);
+  }
+
+  input[type="number"]::placeholder { color: var(--text-light); opacity: 0.5; }
+
+  /* ─── INCOME BREAKDOWN ─── */
+  .income-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.12);
+    font-size: 14px;
+  }
+
+  .income-row:last-child { border-bottom: none; }
+
+  .income-label { color: var(--text-mid); }
+
+  .income-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: var(--text-dark);
+  }
+
+  .income-value.positive { color: var(--gold); }
+  .income-value.negative { color: #b85a3a; }
+
+  /* ─── RESULT CARD ─── */
+  .result-card {
+    background: linear-gradient(135deg, rgba(201, 168, 76, 0.08), rgba(200, 189, 217, 0.12));
+    border: 1px solid rgba(201, 168, 76, 0.35);
+    border-radius: 20px;
+    padding: 36px 40px;
+    margin-top: 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .result-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 20px 20px 0 0;
+    background: linear-gradient(90deg, var(--gold), var(--lavender), var(--gold));
+  }
+
+  .result-card::after {
+    content: '✦';
+    position: absolute;
+    bottom: -20px; right: 20px;
+    font-size: 120px;
+    opacity: 0.04;
+    color: var(--gold);
+    pointer-events: none;
+    line-height: 1;
+  }
+
+  .result-label {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 10px;
+  }
+
+  .result-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 8vw, 68px);
+    font-weight: 300;
+    color: var(--text-dark);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .result-amount span {
+    font-size: 0.45em;
+    color: var(--gold);
+    vertical-align: super;
+    margin-right: 4px;
+    font-weight: 300;
+  }
+
+  .result-currency {
+    font-size: 0.35em;
+    color: var(--text-light);
+    margin-left: 6px;
+  }
+
+  .result-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+  }
+
+  .result-divider::before,
+  .result-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent);
+  }
+
+  .breakdown-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(201, 168, 76, 0.15);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 24px;
+  }
+
+  .breakdown-item {
+    background: var(--card-bg);
+    padding: 16px 12px;
+    text-align: center;
+  }
+
+  .breakdown-lbl {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 6px;
+  }
+
+  .breakdown-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    color: var(--text-dark);
+  }
+
+  .breakdown-val.gold { color: var(--gold); }
+  .breakdown-val.red { color: #b85a3a; }
+
+  /* ─── TAX CARD ─── */
+  .tax-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .tax-inputs .input-group { flex-direction: row; align-items: center; gap: 12px; }
+  .tax-inputs .input-label { min-width: 120px; font-size: 12px; }
+  .tax-inputs input { text-align: right; font-size: 16px; }
+
+  /* ─── RESET BUTTON ─── */
+  .reset-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 24px auto 0;
+    padding: 10px 24px;
+    background: transparent;
+    border: 1px solid rgba(201, 168, 76, 0.4);
+    border-radius: 100px;
+    font-family: 'Jost', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .reset-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(201, 168, 76, 0.06);
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--text-light);
+    opacity: 0.6;
+  }
+
+  /* ─── STARS SVG ─── */
+  .star-svg {
+    position: absolute;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  /* Animations */
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.8; }
+  }
+
+  .card { animation: fadeSlideUp 0.5s ease both; }
+  .card:nth-child(1) { animation-delay: 0.05s; }
+  .card:nth-child(2) { animation-delay: 0.1s; }
+  .card:nth-child(3) { animation-delay: 0.15s; }
+  .card:nth-child(4) { animation-delay: 0.2s; }
+
+  header { animation: fadeSlideUp 0.6s ease both; }
+  .result-card { animation: fadeSlideUp 0.6s 0.25s ease both; }
+
+  @media (max-width: 600px) {
+    .inputs-grid { grid-template-columns: 1fr; }
+    .tax-inputs { grid-template-columns: 1fr; }
+    .breakdown-grid { grid-template-columns: 1fr; }
+    .tax-inputs .input-group { flex-direction: column; align-items: flex-start; }
+    .card { padding: 20px 18px; }
+    .result-card { padding: 28px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Stars canvas -->
+<div class="stars-layer" id="starsLayer"></div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-ornament">
+      <span>✦</span>
+      <div class="header-line"></div>
+      <span>☽</span>
+      <div class="header-line"></div>
+      <span>✦</span>
+    </div>
+    <h1>Духовные <em>финансы</em></h1>
+    <p class="subtitle">Калькулятор партнёрского дохода</p>
+    <div class="header-divider"><div class="diamond"></div></div>
+  </header>
+
+  <!-- LEVEL 1 -->
+  <p class="section-title">✦ Ваши личные продажи</p>
+  <div class="card card-l1">
+    <div class="card-header">
+      <div class="card-icon icon-l1">🌟</div>
+      <div class="card-title-group">
+        <div class="card-title">Уровень 1 — я продаю</div>
+        <div class="card-rate">Ставка вознаграждения: 33%</div>
+      </div>
+      <div class="card-income" id="income-l1">0 ₽</div>
+    </div>
+    <div class="inputs-grid">
+      <div class="input-group">
+        <div class="input-label">Из минуса в плюс</div>
+        <div class="input-price">3 000 ₽</div>
+        <input type="number" min="0" placeholder="0" id="l1_p1" oninput="calc()">
+      </div>
+      <div class="input-group">
+        <div class="input-label">Из ученика в учителя</div>
+        <div class="input-price">50 000 ₽</div>
+        <input type="number" min="0" placeholder="0" id="l1_p2" oninput="calc()">
+      </div>
+      <div class="input-group">
+        <div class="input-label">Академия</div>
+        <div class="input-price">300 000 ₽</div>
+        <input type="number" min="0" placeholder="0" id="l1_p3" oninput="calc()">
+      </div>
+    </div>
+  </div>
+
+  <!-- LEVEL 2 -->
+  <p class="section-title" style="margin-top:28px;">✦ Продажи ваших клиентов</p>
+  <div class="card card-l2">
+    <div class="card-header">
+      <div class="card-icon icon-l2">🌙</div>
+      <div class="card-title-group">
+        <div class="card-title">Уровень 2 — мои клиенты продают</div>
+        <div class="card-rate">Ставка вознаграждения: 7%</div>
+      </div>
+      <div class="card-income" id="income-l2">0 ₽</div>
+    </div>
+    <div class="inputs-grid">
+      <div class="input-group">
+        <div class="input-label">Из минуса в плюс</div>
+        <div class="input-price">3 000 ₽</div>
+        <input type="number" min="0" placeholder="0" id="l2_p1" oninput="calc()">
+      </div>
+      <div class="input-group">
+        <div class="input-label">Из ученика в учителя</div>
+        <div class="input-price">50 000 ₽</div>
+        <input type="number" min="0" placeholder="0" id="l2_p2" oninput="calc()">
+      </div>
+      <div class="input-group">
+        <div class="input-label">Академия</div>
+        <div class="input-price">300 000 ₽</div>
+        <input type="number" min="0" placeholder="0" id="l2_p3" oninput="calc()">
+      </div>
+    </div>
+  </div>
+
+  <!-- LEVEL 3 -->
+  <div class="card card-l3" style="margin-top:0;">
+    <div class="card-header">
+      <div class="card-icon icon-l3">🌿</div>
+      <div class="card-title-group">
+        <div class="card-title">Уровень 3 — клиенты моих клиентов</div>
+        <div class="card-rate">Ставка вознаграждения: 10%</div>
+      </div>
+      <div class="card-income" id="income-l3">0 ₽</div>
+    </div>
+    <div class="inputs-grid">
+      <div class="input-group">
+        <div class="input-label">Из минуса в плюс</div>
+        <div class="input-price">3 000 ₽</div>
+        <input type="number" min="0" placeholder="0" id="l3_p1" oninput="calc()">
+      </div>
+      <div class="input-group">
+        <div class="input-label">Из ученика в учителя</div>
+        <div class="input-price">50 000 ₽</div>
+        <input type="number" min="0" placeholder="0" id="l3_p2" oninput="calc()">
+      </div>
+      <div class="input-group">
+        <div class="input-label">Академия</div>
+        <div class="input-price">300 000 ₽</div>
+        <input type="number" min="0" placeholder="0" id="l3_p3" oninput="calc()">
+      </div>
+    </div>
+  </div>
+
+  <!-- TAX SETTINGS -->
+  <p class="section-title" style="margin-top:28px;">✦ Налоги и комиссии</p>
+  <div class="card card-tax">
+    <div class="tax-inputs">
+      <div class="input-group">
+        <div class="input-label">Налог (СЗ / ИП), %</div>
+        <input type="number" min="0" max="100" step="0.1" id="tax_rate" value="6" oninput="calc()">
+      </div>
+      <div class="input-group">
+        <div class="input-label">Комиссия банку, %</div>
+        <input type="number" min="0" max="100" step="0.1" id="bank_rate" value="2.5" oninput="calc()">
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="result-card">
+    <div class="result-label">✦ &nbsp; Итого на руки &nbsp; ✦</div>
+    <div class="result-amount">
+      <span>₽</span><span id="result-net">0</span>
+    </div>
+
+    <div class="result-divider"></div>
+
+    <div class="breakdown-grid">
+      <div class="breakdown-item">
+        <div class="breakdown-lbl">Брутто-доход</div>
+        <div class="breakdown-val gold" id="result-gross">0 ₽</div>
+      </div>
+      <div class="breakdown-item">
+        <div class="breakdown-lbl">Комиссия банку</div>
+        <div class="breakdown-val red" id="result-bank">−0 ₽</div>
+      </div>
+      <div class="breakdown-item">
+        <div class="breakdown-lbl">Налог</div>
+        <div class="breakdown-val red" id="result-tax">−0 ₽</div>
+      </div>
+    </div>
+  </div>
+
+  <button class="reset-btn" onclick="resetAll()">✦ &nbsp; сбросить всё</button>
+
+  <footer>
+    Цифры носят ориентировочный характер · сделано с ♡ для Духовных финансов
+  </footer>
+
+</div>
+
+<script>
+  // ── Stars ──────────────────────────────────────────────
+  (function() {
+    const layer = document.getElementById('starsLayer');
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', '100%');
+    svg.setAttribute('height', '100%');
+    svg.style.cssText = 'position:absolute;inset:0;';
+    const symbols = ['✦', '✧', '·', '⋆', '∗'];
+    const colors = ['#C9A84C','#E8C97A','#C8BDD9','#A8B89C','#E8D5C4'];
+    for (let i = 0; i < 60; i++) {
+      const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      const x = Math.random() * 100;
+      const y = Math.random() * 100;
+      const size = Math.random() * 10 + 6;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      const sym = symbols[Math.floor(Math.random() * symbols.length)];
+      const delay = (Math.random() * 4).toFixed(2);
+      const dur = (2 + Math.random() * 3).toFixed(2);
+      t.setAttribute('x', x + '%');
+      t.setAttribute('y', y + '%');
+      t.setAttribute('font-size', size);
+      t.setAttribute('fill', color);
+      t.setAttribute('opacity', '0.3');
+      t.setAttribute('text-anchor', 'middle');
+      t.textContent = sym;
+      t.style.animation = `twinkle ${dur}s ${delay}s ease-in-out infinite`;
+      svg.appendChild(t);
+    }
+    layer.appendChild(svg);
+  })();
+
+  // ── Calc ──────────────────────────────────────────────
+  const P = { p1: 3000, p2: 50000, p3: 300000 };
+  const RATES = { l1: 0.33, l2: 0.07, l3: 0.10 };
+
+  function v(id) { return parseFloat(document.getElementById(id).value) || 0; }
+
+  function levelIncome(level) {
+    const q1 = v(`${level}_p1`), q2 = v(`${level}_p2`), q3 = v(`${level}_p3`);
+    return (q1 * P.p1 + q2 * P.p2 + q3 * P.p3) * RATES[level];
+  }
+
+  function fmt(n) {
+    return Math.round(n).toLocaleString('ru-RU');
+  }
+
+  function calc() {
+    const i1 = levelIncome('l1');
+    const i2 = levelIncome('l2');
+    const i3 = levelIncome('l3');
+    const gross = i1 + i2 + i3;
+    const bankPct = v('bank_rate') / 100;
+    const taxPct = v('tax_rate') / 100;
+    const bankFee = gross * bankPct;
+    const taxBase = gross - bankFee;
+    const tax = taxBase * taxPct;
+    const net = gross - bankFee - tax;
+
+    document.getElementById('income-l1').textContent = fmt(i1) + ' ₽';
+    document.getElementById('income-l2').textContent = fmt(i2) + ' ₽';
+    document.getElementById('income-l3').textContent = fmt(i3) + ' ₽';
+    document.getElementById('result-net').textContent = fmt(net);
+    document.getElementById('result-gross').textContent = fmt(gross) + ' ₽';
+    document.getElementById('result-bank').textContent = '−' + fmt(bankFee) + ' ₽';
+    document.getElementById('result-tax').textContent = '−' + fmt(tax) + ' ₽';
+  }
+
+  function resetAll() {
+    ['l1_p1','l1_p2','l1_p3','l2_p1','l2_p2','l2_p3','l3_p1','l3_p2','l3_p3'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    document.getElementById('tax_rate').value = '6';
+    document.getElementById('bank_rate').value = '2.5';
+    calc();
+  }
+
+  calc();
+</script>
+</body>
+</html>
