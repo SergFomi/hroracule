@@ -7,87 +7,78 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #FAF6EE;
-    --cream-deep: #EEE4CE;
-    --gold: #B8920E;
-    --gold-light: #D4AB3A;
-    --gold-pale: #F5E9C8;
-    --blush: #E8D5C4;
-    --lavender: #C8BDD9;
-    --lavender-pale: #EDE8F5;
-    --sage: #A8B89C;
-    --text-dark: #0D0900;
-    --text-mid: #2A1F08;
-    --text-sub: #5A4A2C;
-    --shadow: rgba(80, 55, 10, 0.18);
-    --card-bg: #FFFDF7;
+    --gold:       #F9E08E;
+    --gold-dim:   #D4B85A;
+    --gold-glow:  rgba(249,224,142,0.18);
+    --bg-top:     #58868F;
+    --bg-bot:     #0F1635;
+    --c1:         #314056;
+    --c2:         #283348;
+    --c3:         #1E263A;
+    --card-bg:    rgba(40, 51, 72, 0.82);
+    --card-border:rgba(249,224,142,0.22);
+    --text:       #F9E08E;
+    --text-sub:   rgba(249,224,142,0.65);
+    --text-dim:   rgba(249,224,142,0.38);
+    --red:        #F28B6E;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background-color: var(--cream);
-    color: var(--text-dark);
+    background: linear-gradient(160deg, var(--bg-top) 0%, #1E3A48 28%, var(--c1) 55%, var(--bg-bot) 100%);
+    background-attachment: fixed;
+    color: var(--text);
     font-family: 'Jost', sans-serif;
     font-weight: 400;
     min-height: 100vh;
     overflow-x: hidden;
-    position: relative;
   }
 
   body::before {
     content: '';
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     background:
-      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(212, 171, 58, 0.16) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 50% at 80% 90%, rgba(200, 189, 217, 0.2) 0%, transparent 55%),
-      radial-gradient(ellipse 50% 40% at 60% 40%, rgba(232, 213, 196, 0.12) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
+      radial-gradient(ellipse 70% 55% at 15% 8%,  rgba(88,134,143,0.35) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 45% at 85% 92%,  rgba(15, 22, 53,0.6) 0%, transparent 55%),
+      radial-gradient(ellipse 40% 30% at 55% 45%,  rgba(249,224,142,0.05) 0%, transparent 50%);
+    pointer-events: none; z-index: 0;
   }
 
   .stars-layer { position: fixed; inset: 0; pointer-events: none; z-index: 0; }
 
   .container {
-    position: relative;
-    z-index: 1;
-    max-width: 880px;
-    margin: 0 auto;
+    position: relative; z-index: 1;
+    max-width: 880px; margin: 0 auto;
     padding: 0 28px 100px;
   }
 
   /* ─── HEADER ─── */
-  header {
-    text-align: center;
-    padding: 64px 0 52px;
-  }
+  header { text-align: center; padding: 68px 0 54px; }
 
   .header-ornament {
     display: flex; align-items: center; justify-content: center;
-    gap: 16px; margin-bottom: 22px; opacity: 0.75;
+    gap: 16px; margin-bottom: 22px;
   }
-  .header-ornament span { font-size: 24px; }
+  .header-ornament span { font-size: 22px; opacity: 0.8; }
   .header-line { width: 70px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
 
   h1 {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 600;
-    font-size: clamp(40px, 6vw, 62px);
+    font-size: clamp(40px, 6vw, 64px);
     line-height: 1.1;
-    color: var(--text-dark);
-    letter-spacing: 0.01em;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    text-shadow: 0 0 60px rgba(249,224,142,0.3);
   }
-
-  h1 em { font-style: italic; color: var(--gold); }
+  h1 em { font-style: italic; opacity: 0.9; }
 
   .subtitle {
     margin-top: 14px;
-    font-size: 16px;
-    letter-spacing: 0.18em;
+    font-size: 15px; letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--text-sub);
-    font-weight: 600;
+    color: var(--text-sub); font-weight: 600;
   }
 
   .header-divider {
@@ -95,53 +86,51 @@
     gap: 12px; margin-top: 28px;
   }
   .header-divider::before, .header-divider::after {
-    content: ''; flex: 1; max-width: 130px; height: 1.5px;
-    background: linear-gradient(90deg, transparent, var(--gold-light));
+    content: ''; flex: 1; max-width: 130px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim));
   }
-  .header-divider::after { background: linear-gradient(90deg, var(--gold-light), transparent); }
+  .header-divider::after { background: linear-gradient(90deg, var(--gold-dim), transparent); }
   .diamond { width: 7px; height: 7px; background: var(--gold); transform: rotate(45deg); }
 
   /* ─── SECTION TITLE ─── */
   .section-title {
     font-family: 'Jost', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--text-mid);
-    margin-bottom: 14px;
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--text-sub); margin-bottom: 12px;
     display: flex; align-items: center; gap: 10px;
   }
   .section-title::after {
-    content: ''; flex: 1; height: 1.5px;
-    background: linear-gradient(90deg, var(--cream-deep), transparent);
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, rgba(249,224,142,0.25), transparent);
   }
 
   /* ─── CARD ─── */
   .card {
     background: var(--card-bg);
-    border: 1.5px solid rgba(184, 146, 14, 0.35);
+    border: 1px solid var(--card-border);
     border-radius: 18px;
     padding: 30px 36px 28px;
-    margin-bottom: 16px;
-    box-shadow: 0 4px 28px var(--shadow), 0 1px 0 rgba(255,255,255,0.9) inset;
+    margin-bottom: 14px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 4px 32px rgba(0,0,0,0.35), 0 1px 0 rgba(249,224,142,0.08) inset;
     transition: box-shadow 0.25s ease, transform 0.25s ease;
     position: relative; overflow: hidden;
   }
 
   .card::before {
     content: ''; position: absolute;
-    top: 0; left: 0; right: 0; height: 4px;
+    top: 0; left: 0; right: 0; height: 3px;
     border-radius: 18px 18px 0 0;
   }
-
-  .card-l1::before { background: linear-gradient(90deg, var(--gold), #E8C840); }
-  .card-l2::before { background: linear-gradient(90deg, #9B7FC0, #C8BDD9); }
-  .card-l3::before { background: linear-gradient(90deg, #6B9E7A, var(--sage)); }
-  .card-tax::before { background: linear-gradient(90deg, #C09070, var(--blush)); }
+  .card-l1::before { background: linear-gradient(90deg, var(--gold), #FFF5C0); }
+  .card-l2::before { background: linear-gradient(90deg, #7BAEC0, #A8C8D8); }
+  .card-l3::before { background: linear-gradient(90deg, #6B9E7A, #90C49E); }
+  .card-tax::before { background: linear-gradient(90deg, #9B8EC0, #C0B4DC); }
 
   .card:hover {
-    box-shadow: 0 10px 44px rgba(80, 55, 10, 0.22), 0 1px 0 rgba(255,255,255,0.9) inset;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.45), 0 0 0 1px rgba(249,224,142,0.2);
     transform: translateY(-2px);
   }
 
@@ -154,218 +143,188 @@
     width: 44px; height: 44px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     font-size: 20px; flex-shrink: 0;
+    background: rgba(249,224,142,0.1);
+    border: 1px solid rgba(249,224,142,0.2);
   }
-
-  .icon-l1 { background: var(--gold-pale); }
-  .icon-l2 { background: var(--lavender-pale); }
-  .icon-l3 { background: rgba(168, 184, 156, 0.3); }
-  .icon-tax { background: rgba(232, 213, 196, 0.6); }
 
   .card-title-group { flex: 1; }
 
   .card-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--text-dark);
-    line-height: 1.15;
+    font-size: 28px; font-weight: 700;
+    color: var(--gold); line-height: 1.15;
   }
 
   .card-rate {
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-sub);
-    margin-top: 4px;
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-sub); margin-top: 4px;
   }
 
   .card-income {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 34px;
-    font-weight: 700;
-    color: var(--gold);
-    text-align: right;
-    white-space: nowrap;
+    font-size: 34px; font-weight: 700;
+    color: var(--gold); text-align: right; white-space: nowrap;
+    text-shadow: 0 0 30px rgba(249,224,142,0.4);
   }
 
   /* ─── INPUTS GRID ─── */
   .inputs-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
   }
 
   .input-group { display: flex; flex-direction: column; gap: 6px; }
 
   .input-label {
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--text-mid);
-    line-height: 1.3;
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--text-sub); line-height: 1.3;
   }
 
   .input-price {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 19px;
-    font-weight: 600;
-    color: var(--gold);
-    font-style: italic;
+    font-size: 18px; font-weight: 600;
+    color: var(--gold-dim); font-style: italic;
   }
 
   input[type="number"] {
     width: 100%;
-    background: #FFFEF9;
-    border: 2px solid rgba(184, 146, 14, 0.4);
+    background: rgba(30, 38, 58, 0.8);
+    border: 1.5px solid rgba(249,224,142,0.3);
     border-radius: 10px;
     padding: 14px 12px;
     font-family: 'Cormorant Garamond', serif;
-    font-size: 36px;
-    font-weight: 700;
-    color: var(--text-dark);
+    font-size: 36px; font-weight: 700;
+    color: var(--gold);
     text-align: center;
     transition: border-color 0.2s, box-shadow 0.2s;
-    -moz-appearance: textfield;
-    appearance: textfield;
+    -moz-appearance: textfield; appearance: textfield;
   }
-
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
 
   input[type="number"]:focus {
     outline: none;
     border-color: var(--gold);
-    box-shadow: 0 0 0 4px rgba(184, 146, 14, 0.14);
+    box-shadow: 0 0 0 4px rgba(249,224,142,0.1);
   }
-
-  input[type="number"]::placeholder { color: rgba(90,74,44,0.3); }
-
-  /* ─── INCOME ROWS ─── */
-  .income-row {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 12px 0; border-bottom: 1px solid rgba(184,146,14,0.15);
-    font-size: 16px;
-  }
-  .income-row:last-child { border-bottom: none; }
-  .income-label { color: var(--text-sub); font-weight: 500; }
-  .income-value { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 700; color: var(--text-dark); }
-  .income-value.positive { color: var(--gold); }
-  .income-value.negative { color: #b85a3a; }
+  input[type="number"]::placeholder { color: rgba(249,224,142,0.2); }
 
   /* ─── RESULT ─── */
   .result-card {
-    background: linear-gradient(135deg, rgba(184,146,14,0.07), rgba(200, 189, 217, 0.1));
-    border: 2px solid rgba(184, 146, 14, 0.45);
+    background: linear-gradient(135deg, rgba(49, 64, 86, 0.9), rgba(30, 38, 58, 0.95));
+    border: 1.5px solid rgba(249,224,142,0.35);
     border-radius: 22px;
-    padding: 44px 48px;
-    margin-top: 32px;
-    text-align: center;
+    padding: 48px 52px;
+    margin-top: 32px; text-align: center;
     position: relative; overflow: hidden;
-    box-shadow: 0 8px 40px rgba(80,55,10,0.16);
+    box-shadow: 0 10px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(249,224,142,0.1) inset;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
 
   .result-card::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
     border-radius: 22px 22px 0 0;
-    background: linear-gradient(90deg, var(--gold), #C8BDD9, var(--gold));
+    background: linear-gradient(90deg, var(--gold), rgba(249,224,142,0.3), var(--gold));
   }
 
   .result-card::after {
-    content: '✦'; position: absolute; bottom: -30px; right: 24px;
-    font-size: 160px; opacity: 0.04; color: var(--gold); pointer-events: none; line-height: 1;
+    content: '✦'; position: absolute;
+    bottom: -40px; right: 20px;
+    font-size: 180px; opacity: 0.04;
+    color: var(--gold); pointer-events: none; line-height: 1;
   }
 
   .result-label {
-    font-size: 15px; letter-spacing: 0.22em; text-transform: uppercase;
-    color: var(--text-sub); margin-bottom: 12px; font-weight: 600;
+    font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--text-sub); margin-bottom: 14px; font-weight: 600;
   }
 
   .result-amount {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(60px, 11vw, 96px);
-    font-weight: 700;
-    color: var(--text-dark);
-    line-height: 1;
+    font-size: clamp(64px, 12vw, 100px);
+    font-weight: 700; color: var(--gold); line-height: 1;
     letter-spacing: -0.02em;
+    text-shadow: 0 0 80px rgba(249,224,142,0.35);
   }
 
   .result-amount .rub {
-    font-size: 0.42em; color: var(--gold); vertical-align: super; margin-right: 6px; font-weight: 600;
-  }
-
-  .result-amount .cur {
-    font-size: 0.32em; color: var(--text-sub); margin-left: 8px;
+    font-size: 0.4em; color: var(--gold-dim);
+    vertical-align: super; margin-right: 6px; font-weight: 600;
   }
 
   .result-divider {
-    display: flex; align-items: center; gap: 10px; margin: 24px 0;
+    display: flex; align-items: center; gap: 10px; margin: 26px 0;
   }
   .result-divider::before, .result-divider::after {
-    content: ''; flex: 1; height: 1.5px;
-    background: linear-gradient(90deg, transparent, rgba(184,146,14,0.35), transparent);
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(249,224,142,0.3), transparent);
   }
 
   .breakdown-grid {
     display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 1.5px; background: rgba(184,146,14,0.2);
+    gap: 1px; background: rgba(249,224,142,0.12);
     border-radius: 14px; overflow: hidden;
   }
 
-  .breakdown-item { background: var(--card-bg); padding: 20px 14px; text-align: center; }
+  .breakdown-item {
+    background: rgba(30,38,58,0.85);
+    padding: 20px 14px; text-align: center;
+  }
 
   .breakdown-lbl {
-    font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
     color: var(--text-sub); margin-bottom: 8px; font-weight: 600;
   }
 
   .breakdown-val {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 28px; font-weight: 700; color: var(--text-dark);
+    font-size: 28px; font-weight: 700; color: var(--gold);
   }
-
-  .breakdown-val.gold { color: var(--gold); }
-  .breakdown-val.red { color: #C04020; }
+  .breakdown-val.red { color: var(--red); }
 
   /* ─── TAX ─── */
-  .tax-inputs {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-  }
-  .tax-inputs .input-group { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .tax-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .tax-inputs .input-group { flex-direction: column; gap: 6px; }
   .tax-inputs input { text-align: center; font-size: 32px; }
 
   /* ─── RESET ─── */
   .reset-btn {
     display: flex; align-items: center; gap: 8px;
-    margin: 28px auto 0;
-    padding: 12px 32px;
+    margin: 28px auto 0; padding: 12px 32px;
     background: transparent;
-    border: 1.5px solid rgba(184, 146, 14, 0.5);
+    border: 1px solid rgba(249,224,142,0.35);
     border-radius: 100px;
     font-family: 'Jost', sans-serif;
-    font-size: 13px; font-weight: 600;
-    letter-spacing: 0.14em; text-transform: uppercase;
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase;
     color: var(--text-sub); cursor: pointer; transition: all 0.2s;
   }
-  .reset-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(184,146,14,0.06); }
+  .reset-btn:hover {
+    border-color: var(--gold); color: var(--gold);
+    background: rgba(249,224,142,0.06);
+    box-shadow: 0 0 20px rgba(249,224,142,0.1);
+  }
 
   footer {
     text-align: center; padding: 44px 0 20px;
-    font-size: 13px; letter-spacing: 0.08em; color: var(--text-sub); opacity: 0.6;
+    font-size: 12px; letter-spacing: 0.08em;
+    color: var(--text-dim);
   }
 
+  /* ─── ANIMATIONS ─── */
   @keyframes fadeSlideUp {
     from { opacity: 0; transform: translateY(22px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
   }
   @keyframes twinkle {
-    0%, 100% { opacity: 0.25; }
-    50% { opacity: 0.7; }
+    0%, 100% { opacity: 0.2; }
+    50%       { opacity: 0.65; }
   }
 
-  header { animation: fadeSlideUp 0.55s ease both; }
-  .card { animation: fadeSlideUp 0.5s ease both; }
+  header      { animation: fadeSlideUp 0.55s ease both; }
+  .card       { animation: fadeSlideUp 0.5s ease both; }
   .card:nth-child(1) { animation-delay: 0.06s; }
   .card:nth-child(2) { animation-delay: 0.12s; }
   .card:nth-child(3) { animation-delay: 0.18s; }
@@ -373,11 +332,9 @@
   .result-card { animation: fadeSlideUp 0.6s 0.3s ease both; }
 
   @media (max-width: 620px) {
-    .inputs-grid { grid-template-columns: 1fr; }
-    .tax-inputs { grid-template-columns: 1fr; }
-    .breakdown-grid { grid-template-columns: 1fr; }
-    .card { padding: 22px 20px; }
-    .result-card { padding: 32px 22px; }
+    .inputs-grid, .tax-inputs, .breakdown-grid { grid-template-columns: 1fr; }
+    .card { padding: 22px 18px; }
+    .result-card { padding: 34px 22px; }
     .card-income { font-size: 26px; }
   }
 </style>
@@ -396,7 +353,7 @@
       <div class="header-line"></div>
       <span>✦</span>
     </div>
-    <h1>Духовные <em>финансы</em></h1>
+    <h1>Душевные <em>финансы</em></h1>
     <p class="subtitle">Калькулятор дохода куратора</p>
     <div class="header-divider"><div class="diamond"></div></div>
   </header>
@@ -405,7 +362,7 @@
   <p class="section-title">✦ Ваши личные продажи</p>
   <div class="card card-l1">
     <div class="card-header">
-      <div class="card-icon icon-l1">🌟</div>
+      <div class="card-icon">🌟</div>
       <div class="card-title-group">
         <div class="card-title">Уровень 1 — я продаю</div>
         <div class="card-rate">Ставка вознаграждения: 33%</div>
@@ -432,10 +389,10 @@
   </div>
 
   <!-- LEVEL 2 -->
-  <p class="section-title" style="margin-top:30px;">✦ Продажи ваших учеников</p>
+  <p class="section-title" style="margin-top:28px;">✦ Продажи ваших учеников</p>
   <div class="card card-l2">
     <div class="card-header">
-      <div class="card-icon icon-l2">🌙</div>
+      <div class="card-icon">🌙</div>
       <div class="card-title-group">
         <div class="card-title">Уровень 2 — мои ученики продают</div>
         <div class="card-rate">Ставка вознаграждения: 7%</div>
@@ -464,7 +421,7 @@
   <!-- LEVEL 3 -->
   <div class="card card-l3">
     <div class="card-header">
-      <div class="card-icon icon-l3">🌿</div>
+      <div class="card-icon">🌿</div>
       <div class="card-title-group">
         <div class="card-title">Уровень 3 — ученики моих учеников</div>
         <div class="card-rate">Ставка вознаграждения: 10%</div>
@@ -491,7 +448,7 @@
   </div>
 
   <!-- TAX -->
-  <p class="section-title" style="margin-top:30px;">✦ Налоги и комиссии</p>
+  <p class="section-title" style="margin-top:28px;">✦ Налоги и комиссии</p>
   <div class="card card-tax">
     <div class="tax-inputs">
       <div class="input-group">
@@ -511,13 +468,11 @@
     <div class="result-amount">
       <span class="rub">₽</span><span id="result-net">0</span>
     </div>
-
     <div class="result-divider"></div>
-
     <div class="breakdown-grid">
       <div class="breakdown-item">
         <div class="breakdown-lbl">Брутто-доход</div>
-        <div class="breakdown-val gold" id="result-gross">0 ₽</div>
+        <div class="breakdown-val" id="result-gross">0 ₽</div>
       </div>
       <div class="breakdown-item">
         <div class="breakdown-lbl">Комиссия банку</div>
@@ -539,62 +494,61 @@
 </div>
 
 <script>
+  // ── Stars ──
   (function() {
     const layer = document.getElementById('starsLayer');
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('width', '100%'); svg.setAttribute('height', '100%');
+    svg.setAttribute('width','100%'); svg.setAttribute('height','100%');
     svg.style.cssText = 'position:absolute;inset:0;';
-    const symbols = ['✦', '✧', '·', '⋆', '∗'];
-    const colors = ['#B8920E','#D4AB3A','#C8BDD9','#A8B89C','#E8D5C4'];
-    for (let i = 0; i < 55; i++) {
-      const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      const sym = symbols[Math.floor(Math.random() * symbols.length)];
-      t.setAttribute('x', (Math.random() * 100) + '%');
-      t.setAttribute('y', (Math.random() * 100) + '%');
-      t.setAttribute('font-size', Math.random() * 12 + 6);
-      t.setAttribute('fill', colors[Math.floor(Math.random() * colors.length)]);
-      t.setAttribute('opacity', '0.25');
-      t.setAttribute('text-anchor', 'middle');
-      t.textContent = sym;
-      t.style.animation = `twinkle ${(2 + Math.random() * 3).toFixed(2)}s ${(Math.random() * 4).toFixed(2)}s ease-in-out infinite`;
+    const syms = ['✦','✧','·','⋆','∗','★'];
+    const cols = ['#F9E08E','#D4B85A','#7BAEC0','#A8C8D8','#9B8EC0'];
+    for (let i = 0; i < 70; i++) {
+      const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x', (Math.random()*100)+'%');
+      t.setAttribute('y', (Math.random()*100)+'%');
+      t.setAttribute('font-size', Math.random()*10+5);
+      t.setAttribute('fill', cols[Math.floor(Math.random()*cols.length)]);
+      t.setAttribute('opacity','0.2');
+      t.setAttribute('text-anchor','middle');
+      t.textContent = syms[Math.floor(Math.random()*syms.length)];
+      t.style.animation = `twinkle ${(2+Math.random()*4).toFixed(2)}s ${(Math.random()*5).toFixed(2)}s ease-in-out infinite`;
       svg.appendChild(t);
     }
     layer.appendChild(svg);
   })();
 
-  const P = { p1: 3000, p2: 50000, p3: 300000 };
-  const RATES = { l1: 0.33, l2: 0.07, l3: 0.10 };
+  // ── Calc ──
+  const P = { p1:3000, p2:50000, p3:300000 };
+  const RATES = { l1:0.33, l2:0.07, l3:0.10 };
 
-  function v(id) { return parseFloat(document.getElementById(id).value) || 0; }
-
-  function levelIncome(level) {
-    return (v(`${level}_p1`) * P.p1 + v(`${level}_p2`) * P.p2 + v(`${level}_p3`) * P.p3) * RATES[level];
+  function v(id) { return parseFloat(document.getElementById(id).value)||0; }
+  function levelIncome(lv) {
+    return (v(`${lv}_p1`)*P.p1 + v(`${lv}_p2`)*P.p2 + v(`${lv}_p3`)*P.p3) * RATES[lv];
   }
-
   function fmt(n) { return Math.round(n).toLocaleString('ru-RU'); }
 
   function calc() {
-    const i1 = levelIncome('l1'), i2 = levelIncome('l2'), i3 = levelIncome('l3');
-    const gross = i1 + i2 + i3;
-    const bankFee = gross * (v('bank_rate') / 100);
-    const tax = (gross - bankFee) * (v('tax_rate') / 100);
-    const net = gross - bankFee - tax;
+    const i1=levelIncome('l1'), i2=levelIncome('l2'), i3=levelIncome('l3');
+    const gross = i1+i2+i3;
+    const bankFee = gross*(v('bank_rate')/100);
+    const tax = (gross-bankFee)*(v('tax_rate')/100);
+    const net = gross-bankFee-tax;
 
-    document.getElementById('income-l1').textContent = fmt(i1) + ' ₽';
-    document.getElementById('income-l2').textContent = fmt(i2) + ' ₽';
-    document.getElementById('income-l3').textContent = fmt(i3) + ' ₽';
+    document.getElementById('income-l1').textContent = fmt(i1)+' ₽';
+    document.getElementById('income-l2').textContent = fmt(i2)+' ₽';
+    document.getElementById('income-l3').textContent = fmt(i3)+' ₽';
     document.getElementById('result-net').textContent = fmt(net);
-    document.getElementById('result-gross').textContent = fmt(gross) + ' ₽';
-    document.getElementById('result-bank').textContent = '−' + fmt(bankFee) + ' ₽';
-    document.getElementById('result-tax').textContent = '−' + fmt(tax) + ' ₽';
+    document.getElementById('result-gross').textContent = fmt(gross)+' ₽';
+    document.getElementById('result-bank').textContent = '−'+fmt(bankFee)+' ₽';
+    document.getElementById('result-tax').textContent  = '−'+fmt(tax)+' ₽';
   }
 
   function resetAll() {
-    ['l1_p1','l1_p2','l1_p3','l2_p1','l2_p2','l2_p3','l3_p1','l3_p2','l3_p3'].forEach(id => {
-      document.getElementById(id).value = '';
+    ['l1_p1','l1_p2','l1_p3','l2_p1','l2_p2','l2_p3','l3_p1','l3_p2','l3_p3'].forEach(id=>{
+      document.getElementById(id).value='';
     });
-    document.getElementById('tax_rate').value = '6';
-    document.getElementById('bank_rate').value = '2.5';
+    document.getElementById('tax_rate').value='6';
+    document.getElementById('bank_rate').value='2.5';
     calc();
   }
 
