@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Botamin — Дашборд аналитика</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #222535;
+    --border: #2a2d3e;
+    --text: #e2e8f0;
+    --muted: #8892a4;
+    --accent: #6c63ff;
+    --accent2: #00c9a7;
+    --warn: #f59e0b;
+    --danger: #ef4444;
+    --success: #22c55e;
+    --blue: #3b82f6;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, 'Segoe UI', sans-serif; font-size: 18px; min-height: 100vh; }
+
+  header { padding: 20px 28px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  header h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.3px; }
+  header h1 span { color: var(--accent); }
+  .meta { color: var(--muted); font-size: 15px; text-align: right; line-height: 1.6; }
+
+  .main { padding: 20px 28px; display: flex; flex-direction: column; gap: 20px; }
+
+  /* KPI Cards */
+  .kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; position: relative; overflow: hidden; }
+  .kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent); }
+  .kpi.green::before { background: var(--success); }
+  .kpi.blue::before { background: var(--blue); }
+  .kpi.yellow::before { background: var(--warn); }
+  .kpi.red::before { background: var(--danger); }
+  .kpi-label { font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .kpi-value { font-size: 48px; font-weight: 800; line-height: 1; letter-spacing: -1px; }
+  .kpi-sub { font-size: 14px; color: var(--muted); margin-top: 4px; }
+
+  /* Grid layouts */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid3 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
+
+  /* Card */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+  .card-title { font-size: 16px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .card-title .badge { font-size: 10px; padding: 2px 7px; border-radius: 20px; font-weight: 600; text-transform: none; letter-spacing: 0; }
+  .badge-critical { background: rgba(239,68,68,.15); color: var(--danger); }
+  .badge-opportunity { background: rgba(34,197,94,.15); color: var(--success); }
+  .badge-insight { background: rgba(59,130,246,.15); color: var(--blue); }
+  .badge-bug { background: rgba(245,158,11,.15); color: var(--warn); }
+
+  /* Funnel */
+  .funnel { display: flex; flex-direction: column; gap: 8px; }
+  .funnel-row { display: flex; align-items: center; gap: 10px; }
+  .funnel-label { width: 240px; font-size: 15px; color: var(--text); flex-shrink: 0; }
+  .funnel-bar-wrap { flex: 1; height: 32px; background: var(--surface2); border-radius: 5px; overflow: hidden; position: relative; }
+  .funnel-bar { height: 100%; border-radius: 5px; display: flex; align-items: center; padding-left: 10px; font-size: 14px; font-weight: 700; color: #fff; transition: width 0.8s ease; }
+  .funnel-pct { width: 56px; text-align: right; font-size: 16px; font-weight: 700; flex-shrink: 0; }
+  .funnel-count { width: 48px; text-align: right; font-size: 14px; color: var(--muted); flex-shrink: 0; }
+  .funnel-drop { width: 70px; text-align: right; font-size: 14px; flex-shrink: 0; }
+  .drop-negative { color: var(--danger); }
+  .funnel-bar.s0 { background: linear-gradient(90deg, #6c63ff, #8b5cf6); }
+  .funnel-bar.s1 { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+  .funnel-bar.s2 { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+  .funnel-bar.s3 { background: linear-gradient(90deg, #10b981, #34d399); }
+  .funnel-bar.s4 { background: linear-gradient(90deg, #22c55e, #86efac); }
+  .funnel-header { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .funnel-header-label { width: 190px; font-size: 10px; color: var(--muted); flex-shrink: 0; }
+  .funnel-header-bar { flex: 1; font-size: 10px; color: var(--muted); }
+  .funnel-header-pct { width: 46px; text-align: right; font-size: 10px; color: var(--muted); flex-shrink: 0; }
+  .funnel-header-count { width: 38px; text-align: right; font-size: 10px; color: var(--muted); flex-shrink: 0; }
+  .funnel-header-drop { width: 70px; text-align: right; font-size: 10px; color: var(--muted); flex-shrink: 0; }
+  .funnel-step-pct { width: 56px; text-align: right; font-size: 11px; color: var(--muted); flex-shrink: 0; }
+
+  /* Patterns */
+  .patterns { display: flex; flex-direction: column; gap: 10px; }
+  .pattern-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .pattern-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .pattern-desc { font-size: 15px; color: var(--muted); line-height: 1.5; }
+
+  /* Dropout quotes */
+  .dropout-tabs { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+  .tab-btn { padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--muted); font-size: 11px; cursor: pointer; transition: all 0.15s; }
+  .tab-btn.active { background: var(--accent); border-color: var(--accent); color: white; font-weight: 600; }
+  .tab-btn:hover:not(.active) { border-color: var(--accent); color: var(--text); }
+  .quotes-list { display: flex; flex-direction: column; gap: 8px; }
+  .quote-item { background: var(--surface2); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; padding: 9px 12px; font-size: 12px; color: var(--text); line-height: 1.5; font-style: italic; }
+
+  /* Charts */
+  .chart-wrap { position: relative; }
+
+  /* Reason donut */
+  .reason-legend { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+  .reason-row { display: flex; align-items: center; gap: 8px; }
+  .reason-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+  .reason-name { font-size: 12px; flex: 1; }
+  .reason-val { font-size: 12px; font-weight: 600; }
+  .reason-pct { font-size: 11px; color: var(--muted); width: 36px; text-align: right; }
+
+  /* Industry table */
+  .ind-table { width: 100%; border-collapse: collapse; }
+  .ind-table th { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; padding: 6px 8px; text-align: left; border-bottom: 1px solid var(--border); }
+  .ind-table td { padding: 8px 8px; font-size: 12px; border-bottom: 1px solid var(--border); }
+  .ind-table tr:last-child td { border-bottom: none; }
+  .ind-table tr:hover td { background: var(--surface2); }
+  .rate-bar-wrap { width: 80px; height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; display: inline-block; margin-right: 6px; vertical-align: middle; }
+  .rate-bar { height: 100%; border-radius: 3px; }
+  .rate-good { background: var(--success); }
+  .rate-mid { background: var(--warn); }
+  .rate-bad { background: var(--danger); }
+  .rate-num { vertical-align: middle; font-weight: 600; }
+
+  /* Hour bars */
+  .hour-bars { display: flex; flex-direction: column; gap: 5px; }
+  .hour-row { display: flex; align-items: center; gap: 8px; }
+  .hour-label { width: 36px; font-size: 11px; color: var(--muted); flex-shrink: 0; text-align: right; }
+  .hour-track { flex: 1; height: 22px; background: var(--surface2); border-radius: 4px; overflow: hidden; position: relative; }
+  .hour-fill-total { height: 100%; background: var(--surface2); position: absolute; left: 0; top: 0; }
+  .hour-fill-meeting { height: 100%; background: var(--accent); position: absolute; left: 0; top: 0; opacity: 0.85; border-radius: 4px; }
+  .hour-fill-rest { height: 100%; background: var(--border); position: absolute; left: 0; top: 0; border-radius: 4px; }
+  .hour-text { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); font-size: 10px; color: var(--muted); }
+  .hour-rate { width: 38px; font-size: 11px; font-weight: 600; text-align: right; flex-shrink: 0; }
+  .hour-cnt { width: 32px; font-size: 10px; color: var(--muted); text-align: right; flex-shrink: 0; }
+
+  canvas { max-width: 100%; }
+
+  .section-title { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.8px; padding: 4px 0 12px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+
+  .ab-box { background: linear-gradient(135deg, rgba(108,99,255,0.08), rgba(0,201,167,0.08)); border: 1px solid rgba(108,99,255,0.3); border-radius: 10px; padding: 18px; }
+  .ab-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .ab-sub { font-size: 15px; color: var(--muted); margin-bottom: 14px; }
+  .ab-variants { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .ab-var { background: var(--surface2); border-radius: 8px; padding: 14px; }
+  .ab-var-label { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .ab-var-text { font-size: 16px; font-weight: 600; line-height: 1.4; margin-bottom: 8px; }
+  .ab-var-note { font-size: 14px; color: var(--muted); }
+  .ab-hypothesis { font-size: 15px; color: var(--accent2); margin-top: 12px; }
+
+  /* Global level */
+  .global-bar { background: var(--surface2); border-bottom: 1px solid var(--border); padding: 14px 28px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+  .global-label { font-size: 14px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-right: -12px; }
+  .global-stat { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+  .global-stat .val { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+  .global-stat .lbl { font-size: 13px; color: var(--muted); }
+  .global-divider { width: 1px; height: 36px; background: var(--border); }
+  .funnel-global { display: flex; align-items: center; gap: 0; flex: 1; min-width: 300px; }
+  .fg-step { display: flex; flex-direction: column; align-items: center; flex: 1; position: relative; }
+  .fg-step::after { content: '→'; position: absolute; right: -8px; top: 50%; transform: translateY(-50%); color: var(--border); font-size: 16px; z-index:1; }
+  .fg-step:last-child::after { display: none; }
+  .fg-val { font-size: 18px; font-weight: 700; }
+  .fg-lbl { font-size: 12px; color: var(--muted); text-align: center; }
+  .fg-pct { font-size: 13px; color: var(--success); font-weight: 600; }
+
+  .section-sep { margin: 4px 0 12px; }
+  .section-sep span { font-size: 18px; color: var(--muted); font-weight: 600; }
+
+  /* Comparison */
+  .kpi-compare { font-size: 14px; color: var(--muted); margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 5px; }
+  .kpi-compare .no-data { color: var(--border); font-style: italic; }
+  .compare-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .compare-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .compare-card-title { font-size: 13px; color: var(--muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .compare-metric { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 5px 0; border-bottom: 1px solid var(--border); }
+  .compare-metric:last-child { border-bottom: none; }
+  .compare-metric-label { font-size: 14px; color: var(--muted); }
+  .compare-metric-vals { display: flex; align-items: baseline; gap: 8px; }
+  .compare-current { font-size: 16px; font-weight: 700; }
+  .compare-prev { font-size: 14px; color: var(--border); font-style: italic; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1><span>Botamin</span> — Дашборд аналитика</h1>
+    <div style="font-size:12px;color:var(--muted);margin-top:3px;">ИИ-продавец «Лариса» · 25–29 мая 2026 · Оптовая торговля + др.</div>
+  </div>
+  <div class="meta">
+    Бот: Лариса (батамИн)<br>
+    <span style="color:var(--accent)">2 уровня анализа: вся неделя + глубокие диалоги</span>
+  </div>
+</header>
+
+<!-- GLOBAL STATS BAR -->
+<div class="global-bar">
+  <div class="global-label">Вся неделя →</div>
+  <div class="global-stat"><div class="val">11 486</div><div class="lbl">всего звонков</div></div>
+  <div class="global-divider"></div>
+  <div class="funnel-global">
+    <div class="fg-step">
+      <div class="fg-val" style="color:var(--blue)">1 304</div>
+      <div class="fg-lbl">реальных диалогов</div>
+      <div class="fg-pct">11.4%</div>
+    </div>
+    <div class="fg-step">
+      <div class="fg-val" style="color:var(--accent2)">133</div>
+      <div class="fg-lbl">попытки встречи</div>
+      <div class="fg-pct">10.2% от диалогов</div>
+    </div>
+    <div class="fg-step">
+      <div class="fg-val" style="color:var(--success)">23</div>
+      <div class="fg-lbl">встреч назначено</div>
+      <div class="fg-pct">17% из попыток</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="main">
+  <div class="section-sep"><span>Детальный анализ диалогов · 1 304 реальных разговора из 11 486 звонков · человек сказал что-то осмысленное, Алиса и автоответчики исключены</span></div>
+
+  <!-- KPI — 3 главных -->
+  <div class="kpi-row" style="grid-template-columns: repeat(3, 1fr)">
+    <div class="kpi green">
+      <div class="kpi-label">Встреча назначена</div>
+      <div class="kpi-value" style="color:var(--success)">23</div>
+      <div class="kpi-sub">1.8% от реальных диалогов</div>
+      <div class="kpi-compare">пред. период: <span class="no-data">нет данных</span></div>
+    </div>
+    <div class="kpi yellow">
+      <div class="kpi-label">Квалифицированы</div>
+      <div class="kpi-value" style="color:var(--warn)">7</div>
+      <div class="kpi-sub">0.5% · горячие лиды</div>
+      <div class="kpi-compare">пред. период: <span class="no-data">нет данных</span></div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Реальных диалогов</div>
+      <div class="kpi-value">1 304</div>
+      <div class="kpi-sub">из 11 486 звонков (11.4%)</div>
+      <div class="kpi-compare">пред. период: <span class="no-data">нет данных</span></div>
+    </div>
+  </div>
+  <!-- Funnel -->
+  <div class="card">
+    <div class="card-title">Воронка успешных диалогов</div>
+    <div class="funnel-header">
+      <div class="funnel-header-label">Этап</div>
+      <div class="funnel-header-bar"></div>
+      <div class="funnel-header-pct">от старта</div>
+      <div class="funnel-header-count">кол-во</div>
+      <div class="funnel-header-drop" style="width:56px">от пред. шага</div>
+      <div class="funnel-header-drop">отвал</div>
+    </div>
+    <div class="funnel" id="funnel"></div>
+    <div style="margin-top:12px;font-size:14px;color:var(--muted);display:flex;gap:16px">
+      <span><b style="color:var(--text)">от старта</b> — доля от 1 304 реальных диалогов</span>
+      <span><b style="color:var(--accent)">от пред. шага</b> — конверсия между этапами</span>
+    </div>
+  </div>
+
+
+  <!-- Patterns / Insights -->
+  <div class="card">
+    <div class="card-title">Паттерны и точки роста</div>
+    <div class="patterns" id="patterns"></div>
+  </div>
+
+  <!-- A/B Test Suggestion -->
+  <div class="ab-box">
+    <div class="ab-title">🧪 A/B тест #1 — приветственная фраза (наибольший потенциал)</div>
+    <div class="ab-sub">Из 1 304 реальных диалогов 256 (19.6%) завершились до того, как бот успел озвучить оффер. «Искусственный интеллект» в первой фразе — вероятный триггер. Тест фокусируется на замене «ИИ-фрейма» на «результат-фрейм».</div>
+    <div class="ab-variants">
+      <div class="ab-var" style="background:rgba(239,68,68,0.07);border:1px solid rgba(239,68,68,0.25)">
+        <div class="ab-var-label">⚙️ Контроль (текущий)</div>
+        <div class="ab-var-text">«Иван Иваныч, добрый день! Звоню насчёт искусственного интеллекта в вашем отделе продаж — у нас есть кейс по [Отрасли], хотела показать. Тридцать секунд займет, ладно?»</div>
+        <div class="ab-var-note">⚠ «Искусственный интеллект» в первой фразе → триггер отбоя, особенно у аудитории 45+</div>
+      </div>
+      <div class="ab-var" style="background:rgba(34,197,94,0.07);border:1px solid rgba(34,197,94,0.25)">
+        <div class="ab-var-label">✨ Вариант B (предложение аналитика)</div>
+        <div class="ab-var-text">«Иван Иваныч, добрый день! Звоню насчёт роста продаж в вашей отрасли — есть конкретная механика, интересно?»</div>
+        <div class="ab-var-note">✓ Фокус на результате («рост продаж»), не на инструменте. «ИИ» и «робот» — вообще не упоминается. Вопрос в конце открытый, не «ладно?»</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap">
+      <div style="flex:1;min-width:200px;background:var(--surface2);border-radius:8px;padding:12px 14px">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:6px">МЕТРИКА ТЕСТА</div>
+        <div style="font-size:15px">Конверсия этапа 0→1 (согласие на разговор)</div>
+        <div style="font-size:14px;color:var(--muted);margin-top:4px">Текущий baseline: <b style="color:var(--text)">60.3%</b></div>
+      </div>
+      <div style="flex:1;min-width:200px;background:var(--surface2);border-radius:8px;padding:12px 14px">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:6px">ОБЪЁМ ТЕСТА</div>
+        <div style="font-size:15px">~500 звонков на вариант (≈2 дня звонков)</div>
+        <div style="font-size:14px;color:var(--muted);margin-top:4px">Достаточно для 95% значимости при &Delta;5%+</div>
+      </div>
+      <div style="flex:1;min-width:200px;background:var(--surface2);border-radius:8px;padding:12px 14px">
+        <div style="font-size:13px;color:var(--muted);margin-bottom:6px">ОЖИДАЕМЫЙ ЭФФЕКТ</div>
+        <div style="font-size:15px">+8–15% к конверсии 0→1</div>
+        <div style="font-size:14px;color:var(--muted);margin-top:4px">= <b style="color:var(--success)">+10–20 встреч</b> в неделю без изменения базы</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Period comparison — bottom -->
+  <div class="card">
+    <div class="card-title">Сравнение с предыдущим периодом</div>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:15px">
+        <thead>
+          <tr>
+            <th style="text-align:left;padding:10px 10px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border);font-weight:600">Метрика</th>
+            <th style="text-align:right;padding:10px 10px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border);font-weight:600">Тек. период<br><span style="font-weight:400;text-transform:none;font-size:12px">25–29 мая 2026</span></th>
+            <th style="text-align:right;padding:10px 10px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border);font-weight:600">Пред. период</th>
+            <th style="text-align:right;padding:10px 10px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border);font-weight:600">Изменение</th>
+          </tr>
+        </thead>
+        <tbody id="compareTable"></tbody>
+      </table>
+    </div>
+    <div style="margin-top:10px;font-size:14px;color:var(--muted);padding:10px 14px;background:var(--surface2);border-radius:6px">
+      💡 Для следующего отчёта достаточно передать CSV-выгрузку за прошлую неделю — таблица заполнится автоматически.
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+// Compare table
+const compareMetrics = [
+  { label: 'Всего звонков (неделя)', current: '11 486', prev: null, unit: '' },
+  { label: 'Реальных диалогов', current: '1 304 (11.4%)', prev: null, unit: '' },
+  { label: 'Попытки встречи', current: '133 (10.2% от диалогов)', prev: null, unit: '' },
+  { label: 'Встреч назначено', current: '23 (1.8% от диалогов)', prev: null, unit: '' },
+  { label: 'Квалифицированы', current: '7 (0.5%)', prev: null, unit: '' },
+  { label: 'Конверсия диалог→оффер', current: '80.4%', prev: null, unit: '' },
+  { label: 'Конверсия попытка→встреча', current: '17.3%', prev: null, unit: '' },
+];
+const compareTbody = document.getElementById('compareTable');
+compareMetrics.forEach((m, i) => {
+  compareTbody.innerHTML += `
+    <tr style="${i % 2 === 0 ? '' : 'background:var(--surface2)'}">
+      <td style="padding:10px 10px;color:var(--text);font-size:15px">${m.label}</td>
+      <td style="padding:10px 10px;text-align:right;font-weight:600;font-size:15px">${m.current}</td>
+      <td style="padding:10px 10px;text-align:right;color:var(--border);font-style:italic;font-size:15px">нет данных</td>
+      <td style="padding:10px 10px;text-align:right;color:var(--border);font-style:italic;font-size:15px">—</td>
+    </tr>`;
+});
+
+const DATA = {
+  funnel: [
+    { label: "Реальный диалог", count: 1304, pct: 100.0 },
+    { label: "Оффер услышан", count: 1048, pct: 80.4 },
+    { label: "Предложена встреча", count: 133, pct: 10.2 },
+    { label: "Встреча назначена", count: 23, pct: 1.8 },
+    { label: "Квалифицирован", count: 7, pct: 0.5 }
+  ],
+  industries: [
+    { name: "Оптовая торговля", total: 191, meeting: 40, rate: 20.9 },
+    { name: "Другое", total: 25, meeting: 6, rate: 24.0 },
+    { name: "Грузоперевозки", total: 22, meeting: 4, rate: 18.2 },
+    { name: "Химпром", total: 22, meeting: 2, rate: 9.1 },
+    { name: "Металлургия", total: 16, meeting: 3, rate: 18.8 },
+    { name: "Розничная торговля", total: 16, meeting: 4, rate: 25.0 },
+    { name: "Стройматериалы", total: 16, meeting: 1, rate: 6.2 },
+    { name: "Сельское хоз-во", total: 9, meeting: 1, rate: 11.1 }
+  ],
+  hours: [
+    { hour: 9,  total: 9,   meeting: 0, rate: 0.0 },
+    { hour: 10, total: 2,   meeting: 1, rate: 50.0 },
+    { hour: 11, total: 146, meeting: 2, rate: 1.4 },
+    { hour: 12, total: 76,  meeting: 2, rate: 2.6 },
+    { hour: 13, total: 448, meeting: 3, rate: 0.7 },
+    { hour: 14, total: 171, meeting: 5, rate: 2.9 },
+    { hour: 15, total: 48,  meeting: 1, rate: 2.1 },
+    { hour: 16, total: 68,  meeting: 2, rate: 2.9 },
+    { hour: 17, total: 160, meeting: 5, rate: 3.1 },
+    { hour: 18, total: 136, meeting: 2, rate: 1.5 },
+    { hour: 19, total: 40,  meeting: 0, rate: 0.0 }
+  ],
+  durBuckets: [0, 165, 106, 67, 16, 6, 5, 0, 0, 0, 0, 13],
+  durLabels: ["<30s","30-60s","1-1.5m","1.5-2m","2-2.5m","2.5-3m","3-4m","4-5m","5-6m","6-7m","7-8m","8m+"],
+  dropoutQuotes: {
+    0: ["(Большинство молча сбрасывают — без слов)", "Угу. [пауза, сброс]", "номер [видимо, уточняли номер у кого-то рядом]", "Алло [не слышат начало, сброс]"],
+    1: [
+      "Э-э-э, это, смотрююю, Будённовка. Вы в Будённовку попали? [ошибка номера]",
+      "Автокредиты. А иначе? [не та тема]",
+      "У нас есть четыре машины или пять. Сбросьте на почту. Алё! Слышно?",
+      "Дааа, вы ещё твари, вас уничтожить невозможно. Один номер блокируешь, из другого звоните.",
+      "Нет, спасибо, не надо."
+    ],
+    2: [
+      "Так, не, у нас компания щас почти закрывается, у нас другая тема.",
+      "Вы здесь? Вас не слышно. [бот завис, потеря контакта]",
+      "Не совсем понял вас. [бот не смог обработать вопрос]",
+      "Позвоните, объясните чё к чему. Посмотрим, есть ли у вашего ИИ мозги или нет.",
+      "Я понимаю, что вас ума не хватает ответить на вопрос, и вы предлагаете ИИ. Давайте с этого начнём.",
+      "Да ну, я не знаю. У меня уже есть люди, которые прозванивают базу. [есть альтернатива]"
+    ],
+    3: [
+      "Спасибо. [назначил встречу и сразу сбросил до квалификации]",
+      "Во-- в 19:00. [назвал время и сбросил]",
+      "В любое. Рабочее. [ответил обобщённо, сбросил]",
+      "Нууу, нормально, пойдет. Угу. [согласился и сбросил]",
+      "Вторник. [назвал день и сбросил]",
+      "М-м-м? Не-не, наверное, это на городской. [переключился на другую линию]"
+    ],
+    4: [
+      "Меньше. [ответил на вопрос о базе и сбросил]",
+      "До тысячи. [маленькая база — бот видимо остановился]",
+      "Я ж сказал: прямо сейчас. Чё непонятного! [хотел живого человека]",
+      "Не могу сказать. [отказался отвечать на квалификацию]",
+      "Это в понедельник я вам расскажу. [отложил квалификацию]"
+    ]
+  },
+  patterns: [
+    { title: "19.6% уходят до оффера", desc: "256 из 1 304 реальных диалогов завершились до второго хода бота — человек ответил, но оффер не услышал. «Искусственный интеллект» в первой фразе — вероятный триггер, особенно у аудитории 45+.", type: "critical" },
+    { title: "83% попыток встреч проваливаются", desc: "Бот предложил встречу в 133 диалогах, но подтвердил только 23 (17%). В 110 случаях клиент либо уклонился, либо дал мягкий отказ. Бот не умеет закрывать на конкретное время.", type: "critical" },
+    { title: "«Вас не слышно» — потери в момент интереса", desc: "В нескольких диалогах клиент говорит «Вас не слышно» / «Вы живой?» — бот не реагирует корректно и теряет тёплый контакт. Похоже на баг обработки паузы или плохое распознавание.", type: "bug" },
+    { title: "13:00 — треть звонков, минимум отдачи", desc: "448 из 1 304 реальных диалогов (34%) приходятся на 13:00, конверсия в встречу — 0.7%. Скорее всего обеденный перерыв. 17:00 даёт лучшую абсолютную отдачу (5 встреч, 3.1%).", type: "insight" },
+    { title: "42 клиента — база слишком мала", desc: "Бот сам диагностирует: «объёмы до 1 000 контактов» → отправляет материалы. Это готовый nurturing-сегмент. С правильным follow-up часть вернётся при росте базы.", type: "opportunity" },
+    { title: "Квалификация после буккинга — момент потери", desc: "Бот спрашивает про размер базы сразу после бронирования встречи. Клиент считает встречу закрытой и воспринимает вопрос как новый барьер — сбрасывает. Лучше перенести квалификацию в начало самой встречи.", type: "insight" }
+  ]
+};
+
+// --- Funnel ---
+const funnelEl = document.getElementById('funnel');
+DATA.funnel.forEach((f, i) => {
+  const prev = i > 0 ? DATA.funnel[i-1].count : f.count;
+  const drop = i > 0 ? prev - f.count : 0;
+  const dropPct = i > 0 ? Math.round(100 * drop / prev) : 0;
+  const stepPct = i > 0 ? Math.round(100 * f.count / prev) : 100;
+  const barW = f.pct;
+  const dropHtml = i > 0
+    ? `<span class="drop-negative">−${dropPct}%</span>`
+    : `<span style="color:var(--muted)">—</span>`;
+  const stepHtml = i > 0
+    ? `<span style="color:var(--accent);font-weight:700">${stepPct}%</span>`
+    : `<span style="color:var(--muted)">старт</span>`;
+  funnelEl.innerHTML += `
+    <div class="funnel-row">
+      <div class="funnel-label">${f.label}</div>
+      <div class="funnel-bar-wrap">
+        <div class="funnel-bar s${i}" style="width:${barW}%">${f.pct}%</div>
+      </div>
+      <div class="funnel-pct" style="color:${i===0?'var(--text)':i===3?'var(--success)':i===4?'var(--warn)':'var(--text)'}">${f.pct}%</div>
+      <div class="funnel-count">${f.count}</div>
+      <div class="funnel-step-pct">${stepHtml}</div>
+      <div class="funnel-drop">${dropHtml}</div>
+    </div>`;
+});
+
+// --- Patterns ---
+const patternsEl = document.getElementById('patterns');
+const typeMap = { critical: 'badge-critical', opportunity: 'badge-opportunity', insight: 'badge-insight', bug: 'badge-bug' };
+const typeLabel = { critical: '⚠ Критично', opportunity: '↑ Возможность', insight: '◎ Инсайт', bug: '✕ Проблема' };
+DATA.patterns.forEach(p => {
+  patternsEl.innerHTML += `
+    <div class="pattern-item">
+      <div class="pattern-title">
+        ${p.title}
+        <span class="badge ${typeMap[p.type]}">${typeLabel[p.type]}</span>
+      </div>
+      <div class="pattern-desc">${p.desc}</div>
+    </div>`;
+});
+</script>
+</body>
+</html>
