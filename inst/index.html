@@ -68,7 +68,6 @@
     color:#d9d6cd;
   }
   .body-text b{color:var(--cream);}
-
   /* ===== 01 Обложка ===== */
   .cover{justify-content:space-between;}
   .cover h1{
@@ -83,11 +82,9 @@
     padding-right:80px;
     margin-bottom:clamp(24px,5vh,56px);
   }
-
   /* ===== 02 ===== */
   .s2 h1{font-size:clamp(32px,7vw,58px);margin-top:clamp(16px,3vh,32px);}
   .s2 .body-text{margin-top:clamp(24px,5vh,48px);color:#b9b6ad;}
-
   /* ===== 03 Привет ===== */
   .s3 h1{font-size:clamp(32px,7vw,54px);margin-top:clamp(16px,3vh,32px);}
   .people{display:flex;gap:clamp(28px,7vw,64px);margin-top:clamp(28px,6vh,56px);}
@@ -111,23 +108,29 @@
     position:absolute;left:clamp(20px,6vw,72px);right:clamp(20px,6vw,72px);
     bottom:clamp(64px,10vh,104px);height:1px;background:var(--line);
   }
-
-  /* ===== 04 Этапы ===== */
+  /* ===== 04 Этапы (оглавление) ===== */
   .s4 h1{font-size:clamp(44px,9vw,72px);margin-top:clamp(12px,2vh,24px);}
   .steps{margin-top:clamp(24px,4vh,40px);}
-  .step{
+  a.step{
     display:flex;align-items:center;gap:clamp(16px,3vw,28px);
     padding:clamp(14px,2.2vh,20px) 0;
     border-bottom:1px solid var(--line);
+    text-decoration:none;
+    color:var(--cream);
+    transition:opacity .15s;
   }
-  .step:last-child{border-bottom:none;}
+  a.step:last-child{border-bottom:none;}
+  a.step:hover .label{color:var(--lime);}
   .step .num{
     font-family:'Montserrat',sans-serif;font-weight:800;
     font-size:clamp(20px,3.2vw,26px);color:var(--lime);
     min-width:2.1em;
   }
   .step .label{font-weight:600;font-size:clamp(16px,2.6vw,21px);}
-
+  .step .arrow{
+    margin-left:auto;color:var(--gray);
+    font-size:clamp(14px,2vw,18px);
+  }
   /* ===== Этапы 01–08 ===== */
   .stage .bignum{
     font-family:'Montserrat',sans-serif;font-weight:900;
@@ -145,7 +148,17 @@
     font-weight:600;
     color:var(--gray);
   }
-
+  /* Кнопка "к оглавлению" */
+  .backlink{
+    position:absolute;
+    bottom:clamp(24px,5vh,56px);
+    right:clamp(20px,6vw,72px);
+    font-size:13px;font-weight:700;
+    color:var(--gray);
+    text-decoration:none;
+    letter-spacing:.08em;
+  }
+  .backlink:hover{color:var(--lime);}
   /* ===== 13 Доля ===== */
   .s13 h1{font-size:clamp(30px,6.6vw,52px);margin-top:clamp(14px,2.5vh,28px);}
   .cards{
@@ -173,8 +186,55 @@
   }
   .benefit:last-child{border-bottom:none;}
   .benefit .dash{color:var(--lime);font-weight:800;}
-
-  /* ===== 14 Что нужно от вас ===== */
+  /* ===== 14 Экономика ===== */
+  .s-econ h1{font-size:clamp(30px,6.6vw,52px);margin-top:clamp(14px,2.5vh,28px);}
+  .econ{margin-top:clamp(24px,4.5vh,44px);}
+  .econ-row{
+    display:flex;flex-wrap:wrap;align-items:baseline;
+    gap:4px clamp(14px,2.5vw,24px);
+    padding:clamp(16px,2.8vh,24px) 0;
+    border-bottom:1px solid var(--line);
+  }
+  .econ-row .src{
+    font-weight:600;
+    font-size:clamp(15px,2.5vw,20px);
+    flex:1 1 auto;
+  }
+  .econ-row .sum{
+    font-family:'Montserrat',sans-serif;font-weight:800;
+    font-size:clamp(22px,4.5vw,34px);
+    color:var(--lime);
+    white-space:nowrap;
+  }
+  .econ-row .formula{
+    flex-basis:100%;
+    font-size:clamp(12px,1.9vw,15px);
+    color:var(--gray);
+    margin-top:4px;
+    line-height:1.5;
+  }
+  .econ-total{
+    display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;
+    gap:4px clamp(14px,2.5vw,24px);
+    padding:clamp(18px,3.2vh,28px) 0 0;
+  }
+  .econ-total .src{
+    font-family:'Montserrat',sans-serif;font-weight:800;
+    font-size:clamp(17px,3vw,24px);
+  }
+  .econ-total .sum{
+    font-family:'Montserrat',sans-serif;font-weight:800;
+    font-size:clamp(30px,6.5vw,48px);
+    color:var(--lime);
+    white-space:nowrap;
+  }
+  .econ-note{
+    margin-top:clamp(16px,3vh,28px);
+    font-size:clamp(12px,1.9vw,15px);
+    color:var(--gray);
+    line-height:1.5;
+  }
+  /* ===== 15 Что нужно от вас ===== */
   .reqs{
     display:grid;
     grid-template-columns:max-content 1fr;
@@ -201,8 +261,7 @@
   }
   .s14 h2{font-size:clamp(26px,5.6vw,44px);margin-top:clamp(12px,2vh,24px);}
   .s14 .body-text{margin-top:clamp(16px,3vh,28px);color:#b9b6ad;font-size:clamp(15px,2.4vw,19px);}
-
-  /* ===== 15 Финал ===== */
+  /* ===== 16 Финал ===== */
   .final{justify-content:space-between;}
   .final h1{
     font-size:clamp(36px,8.4vw,68px);
@@ -219,134 +278,127 @@
     margin-top:10px;
     letter-spacing:-.01em;
   }
-
   @media (max-width:600px){
     .cover .sub{padding-right:56px;}
   }
 </style>
 </head>
 <body>
-
 <!-- 01 -->
 <section class="slide cover">
   <div class="kicker">Запуск под аудиторию</div>
   <h1>Запуски<br>умирают.<br><span class="accent">Мы делаем<br>наоборот.</span></h1>
   <div class="sub">Кастомные запуски под аудиторию блогера&nbsp;— от анализа до&nbsp;ретрита</div>
-  <div class="pagenum right">01 / 15</div>
+  <div class="pagenum right">01 / 16</div>
 </section>
-
 <!-- 02 -->
 <section class="slide s2">
   <div class="kicker">Один слитый запуск — это не бизнес</div>
   <h1>Мы строим продукт, который продаётся <span class="accent">годами</span>, а не сгорает за&nbsp;один заход.</h1>
   <p class="body-text">Кастомные запуски психологических (обучения, ретриты) и физических продуктов (товарка, e-commerce) под аудиторию блогера — за <b>33% от чистой прибыли</b>.</p>
-  <div class="pagenum left">02 / 15</div>
+  <div class="pagenum left">02 / 16</div>
 </section>
-
 <!-- 03 -->
 <section class="slide s3">
   <div class="kicker">Привет</div>
   <h1>Меня зовут Сергей&nbsp;— и&nbsp;вот мой партнёр Алексей</h1>
   <div class="people">
     <div class="person">
-      <div class="photo"><img src="https://i.ibb.co/pjrYhC10/photo-2026-07-14-17-46-51.jpg" alt="photo 2026 07 14 17 46 51" border="0">
-</div>
+      <div class="photo"><img src="https://i.ibb.co/pjrYhC10/photo-2026-07-14-17-46-51.jpg" alt="Сергей"></div>
       <div class="name">Сергей</div>
       <div class="role">продюсер</div>
     </div>
     <div class="person">
-      <div class="photo"><img src="https://i.ibb.co/Nzcn56Z/photo-2026-07-02-13-44-55.jpg" alt="photo 2026 07 02 13 44 55" border="0"></div>
+      <div class="photo"><img src="https://i.ibb.co/Nzcn56Z/photo-2026-07-02-13-44-55.jpg" alt="Алексей"></div>
       <div class="name">Алексей</div>
       <div class="role">психолог</div>
     </div>
   </div>
   <p class="body-text">Делаем кастомные запуски психологических и физических продуктов под аудиторию блогера.</p>
   <div class="footline"></div>
-  <div class="pagenum left">03 / 15</div>
+  <div class="pagenum left">03 / 16</div>
 </section>
-
-<!-- 04 -->
-<section class="slide s4">
+<!-- 04 Оглавление -->
+<section class="slide s4" id="toc">
   <div class="kicker">Как это работает</div>
   <h1>8 этапов</h1>
   <div class="steps">
-    <div class="step"><span class="num">01</span><span class="label">Анализ</span></div>
-    <div class="step"><span class="num">02</span><span class="label">Контент, который растит охваты</span></div>
-    <div class="step"><span class="num">03</span><span class="label">Сбор базы</span></div>
-    <div class="step"><span class="num">04</span><span class="label">Глубокое исследование</span></div>
-    <div class="step"><span class="num">05</span><span class="label">Мини-продукт</span></div>
-    <div class="step"><span class="num">06</span><span class="label">Основной продукт</span></div>
-    <div class="step"><span class="num">07</span><span class="label">Премиум-сегмент</span></div>
-    <div class="step"><span class="num">08</span><span class="label">Ретрит</span></div>
+    <a class="step" href="#stage-1"><span class="num">01</span><span class="label">Анализ</span><span class="arrow">→</span></a>
+    <a class="step" href="#stage-2"><span class="num">02</span><span class="label">Контент, который растит охваты</span><span class="arrow">→</span></a>
+    <a class="step" href="#stage-3"><span class="num">03</span><span class="label">Сбор базы</span><span class="arrow">→</span></a>
+    <a class="step" href="#stage-4"><span class="num">04</span><span class="label">Глубокое исследование</span><span class="arrow">→</span></a>
+    <a class="step" href="#stage-5"><span class="num">05</span><span class="label">Мини-продукт</span><span class="arrow">→</span></a>
+    <a class="step" href="#stage-6"><span class="num">06</span><span class="label">Основной продукт</span><span class="arrow">→</span></a>
+    <a class="step" href="#stage-7"><span class="num">07</span><span class="label">Премиум-сегмент</span><span class="arrow">→</span></a>
+    <a class="step" href="#stage-8"><span class="num">08</span><span class="label">Ретрит</span><span class="arrow">→</span></a>
   </div>
-  <div class="pagenum left">04 / 15</div>
+  <div class="pagenum left">04 / 16</div>
 </section>
-
 <!-- 05 -->
-<section class="slide stage">
+<section class="slide stage" id="stage-1">
   <div class="bignum">01</div>
   <h1>Анализ</h1>
   <p class="body-text">Распаковываем вас как личность и эксперта. Анализируем аудиторию: кто эти люди, зачем пришли, что смотрят, у кого ещё подписаны.</p>
-  <div class="pagenum left">05 / 15</div>
+  <div class="pagenum left">05 / 16</div>
+  <a class="backlink" href="#toc">↑ оглавление</a>
 </section>
-
 <!-- 06 -->
-<section class="slide stage">
+<section class="slide stage" id="stage-2">
   <div class="bignum">02</div>
   <h1>Контент, который растит охваты</h1>
   <p class="body-text">Рилсы на основе анализа: широкие форматы для роста + экспертные на языке вашей аудитории. Не копии чужих залётов — ваши темы, ваша подача.</p>
-  <div class="pagenum left">06 / 15</div>
+  <div class="pagenum left">06 / 16</div>
+  <a class="backlink" href="#toc">↑ оглавление</a>
 </section>
-
 <!-- 07 -->
-<section class="slide stage">
+<section class="slide stage" id="stage-3">
   <div class="bignum">03</div>
   <h1>Сбор базы</h1>
   <p class="body-text">Аудиторию из рилсов собираем в канал (Telegram или другая площадка) — чтобы быть в более близком контакте со «своими».</p>
-  <div class="pagenum left">07 / 15</div>
+  <div class="pagenum left">07 / 16</div>
+  <a class="backlink" href="#toc">↑ оглавление</a>
 </section>
-
 <!-- 08 -->
-<section class="slide stage">
+<section class="slide stage" id="stage-4">
   <div class="bignum">04</div>
   <h1>Глубокое исследование</h1>
   <p class="body-text">Анкеты и интервью с самыми лояльными подписчиками. Каждый — персональный разбор.</p>
   <div class="tags">Сегменты · боли в дословных формулировках · готовность платить</div>
-  <div class="pagenum left">08 / 15</div>
+  <div class="pagenum left">08 / 16</div>
+  <a class="backlink" href="#toc">↑ оглавление</a>
 </section>
-
 <!-- 09 -->
-<section class="slide stage">
+<section class="slide stage" id="stage-5">
   <div class="bignum">05</div>
   <h1>Мини-продукт</h1>
   <p class="body-text">Недорогой групповой разбор с экспертом. Первая выручка, первый опыт покупки — и живая проверка, за что люди готовы платить.</p>
-  <div class="pagenum left">09 / 15</div>
+  <div class="pagenum left">09 / 16</div>
+  <a class="backlink" href="#toc">↑ оглавление</a>
 </section>
-
 <!-- 10 -->
-<section class="slide stage">
+<section class="slide stage" id="stage-6">
   <div class="bignum">06</div>
   <h1>Основной продукт</h1>
   <p class="body-text">Живой групповой формат со средним чеком. Собран не из головы, а из данных всех предыдущих этапов — попадает в спрос.</p>
-  <div class="pagenum left">10 / 15</div>
+  <div class="pagenum left">10 / 16</div>
+  <a class="backlink" href="#toc">↑ оглавление</a>
 </section>
-
 <!-- 11 -->
-<section class="slide stage">
+<section class="slide stage" id="stage-7">
   <div class="bignum">07</div>
   <h1>Премиум-сегмент</h1>
   <p class="body-text">Для самых вовлечённых — долгосрочная глубокая работа с высоким чеком. Они уже прошли лестницу и знают, что получают.</p>
-  <div class="pagenum left">11 / 15</div>
+  <div class="pagenum left">11 / 16</div>
+  <a class="backlink" href="#toc">↑ оглавление</a>
 </section>
-
 <!-- 12 -->
-<section class="slide stage">
+<section class="slide stage" id="stage-8">
   <div class="bignum">08</div>
   <h1>Ретрит</h1>
   <p class="body-text">Вершина линейки: живое событие (Вьетнам) для прогретого ядра аудитории. Максимальный чек, максимальная глубина, максимальная лояльность.</p>
-  <div class="pagenum left">12 / 15</div>
+  <div class="pagenum left">12 / 16</div>
+  <a class="backlink" href="#toc">↑ оглавление</a>
 </section>
-
 <!-- 13 -->
 <section class="slide s13">
   <div class="kicker">Что получаете вы</div>
@@ -362,10 +414,36 @@
     <div class="benefit"><span class="dash">—</span>Продукт, который можно продавать годами</div>
     <div class="benefit"><span class="dash">—</span>Прозрачность: все данные на каждом шаге</div>
   </div>
-  <div class="pagenum left">13 / 15</div>
+  <div class="pagenum left">13 / 16</div>
 </section>
-
-<!-- 14 -->
+<!-- 14 Экономика -->
+<section class="slide s-econ">
+  <div class="kicker">Пример доходности</div>
+  <h1>Сколько это в&nbsp;деньгах</h1>
+  <div class="econ">
+    <div class="econ-row">
+      <span class="src">С мини-продуктов</span>
+      <span class="sum">200&thinsp;$</span>
+    </div>
+    <div class="econ-row">
+      <span class="src">С основного продукта</span>
+      <span class="sum">21&thinsp;500&thinsp;$</span>
+      <span class="formula">625&thinsp;$ × 100 покупателей × 33% доля</span>
+    </div>
+    <div class="econ-row">
+      <span class="src">С ретрита</span>
+      <span class="sum">13&thinsp;300&thinsp;$</span>
+      <span class="formula">4&thinsp;000&thinsp;$ × 15 человек − 33% расходы на трансфер и жильё × 33% доля</span>
+    </div>
+    <div class="econ-total">
+      <span class="src">Итого за цикл</span>
+      <span class="sum">≈ 35&thinsp;000&thinsp;$</span>
+    </div>
+  </div>
+  <p class="econ-note">Расчёт — ориентир на средних показателях. Реальные цифры зависят от аудитории и строятся после этапа анализа.</p>
+  <div class="pagenum left">14 / 16</div>
+</section>
+<!-- 15 -->
 <section class="slide s14">
   <div class="kicker">Что нужно от вас</div>
   <div class="reqs">
@@ -377,10 +455,9 @@
   <div class="kicker" style="margin-top:0;">Почему нам можно верить</div>
   <h2>Мы не продаём «секретную схему»</h2>
   <p class="body-text">Каждый шаг — стандартная, проверенная рынком механика, собранная в честную последовательность: сначала понять людей, потом им продавать. Все решения — по данным, а не по вкусу.</p>
-  <div class="pagenum left">14 / 15</div>
+  <div class="pagenum left">15 / 16</div>
 </section>
-
-<!-- 15 -->
+<!-- 16 -->
 <section class="slide final">
   <div class="kicker">Следующий шаг</div>
   <h1>Хотите разобрать, как это ляжет на вашу аудиторию?</h1>
@@ -389,6 +466,5 @@
     <a href="https://t.me/Thukydides" target="_blank">t.me/Thukydides</a>
   </div>
 </section>
-
 </body>
 </html>
