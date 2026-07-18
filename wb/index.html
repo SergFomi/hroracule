@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Товарка под твой бренд</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;800;900&family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e0e10;
+    --cream:#f5f2eb;
+    --lime:#c8ff00;
+    --gray:#8a8a93;
+    --line:#2a2a2e;
+    --red:#ed0d0d;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-snap-type:y mandatory;scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--cream);
+    font-family:'Golos Text',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--lime);text-decoration:none;}
+  a:hover{color:#d9ff4d;}
+  .slide{
+    position:relative;
+    min-height:100vh;
+    min-height:100dvh;
+    scroll-snap-align:start;
+    display:flex;
+    flex-direction:column;
+    padding:clamp(24px,5vw,64px) clamp(20px,6vw,72px);
+    max-width:820px;
+    margin:0 auto;
+  }
+  .kicker{
+    font-size:clamp(11px,1.6vw,14px);
+    font-weight:600;
+    letter-spacing:.3em;
+    text-transform:uppercase;
+    color:var(--gray);
+    margin-top:clamp(20px,4vh,48px);
+  }
+  h1,h2{
+    font-family:'Unbounded',sans-serif;
+    font-weight:700;
+    line-height:1.12;
+    letter-spacing:-.01em;
+    color:var(--cream);
+  }
+  .accent{color:var(--lime);}
+  .pagenum{
+    position:absolute;
+    bottom:clamp(24px,5vh,56px);
+    font-size:13px;
+    font-weight:600;
+    color:var(--gray);
+  }
+  .pagenum.left{left:clamp(20px,6vw,72px);}
+  .pagenum.right{right:clamp(20px,6vw,72px);}
+  .body-text{
+    font-size:clamp(17px,2.6vw,22px);
+    line-height:1.55;
+    color:var(--cream);
+  }
+  .subnote{
+    font-size:clamp(14px,2.2vw,18px);
+    line-height:1.5;
+    font-weight:600;
+    color:var(--gray);
+  }
+  /* ===== 01 Обложка ===== */
+  .cover{justify-content:space-between;}
+  .cover h1{
+    font-weight:800;
+    font-size:clamp(38px,8.6vw,72px);
+    line-height:1.08;
+    margin:auto 0;
+  }
+  .cover h1 .pain{
+    font-style:italic;
+    color:var(--red);
+    font-size:1.08em;
+  }
+  .cover .foot{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    gap:24px;
+    margin-bottom:clamp(24px,5vh,56px);
+  }
+  .cover .sub{
+    font-size:clamp(15px,2.4vw,20px);
+    color:var(--gray);
+    line-height:1.5;
+    max-width:24em;
+  }
+  .cover .num{font-size:13px;font-weight:600;color:var(--gray);white-space:nowrap;}
+  /* ===== 02 Тезис ===== */
+  .s2{justify-content:center;}
+  .s2 h1{font-size:clamp(30px,6.6vw,50px);margin-top:clamp(16px,3vh,32px);}
+  .s2 .body-text{margin-top:clamp(24px,5vh,48px);color:var(--gray);}
+  /* ===== 03 Оглавление ===== */
+  .s3 h1{font-weight:800;font-size:clamp(42px,8.6vw,64px);margin-top:clamp(12px,2vh,24px);}
+  .steps{margin-top:clamp(24px,4vh,40px);}
+  a.step{
+    display:flex;align-items:baseline;gap:clamp(16px,3vw,28px);
+    padding:clamp(14px,2.2vh,20px) 0;
+    border-bottom:1px solid var(--line);
+    color:var(--cream);
+  }
+  a.step:last-child{border-bottom:none;}
+  a.step:hover .label{color:var(--lime);}
+  .step .num{
+    font-family:'Unbounded',sans-serif;font-weight:700;
+    font-size:clamp(18px,3vw,24px);color:var(--lime);
+    min-width:2.3em;
+  }
+  .step .label{font-weight:500;font-size:clamp(16px,2.6vw,21px);transition:color .15s;}
+  .step .arrow{margin-left:auto;color:var(--gray);font-size:clamp(14px,2vw,18px);}
+  /* ===== Этапы ===== */
+  .stage .bignum{
+    font-family:'Unbounded',sans-serif;font-weight:900;
+    font-size:clamp(90px,22vw,170px);
+    line-height:1;
+    color:var(--lime);
+    margin-top:clamp(16px,3vh,40px);
+  }
+  .stage h1{font-size:clamp(30px,7vw,52px);margin-top:clamp(8px,1.5vh,16px);line-height:1.08;}
+  .stage .body-text{margin-top:clamp(20px,4vh,36px);}
+  .stage .subnote{margin-top:clamp(14px,2.5vh,24px);}
+  .backlink{
+    position:absolute;
+    bottom:clamp(24px,5vh,56px);
+    right:clamp(20px,6vw,72px);
+    font-size:13px;font-weight:600;
+    color:var(--gray);
+    letter-spacing:.08em;
+  }
+  .backlink:hover{color:var(--lime);}
+  /* ===== 09 Деньги через тебя ===== */
+  .s9{justify-content:center;}
+  .s9 h1{font-size:clamp(28px,6.2vw,46px);margin-top:clamp(16px,3vh,32px);}
+  .s9 .body-text{margin-top:clamp(24px,5vh,44px);}
+  /* ===== 10 Почему честно ===== */
+  .s10 .pair{margin-top:clamp(28px,5vh,48px);display:flex;flex-direction:column;gap:clamp(24px,4.5vh,40px);}
+  .s10 .pair .row{font-size:clamp(17px,2.7vw,23px);line-height:1.55;}
+  .s10 .pair .who{
+    font-family:'Unbounded',sans-serif;font-weight:700;color:var(--lime);
+  }
+  .s10 .punch{
+    font-family:'Unbounded',sans-serif;font-weight:700;
+    font-size:clamp(22px,4.4vw,32px);line-height:1.3;
+    margin-top:clamp(28px,5.5vh,56px);
+  }
+  /* ===== 11 Кейс ===== */
+  .s11 h1{font-size:clamp(22px,4.6vw,34px);margin-top:clamp(12px,2vh,24px);line-height:1.25;}
+  .s11 h1 .ig{
+    font-family:'Golos Text',sans-serif;font-weight:500;
+    font-size:clamp(14px,2.2vw,18px);color:var(--gray);
+  }
+  .case-photo{
+    width:100%;
+    height:clamp(220px,38vh,420px);
+    margin-top:clamp(18px,3vh,28px);
+    background:#000;
+    border:1px solid var(--line);
+    border-radius:16px;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--gray);font-size:13px;
+    overflow:hidden;
+  }
+  .case-photo img{width:100%;height:100%;object-fit:contain;}
+  .case-cards{display:flex;gap:clamp(10px,2vw,16px);margin-top:clamp(18px,3vh,28px);}
+  .case-card{
+    flex:1;border:1px solid var(--line);
+    padding:clamp(14px,2.5vh,20px) 8px;text-align:center;
+  }
+  .case-card .val{
+    font-family:'Unbounded',sans-serif;font-weight:800;
+    font-size:clamp(20px,4.2vw,32px);color:var(--lime);
+  }
+  .case-card .desc{font-size:clamp(11px,1.8vw,14px);color:var(--gray);margin-top:6px;}
+  .s11 .note{
+    margin-top:clamp(18px,3vh,28px);
+    font-size:clamp(14px,2.3vw,18px);line-height:1.5;color:var(--gray);
+  }
+  /* ===== 12 Что важно понимать ===== */
+  .warns{margin-top:clamp(24px,4vh,40px);}
+  .warn{
+    display:flex;gap:clamp(14px,2.5vw,20px);
+    padding:clamp(14px,2.4vh,20px) 0;
+    border-bottom:1px solid var(--line);
+    font-size:clamp(15px,2.5vw,20px);line-height:1.5;
+  }
+  .warn:last-child{border-bottom:none;}
+  .warn .dash{color:var(--lime);font-weight:700;}
+  /* ===== 13 С тебя / с нас ===== */
+  .s13{justify-content:center;}
+  .zones{display:flex;flex-direction:column;gap:clamp(32px,6vh,56px);margin-top:clamp(28px,5vh,48px);}
+  .zone .who{
+    font-family:'Unbounded',sans-serif;font-weight:800;
+    font-size:clamp(28px,6vw,44px);
+  }
+  .zone .who.you{color:var(--lime);}
+  .zone .what{font-size:clamp(17px,2.7vw,23px);line-height:1.5;margin-top:12px;}
+  /* ===== 14 CTA ===== */
+  .final{justify-content:space-between;}
+  .final .mid{margin:auto 0;max-width:36em;}
+  .final h1{font-size:clamp(26px,5.6vw,44px);line-height:1.22;}
+  .final .noobl{margin-top:clamp(14px,2.5vh,24px);font-size:clamp(15px,2.4vw,20px);color:var(--gray);}
+  .final .cta{margin-bottom:clamp(28px,6vh,64px);}
+  .final .cta .lead{font-size:clamp(16px,2.6vw,22px);font-weight:500;color:var(--gray);}
+  .final .cta a{
+    display:inline-block;
+    font-family:'Unbounded',sans-serif;font-weight:700;
+    font-size:clamp(24px,5.4vw,42px);
+    color:var(--lime);
+    margin-top:12px;
+  }
+</style>
+</head>
+<body>
+
+<!-- 01 Обложка -->
+<section class="slide cover">
+  <div class="kicker">Товарка под твой бренд</div>
+  <h1>Твой товарный бизнес без&nbsp;<span class="pain">боли</span></h1>
+  <div class="foot">
+    <div class="sub">Находим трендовый товар в Китае и выпускаем его под твоим именем — для твоей аудитории</div>
+    <div class="num">01 / 14</div>
+  </div>
+</section>
+
+<!-- 02 Тезис -->
+<section class="slide s2">
+  <div class="kicker">Разделение труда</div>
+  <h1>Ты снимаешь контент. <span class="accent">Всё остальное</span> делаем мы.</h1>
+  <p class="body-text">Мы находим трендовый товар в Китае и выпускаем его под твоим именем — под твою аудиторию, а не «что есть на складе».</p>
+  <div class="pagenum left">02 / 14</div>
+</section>
+
+<!-- 03 Оглавление -->
+<section class="slide s3" id="toc">
+  <div class="kicker">Как это работает</div>
+  <h1>5 этапов</h1>
+  <div class="steps">
+    <a class="step" href="#stage-1"><span class="num">01</span><span class="label">Товар</span><span class="arrow">→</span></a>
+    <a class="step" href="#stage-2"><span class="num">02</span><span class="label">Витрина</span><span class="arrow">→</span></a>
+    <a class="step" href="#stage-3"><span class="num">03</span><span class="label">Контент</span><span class="arrow">→</span></a>
+    <a class="step" href="#stage-4"><span class="num">04</span><span class="label">Продажи и доставка</span><span class="arrow">→</span></a>
+    <a class="step" href="#stage-5"><span class="num">05</span><span class="label">Деньги</span><span class="arrow">→</span></a>
+  </div>
+  <div class="pagenum left">03 / 14</div>
+</section>
+
+<!-- 04 Этап 1 -->
+<section class="slide stage" id="stage-1">
+  <div class="bignum">01</div>
+  <h1>Товар</h1>
+  <p class="body-text">Анализируем твою аудиторию и подбираем товар, который под неё ляжет. Не «что есть на складе», а что купят твои люди.</p>
+  <p class="subnote">Под нужный товар — производство под твоим брендом: наш человек в Китае, готовая сеть поставщиков</p>
+  <div class="pagenum left">04 / 14</div>
+  <a class="backlink" href="#toc">↑ оглавление</a>
+</section>
+
+<!-- 05 Этап 2 -->
+<section class="slide stage" id="stage-2">
+  <div class="bignum">02</div>
+  <h1>Витрина</h1>
+  <p class="body-text">Делаем тебе сайт-магазин под твой бренд. Твоё имя, твой стиль, твоя ссылка в шапке профиля.</p>
+  <div class="pagenum left">05 / 14</div>
+  <a class="backlink" href="#toc">↑ оглавление</a>
+</section>
+
+<!-- 06 Этап 3 -->
+<section class="slide stage" id="stage-3">
+  <div class="bignum">03</div>
+  <h1>Контент</h1>
+  <p class="body-text">Ты снимаешь видео с товаром — форматы, которые работают на охват, поможем с идеями и сценариями.</p>
+  <p class="subnote">Это единственная твоя работа в этой схеме</p>
+  <div class="pagenum left">06 / 14</div>
+  <a class="backlink" href="#toc">↑ оглавление</a>
+</section>
+
+<!-- 07 Этап 4 -->
+<section class="slide stage" id="stage-4">
+  <div class="bignum">04</div>
+  <h1>Продажи и доставка</h1>
+  <p class="body-text">Человек переходит по ссылке, заказывает, оплачивает. Дальше наша машина: закуп, логистика, доставка.</p>
+  <p class="subnote">База — товар у клиента через ~3 недели. Если товар полетел — выкупаем партию заранее, доставка ускоряется в разы</p>
+  <div class="pagenum left">07 / 14</div>
+  <a class="backlink" href="#toc">↑ оглавление</a>
+</section>
+
+<!-- 08 Этап 5 -->
+<section class="slide stage" id="stage-5">
+  <div class="bignum">05</div>
+  <h1>Деньги</h1>
+  <p class="body-text">Считаем чистую прибыль, делим по договорённости.</p>
+  <p class="subnote">Фиксированной сетки нет — пропорция зависит от того, кто что вкладывает</p>
+  <div class="pagenum left">08 / 14</div>
+  <a class="backlink" href="#toc">↑ оглавление</a>
+</section>
+
+<!-- 09 Деньги через тебя -->
+<section class="slide s9">
+  <div class="kicker">Принципиально</div>
+  <h1>Деньги проходят <span class="accent">через тебя</span></h1>
+  <p class="body-text">Оплаты от клиентов падают на твои счета. Ты видишь каждый заказ и каждый рубль — никаких «мы потом пришлём отчёт». С твоих счетов оплачивается закуп, остальное делится.</p>
+  <div class="pagenum left">09 / 14</div>
+</section>
+
+<!-- 10 Почему честно -->
+<section class="slide s10">
+  <div class="kicker">Почему так честно для обеих сторон</div>
+  <div class="pair">
+    <div class="row"><span class="who">Ты</span> не можешь остаться без денег — они у тебя.</div>
+    <div class="row"><span class="who">Мы</span> не можем остаться без оплаты закупа — иначе твои клиенты не получат заказы, а это твоё имя на витрине.</div>
+  </div>
+  <div class="punch">Схема, в которой кидать невыгодно никому.</div>
+  <div class="pagenum left">10 / 14</div>
+</section>
+
+<!-- 11 Кейс -->
+<section class="slide s11">
+  <div class="kicker">Это уже работает</div>
+  <h1>Несколько лет по этой схеме работает <span class="accent">Мээримай</span> <a class="ig" href="https://www.instagram.com/dyikanbaevaam/" target="_blank">(@dyikanbaevaam)</a></h1>
+  <div class="case-photo"><!-- скрин профиля Мээримай: <img src="..."> --> скрин профиля</div>
+  <div class="case-cards">
+    <div class="case-card"><div class="val">$5k–$21k</div><div class="desc">доход в месяц</div></div>
+    <div class="case-card"><div class="val">34,9k</div><div class="desc">подписчиков</div></div>
+  </div>
+  <p class="note">Она — часть нашей команды: именно она сидит на закупе и знает китайскую сторону изнутри.</p>
+  <div class="pagenum left">11 / 14</div>
+</section>
+
+<!-- 12 Что важно понимать -->
+<section class="slide s12">
+  <div class="kicker">Что важно понимать до старта</div>
+  <div class="warns">
+    <div class="warn"><span class="dash">—</span><span>Это не «пассивный доход». Контент снимаешь ты, и от его качества зависит половина результата.</span></div>
+    <div class="warn"><span class="dash">—</span><span>Результат не гарантирован. Зависит от товара, контента и аудитории — без обещаний «миллион с первого месяца».</span></div>
+    <div class="warn"><span class="dash">—</span><span>Первые деньги — не сразу. Тест товара, первые продажи, первая партия — недели, а не дни.</span></div>
+    <div class="warn"><span class="dash">—</span><span>Твоя аудитория — твоя. Мы не забираем базу и не лезем в контент вне товарной темы.</span></div>
+  </div>
+  <div class="pagenum left">12 / 14</div>
+</section>
+
+<!-- 13 С тебя / с нас -->
+<section class="slide s13">
+  <div class="kicker">Разделение зон</div>
+  <div class="zones">
+    <div class="zone">
+      <div class="who you">С тебя</div>
+      <div class="what">Имя, контент, аудитория.</div>
+    </div>
+    <div class="zone">
+      <div class="who">С нас</div>
+      <div class="what">Товар, производство, сайт, логистика, юридика, аналитика, вся операционка.</div>
+    </div>
+  </div>
+  <div class="pagenum left">13 / 14</div>
+</section>
+
+<!-- 14 CTA -->
+<section class="slide final">
+  <div class="kicker">Следующий шаг</div>
+  <div class="mid">
+    <h1>20 минут созвона: смотрим твою аудиторию, прикидываем 2–3 товара, называем цифры</h1>
+    <div class="noobl">Без обязательств</div>
+  </div>
+  <div class="cta">
+    <div class="lead">Обсудить —</div>
+    <a href="https://t.me/Thukydides" target="_blank">t.me/Thukydides</a>
+  </div>
+</section>
+
+</body>
+</html>
