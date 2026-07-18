@@ -18,6 +18,9 @@
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-snap-type:y mandatory;scroll-behavior:smooth;}
+  @media (max-width:768px){
+    html{scroll-snap-type:y proximity;}
+  }
   body{
     background:var(--bg);
     color:var(--cream);
@@ -29,8 +32,9 @@
   .slide{
     position:relative;
     min-height:100vh;
-    min-height:100dvh;
+    min-height:100svh;
     scroll-snap-align:start;
+    scroll-snap-stop:always;
     display:flex;
     flex-direction:column;
     padding:clamp(24px,5vw,64px) clamp(20px,6vw,72px);
@@ -300,7 +304,8 @@
   <div class="bignum">05</div>
   <h1>Деньги</h1>
   <p class="body-text">Считаем чистую прибыль, делим по договорённости.</p>
-  <p class="subnote">Фиксированной сетки нет — пропорция зависит от того, кто что вкладывает</p>
+  <p class="subnote">Прозрачная модель распределения прибыли с фиксацией условий в договоре до начала работы</p>
+  <p class="subnote">Предоставляем партнёрам доступ к аналитике по их трафику в реальном времени</p>
   <div class="pagenum left">08 / 12</div>
   <a class="backlink" href="#toc">↑ оглавление</a>
 </section>
@@ -323,7 +328,7 @@
   <div class="kicker">Что важно понимать до старта</div>
   <div class="warns">
     <div class="warn"><span class="dash">—</span><span>Это не «пассивный доход». Контент снимаешь ты, и от его качества зависит половина результата.</span></div>
-    <div class="warn"><span class="dash">—</span><span>Результат не гарантирован. Зависит от товара, контента и аудитории — без обещаний «миллион с первого месяца».</span></div>
+    <div class="warn"><span class="dash">—</span><span>Берём на себя операционные и репутационные риски по качеству продукта.</span></div>
     <div class="warn"><span class="dash">—</span><span>Первые деньги — не сразу. Тест товара, первые продажи, первая партия — недели, а не дни.</span></div>
     <div class="warn"><span class="dash">—</span><span>Твоя аудитория — твоя. Мы не забираем базу и не лезем в контент вне товарной темы.</span></div>
   </div>
