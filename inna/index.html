@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Прототип · РА «ПЛЮС» · Замена вывесок по 168-ФЗ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#08080A; --surface:#121215; --surface-hi:#1B1B20; --border:#26262C;
+  --text:#F4F4F6; --text-muted:#8B8B95; --text-dim:#5A5A63;
+  --neon:#E8FF52; --neon-soft:rgba(232,255,82,.12);
+  --alert:#FF3B2F; --alert-soft:rgba(255,59,47,.12);
+  --glow-sm:0 0 4px rgba(232,255,82,.90), 0 0 12px rgba(232,255,82,.40);
+  --glow-md:0 0 6px rgba(232,255,82,.95), 0 0 20px rgba(232,255,82,.50), 0 0 56px rgba(232,255,82,.22);
+  --glow-lg:0 0 8px rgba(232,255,82,1), 0 0 32px rgba(232,255,82,.55), 0 0 96px rgba(232,255,82,.28);
+  --ease:cubic-bezier(.16,1,.3,1);
+  --container:1320px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:'Inter Tight',system-ui,sans-serif;
+  font-size:clamp(16px,1.15vw,18px); line-height:1.55;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+.wrap{max-width:var(--container);margin:0 auto;padding:0 32px}
+@media(max-width:768px){.wrap{padding:0 16px}}
+
+/* ---------- зерно ---------- */
+.grain{position:fixed;inset:0;z-index:100;pointer-events:none;opacity:.035;mix-blend-mode:overlay}
+
+/* ---------- хедер ---------- */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:60;height:64px;
+  display:flex;align-items:center;
+  background:rgba(8,8,10,.72);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+header .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
+.logo{font-family:'Unbounded';font-weight:800;font-size:17px;letter-spacing:-.02em}
+.logo b{color:var(--neon);text-shadow:var(--glow-sm)}
+.hnav{display:flex;align-items:center;gap:20px}
+.hphone{color:var(--text-muted);text-decoration:none;font-weight:500;font-size:15px;transition:color .2s}
+.hphone:hover{color:var(--text)}
+.city{
+  background:var(--surface);color:var(--text-muted);border:1px solid var(--border);
+  border-radius:999px;padding:8px 14px;font-family:'Inter Tight';font-size:14px;
+  font-weight:500;cursor:pointer;outline:none;
+}
+.city:focus{border-color:var(--neon);box-shadow:var(--glow-sm)}
+@media(max-width:760px){.hphone{display:none}}
+@media(max-width:520px){.city{display:none}}
+
+/* ---------- кнопки ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:'Inter Tight';font-weight:600;font-size:15px;
+  padding:14px 26px;border-radius:999px;border:1px solid transparent;
+  cursor:pointer;text-decoration:none;white-space:nowrap;
+  transition:all .25s var(--ease);
+}
+.btn-primary{background:var(--neon);color:#08080A;box-shadow:var(--glow-sm)}
+.btn-primary:hover{box-shadow:var(--glow-md);transform:scale(1.02)}
+.btn-ghost{background:transparent;color:var(--text);border-color:var(--border)}
+.btn-ghost:hover{border-color:var(--neon);color:var(--neon);box-shadow:var(--glow-sm)}
+.btn-lg{padding:19px 38px;font-size:17px}
+.btn-sm{padding:10px 18px;font-size:14px}
+
+/* ---------- hero ---------- */
+.hero{
+  position:relative;min-height:100dvh;display:flex;align-items:center;
+  padding:104px 0 72px;overflow:hidden;
+}
+/* низкие экраны (ноутбуки 13") — ужимаем ритм, чтобы CTA был виден без скролла */
+@media(max-height:820px) and (min-width:1024px){
+  .hero{padding:92px 0 56px}
+  .hero h1{font-size:clamp(31px,4.2vw,64px);margin-bottom:20px}
+  .hero .lead{margin-bottom:28px}
+  .hero .timer{margin-bottom:28px}
+  .hero .eyebrow{margin-bottom:24px}
+}
+/* фон-заглушка вместо фото ночной улицы */
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(900px 500px at 78% 28%, rgba(232,255,82,.10), transparent 62%),
+    radial-gradient(700px 600px at 12% 82%, rgba(120,80,255,.10), transparent 65%),
+    linear-gradient(180deg,#0B0B0F 0%,#08080A 62%,#08080A 100%);
+}
+.hero-bg::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 30%,rgba(8,8,10,.85) 100%);
+}
+/* подсветка за курсором */
+.cursor-glow{
+  position:absolute;z-index:1;width:900px;height:900px;border-radius:50%;
+  background:radial-gradient(circle,var(--neon-soft),transparent 62%);
+  transform:translate(-50%,-50%);pointer-events:none;opacity:0;
+  transition:opacity .5s ease;
+}
+.hero .wrap{position:relative;z-index:2;width:100%}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--text-muted);border:1px solid var(--border);border-radius:999px;
+  padding:8px 16px;margin-bottom:32px;background:rgba(18,18,21,.6);
+}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--alert);box-shadow:0 0 10px var(--alert);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+h1{
+  font-family:'Unbounded';font-weight:800;
+  font-size:clamp(31px,5vw,78px);line-height:.98;letter-spacing:-.035em;
+  max-width:19ch;margin-bottom:26px;
+  overflow-wrap:break-word;hyphens:none;
+}
+/* слово — неразрывный блок, между словами обычные пробелы: перенос работает */
+h1 .word{display:inline-block;white-space:nowrap}
+h1 .ltr{opacity:0;animation:ignite .5s var(--ease) forwards}
+h1 .neon{color:var(--neon)}
+h1 .neon.lit{text-shadow:var(--glow-md)}
+@keyframes ignite{from{opacity:0;filter:blur(6px)}to{opacity:1;filter:blur(0)}}
+@keyframes flicker{
+  0%{opacity:0}10%{opacity:1}14%{opacity:.15}22%{opacity:1}
+  28%{opacity:.2}34%{opacity:1}100%{opacity:1}
+}
+h1 .flick{animation:flicker 1.1s var(--ease) forwards!important}
+
+.lead{font-size:clamp(16px,1.35vw,20px);color:var(--text-muted);max-width:58ch;margin-bottom:40px}
+.lead b{color:var(--text);font-weight:500}
+
+/* таймер */
+.timer{display:flex;align-items:flex-end;gap:14px;margin-bottom:40px;flex-wrap:wrap}
+.tunit{text-align:center}
+.tnum{
+  font-family:'JetBrains Mono';font-weight:700;
+  font-size:clamp(34px,5vw,66px);line-height:1;color:var(--neon);
+  text-shadow:var(--glow-md);font-variant-numeric:tabular-nums;
+}
+.tlab{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--text-dim);margin-top:8px}
+.tsep{font-family:'JetBrains Mono';font-weight:700;font-size:clamp(28px,4vw,52px);color:var(--text-dim);line-height:1;padding-bottom:26px}
+.timer-cap{width:100%;font-size:13px;color:var(--text-dim);margin-top:4px}
+
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:32px}
+.trust{font-size:13.5px;color:var(--text-dim);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.trust i{font-style:normal;color:var(--border)}
+
+/* ---------- marquee ---------- */
+.marquee{
+  position:relative;overflow:hidden;background:var(--neon);color:#08080A;
+  padding:15px 0;white-space:nowrap;
+  border-top:1px solid rgba(0,0,0,.15);border-bottom:1px solid rgba(0,0,0,.15);
+}
+.mtrack{display:inline-flex;animation:scroll 42s linear infinite}
+.mtrack span{
+  font-family:'Unbounded';font-weight:700;font-size:14px;
+  letter-spacing:.02em;text-transform:uppercase;padding:0 26px;
+}
+@keyframes scroll{to{transform:translateX(-50%)}}
+
+/* ---------- секции ---------- */
+section{padding:clamp(88px,10vw,160px) 0}
+.sec-label{
+  font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--neon);margin-bottom:20px;
+}
+h2{
+  font-family:'Unbounded';font-weight:700;
+  font-size:clamp(30px,4.5vw,62px);line-height:.98;letter-spacing:-.025em;
+  margin-bottom:20px;max-width:20ch;
+}
+h2 .neon{color:var(--neon);text-shadow:var(--glow-sm)}
+.sec-lead{color:var(--text-muted);max-width:62ch;margin-bottom:56px}
+
+/* reveal */
+.rev{opacity:0;transform:translateY(24px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.rev.in{opacity:1;transform:none}
+
+/* ---------- виды вывесок ---------- */
+.prods{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:1024px){.prods{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){.prods{grid-template-columns:1fr}}
+.prod{
+  background:var(--surface);border:1px solid var(--border);border-radius:16px;
+  padding:20px;transition:.3s var(--ease);display:flex;flex-direction:column;
+}
+.prod:hover{transform:translateY(-4px);border-color:#3A3A44}
+/* заглушка вместо фото: имитация типа конструкции */
+.pimg{
+  aspect-ratio:16/9;border-radius:12px;margin-bottom:20px;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  background:linear-gradient(165deg,#101018,#08080A);border:1px solid #22222A;
+}
+.pimg.flat{background:linear-gradient(165deg,#33333D,#1A1A22)}
+.psign{
+  font-family:'Unbounded';font-weight:800;font-size:clamp(17px,2vw,23px);letter-spacing:.03em;
+  color:#9A9AA6;transition:.4s var(--ease);
+}
+.psign.lit{color:var(--neon);text-shadow:var(--glow-md)}
+/* контражур: тёмные буквы + ореол позади */
+.psign.back{color:#0C0C10;text-shadow:none;filter:drop-shadow(0 0 14px rgba(232,255,82,.75)) drop-shadow(0 0 34px rgba(232,255,82,.4))}
+.pimg.halo{background:radial-gradient(circle at 50% 50%,rgba(232,255,82,.16),#0A0A0E 66%)}
+/* неон: контурные буквы */
+.psign.neonline{
+  color:transparent;-webkit-text-stroke:2px var(--neon);
+  filter:drop-shadow(0 0 6px rgba(232,255,82,.9)) drop-shadow(0 0 22px rgba(232,255,82,.5));
+}
+.psign.kron{font-size:34px;padding:10px 18px;border:2px solid var(--neon);border-radius:8px;box-shadow:var(--glow-md)}
+.psign.box{background:rgba(232,255,82,.14);padding:12px 22px;border-radius:6px;box-shadow:var(--glow-md),inset 0 0 22px rgba(232,255,82,.14)}
+.prod:hover .psign.lit,.prod:hover .psign.neonline{filter:brightness(1.15)}
+.prod h3{font-family:'Unbounded';font-weight:600;font-size:18px;line-height:1.25;margin-bottom:10px;letter-spacing:-.02em}
+.prod p{font-size:14.5px;color:var(--text-muted);line-height:1.45;margin-bottom:14px;flex:1}
+.pmat{font-size:12.5px;color:var(--text-dim);padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.prow{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.pprice{font-family:'JetBrains Mono';font-weight:700;font-size:16px;color:var(--neon);text-shadow:var(--glow-sm)}
+.chips.wide{margin-top:28px}
+.link-note{
+  margin-top:24px;font-size:15px;color:var(--text-muted);max-width:76ch;
+  border-left:2px solid var(--neon);padding-left:20px;
+}
+
+/* ---------- день/ночь ---------- */
+.toggle-row{display:flex;align-items:center;gap:16px;margin-bottom:36px}
+.toggle{
+  position:relative;width:150px;height:44px;border-radius:999px;
+  background:var(--surface);border:1px solid var(--border);cursor:pointer;
+  display:flex;align-items:center;padding:4px;
+}
+.toggle .knob{
+  position:absolute;top:4px;left:4px;width:71px;height:34px;border-radius:999px;
+  background:var(--neon);box-shadow:var(--glow-sm);
+  transition:transform .35s var(--ease);
+}
+.toggle.night .knob{transform:translateX(71px)}
+.toggle span{
+  position:relative;z-index:1;flex:1;text-align:center;font-size:13px;font-weight:600;
+  color:#08080A;transition:color .3s;
+}
+.toggle span:last-child{color:var(--text-dim)}
+.toggle.night span:first-child{color:var(--text-dim)}
+.toggle.night span:last-child{color:#08080A}
+
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:860px){.gallery{grid-template-columns:1fr}}
+.shot{
+  position:relative;aspect-ratio:4/3;border-radius:16px;overflow:hidden;
+  border:1px solid var(--border);transition:.5s var(--ease);
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(160deg,#3A3A44,#1A1A20);
+}
+.shot .sign{
+  font-family:'Unbounded';font-weight:800;font-size:clamp(20px,2.6vw,30px);
+  letter-spacing:.02em;color:#0E0E12;transition:.5s var(--ease);
+  padding:16px 26px;border-radius:10px;background:#C9C9D2;
+  border:2px solid rgba(0,0,0,.15);
+}
+.shot .cap{
+  position:absolute;left:0;right:0;bottom:0;padding:16px 18px;
+  background:linear-gradient(transparent,rgba(8,8,10,.92));
+  font-size:13px;color:var(--text-muted);
+}
+.gallery.night .shot{background:linear-gradient(160deg,#0F0F16,#08080A);border-color:#33333B}
+.gallery.night .shot .sign{
+  background:#0E0E12;color:var(--neon);
+  text-shadow:var(--glow-md);box-shadow:var(--glow-lg),inset 0 0 20px rgba(232,255,82,.08);
+  border-color:rgba(232,255,82,.35);
+}
+
+/* ---------- пакеты ---------- */
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:860px){.tiers{grid-template-columns:1fr}}
+.tier{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px;transition:.3s var(--ease)}
+.tier:hover{transform:translateY(-4px);border-color:#3A3A44}
+.tier.best{border-color:var(--neon);box-shadow:var(--glow-sm)}
+.tier .tag{
+  position:absolute;top:-11px;left:32px;background:var(--neon);color:#08080A;
+  font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:5px 12px;border-radius:999px;
+}
+.tier h3{font-family:'Unbounded';font-weight:600;font-size:21px;margin-bottom:10px;letter-spacing:-.02em}
+.tier .desc{font-size:14.5px;color:var(--text-muted);margin-bottom:24px;min-height:66px}
+.tier .price{font-family:'JetBrains Mono';font-weight:700;font-size:30px;margin-bottom:6px}
+.tier.best .price{color:var(--neon);text-shadow:var(--glow-sm)}
+.tier .term{font-size:13px;color:var(--text-dim);margin-bottom:24px}
+
+/* ---------- допродажа ---------- */
+.upsell{
+  margin-top:20px;background:var(--surface);border:1px solid var(--border);border-radius:16px;
+  padding:36px;display:flex;gap:32px;align-items:center;justify-content:space-between;
+}
+@media(max-width:860px){.upsell{flex-direction:column;align-items:flex-start;padding:28px}}
+.upsell h3{font-family:'Unbounded';font-weight:600;font-size:clamp(20px,2.4vw,28px);margin-bottom:12px;letter-spacing:-.02em}
+.upsell p{color:var(--text-muted);font-size:15.5px;max-width:62ch;margin-bottom:20px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips span{
+  font-size:13px;color:var(--text-muted);border:1px solid var(--border);
+  border-radius:999px;padding:7px 14px;background:var(--surface-hi);
+}
+.upsell .btn{flex:0 0 auto}
+
+/* ---------- финал ---------- */
+.final{text-align:center;position:relative;overflow:hidden}
+.final::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(760px 420px at 50% 45%,var(--neon-soft),transparent 68%);
+}
+.final .wrap{position:relative;z-index:1}
+.final h2{margin:0 auto 20px;max-width:22ch}
+.final .sec-lead{margin:0 auto 40px}
+.final .timer{justify-content:center}
+.final .timer-cap{text-align:center}
+.msgs{display:flex;gap:12px;justify-content:center;margin-top:22px;flex-wrap:wrap}
+.msgs a{color:var(--text-dim);font-size:14px;text-decoration:none;border-bottom:1px dashed var(--border);transition:.2s}
+.msgs a:hover{color:var(--neon);border-color:var(--neon)}
+
+footer{border-top:1px solid var(--border);padding:40px 0;font-size:13.5px;color:var(--text-dim)}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+/* ---------- reduced motion ---------- */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .rev{opacity:1;transform:none}
+  h1 .ltr{opacity:1}
+  .mtrack{animation:none}
+  .cursor-glow{display:none}
+}
+</style>
+</head>
+<body>
+
+<svg class="grain"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+
+<header>
+  <div class="wrap">
+    <div class="logo">ПЛЮС<b>+</b></div>
+    <nav class="hnav">
+      <select class="city" id="city" aria-label="Город">
+        <option data-tel="+7 (4742) 71-80-68">Липецк</option>
+        <option data-tel="+7 (920) 511-48-31">Москва</option>
+        <option data-tel="+7 (920) 511-48-31">Воронеж</option>
+        <option data-tel="+7 (920) 511-48-31">Тула</option>
+        <option data-tel="+7 (920) 511-48-31">Тамбов</option>
+      </select>
+      <a class="hphone" id="hphone" href="tel:+74742718068">+7 (4742) 71-80-68</a>
+      <a class="btn btn-primary btn-sm" href="#audit">Проверить по фото</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ 3.1 ПЕРВЫЙ ЭКРАН ============ -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="cursor-glow" id="cg"></div>
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>ФЗ-168 · переходный период истекает 1 сентября 2026</div>
+    <h1 id="h1" data-text="Заменим вывеску по закону о русском языке за 2 дня" data-neon="2 дня"></h1>
+    <p class="lead">Пришлите фото — бесплатно скажем, есть ли нарушение, и <b>посчитаем стоимость замены в тот же день</b>. Своё производство в Липецке, монтаж и гарантия. На рынке наружной рекламы 10 лет.</p>
+
+    <div class="timer" id="timer">
+      <div class="tunit"><div class="tnum" data-d>00</div><div class="tlab">дней</div></div>
+      <div class="tsep">:</div>
+      <div class="tunit"><div class="tnum" data-h>00</div><div class="tlab">часов</div></div>
+      <div class="tsep">:</div>
+      <div class="tunit"><div class="tnum" data-m>00</div><div class="tlab">минут</div></div>
+      <div class="tsep">:</div>
+      <div class="tunit"><div class="tnum" data-s>00</div><div class="tlab">секунд</div></div>
+      <div class="timer-cap">до конца переходного периода</div>
+    </div>
+
+    <div class="cta-row">
+      <a class="btn btn-primary btn-lg" href="#audit">Проверить вывеску по фото</a>
+      <a class="btn btn-ghost btn-lg" href="tel:+74742718068">+7 (4742) 71-80-68</a>
+    </div>
+
+    <div class="trust">
+      <span>10 лет на рынке</span><i>·</i>
+      <span>собственное производство</span><i>·</i>
+      <span>Липецк · Москва · Воронеж · Тула · Тамбов</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 3.2 ЛЕНТА ============ -->
+<div class="marquee">
+  <div class="mtrack" id="mt"></div>
+</div>
+
+<!-- ============ 3.3 ЧТО МЫ ИЗГОТАВЛИВАЕМ ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-label rev">Производство</div>
+    <h2 class="rev">Изготавливаем всё на <span class="neon">своём производстве</span></h2>
+    <p class="sec-lead rev">Шесть типов конструкций плюс навигация и таблички. Полный цикл в Липецке — режем, гнём, собираем, красим и монтируем сами, без подрядчиков.</p>
+
+    <div class="prods">
+      <article class="prod rev">
+        <div class="pimg"><span class="psign lit">БУКВЫ</span></div>
+        <h3>Объёмные световые буквы</h3>
+        <p>Самый распространённый вид вывески. Недорого, долговечно, хорошо читается в темноте.</p>
+        <div class="pmat">Молочный акрил и ПВХ · плёнка Oracal</div>
+        <div class="prow"><span class="pprice">от {X} ₽/м²</span><a class="btn btn-ghost btn-sm" href="#audit">Рассчитать</a></div>
+      </article>
+
+      <article class="prod rev">
+        <div class="pimg flat"><span class="psign">БУКВЫ</span></div>
+        <h3>Объёмные несветовые буквы</h3>
+        <p>Тот же вид днём, но дешевле и без расходов на электричество. Технология изготовления та же.</p>
+        <div class="pmat">ПВХ · плёнка Oracal</div>
+        <div class="prow"><span class="pprice">от {X} ₽/м²</span><a class="btn btn-ghost btn-sm" href="#audit">Рассчитать</a></div>
+      </article>
+
+      <article class="prod rev">
+        <div class="pimg halo"><span class="psign back">БУКВЫ</span></div>
+        <h3>Буквы с контражурной подсветкой</h3>
+        <p>Свет идёт из-под букв и создаёт ореол на фасаде. Самый премиальный вид наружной рекламы.</p>
+        <div class="pmat">ПВХ · Oracal · дистанционные держатели</div>
+        <div class="prow"><span class="pprice">от {X} ₽/м²</span><a class="btn btn-ghost btn-sm" href="#audit">Рассчитать</a></div>
+      </article>
+
+      <article class="prod rev">
+        <div class="pimg"><span class="psign neonline">НЕОН</span></div>
+        <h3>Неоновые буквы</h3>
+        <p>Видно с большого расстояния. Гибкая светодиодная лента на акриловом панно — надёжнее классического неона и проще в монтаже.</p>
+        <div class="pmat">Прозрачный акрил · светодиодная лента</div>
+        <div class="prow"><span class="pprice">от {X} ₽/м²</span><a class="btn btn-ghost btn-sm" href="#audit">Рассчитать</a></div>
+      </article>
+
+      <article class="prod rev">
+        <div class="pimg"><span class="psign kron lit">◆</span></div>
+        <h3>Панель-кронштейны</h3>
+        <p>Круглая или квадратная вывеска перпендикулярно фасаду, чаще двусторонняя. Ловит прохожих, идущих вдоль стены.</p>
+        <div class="pmat">Двусторонний световой короб</div>
+        <div class="prow"><span class="pprice">от {X} ₽</span><a class="btn btn-ghost btn-sm" href="#audit">Рассчитать</a></div>
+      </article>
+
+      <article class="prod rev">
+        <div class="pimg"><span class="psign box lit">КОРОБ</span></div>
+        <h3>Световые короба</h3>
+        <p>Практически любая форма и размер. Универсальное решение под широкий спектр задач.</p>
+        <div class="pmat">Алюминиевый профиль · светорассеивающий пластик</div>
+        <div class="prow"><span class="pprice">от {X} ₽/м²</span><a class="btn btn-ghost btn-sm" href="#audit">Рассчитать</a></div>
+      </article>
+    </div>
+
+    <div class="chips wide rev">
+      <span>Таблички и стенды</span><span>Стелы и указатели</span><span>Навигация для ТЦ и ЖК</span>
+      <span>Световая реклама</span><span>Фрезерная резка</span><span>Полиграфия</span>
+      <span>Сувенирная продукция</span><span>Логотип на спецодежду</span>
+    </div>
+
+    <p class="link-note rev">По 168-ФЗ менять надо не только фасадную вывеску — под требования попадают и указатели внутри помещения, и таблички, и навигация. Закроем всё одним заказом и одним монтажом.</p>
+  </div>
+</section>
+
+<!-- ============ 3.6 ДЕНЬ / НОЧЬ ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-label rev">Работы</div>
+    <h2 class="rev">Заменили с марта 2026</h2>
+    <p class="sec-lead rev">Один тумблер переключает все фото с дневных на ночные. Компания делает световые буквы, контражур и неон — и это единственный способ показать их так, как их видит покупатель.</p>
+    <div class="toggle-row rev">
+      <div class="toggle" id="tg"><div class="knob"></div><span>День</span><span>Ночь</span></div>
+      <div style="font-size:13.5px;color:var(--text-dim)">← попробуйте переключить</div>
+    </div>
+    <div class="gallery rev" id="gal">
+      <div class="shot"><div class="sign">КОФЕЙНЯ</div><div class="cap">Было COFFEE HOUSE · Липецк · объёмные световые буквы · 2 дня</div></div>
+      <div class="shot"><div class="sign">БАРБЕРШОП</div><div class="cap">Было BARBERSHOP · Воронеж · контражурная подсветка · 3 дня</div></div>
+      <div class="shot"><div class="sign">ЦВЕТЫ</div><div class="cap">Было FLOWERS · Тула · неоновые буквы · 4 дня</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3.5 ПАКЕТЫ ============ -->
+<section id="audit">
+  <div class="wrap">
+    <div class="sec-label rev">Цены</div>
+    <h2 class="rev">Три способа привести вывеску в порядок</h2>
+    <p class="sec-lead rev">Часто хватает самого дешёвого варианта — менять всю конструкцию нужно далеко не всегда.</p>
+    <div class="tiers">
+      <div class="tier rev">
+        <h3>Перепечатка</h3>
+        <p class="desc">Меняем плёнку Oracal или печать на существующей конструкции. Каркас остаётся.</p>
+        <div class="price">от {X} ₽</div>
+        <div class="term">от 2 дней · меняется одно слово</div>
+        <a class="btn btn-ghost" href="#">Рассчитать</a>
+      </div>
+      <div class="tier best rev">
+        <span class="tag">Чаще всего</span>
+        <h3>Новая лицевая часть</h3>
+        <p class="desc">Новые объёмные буквы или композит на существующий каркас. Световые, несветовые или контражур.</p>
+        <div class="price">от {X} ₽/м²</div>
+        <div class="term">от {N} дней · название меняется полностью</div>
+        <a class="btn btn-primary" href="#">Рассчитать</a>
+      </div>
+      <div class="tier rev">
+        <h3>Вывеска под ключ</h3>
+        <p class="desc">Изготовление, демонтаж старой, монтаж новой, помощь с согласованием и паспортом фасада.</p>
+        <div class="price">от {X} ₽/м²</div>
+        <div class="term">от {N} дней · с монтажом и гарантией</div>
+        <a class="btn btn-ghost" href="#">Рассчитать</a>
+      </div>
+    </div>
+
+    <div class="upsell rev">
+      <div>
+        <h3>Менять надо не только фасад</h3>
+        <p>По 168-ФЗ под требования попадают и указатели внутри помещения, и таблички, и навигация ТЦ. Мы делаем всё это на своём производстве — одним заказом и одним монтажом, без второго подрядчика.</p>
+        <div class="chips">
+          <span>Таблички и стенды</span><span>Стелы и указатели</span>
+          <span>Навигация для ТЦ и ЖК</span><span>Панель-кронштейны</span><span>Световые короба</span>
+        </div>
+      </div>
+      <a class="btn btn-primary" href="#">Посчитать весь объект</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3.10 ФИНАЛ ============ -->
+<section class="final">
+  <div class="wrap">
+    <h2 class="rev">До 1 сентября осталось <span class="neon" id="daysLeft">—</span> дней</h2>
+    <p class="sec-lead rev">Проверка по фото бесплатна и ни к чему не обязывает. Даже если делать будете не у нас — вы хотя бы будете знать, что менять.</p>
+    <div class="timer rev" id="timer2">
+      <div class="tunit"><div class="tnum" data-d>00</div><div class="tlab">дней</div></div>
+      <div class="tsep">:</div>
+      <div class="tunit"><div class="tnum" data-h>00</div><div class="tlab">часов</div></div>
+      <div class="tsep">:</div>
+      <div class="tunit"><div class="tnum" data-m>00</div><div class="tlab">минут</div></div>
+      <div class="tsep">:</div>
+      <div class="tunit"><div class="tnum" data-s>00</div><div class="tlab">секунд</div></div>
+    </div>
+    <a class="btn btn-primary btn-lg rev" href="#">Проверить вывеску</a>
+    <div class="msgs rev">
+      <a href="tel:+74742718068">+7 (4742) 71-80-68</a>
+      <a href="#">Telegram</a><a href="#">MAX</a><a href="#">VK</a>
+      <a href="mailto:718068@bk.ru">718068@bk.ru</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>РА «ПЛЮС» · Липецк, ул. Гайдара, 2б, лит. И · Москва · Воронеж · Тула · Тамбов</span>
+    <span>Прототип дизайн-системы к ТЗ · v2.0 · цены и часть цифр — плейсхолдеры</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* --- 1. «Включение вывески»: H1 по буквам --- */
+  var h1 = document.getElementById('h1');
+  var text = h1.dataset.text, neon = h1.dataset.neon;
+  var neonStart = text.indexOf(neon), neonEnd = neonStart + neon.length;
+  var flickIdx = 4;
+  var words = text.split(' '), html = '', i = 0;
+  words.forEach(function(w, wi){
+    html += '<span class="word">';
+    for (var j=0; j<w.length; j++, i++){
+      var isNeon = i >= neonStart && i < neonEnd;
+      var cls = 'ltr' + (isNeon ? ' neon lit' : '') + (i === flickIdx ? ' flick' : '');
+      var delay = reduce ? 0 : (i * 22);
+      html += '<span class="'+cls+'" style="animation-delay:'+delay+'ms">'+w[j]+'</span>';
+    }
+    html += '</span>';
+    // обычный пробел между словами — точка переноса строки
+    if (wi < words.length - 1){ html += ' '; i++; }
+  });
+  h1.innerHTML = html;
+
+  /* --- 2. Таймер до 1 сентября 2026 --- */
+  var target = new Date('2026-09-01T00:00:00+03:00').getTime();
+  var timers = [document.getElementById('timer'), document.getElementById('timer2')];
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function tick(){
+    var diff = Math.max(0, target - Date.now());
+    var d = Math.floor(diff/86400000),
+        h = Math.floor(diff%86400000/3600000),
+        m = Math.floor(diff%3600000/60000),
+        s = Math.floor(diff%60000/1000);
+    timers.forEach(function(t){
+      if(!t) return;
+      t.querySelector('[data-d]').textContent = pad(d);
+      t.querySelector('[data-h]').textContent = pad(h);
+      t.querySelector('[data-m]').textContent = pad(m);
+      t.querySelector('[data-s]').textContent = pad(s);
+    });
+    var dl = document.getElementById('daysLeft');
+    if(dl) dl.textContent = d;
+  }
+  tick(); setInterval(tick, 1000);
+
+  /* --- 3. Бегущая строка --- */
+  var items = ['Роспотребнадзор проверяет с марта 2026','ст. 14.8 КоАП — до 10 000 ₽ юрлицу',
+    'ст. 14.3 КоАП за рекламу — до 500 000 ₽','товарные знаки можно оставить',
+    'русский шрифт не мельче иностранного'];
+  var one = items.map(function(s){ return '<span>'+s+' ◆</span>'; }).join('');
+  document.getElementById('mt').innerHTML = one + one;
+
+  /* --- 4. Подсветка за курсором (lerp) --- */
+  var cg = document.getElementById('cg');
+  if(!reduce && matchMedia('(hover: hover)').matches){
+    var tx=0, ty=0, cx=0, cy=0, active=false;
+    document.querySelector('.hero').addEventListener('mousemove', function(e){
+      var r = this.getBoundingClientRect();
+      tx = e.clientX - r.left; ty = e.clientY - r.top;
+      if(!active){ active = true; cx=tx; cy=ty; cg.style.opacity='1'; }
+    });
+    (function loop(){
+      cx += (tx-cx)*0.09; cy += (ty-cy)*0.09;
+      cg.style.left = cx+'px'; cg.style.top = cy+'px';
+      requestAnimationFrame(loop);
+    })();
+  }
+
+  /* --- 5. Переключатель день/ночь --- */
+  var tg = document.getElementById('tg'), gal = document.getElementById('gal');
+  tg.addEventListener('click', function(){
+    tg.classList.toggle('night');
+    gal.classList.toggle('night');
+  });
+
+  /* --- 6. Переключатель города: меняет телефон в шапке --- */
+  var city = document.getElementById('city'), hp = document.getElementById('hphone');
+  city.addEventListener('change', function(){
+    var tel = city.options[city.selectedIndex].dataset.tel;
+    hp.textContent = tel;
+    hp.href = 'tel:' + tel.replace(/\D/g,'').replace(/^8/,'7').replace(/^/, '+');
+  });
+
+  /* --- 7. Scroll-reveal --- */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+    });
+  }, {threshold:0.2});
+  document.querySelectorAll('.rev').forEach(function(el, i){
+    el.style.transitionDelay = (i % 4) * 60 + 'ms';
+    io.observe(el);
+  });
+})();
+</script>
+</body>
+</html>
