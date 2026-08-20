@@ -3,21 +3,903 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Сергей Фомичёв</title>
-<link rel="canonical" href="https://hr-oracul.ru/call/">
-<meta http-equiv="refresh" content="0; url=/call/">
-<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://hr-oracul.ru/">
+<link rel="icon" href="/favicon.ico?v=2" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2">
+<title>Сергей Фомичёв, директор по развитию</title>
+<meta name="description" content="Решу ключевую боль бизнеса: люди, процессы, продажи, автоматизация. Малый бизнес 10-50 человек.">
+<meta property="og:title" content="Сергей Фомичёв, директор по развитию">
+<meta property="og:description" content="Решу ключевую боль бизнеса: найду, где теряются заявки и деньги, и починю руками.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://hr-oracul.ru/og-v2.jpg">
+<meta property="og:image:secure_url" content="https://hr-oracul.ru/og-v2.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:url" content="https://hr-oracul.ru/">
+<meta property="og:site_name" content="Сергей Фомичёв">
+<meta property="og:image:alt" content="Превью сайта Сергея Фомичёва">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Сергей Фомичёв, директор по развитию">
+<meta name="twitter:description" content="Решу ключевую боль бизнеса: найду, где теряются заявки и деньги, и починю руками.">
+<meta name="twitter:image" content="https://hr-oracul.ru/og-v2.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  body{background:#0a0a0a;color:#f4f2f0;font-family:system-ui,sans-serif;
-       display:grid;place-items:center;min-height:100vh;margin:0;text-align:center;padding:20px}
-  a{color:#ff2020}
+  :root{
+    --bg:#0b0b0c;
+    --fg:#f1efe8;
+    --mut:rgba(241,239,232,.58);
+    --line:rgba(241,239,232,.13);
+    --acc:#d4ff3f;
+    --panel:#101012;
+    --sidebar:320px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+  body{
+    background:var(--bg);color:var(--fg);
+    font-family:'Space Grotesk',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.4;
+  }
+  a{color:inherit;text-decoration:none}
+  :focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+  .mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:15.6px;letter-spacing:.16em;text-transform:uppercase;color:var(--acc)}
+  .muted{color:var(--mut)}
+  /* ─── SIDEBAR ─────────────────────────────────────────── */
+  .sidebar{
+    position:fixed;inset:0 auto 0 0;width:var(--sidebar);
+    display:flex;flex-direction:column;padding:40px 34px;
+    border-right:1px solid var(--line);background:var(--bg);z-index:20;
+  }
+  .side-name{font-size:31.2px;font-weight:700;line-height:.98;letter-spacing:-.01em;text-transform:uppercase}
+  .side-tag{margin-top:14px;font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--mut);line-height:1.5}
+  .nav{margin-top:36px;flex:1;overflow-y:auto}
+  .nav a{display:block;padding:8px 0 8px 14px;font-size:14.1px;color:rgba(241,239,232,.5);border-left:2px solid transparent;transition:color .18s,border-color .18s}
+  .nav a:hover{color:var(--fg)}
+  .nav a.is-active{color:var(--acc);border-left-color:var(--acc)}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;
+    background:var(--acc);color:#0b0b0c;
+    padding:14px 20px;font-weight:600;font-size:19.5px;border-radius:3px;
+    border:1px solid var(--acc);transition:filter .18s,transform .18s;
+  }
+  .btn:hover{filter:brightness(1.08)}
+  .btn:active{transform:translateY(1px)}
+  .btn--ghost{background:transparent;color:var(--fg);border-color:var(--line)}
+  .btn--ghost:hover{border-color:var(--fg);filter:none}
+  .btn--lg{padding:17px 28px;font-size:21.4px}
+  .btn .arr{font-size:22.1px;line-height:1}
+  .side-note{margin-top:20px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--mut)}
+  .sidebar > .btn{font-size:15.6px}
+  /* ─── LAYOUT ──────────────────────────────────────────── */
+  /* ─── DOT GRID FIELD ──────────────────────────────────── */
+  #field{position:fixed;inset:0;z-index:0;pointer-events:none;display:block}
+  .main{
+    margin-left:var(--sidebar);position:relative;z-index:1;
+    container-type:inline-size;container-name:main;
+  }
+  .wrap{max-width:1000px;margin:0 auto;padding:0 clamp(24px,5vw,72px)}
+  section{scroll-margin-top:80px}
+  .sec{padding:clamp(52px,7vw,88px) 0;border-top:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:34px}
+  h2{font-size:clamp(35.1px,5.2vw,59.8px);font-weight:700;letter-spacing:-.02em;line-height:1;text-transform:uppercase}
+  h3{font-size:26px;font-weight:600}
+  .lead{font-size:clamp(20.8px,2.6vw,26px);color:var(--mut);line-height:1.5;max-width:62ch}
+  /* ─── HERO ────────────────────────────────────────────── */
+  .hero{
+    position:relative;overflow:hidden;
+    min-height:min(86vh,780px);
+    display:flex;flex-direction:column;justify-content:flex-end;
+  }
+  .hero-panel{
+    position:absolute;top:0;right:0;bottom:0;width:58%;z-index:0;
+    clip-path:polygon(21% 0,100% 0,100% 100%,0 100%);
+    background:
+      radial-gradient(115% 85% at 46% 58%,rgba(212,255,63,.17),rgba(212,255,63,.04) 48%,transparent 74%),
+      linear-gradient(202deg,#14180d 0%,#0e100b 58%,#0b0b0c 100%);
+  }
+  .hero-edge{position:absolute;inset:0;z-index:1;width:100%;height:100%;pointer-events:none}
+  /* Две реальные колонки. Фото больше не позиционируется поверх текста. */
+  .hero-inner{
+    position:relative;z-index:3;
+    width:100%;max-width:1240px;margin:0 auto;
+    padding:0 clamp(24px,5vw,72px);
+    display:grid;
+    grid-template-columns:minmax(0,1.12fr) minmax(300px,.78fr);
+    gap:clamp(24px,3vw,52px);
+    align-items:end;
+  }
+  .hero-copy{
+    align-self:center;min-width:0;
+    padding:clamp(44px,6vw,76px) 0;
+  }
+  .hero h1{
+    font-size:clamp(41.6px,5.7vw,78px);font-weight:700;line-height:1;
+    letter-spacing:-.025em;text-wrap:balance;margin-top:20px;
+    max-width:17ch;
+  }
+  .hero h1 em{font-style:normal;color:var(--acc)}
+  .hero p{
+    margin:20px 0 26px;font-size:clamp(20.8px,2.3vw,24.7px);color:var(--mut);
+    line-height:1.45;max-width:34ch;
+  }
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .cta-note{
+    margin-top:16px;font-family:'IBM Plex Mono',monospace;font-size:15px;
+    letter-spacing:.06em;color:var(--mut);
+  }
+  .hero-fig{
+    align-self:end;min-width:0;
+    display:flex;justify-content:flex-end;
+    overflow:clip;
+  }
+  .hero-fig img{
+    display:block;width:min(100%,520px);max-width:100%;height:auto;
+    max-height:min(78vh,700px);object-fit:contain;object-position:bottom right;
+    filter:contrast(1.03) drop-shadow(0 24px 70px rgba(0,0,0,.55));
+  }
+  /* ─── TRUST STRIP ─────────────────────────────────────── */
+  .trust{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  }
+  .trust div{padding:22px clamp(14px,2vw,24px);border-right:1px solid var(--line)}
+  .trust div:last-child{border-right:0}
+  .trust b{display:block;font-size:clamp(24.7px,3vw,33.8px);font-weight:700;letter-spacing:-.01em;line-height:1.1}
+  .trust span{display:block;margin-top:7px;font-family:'IBM Plex Mono',monospace;font-size:13.7px;letter-spacing:.11em;text-transform:uppercase;color:var(--mut);line-height:1.5}
+  /* ─── GRIDS / CARDS ───────────────────────────────────── */
+  .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,3vw,38px)}
+  .g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .step{border-top:2px solid var(--acc);padding-top:18px}
+  .step .n{font-family:'IBM Plex Mono',monospace;color:var(--acc);font-size:16.9px;letter-spacing:.14em;margin-bottom:14px}
+  .step p{margin-top:9px;color:var(--mut);font-size:20.2px;line-height:1.45}
+  .card{border:1px solid var(--line);border-radius:4px;padding:26px;display:flex;flex-direction:column;gap:14px}
+  .card--acc{border-color:var(--acc)}
+  .card p{color:var(--mut);font-size:19.5px;line-height:1.5}
+  .metric{font-size:clamp(28.6px,3.4vw,40.3px);font-weight:700;line-height:1.05;letter-spacing:-.01em}
+  .metric span{color:var(--acc)}
+  .tag{font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:.13em;text-transform:uppercase;color:var(--acc)}
+  .tag--mut{color:var(--mut)}
+  /* ─── TIMELINE ────────────────────────────────────────── */
+  .tl{list-style:none;margin-top:38px;border-left:1px solid var(--line);padding-left:0}
+  .tl li{position:relative;padding:0 0 26px 26px}
+  .tl li:last-child{padding-bottom:0}
+  .tl li::before{content:"";position:absolute;left:-4.5px;top:7px;width:8px;height:8px;border-radius:50%;background:var(--acc)}
+  .tl .when{font-family:'IBM Plex Mono',monospace;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:var(--acc)}
+  .tl .what{margin-top:6px;font-size:clamp(20.2px,2.5vw,23.4px);line-height:1.4}
+  /* ─── SERVICES ────────────────────────────────────────── */
+  .svc{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+  .svc > div{background:var(--bg);padding:28px;display:flex;flex-direction:column;gap:11px;min-width:0}
+  .svc-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:14px}
+  .price{font-family:'IBM Plex Mono',monospace;color:var(--acc);font-size:17.6px;white-space:nowrap;text-align:right;line-height:1.5}
+  .svc-first{grid-column:1/-1;background:var(--panel)!important;border-left:2px solid var(--acc)}
+  /* Нечётное число карточек: последняя занимает всю строку, чтобы не было пустой ячейки. */
+  .svc > div:last-child:nth-child(even){grid-column:1/-1}
+  .svc ul{margin:2px 0 0;padding-left:18px;color:var(--mut);font-size:18.9px;line-height:1.6}
+  .plist{margin-top:14px;border-top:1px solid var(--line)}
+  .plist-row{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:15px 2px;border-bottom:1px solid var(--line)}
+  .plist-row span:first-child{font-size:20.2px;line-height:1.4}
+  .plist-row span:last-child{font-family:'IBM Plex Mono',monospace;font-size:18.2px;color:var(--acc);white-space:nowrap}
+  /* ─── ARTIFACTS ───────────────────────────────────────── */
+  .arts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px}
+  .art{border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--panel);display:flex;flex-direction:column;transition:border-color .18s}
+  .art:hover{border-color:var(--acc)}
+  .art-img{aspect-ratio:4/3;overflow:hidden;background:#000;border-bottom:1px solid var(--line)}
+  .art-img img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;filter:saturate(.85);transition:transform .4s ease,filter .18s}
+  .art:hover .art-img img{transform:scale(1.04);filter:saturate(1)}
+  .art-cap{padding:16px 18px 18px}
+  .art-cap b{display:block;font-size:20.2px;font-weight:600;line-height:1.3}
+  .art-cap span{display:block;margin-top:7px;font-size:17.6px;color:var(--mut);line-height:1.5}
+  .art-cap .who{margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:13.7px;letter-spacing:.11em;text-transform:uppercase;color:var(--acc)}
+  /* ─── FAQ ─────────────────────────────────────────────── */
+  .faq{border-top:1px solid var(--line)}
+  .faq details{border-bottom:1px solid var(--line)}
+  .faq summary{
+    list-style:none;cursor:pointer;padding:20px 40px 20px 0;position:relative;
+    font-size:clamp(20.8px,2.5vw,24.7px);font-weight:500;line-height:1.35;
+  }
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{
+    content:"+";position:absolute;right:6px;top:50%;transform:translateY(-50%);
+    font-family:'IBM Plex Mono',monospace;color:var(--acc);font-size:26px;line-height:1;
+  }
+  .faq details[open] summary::after{content:"−"}
+  .faq p{padding:0 0 22px;color:var(--mut);font-size:20.2px;line-height:1.55;max-width:70ch}
+  /* ─── LEAD MAGNET / LOAD ──────────────────────────────── */
+  .magnet{border:1px solid var(--acc);border-radius:4px;padding:clamp(24px,3vw,36px);display:grid;grid-template-columns:1.3fr .7fr;gap:26px;align-items:center}
+  .magnet h3{font-size:clamp(24.7px,3vw,32.5px);line-height:1.25}
+  .magnet p{margin-top:10px;color:var(--mut);font-size:19.5px;line-height:1.5}
+  .load{margin-top:26px;display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;font-family:'IBM Plex Mono',monospace;font-size:15.6px;letter-spacing:.08em;color:var(--mut)}
+  .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--acc);margin-right:8px}
+  /* ─── CONTACT ─────────────────────────────────────────── */
+  .contact{padding:clamp(60px,8vw,104px) 0 clamp(88px,9vw,120px)}
+  .contact p.big{font-size:clamp(32.5px,5.5vw,62.4px);font-weight:700;line-height:1.08;letter-spacing:-.02em;max-width:22ch;text-wrap:balance;margin-bottom:22px}
+  /* ─── STICKY CTA ──────────────────────────────────────── */
+  .sticky{
+    position:fixed;bottom:0;left:var(--sidebar);right:0;z-index:30;
+    display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;
+    padding:13px clamp(20px,4vw,44px);
+    background:rgba(11,11,12,.93);backdrop-filter:blur(10px);
+    border-top:1px solid var(--line);
+    transform:translateY(110%);transition:transform .28s ease;
+  }
+  .sticky.is-on{transform:translateY(0)}
+  .sticky-txt{font-size:18.9px;line-height:1.35}
+  .sticky-txt b{font-weight:600}
+  .sticky-txt span{color:var(--mut)}
+  /* ─── RESPONSIVE ──────────────────────────────────────── */
+  @media (max-width:1080px){
+    .g3{grid-template-columns:1fr 1fr}
+    .arts{grid-template-columns:1fr 1fr}
+    .trust{grid-template-columns:1fr 1fr}
+    .trust div:nth-child(2){border-right:0}
+    .trust div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  }
+  @media (max-width:900px){
+    :root{--sidebar:0px}
+    .sidebar{
+      position:sticky;inset:auto;width:auto;flex-direction:row;align-items:center;
+      justify-content:space-between;gap:16px;padding:16px clamp(20px,5vw,32px);
+      border-right:0;border-bottom:1px solid var(--line);top:0;
+    }
+    .sidebar .nav,.side-tag,.side-note,.sidebar > .btn{display:none}
+    .side-name{font-size:26px}
+    .main{margin-left:0}
+    .g3,.g2,.svc{grid-template-columns:1fr}
+    .arts{grid-template-columns:1fr}
+    .svc-first{grid-column:auto}
+    .magnet{grid-template-columns:1fr}
+    .sticky{left:0}
+    body{padding-bottom:76px}
+  }
+  /* Смотрим не на ширину окна, а на ширину .main после вычета сайдбара. */
+  @container main (max-width:980px){
+    .hero-panel{
+      top:auto;left:0;width:100%;height:54%;clip-path:none;
+      background:radial-gradient(95% 74% at 72% 90%,rgba(212,255,63,.15),transparent 70%);
+    }
+    .hero-edge{display:none}
+    .hero-inner{grid-template-columns:minmax(0,1fr);gap:0}
+    .hero-copy{padding:clamp(40px,7vw,64px) 0 0}
+    .hero h1{max-width:20ch}
+    .hero-fig{justify-content:center;margin-top:14px}
+    .hero-fig img{
+      width:min(78%,520px);max-height:520px;
+      object-position:bottom center;
+    }
+  }
+  /* Фолбэк для старых браузеров без container queries. */
+  @supports not (container-type:inline-size){
+    @media (max-width:1320px){
+      .hero-panel{
+        top:auto;left:0;width:100%;height:54%;clip-path:none;
+        background:radial-gradient(95% 74% at 72% 90%,rgba(212,255,63,.15),transparent 70%);
+      }
+      .hero-edge{display:none}
+      .hero-inner{grid-template-columns:minmax(0,1fr);gap:0}
+      .hero-copy{padding:clamp(40px,7vw,64px) 0 0}
+      .hero h1{max-width:20ch}
+      .hero-fig{justify-content:center;margin-top:14px}
+      .hero-fig img{width:min(78%,520px);max-height:520px;object-position:bottom center}
+    }
+  }
+  @media (max-width:680px){
+    .hero{min-height:0}
+    .hero-panel{height:46%}
+    .hero-inner{grid-template-columns:minmax(0,1fr)}
+    .hero-copy{padding:22px 0 0}
+    .hero h1{max-width:11ch; font-size:clamp(44.2px,15.6vw,75.4px)}
+    .hero p{max-width:32ch}
+    .hero-fig{
+      order:-1;
+      width:clamp(220px,62vw,300px);
+      height:clamp(220px,62vw,300px);
+      aspect-ratio:1/1;
+      margin:20px auto 8px;
+      padding:10px;
+      border-radius:50%;
+      overflow:hidden;
+      justify-content:center;
+      align-items:center;
+      background:radial-gradient(circle at 50% 34%, rgba(212,255,63,.22) 0%, rgba(212,255,63,.10) 48%, rgba(255,255,255,.03) 100%);
+      border:1px solid rgba(212,255,63,.32);
+      box-shadow:0 22px 60px rgba(0,0,0,.42), inset 0 0 0 1px rgba(255,255,255,.03);
+    }
+    .hero-fig img{
+      width:100%;
+      height:100%;
+      max-width:100%;
+      max-height:100%;
+      object-fit:contain;
+      object-position:center bottom;
+      transform:translateY(6px);
+      filter:contrast(1.03) drop-shadow(0 14px 32px rgba(0,0,0,.34));
+    }
+    .cta-row .btn{width:100%; justify-content:center}
+    .cta-note{font-size:13.7px; line-height:1.55}
+  }
+  @media (max-width:520px){
+    .hero-copy{padding-top:18px}
+    .hero-fig{width:min(78vw,280px);height:min(78vw,280px);padding:8px}
+    .trust{grid-template-columns:1fr}
+    .trust div{border-right:0;border-bottom:1px solid var(--line)}
+    .trust div:last-child{border-bottom:0}
+    .sticky-txt{display:none}
+    .sticky{justify-content:center}
+    .sticky .btn{width:100%;justify-content:center}
+  }
 </style>
 </head>
 <body>
+<canvas id="field" aria-hidden="true"></canvas>
+<!-- ══════════════ SIDEBAR ══════════════ -->
+<aside class="sidebar">
   <div>
-    <p>Открываю страницу.</p>
-    <p><a href="/call/">Если ничего не произошло, нажмите сюда</a></p>
+    <div class="side-name">Сергей<br>Фомичёв</div>
+    <div class="side-tag">Директор<br>по развитию</div>
   </div>
-  <script>location.replace("/call/");</script>
+  <nav class="nav" id="nav">
+    <a href="#top">Главная</a>
+    <a href="#why">Почему сейчас</a>
+    <a href="#about">Кто я</a>
+    <a href="#niches">Ниши</a>
+    <a href="#how">Как работаю</a>
+    <a href="#results">Результаты</a>
+    <a href="#artifacts">Что на руки</a>
+    <a href="#services">Услуги</a>
+    <a href="#fit">Для кого</a>
+    <a href="#start">Как начинаем</a>
+    <a href="#faq">Вопросы</a>
+    <a href="#contact">Контакт</a>
+  </nav>
+  <a class="btn" href="https://t.me/Thukydides" target="_blank" rel="noopener">Написать в Telegram <span class="arr">↗</span></a>
+  <div class="side-note">БЕРУ ДО 5 ПРОЕКТОВ · 2026</div>
+</aside>
+<main class="main">
+  <!-- ══════════════ HERO ══════════════ -->
+  <section id="top" class="hero">
+    <div class="hero-panel" aria-hidden="true"></div>
+    <svg class="hero-edge" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <line x1="54.2" y1="0" x2="42" y2="100" stroke="#d4ff3f" stroke-opacity=".38"
+            stroke-width="1" vector-effect="non-scaling-stroke"/>
+    </svg>
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <div class="eyebrow">Директор по развитию</div>
+        <h1>Решу <em>ключевую боль</em> бизнеса</h1>
+        <p>Компании 10-50 человек. Разбираю, где теряются заявки и деньги, потом чиню руками: люди, процессы, продажи, автоматизация.</p>
+        <div class="cta-row">
+          <a class="btn btn--lg" href="https://t.me/Thukydides" target="_blank" rel="noopener">Написать в Telegram <span class="arr">↗</span></a>
+          <a class="btn btn--lg btn--ghost" href="#results">Сначала посмотреть результаты</a>
+        </div>
+        <div class="cta-note">ОТВЕЧАЮ САМ · 20 МИНУТ РАЗГОВОРА · БЕЗ ПРЕЗЕНТАЦИЙ И ДАВЛЕНИЯ</div>
+      </div>
+      <div class="hero-fig">
+        <img src="hero-figure.webp" alt="Сергей Фомичёв" width="687" height="1240" fetchpriority="high">
+      </div>
+    </div>
+  </section>
+<div class="wrap">
+  <!-- ══════════════ TRUST STRIP ══════════════ -->
+  <div class="trust">
+    <div>
+      <b>5 лет</b>
+      <span>в операционке и продажах малого и среднего бизнеса</span>
+    </div>
+    <div>
+      <b>10-50</b>
+      <span>человек, размер компаний, с которыми работаю</span>
+    </div>
+    <div>
+      <b>×6,6</b>
+      <span>выручки за квартал в самом крупном кейсе</span>
+    </div>
+    <div>
+      <b>20 минут</b>
+      <span>первый разговор, бесплатно и без обязательств</span>
+    </div>
+  </div>
+  <!-- ══════════════ WHY NOW ══════════════ -->
+  <section id="why" class="sec">
+    <div class="sec-head">
+      <h2>Почему это горит именно сейчас</h2>
+    </div>
+    <p class="lead" style="margin-bottom:30px">Раньше ошибки в управлении закрывал общий рост рынка. Сейчас закрывать их нечем, и каждая дыра в процессах оплачивается из твоего кармана.</p>
+    <div class="g2">
+      <div class="card">
+        <span class="tag">ДЕНЬГИ ПОДОРОЖАЛИ</span>
+        <p>Кредит дорогой, живёшь на своей оборотке, кассовый разрыв займом уже не перекрыть. Потерянная заявка перестала быть мелочью, теперь это твои деньги, а не банковские.</p>
+      </div>
+      <div class="card">
+        <span class="tag">РЕКЛАМА ДОРОЖАЕТ</span>
+        <p>Аукцион перегрет, заявка стоит всё больше, а средний чек за ней не поспевает. Долить бюджета сверху имеет смысл только там, где внутри её кто-то доводит до денег.</p>
+      </div>
+      <div class="card">
+        <span class="tag">ЛЮДИ ПОДОРОЖАЛИ</span>
+        <p>Монтажники, замерщики, врачи и косметологи стоят дороже и просто заканчиваются на рынке. Закрыть дыру в процессе ещё одним нанятым человеком уже не выходит: не найдёшь, а найдёшь, не окупишь.</p>
+      </div>
+      <div class="card">
+        <span class="tag">ИИ ПЕРЕСОБИРАЕТ РУТИНУ</span>
+        <p>Сосед по нише, который отдал машине переписку, отчёты и первичный разбор заявок, тем же составом тянет заметно больше. Догонять его наймом дороже, чем один раз перестроить процессы.</p>
+      </div>
+      <div class="card card--acc" style="grid-column:1/-1;padding:28px">
+        <span class="tag">ЧТО ИЗ ЭТОГО СЛЕДУЕТ</span>
+        <p style="font-size:clamp(22.1px,2.6vw,28.6px);line-height:1.4;max-width:56ch;color:var(--fg)">Рост теперь достают не из рекламного бюджета, а из того, что уже есть: из базы, из необработанных заявок, из людей, которые и так в штате. Чтобы не выживать, а работать спокойно и с деньгами, перестраиваться надо быстрее соседа по нише.</p>
+      </div>
+    </div>
+  </section>
+  <!-- ══════════════ ABOUT ══════════════ -->
+  <section id="about" class="sec">
+    <div class="sec-head">
+      <h2>Кто я и почему мне можно верить</h2>
+    </div>
+    <div class="g2">
+      <div>
+        <p class="lead">
+          Я не консультант с презентацией. 5 лет работаю внутри малого и среднего бизнеса руками: e-commerce и мебельное производство, сети сервисных центров, маркетплейсы. Строил отделы продаж, нанимал и заменял людей, загонял процессы в CRM и регламенты, вытаскивал собственников из операционки.
+        </p>
+        <p class="lead" style="margin-top:18px">
+          До этого работал в найме: операции, маркетинг, аналитика. Настраивал отчётность и интеграции, отвечал за цифры, а не за «активности». Сейчас беру проекты как внешний директор по развитию: захожу в конкретную проблему и остаюсь до результата.
+        </p>
+      </div>
+      <div class="card">
+        <span class="tag">ЧТО УМЕЮ РУКАМИ</span>
+        <ul style="padding-left:18px;color:var(--mut);font-size:19.5px;line-height:1.7">
+          <li>Найм и адаптация продавцов, включая удалённых</li>
+          <li>Регламенты, скрипты, воронка, контроль качества звонков</li>
+          <li>CRM и отчётность: Bitrix, DataLens, дашборды</li>
+          <li>Сайты и посадочные: структура, тексты, аналитика</li>
+          <li>Автоматизация рутины и AI-инструменты под задачу</li>
+          <li>Логистика и работа с маркетплейсами</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <!-- ══════════════ NICHES ══════════════ -->
+  <section id="niches" class="sec">
+    <div class="sec-head">
+      <h2>Ниши, в которых я работаю</h2>
+    </div>
+    <p class="lead" style="margin-bottom:30px">Беру не всё подряд. В этих трёх нишах я уже знаю, где утекают деньги, и не трачу первый месяц на то, чтобы разобраться, как устроен твой бизнес.</p>
+    <div class="g3">
+      <div class="card">
+        <span class="tag">МЕД И КОСМЕТОЛОГИЧЕСКИЕ ЦЕНТРЫ</span>
+        <p>Заявки идут, а запись не растёт. Администратор отвечает как справочная, повторный визит никто не назначает, база пациентов лежит мёртвым грузом. Деньги здесь достаются из скриптов, контроля звонков и работы с теми, кто уже приходил.</p>
+      </div>
+      <div class="card">
+        <span class="tag">ИЖС И РЕМОНТ КВАРТИР</span>
+        <p>Длинный цикл сделки и дорогая заявка. Клиент думает месяцами, а менеджер после первого разговора о нём забывает. Теряется не на рекламе, а на отрезке между замером и договором.</p>
+      </div>
+      <div class="card">
+        <span class="tag">МЕБЕЛЬ, КУХНИ, ОКНА И ДВЕРИ</span>
+        <p>Производство и продажи живут отдельно: сроки плывут, замерщик и цех не сходятся, продавцы не допродают. Здесь у меня самый крупный результат, рост с 300 тысяч до 2 миллионов в месяц за квартал.</p>
+      </div>
+    </div>
+  </section>
+  <!-- ══════════════ HOW + TIMELINE ══════════════ -->
+  <section id="how" class="sec">
+    <div class="sec-head">
+      <h2>Как работаю</h2>
+    </div>
+    <div class="g3">
+      <div class="step">
+        <div class="n">01</div>
+        <h3>Диагностика</h3>
+        <p>Нахожу, где дыра.</p>
+      </div>
+      <div class="step">
+        <div class="n">02</div>
+        <h3>Решение</h3>
+        <p>Чиню руками: люди, процессы, продажи, автоматизация.</p>
+      </div>
+      <div class="step">
+        <div class="n">03</div>
+        <h3>Результат</h3>
+        <p>Договариваемся о конкретной цифре и идём к ней.</p>
+      </div>
+    </div>
+    <h3 style="margin-top:52px;font-size:clamp(23.4px,2.9vw,29.9px)">Как это выглядит по времени</h3>
+    <ol class="tl">
+      <li>
+        <div class="when">НЕДЕЛЯ 1</div>
+        <div class="what">Смотрю воронку, слушаю звонки, разговариваю с людьми. На выходе 2-3 точки, где утекают деньги, плюс план работ.</div>
+      </li>
+      <li>
+        <div class="when">НЕДЕЛЯ 2-3</div>
+        <div class="what">Запускаю решение с понятной отдачей.</div>
+      </li>
+      <li>
+        <div class="when">МЕСЯЦ 2</div>
+        <div class="what">Смотрю, что не сработало, и допиливаю по факту. К этому моменту видно первые цифры.</div>
+      </li>
+      <li>
+        <div class="when">МЕСЯЦ 3+</div>
+        <div class="what">Контур едет сам. Дальше или масштабируем, или расходимся. Держать меня «на всякий случай» не нужно.</div>
+      </li>
+    </ol>
+    <p class="lead" style="margin-top:26px">Сроки взяты из моей предыдущей практики и сильно зависят от ниши и размера компании.</p>
+  </section>
+  <!-- ══════════════ RESULTS ══════════════ -->
+  <section id="results" class="sec">
+    <div class="sec-head">
+      <h2>Результаты в деньгах</h2>
+    </div>
+    <div class="g3">
+      <div class="card">
+        <div class="metric">80 000 ₽ вложений → <span>от 240 000 ₽ отдачи</span></div>
+        <p>Сеть сервисных центров, Нижневартовск и Тюмень. Собственник пришёл за «агентом на всё». На диагностике выяснилось, что опираться не на что: ни CRM, ни процессов, заявки закрывают мастера между делом. Нашёл удалённого менеджера по продажам, написал регламент, веду онбординг. 80 000 ₽ в месяц это вложения собственника вместе с зарплатой, от 240 000 ₽ это вклад должности, на который вышли в расчёте. Идёт второй этап.</p>
+      </div>
+      <div class="card">
+        <div class="metric">300 000 → 2 000 000<span> ₽/мес</span></div>
+        <p>За квартал. Мебель на заказ, Москва. Связка: продавцы + маркетинг + бизнес-ассистент, контроль удалённой команды.</p>
+      </div>
+      <div class="card">
+        <div class="metric">Штрафы <span>→ почти ноль</span></div>
+        <p>Завод металлических изделий, 2 млрд ₽ оборота. Наводил порядок в логистике и e-com. Свёл производство и продажи в один план: штрафы площадок упали почти до нуля, оборачиваемость и маржа направления выросли.</p>
+      </div>
+    </div>
+    <p class="lead" style="margin-top:24px">Отрасли в кейсах другие, и я это не прячу. Ломается везде одно и то же: заявку никто не обработал, договорённость не записали, сотрудник руками делает то, что должно делаться само, а собственник закрывает собой дыры. От того, продаёшь ты кухни или ведёшь приём, меняются слова в скрипте, а не механика починки.</p>
+    <p class="lead" style="margin-top:24px">Разберу любой из этих кейсов по шагам на созвоне, с цифрами, ошибками и тем, что не сработало.</p>
+  </section>
+  <!-- ══════════════ ARTIFACTS ══════════════ -->
+  <section id="artifacts" class="sec">
+    <div class="sec-head">
+      <h2>Что получаешь на руки</h2>
+    </div>
+    <p class="lead">Рабочие документы из реальных проектов, по ним люди работают каждый день.</p>
+    <div class="arts">
+      <a class="art" href="https://i.ibb.co/VYY7nHtT/photo-2026-07-24-17-29-33.jpg" target="_blank" rel="noopener">
+        <div class="art-img"><img src="https://i.ibb.co/VYY7nHtT/photo-2026-07-24-17-29-33.jpg" alt="Регламент логистики" loading="lazy"></div>
+        <div class="art-cap">
+          <b>Регламент логистики</b>
+          <span>Кто, что и в каком порядке делает при отгрузке. Именно это свело штрафы площадок почти к нулю.</span>
+          <div class="who">МЕБЕЛЬНОЕ ПРОИЗВОДСТВО</div>
+        </div>
+      </a>
+      <a class="art" href="https://i.ibb.co/6cGryzGS/photo-2026-07-24-17-24-30.jpg" target="_blank" rel="noopener">
+        <div class="art-img"><img src="https://i.ibb.co/6cGryzGS/photo-2026-07-24-17-24-30.jpg" alt="Управленческая отчётность по Wildberries" loading="lazy"></div>
+        <div class="art-cap">
+          <b>Управленческая отчётность</b>
+          <span>Цифры, по которым принимаются решения: что реально приносит деньги, а что съедает маржу.</span>
+          <div class="who">WILDBERRIES</div>
+        </div>
+      </a>
+      <a class="art" href="https://i.ibb.co/cKKfJYj0/photo-2026-07-24-17-22-56.jpg" target="_blank" rel="noopener">
+        <div class="art-img"><img src="https://i.ibb.co/cKKfJYj0/photo-2026-07-24-17-22-56.jpg" alt="Инструкция продавцу" loading="lazy"></div>
+        <div class="art-cap">
+          <b>Инструкция продавцу</b>
+          <span>Что говорить, что фиксировать, что делать с отказом. По ней продавец выходит на линию, а не «вникает месяц».</span>
+          <div class="who">СЕТЬ СЕРВИСНЫХ ЦЕНТРОВ</div>
+        </div>
+      </a>
+      <a class="art" href="https://i.ibb.co/RkzVL5cR/photo-2026-07-24-17-21-10.jpg" target="_blank" rel="noopener">
+        <div class="art-img"><img src="https://i.ibb.co/RkzVL5cR/photo-2026-07-24-17-21-10.jpg" alt="Статистика по вакансии" loading="lazy"></div>
+        <div class="art-cap">
+          <b>Статистика по вакансии</b>
+          <span>Сколько откликов, сколько дошло до собеседования, кого взяли. Найм как воронка с цифрами, а не «повезёт с человеком».</span>
+          <div class="who">МЕНЕДЖЕР ПО ПРОДАЖАМ</div>
+        </div>
+      </a>
+      <a class="art" href="https://i.ibb.co/XkGMDLc6/photo-2026-07-24-17-21-05.jpg" target="_blank" rel="noopener">
+        <div class="art-img"><img src="https://i.ibb.co/XkGMDLc6/photo-2026-07-24-17-21-05.jpg" alt="Видеоинструкция для продавца" loading="lazy"></div>
+        <div class="art-cap">
+          <b>Видеоинструкция для продавца</b>
+          <span>Онбординг записью, а не пересказом. Новый человек смотрит и работает, без тебя рядом.</span>
+          <div class="who">СЕТЬ СЕРВИСНЫХ ЦЕНТРОВ</div>
+        </div>
+      </a>
+      <div class="art" style="justify-content:center;border-style:dashed">
+        <div class="art-cap" style="padding:24px">
+          <b>Плюс то, что нужно именно тебе</b>
+          <span>KPI для топа, управленческий контур, дашборд с цифрами, скрипты, промпты под твои процессы. Собираю под задачу, а не выдаю шаблон.</span>
+          <div class="who" style="margin-top:14px"><a href="https://t.me/Thukydides" target="_blank" rel="noopener" style="border-bottom:1px solid var(--acc)">Спросить, что нужно тебе ↗</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ══════════════ SERVICES ══════════════ -->
+  <section id="services" class="sec">
+    <div class="sec-head">
+      <h2>Услуги</h2>
+    </div>
+    <div class="svc">
+      <div class="svc-first">
+        <div class="svc-top">
+          <h3 style="font-size:clamp(24.7px,3vw,31.2px)">Начать отсюда: диагностика бизнеса</h3>
+          <span class="price">разовый формат</span>
+        </div>
+        <p style="color:var(--mut);font-size:20.2px;line-height:1.55;max-width:62ch">Не видишь, где утекают деньги. Разбираю воронку и процессы, показываю 2-3 точки потерь и что с ними делать. Дальше решаешь сам, работать со мной или своими руками.</p>
+        <ul>
+          <li>Разбор воронки от заявки до денег</li>
+          <li>Где именно теряется выручка и сколько это стоит в месяц</li>
+          <li>План на ближайший месяц в письменном виде</li>
+        </ul>
+        <div style="margin-top:6px">
+          <a class="btn" href="https://t.me/Thukydides" target="_blank" rel="noopener">Записаться на диагностику <span class="arr">↗</span></a>
+        </div>
+      </div>
+      <div>
+        <div class="svc-top">
+          <h3>Конверсия основного сайта</h3>
+        </div>
+        <p style="color:var(--mut);font-size:19.5px;line-height:1.5">Трафик идёт, заявок мало. Прохожу путь клиента от захода до отправленной формы, нахожу, где он отваливается, и переписываю то, что мешает: смыслы, структуру, оффер, формы.</p>
+      </div>
+      <div>
+        <div class="svc-top">
+          <h3>Новый сайт, который продаёт</h3>
+        </div>
+        <p style="color:var(--mut);font-size:19.5px;line-height:1.5">Сайта нет или он есть, но стыдно показать. Собираю с нуля: структура, тексты, оффер, аналитика. Пишу и делаю сам, без агентства и цепочки менеджеров между тобой и результатом.</p>
+      </div>
+      <div>
+        <div class="svc-top">
+          <h3>Продавец под ключ</h3>
+        </div>
+        <p style="color:var(--mut);font-size:19.5px;line-height:1.5">Продают мастера между делом, заявки стынут. Нахожу продавца, который только продаёт: регламент, онбординг, замена кандидата прописана в договоре.</p>
+      </div>
+      <div>
+        <div class="svc-top">
+          <h3>Бизнес-ассистент под ключ</h3>
+        </div>
+        <p style="color:var(--mut);font-size:19.5px;line-height:1.5">Ты сам себе секретарь, диспетчер и контролёр. Нахожу ассистента и пишу регламент, чтобы рутина ушла с тебя, а не переехала в новый чат.</p>
+      </div>
+      <div>
+        <div class="svc-top">
+          <h3>ИИ в процессы</h3>
+        </div>
+        <p style="color:var(--mut);font-size:19.5px;line-height:1.5">Люди руками делают то, что давно делает машина. Разбираю процессы и ставлю ИИ туда, где он снимает часы, а не туда, где это модно.</p>
+      </div>
+    </div>
+    <h3 style="margin-top:46px;font-size:clamp(23.4px,2.9vw,28.6px)">Что ещё делаю</h3>
+    <div class="plist">
+      <div class="plist-row"><span>Вывод собственника из операционки</span><span>1 месяц</span></div>
+      <div class="plist-row"><span>Новый канал лидгена</span><span>1 месяц</span></div>
+      <div class="plist-row"><span>Найм топа: подбор, KPI, проверка репутации</span><span>под задачу</span></div>
+      <div class="plist-row"><span>Управленческий контур: кто за что отвечает и по каким цифрам</span><span>под задачу</span></div>
+      <div class="plist-row"><span>CRM: внедрение и обучение команды</span><span>под задачу</span></div>
+      <div class="plist-row"><span>Реактивация текущих каналов и базы</span><span>под задачу</span></div>
+      <div class="plist-row"><span>Трекинг: еженедельный созвон, где задачи делаются при мне</span><span>ежемесячно</span></div>
+    </div>
+  </section>
+  <!-- ══════════════ FIT ══════════════ -->
+  <section id="fit" class="sec">
+    <div class="sec-head">
+      <h2>Честно: для кого я</h2>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <span class="tag">ДЛЯ КОГО</span>
+        <p style="font-size:21.4px;line-height:1.45;color:var(--fg)">Малый бизнес 10-50 человек, где есть поток клиентов, но нет управляемости. Собственник готов менять систему.</p>
+      </div>
+      <div class="card">
+        <span class="tag tag--mut">ДЛЯ КОГО НЕТ</span>
+        <p style="font-size:21.4px;line-height:1.45">Если корень в самом собственнике, который не готов делегировать, поднимать цену и отпускать контроль, скажу это прямо, но чинить голову не берусь. Любой продавец упрётся в потолок собственника.</p>
+      </div>
+      <div class="card card--acc" style="grid-column:1/-1;padding:28px">
+        <span class="tag">ЧЕМ ОТЛИЧАЮСЬ</span>
+        <p style="font-size:clamp(22.1px,2.6vw,28.6px);line-height:1.4;max-width:52ch;color:var(--fg)">Не привязан к одному инструменту. Сначала нахожу настоящую причину, потом подбираю решение, а не продаю то, что умею продавать.</p>
+      </div>
+    </div>
+  </section>
+  <!-- ══════════════ START ══════════════ -->
+  <section id="start" class="sec">
+    <div class="sec-head">
+      <h2>Как начинаем</h2>
+    </div>
+    <p class="lead">Никаких «оставьте заявку, с вами свяжется менеджер». Менеджера нет, есть я.</p>
+    <ol class="tl">
+      <li>
+        <div class="when">ШАГ 1 · ТЫ ПИШЕШЬ В TELEGRAM</div>
+        <div class="what">Одной фразой: что за бизнес и что не растёт. Отвечаю сам, обычно в тот же день.</div>
+      </li>
+      <li>
+        <div class="when">ШАГ 2 · 20 МИНУТ СОЗВОНА · БЕСПЛАТНО</div>
+        <div class="what">Спрошу три вещи: сколько заявок в месяц, кто их обрабатывает, сколько из них доходит до денег. По ответам уже видно, есть ли мне смысл заходить.</div>
+      </li>
+      <li>
+        <div class="when">ШАГ 3 · ЛИБО ДИАГНОСТИКА, ЛИБО ЧЕСТНОЕ «НЕТ»</div>
+        <div class="what">Если вижу, где деньги, предлагаю диагностику. Если не вижу или задача не моя, скажу прямо и подскажу, к кому идти.</div>
+      </li>
+    </ol>
+    <div class="load">
+      <span><span class="dot"></span>Беру не больше 5 проектов одновременно</span>
+      <span>Сейчас свободно: 3 места</span>
+    </div>
+  </section>
+  <!-- ══════════════ FAQ ══════════════ -->
+  <section id="faq" class="sec">
+    <div class="sec-head">
+      <h2>Вопросы, которые задают</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>Ты работаешь удалённо, а мы в другом городе. Это работает?</summary>
+        <p>Да, все проекты в кейсах удалённые: Тюмень, Нижневартовск, Москва, Соликамск. Продавцов я тоже ставлю удалённых, и как раз умею их контролировать: регламент, запись звонков, отчётность, разборы. Физическое присутствие нужно на производстве, а не в управлении продажами.</p>
+      </details>
+      <details>
+        <summary>Ты консультант, который советует, или делаешь руками?</summary>
+        <p>Делаю руками. Пишу вакансию, провожу собеседования, составляю регламент, слушаю звонки, настраиваю отчётность. Советы без внедрения не работают, это я проверил на своих деньгах.</p>
+      </details>
+      <details>
+        <summary>А если не сработает?</summary>
+        <p>Гарантировать выручку не буду: слишком много зависит от собственника и рынка, а врать неинтересно. По договору гарантирую выполнение работ. Деньги зависят от нас двоих: я делаю свою часть, бизнес свою. Если одна половина не тянет, цифры не сойдутся.</p>
+      </details>
+      <details>
+        <summary>Почему не сделать это без меня?</summary>
+        <p>Можно. Вопрос только в том, сколько это займёт. Изнутри своего бизнеса ты видишь не всё: глаз замылен на процессы, которые ты сам когда-то и построил. Со стороны они читаются за неделю. Второе: эти задачи я уже делал. Мне не нужно полгода выяснять, как пишется регламент, где искать продавца и что считать результатом. Я приношу готовое и ставлю сразу. Время у собственника дороже всего, и покупаешь ты именно его: я эти грабли уже собрал, тебе не придётся.</p>
+      </details>
+      <details>
+        <summary>Сколько это стоит?</summary>
+        <p>Вход это платная диагностика, дальше фиксированная сумма за конкретное внедрение. Не почасовка и не «плюс расходы по факту»: цифру называю до старта, и она не меняется. Иногда фикс играет против меня, бывает что перерабатываю за те же деньги. Меня это устраивает, потому что так проще договариваться и возвращаться. Конкретные суммы скажу на первом созвоне, они зависят от задачи и размера компании.</p>
+      </details>
+      <details>
+        <summary>Мы не готовы начинать прямо сейчас.</summary>
+        <p>Нормально. Забери чек-лист ниже, посмотри у себя сам. Вернёшься, когда будет нужно, я никуда не денусь.</p>
+      </details>
+    </div>
+  </section>
+  <!-- ══════════════ MAGNET ══════════════ -->
+  <section class="sec">
+    <div class="magnet">
+      <div>
+        <span class="tag">ЕСЛИ ПОКА НЕ ГОТОВ ПИСАТЬ</span>
+        <h3 style="margin-top:12px">Чек-лист: 12 мест, где малый бизнес сливает заявки</h3>
+        <p>Те же точки, которые я проверяю на диагностике. Пройди сам, половину найдёшь без меня.</p>
+      </div>
+      <div>
+        <a class="btn" href="https://t.me/Thukydides" target="_blank" rel="noopener">Забрать чек-лист <span class="arr">↗</span></a>
+        <div class="cta-note">НАПИШИ СЛОВО «ЧЕК-ЛИСТ» · ПРИШЛЮ ФАЙЛОМ</div>
+      </div>
+    </div>
+  </section>
+  <!-- ══════════════ CONTACT ══════════════ -->
+  <section id="contact" class="contact" style="border-top:1px solid var(--line)">
+    <p class="big">Расскажи, что не растёт. На диагностике найдём, где корень.</p>
+    <p class="lead" style="margin-bottom:30px">Одно сообщение, 20 минут разговора. Если задача не моя, скажу сразу.</p>
+    <a class="btn btn--lg" href="https://t.me/Thukydides" target="_blank" rel="noopener">Написать в Telegram <span class="arr">↗</span></a>
+  </section>
+</div>
+</main>
+<!-- ══════════════ STICKY CTA ══════════════ -->
+<div class="sticky" id="sticky">
+  <div class="sticky-txt"><b>Начать можно с диагностики.</b> <span>Первый разговор бесплатный, 20 минут.</span></div>
+  <a class="btn" href="https://t.me/Thukydides" target="_blank" rel="noopener">Написать в Telegram <span class="arr">↗</span></a>
+</div>
+<script>
+(function(){
+  'use strict';
+  /* ─── Скролл-спай в навигации ─── */
+  var links = Array.prototype.slice.call(document.querySelectorAll('#nav a'));
+  var map = {};
+  links.forEach(function(l){ map[l.getAttribute('href').slice(1)] = l; });
+  function setActive(id){
+    links.forEach(function(l){ l.classList.remove('is-active'); });
+    if (map[id]) map[id].classList.add('is-active');
+  }
+  setActive('top');
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting) setActive(e.target.id); });
+    }, { rootMargin:'-45% 0px -50% 0px', threshold:0 });
+    Object.keys(map).forEach(function(id){
+      var s = document.getElementById(id);
+      if (s) obs.observe(s);
+    });
+  }
+  /* ─── Sticky CTA: появляется после первого экрана ─── */
+  var sticky = document.getElementById('sticky');
+  var hero   = document.getElementById('top');
+  var contact = document.getElementById('contact');
+  function onScroll(){
+    var passedHero = window.scrollY > (hero.offsetHeight * 0.85);
+    var atContact  = contact.getBoundingClientRect().top < window.innerHeight * 0.9;
+    sticky.classList.toggle('is-on', passedHero && !atContact);
+  }
+  window.addEventListener('scroll', onScroll, { passive:true });
+  onScroll();
+  /* ─── Точечная сетка, реагирующая на курсор ─── */
+  (function field(){
+    var cv = document.getElementById('field');
+    if (!cv) return;
+    var ctx = cv.getContext('2d', { alpha:true });
+    var SPACING = 26;    // шаг сетки, px
+    var R_MIN   = 0.65;  // радиус точки в покое
+    var R_MAX   = 2.9;   // радиус под курсором
+    var REACH   = 210;   // радиус влияния курсора
+    var EASE    = 0.11;  // инерция следования
+    var FAR = [241,239,232], NEAR = [212,255,63];
+    var w=0, h=0, dpr=1, cols=0, rows=0, ox=0, oy=0;
+    var tx=-9999, ty=-9999, px=-9999, py=-9999;
+    var raf=null, idleFrames=0;
+    var fine   = window.matchMedia('(pointer:fine)').matches;
+    var calm   = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var drift  = !fine && !calm;   // на телефоне точка плывёт сама
+    var t0 = Date.now();
+    function resize(){
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = window.innerWidth; h = window.innerHeight;
+      cv.width = Math.round(w*dpr); cv.height = Math.round(h*dpr);
+      cv.style.width = w+'px'; cv.style.height = h+'px';
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      cols = Math.ceil(w/SPACING)+1; rows = Math.ceil(h/SPACING)+1;
+      ox = (w - (cols-1)*SPACING)/2; oy = (h - (rows-1)*SPACING)/2;
+      draw();
+    }
+    function draw(){
+      ctx.clearRect(0,0,w,h);
+      var reach2 = REACH*REACH;
+      for (var i=0;i<cols;i++){
+        var x = ox + i*SPACING;
+        for (var j=0;j<rows;j++){
+          var y = oy + j*SPACING;
+          var dx = x-px, dy = y-py;
+          var d2 = dx*dx + dy*dy;
+          var t = 0;
+          if (d2 < reach2){
+            t = 1 - Math.sqrt(d2)/REACH;
+            t = t*t;                       // фокус плотнее к центру
+          }
+          var r = R_MIN + (R_MAX-R_MIN)*t;
+          var a = 0.05 + 0.5*t;
+          var cr = Math.round(FAR[0] + (NEAR[0]-FAR[0])*t);
+          var cg = Math.round(FAR[1] + (NEAR[1]-FAR[1])*t);
+          var cb = Math.round(FAR[2] + (NEAR[2]-FAR[2])*t);
+          ctx.beginPath();
+          ctx.fillStyle = 'rgba('+cr+','+cg+','+cb+','+a.toFixed(3)+')';
+          ctx.arc(x,y,r,0,6.2832);
+          ctx.fill();
+        }
+      }
+    }
+    function tick(){
+      if (drift){                          // медленная кривая Лиссажу
+        var s = (Date.now()-t0)/1000;
+        tx = w*(0.5 + 0.36*Math.sin(s*0.16));
+        ty = h*(0.45 + 0.30*Math.sin(s*0.11 + 1.7));
+      }
+      px += (tx-px)*EASE;
+      py += (ty-py)*EASE;
+      draw();
+      var still = Math.abs(tx-px) < 0.4 && Math.abs(ty-py) < 0.4;
+      if (still && !drift){ idleFrames++; } else { idleFrames = 0; }
+      if (idleFrames > 3){ raf = null; return; }   // замерли, гасим цикл
+      raf = requestAnimationFrame(tick);
+    }
+    function wake(){ if (!raf) raf = requestAnimationFrame(tick); }
+    window.addEventListener('resize', resize);
+    resize();
+    if (calm) return;                      // уважаем настройку «меньше движения»
+    if (fine){
+      window.addEventListener('pointermove', function(e){
+        tx = e.clientX; ty = e.clientY;
+        if (px < -1000){ px = tx; py = ty; }   // первый заход, без прыжка
+        wake();
+      }, { passive:true });
+      window.addEventListener('pointerleave', function(){
+        tx = -9999; ty = -9999; wake();
+      });
+    } else {
+      window.addEventListener('touchstart', function(e){
+        var t = e.touches[0]; if(!t) return;
+        drift = false; tx = t.clientX; ty = t.clientY; wake();
+        clearTimeout(window.__driftBack);
+        window.__driftBack = setTimeout(function(){ drift = true; t0 = Date.now(); wake(); }, 4000);
+      }, { passive:true });
+      window.addEventListener('touchmove', function(e){
+        var t = e.touches[0]; if(!t) return;
+        tx = t.clientX; ty = t.clientY; wake();
+      }, { passive:true });
+      wake();
+    }
+  })();
+})();
+</script>
 </body>
 </html>
