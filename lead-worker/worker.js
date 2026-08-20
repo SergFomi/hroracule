@@ -4,18 +4,20 @@
  * Работает на Cloudflare Workers. Принимает JSON, проверяет его, заводит
  * сделку с контактом в amoCRM и присылает уведомление в Telegram.
  *
+ * Отвечает страницe сразу после того, как сделка создана. Примечание к сделке
+ * и уведомление в Telegram доделываются фоном через ctx.waitUntil, чтобы
+ * человек не ждал три с лишним секунды на кнопке.
+ *
  * Секреты живут в переменных окружения Cloudflare, в коде и в репозитории их
  * нет и быть не должно: репозиторий публичный, любой файл из него отдаётся как
  * страница сайта.
  *
  *   BOT_TOKEN        обязательный, токен бота от @BotFather
  *   CHAT_ID          обязательный, куда слать уведомления
- *   AMO_SUBDOMAIN    необязательный, например mycompany (без .amocrm.ru)
- *   AMO_TOKEN        необязательный, долгосрочный токен интеграции
+ *   AMO_SUBDOMAIN    поддомен amoCRM, задан в wrangler.toml
+ *   AMO_TOKEN        долгосрочный токен интеграции amoCRM
  *   AMO_PIPELINE_ID  необязательный, иначе воронка по умолчанию
  *   AMO_STATUS_ID    необязательный, иначе первый этап воронки
- *
- * Пока AMO_SUBDOMAIN и AMO_TOKEN не заданы, заявки уходят только в Telegram.
  */
 
 const ALLOWED = ["https://hr-oracul.ru", "http://localhost:8788"];
@@ -42,14 +44,14 @@ const clean = (v, max) => String(v == null ? "" : v).trim().slice(0, max);
 const digits = (s) => s.replace(/\D/g, "");
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-/** Сделка с контактом одним запросом, затем примечание с подробностями. */
-async function toAmo(env, lead) {
-  const base = "https://" + env.AMO_SUBDOMAIN + ".amocrm.ru/api/v4";
-  const headers = {
-    Authorization: "Bearer " + env.AMO_TOKEN,
-    "Content-Type": "application/json",
-  };
+const amoBase = (env) => "https://" + env.AMO_SUBDOMAIN + ".amocrm.ru/api/v4";
+const amoHeaders = (env) => ({
+  Authorization: "Bearer " + env.AMO_TOKEN,
+  "Content-Type": "application/json",
+});
 
+/** Сделка вместе с контактом одним запросом. Этого ответа мы ждём. */
+async function createLead(env, lead) {
   const deal = {
     name: "Проверка отдела продаж: " + (lead.company || lead.phone),
     _embedded: {
@@ -66,21 +68,21 @@ async function toAmo(env, lead) {
   if (env.AMO_PIPELINE_ID) deal.pipeline_id = Number(env.AMO_PIPELINE_ID);
   if (env.AMO_STATUS_ID) deal.status_id = Number(env.AMO_STATUS_ID);
 
-  const res = await fetch(base + "/leads/complex", {
+  const res = await fetch(amoBase(env) + "/leads/complex", {
     method: "POST",
-    headers,
+    headers: amoHeaders(env),
     body: JSON.stringify([deal]),
   });
-
   if (!res.ok) {
-    return { ok: false, detail: "HTTP " + res.status + " " + (await res.text()).slice(0, 300) };
+    return { ok: false, detail: "HTTP " + res.status + " " + (await res.text()).slice(0, 200) };
   }
-
   const body = await res.json();
-  const id = Array.isArray(body) && body[0] ? body[0].id : null;
-  if (!id) return { ok: true, id: null };
+  return { ok: true, id: (Array.isArray(body) && body[0] && body[0].id) || null };
+}
 
-  const note = [
+/** Подробности заявки. Уходит фоном, человек этого не ждёт. */
+async function addNote(env, id, lead) {
+  const text = [
     "Заявка с лендинга «Позвоню в отдел продаж»",
     "Телефон: " + lead.phone,
     lead.company ? "Компания и город: " + lead.company : "",
@@ -91,13 +93,11 @@ async function toAmo(env, lead) {
     .filter(Boolean)
     .join("\n");
 
-  await fetch(base + "/leads/" + id + "/notes", {
+  await fetch(amoBase(env) + "/leads/" + id + "/notes", {
     method: "POST",
-    headers,
-    body: JSON.stringify([{ note_type: "common", params: { text: note } }]),
+    headers: amoHeaders(env),
+    body: JSON.stringify([{ note_type: "common", params: { text } }]),
   });
-
-  return { ok: true, id };
 }
 
 async function toTelegram(env, lead, amo) {
@@ -127,7 +127,7 @@ async function toTelegram(env, lead, amo) {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const origin = request.headers.get("Origin") || "";
 
     if (request.method === "OPTIONS") {
@@ -160,32 +160,36 @@ export default {
     if (!lead.company) return json({ ok: false, error: "company" }, 400, origin);
     if (data.consent !== true) return json({ ok: false, error: "consent" }, 400, origin);
 
+    const amoOn = Boolean(env.AMO_SUBDOMAIN && env.AMO_TOKEN);
     let amo = null;
-    if (env.AMO_SUBDOMAIN && env.AMO_TOKEN) {
+
+    if (amoOn) {
       try {
-        amo = await toAmo(env, lead);
+        amo = await createLead(env, lead);
       } catch (e) {
         amo = { ok: false, detail: String(e).slice(0, 200) };
       }
+      if (amo.ok && amo.id) ctx.waitUntil(addNote(env, amo.id, lead));
     }
 
+    // Сделка уже в CRM, поэтому уведомление можно дослать фоном.
+    if (amo && amo.ok) {
+      ctx.waitUntil(toTelegram(env, lead, amo));
+      return json({ ok: true, status: { amo: "ok " + (amo.id || ""), telegram: "фоном" } }, 200, origin);
+    }
+
+    // amoCRM выключена или упала: тогда ждём Telegram, иначе заявку потеряем.
     let sent = false;
     try {
       sent = await toTelegram(env, lead, amo);
     } catch (e) {
       sent = false;
     }
-
-    // Заявка считается принятой, если её получил хоть один канал.
-    // Короткий статус каналов, чтобы поломку было видно снаружи, без секретов.
     const status = {
+      amo: !amoOn ? "off" : "fail " + (amo && amo.detail ? amo.detail.slice(0, 120) : ""),
       telegram: sent ? "ok" : "fail",
-      amo: !amo ? "off" : amo.ok ? "ok " + (amo.id || "") : "fail " + amo.detail.slice(0, 120),
     };
-
-    if (!sent && !(amo && amo.ok)) {
-      return json({ ok: false, error: "delivery", status }, 502, origin);
-    }
+    if (!sent) return json({ ok: false, error: "delivery", status }, 502, origin);
     return json({ ok: true, status }, 200, origin);
   },
 };
