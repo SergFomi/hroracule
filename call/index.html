@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Позвоню в ваш отдел продаж как клиент</title>
+<title>Позвоню в отдел продаж и покажу, где вы теряете деньги</title>
 <meta name="description" content="Бесплатно позвоню в ваш отдел продаж под видом клиента, пришлю запись разговора и разбор по пяти точкам с оценкой потерь в рублях.">
-<meta property="og:title" content="Позвоню в ваш отдел продаж как клиент">
+<meta property="og:title" content="Позвоню в отдел продаж и покажу, где вы теряете деньги">
 <meta property="og:description" content="Бесплатно. Запись разговора, разбор по пяти точкам и оценка потерь в рублях при вашем потоке заявок.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://hr-oracul.ru/call/">
@@ -18,8 +18,8 @@
   :root{
     --bg:#0a0a0a;
     --fg:#f4f2f0;
-    --mut:#8f8f8f;
-    --dim:#c9c7c5;
+    --mut:#949494;
+    --dim:#cdcbc9;
     --line:#242424;
     --red:#ff2020;
     --red-btn:#d80d0d;
@@ -30,7 +30,7 @@
   body{
     background:var(--bg);color:var(--fg);
     font-family:"Golos Text","Segoe UI",system-ui,sans-serif;
-    font-size:17px;line-height:1.55;
+    font-size:18px;line-height:1.55;
     -webkit-font-smoothing:antialiased;
   }
   .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
@@ -40,47 +40,48 @@
   /* ─── типографика ─────────────────────────────── */
   h1,h2,.num,.stat,.form-t,.item h3,.btn{font-family:"Oswald","Segoe UI",system-ui,sans-serif}
   h1{
-    font-weight:600;font-size:clamp(31px,8.4vw,54px);line-height:1.04;
+    font-weight:600;font-size:clamp(35px,10.2vw,56px);line-height:1.03;
     letter-spacing:-.01em;text-wrap:balance;
   }
   h1 em{font-style:normal;color:var(--red)}
   h2{
-    font-weight:500;font-size:clamp(24px,6.4vw,34px);line-height:1.1;
+    font-weight:500;font-size:clamp(27px,7.4vw,36px);line-height:1.1;
     text-transform:uppercase;letter-spacing:.005em;
   }
   .kicker{
     font-family:"IBM Plex Mono",ui-monospace,monospace;
-    font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);
   }
-  .lead{font-size:clamp(17px,4.4vw,20px);color:var(--dim);line-height:1.5}
+  .lead{font-size:clamp(18.5px,5vw,21px);color:var(--dim);line-height:1.5}
   p{color:var(--dim)}
   /* ─── секции ──────────────────────────────────── */
   section{border-top:1px solid var(--line)}
-  .sec{padding:clamp(52px,13vw,78px) 0}
+  .sec{padding:clamp(54px,13vw,78px) 0}
   .sec-head{margin-bottom:clamp(26px,7vw,38px)}
   .sec-head .kicker{display:block;margin-bottom:12px}
   /* ─── первый экран ────────────────────────────── */
-  .hero{border-top:0;padding:clamp(38px,11vw,72px) 0 clamp(44px,12vw,72px)}
+  .hero{border-top:0;padding:clamp(36px,10vw,68px) 0 clamp(44px,12vw,72px)}
   .hero .kicker{display:block;margin-bottom:20px}
-  .hero p.lead{margin-top:20px;max-width:46ch}
+  .hero p.lead{margin-top:20px;max-width:44ch}
   .rule{height:3px;background:var(--red);width:56px;margin-top:26px}
   /* ─── форма ───────────────────────────────────── */
-  .form{margin-top:clamp(30px,8vw,40px);border:1px solid var(--line);padding:clamp(18px,5vw,26px)}
-  .form-t{font-weight:500;font-size:19px;text-transform:uppercase;letter-spacing:.01em}
+  .form{margin-top:clamp(30px,8vw,40px);border:1px solid var(--line);padding:clamp(20px,5vw,28px)}
+  .form-t{font-weight:500;font-size:21px;text-transform:uppercase;letter-spacing:.01em}
   .field{margin-top:18px}
-  .field label{display:block;font-size:13px;letter-spacing:.02em;color:var(--mut);margin-bottom:7px}
+  .field label{display:block;font-size:14px;letter-spacing:.02em;color:var(--mut);margin-bottom:7px}
   .field input{
     width:100%;background:transparent;color:var(--fg);
-    border:1px solid #333;padding:14px;
-    font-family:inherit;font-size:16px;line-height:1.2;
+    border:1px solid #333;padding:15px 14px;
+    font-family:inherit;font-size:17px;line-height:1.2;
   }
   .field input::placeholder{color:#5c5c5c}
   .field input:focus{border-color:var(--red);outline:none}
-  .checks{margin-top:20px;display:flex;flex-direction:column;gap:12px}
-  .check{display:flex;gap:11px;align-items:flex-start;cursor:pointer;font-size:13.5px;color:var(--mut);line-height:1.4}
+  .trap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  .checks{margin-top:22px;display:flex;flex-direction:column;gap:13px}
+  .check{display:flex;gap:11px;align-items:flex-start;cursor:pointer;font-size:14px;color:var(--mut);line-height:1.4}
   .check input{position:absolute;opacity:0;width:0;height:0}
   .check .bx{
-    flex:0 0 auto;width:18px;height:18px;border:1px solid #3a3a3a;margin-top:1px;
+    flex:0 0 auto;width:19px;height:19px;border:1px solid #3a3a3a;margin-top:1px;
     display:grid;place-items:center;
   }
   .check input:checked + .bx{background:var(--red);border-color:var(--red)}
@@ -92,48 +93,52 @@
   .btn{
     display:inline-flex;align-items:center;justify-content:center;gap:10px;
     background:var(--red-btn);color:#fff;border:1px solid var(--red-btn);
-    font-weight:500;font-size:17px;text-transform:uppercase;letter-spacing:.03em;
-    padding:17px 26px;width:100%;cursor:pointer;text-decoration:none;
+    font-weight:500;font-size:18px;text-transform:uppercase;letter-spacing:.03em;
+    padding:18px 26px;width:100%;cursor:pointer;text-decoration:none;
     transition:background .18s,border-color .18s;
   }
   .btn:hover{background:#ef1414;border-color:#ef1414}
-  .form .btn{margin-top:22px}
-  .form-note{margin-top:14px;font-size:13px;color:var(--mut);line-height:1.45;min-height:1.45em}
+  .btn[disabled]{background:#3a3a3a;border-color:#3a3a3a;cursor:default}
+  .form .btn{margin-top:24px}
+  .form-note{margin-top:14px;font-size:14px;color:var(--mut);line-height:1.45;min-height:1.45em}
   .form-note.ok{color:var(--fg)}
   .form-note.err{color:var(--red)}
-  .or{margin-top:16px;font-size:14px;color:var(--mut)}
-  .or a{color:var(--fg);border-bottom:1px solid var(--red);text-decoration:none;padding-bottom:1px}
   /* ─── состав ──────────────────────────────────── */
   .items{display:flex;flex-direction:column;gap:clamp(24px,6vw,32px)}
   .item{border-top:1px solid var(--line);padding-top:18px}
-  .item h3{font-weight:500;font-size:21px;line-height:1.15;text-transform:uppercase}
-  .item p{margin-top:9px;font-size:16px}
+  .item h3{font-weight:500;font-size:23px;line-height:1.15;text-transform:uppercase}
+  .item p{margin-top:9px;font-size:17.5px}
   /* ─── шаги ────────────────────────────────────── */
   .steps{display:flex;flex-direction:column;gap:clamp(22px,6vw,30px)}
   .step{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
   .step .num{
-    font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:13px;
-    color:var(--red);border:1px solid var(--line);padding:5px 9px;line-height:1;
+    font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:14px;
+    color:var(--red);border:1px solid var(--line);padding:6px 10px;line-height:1;
   }
-  .step p{font-size:16.5px;line-height:1.45}
+  .step p{font-size:18px;line-height:1.45}
   /* ─── перечни ─────────────────────────────────── */
   ul.plain{list-style:none}
   ul.plain li{
-    position:relative;padding:14px 0 14px 22px;border-bottom:1px solid var(--line);
-    font-size:16.5px;color:var(--dim);line-height:1.45;
+    position:relative;padding:15px 0 15px 24px;border-bottom:1px solid var(--line);
+    font-size:18px;color:var(--dim);line-height:1.45;
   }
   ul.plain li:first-child{padding-top:0}
   ul.plain li:last-child{border-bottom:0}
-  ul.plain li::before{content:"";position:absolute;left:0;top:21px;width:8px;height:2px;background:var(--red)}
-  ul.plain li:first-child::before{top:7px}
-  .no li::before{width:11px;height:1px;background:#4a4a4a}
-  /* ─── автор ───────────────────────────────────── */
-  .stat{font-weight:600;font-size:clamp(21px,5.6vw,27px);line-height:1.2;color:var(--fg);text-transform:uppercase;margin-top:26px}
+  ul.plain li::before{content:"";position:absolute;left:0;top:22px;width:9px;height:2px;background:var(--red)}
+  ul.plain li:first-child::before{top:8px}
+  .no li::before{width:12px;height:1px;background:#4a4a4a}
+  /* ─── кто звонит ──────────────────────────────── */
+  .who{display:flex;flex-direction:column;gap:24px}
+  .who-img{
+    display:block;width:min(66%,250px);height:auto;
+    filter:grayscale(1) contrast(1.05);
+  }
+  .stat{font-weight:600;font-size:clamp(23px,6.2vw,29px);line-height:1.2;color:var(--fg);text-transform:uppercase;margin-top:24px}
   .stat b{color:var(--red);font-weight:600}
   /* ─── финал ───────────────────────────────────── */
   .final{padding:clamp(58px,14vw,86px) 0 clamp(64px,15vw,96px)}
-  .final .lead{margin-bottom:26px;max-width:34ch}
-  footer{border-top:1px solid var(--line);padding:26px 0 34px;font-size:13px;color:var(--mut)}
+  .final .lead{margin-bottom:26px;max-width:32ch}
+  footer{border-top:1px solid var(--line);padding:26px 0 34px;font-size:14px;color:var(--mut)}
   footer a{color:var(--mut)}
   /* ─── появление ───────────────────────────────── */
   .fade{opacity:0;transform:translateY(12px);transition:opacity .35s ease,transform .35s ease}
@@ -144,7 +149,9 @@
   @media (min-width:760px){
     .items{flex-direction:row;gap:28px}
     .item{flex:1}
-    .form .btn{width:auto;min-width:280px}
+    .form .btn{width:auto;min-width:300px}
+    .who{flex-direction:row;align-items:flex-end;gap:36px}
+    .who-img{width:min(40%,260px);flex:0 0 auto}
   }
 </style>
 </head>
@@ -155,19 +162,27 @@
   <section class="hero">
     <div class="wrap">
       <span class="kicker">Проверка отдела продаж</span>
-      <h1>Позвоню в ваш отдел продаж как клиент и покажу, <em>где вы теряете деньги</em></h1>
+      <h1>Позвоню в отдел продаж и покажу, <em>где вы теряете деньги</em></h1>
       <p class="lead">Бесплатно. Пришлю запись разговора и разбор: что спросили, что не спросили, во сколько это обходится в месяц.</p>
       <div class="rule"></div>
 
       <form class="form" id="form" novalidate>
-        <div class="form-t">Оставьте контакты</div>
+        <div class="form-t">Оставьте заявку</div>
         <div class="field">
           <label for="phone">Телефон, на который звонить</label>
           <input type="tel" id="phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="+7 900 000 00 00">
         </div>
         <div class="field">
+          <label for="company">Компания и город</label>
+          <input type="text" id="company" name="company" autocomplete="organization" placeholder="Мебель на заказ, Тюмень">
+        </div>
+        <div class="field">
           <label for="tg">Телеграм для ответа</label>
           <input type="text" id="tg" name="tg" autocomplete="username" placeholder="@username">
+        </div>
+        <div class="trap" aria-hidden="true">
+          <label for="site">Не заполняйте это поле</label>
+          <input type="text" id="site" name="site" tabindex="-1" autocomplete="off">
         </div>
         <div class="checks">
           <label class="check">
@@ -181,9 +196,8 @@
             <span>Согласен с условиями оферты</span>
           </label>
         </div>
-        <button class="btn" type="submit">Отправить заявку</button>
+        <button class="btn" type="submit" id="send">Отправить заявку</button>
         <div class="form-note" id="note" role="status" aria-live="polite"></div>
-        <div class="or">Или сразу <a href="https://t.me/Thukydides" target="_blank" rel="noopener">напишите в Telegram</a></div>
       </form>
     </div>
   </section>
@@ -220,7 +234,7 @@
         <h2>Четыре шага</h2>
       </div>
       <div class="steps">
-        <div class="step"><span class="num">01</span><p>Вы пишете в Telegram название компании и город.</p></div>
+        <div class="step"><span class="num">01</span><p>Вы оставляете заявку: телефон, компания, город.</p></div>
         <div class="step"><span class="num">02</span><p>Я звоню как клиент в течение двух дней. Один звонок, обычная заявка, никаких провокаций.</p></div>
         <div class="step"><span class="num">03</span><p>Присылаю запись и разбор. Обычно на следующий день.</p></div>
         <div class="step"><span class="num">04</span><p>Дальше вы решаете сами. Ничего продавать в ответ не буду.</p></div>
@@ -279,16 +293,21 @@
         <span class="kicker">Кто звонит</span>
         <h2>Сергей Фомичёв</h2>
       </div>
-      <p class="lead">Пять лет внутри малого бизнеса руками: строил отделы продаж, нанимал продавцов, писал регламенты, слушал звонки.</p>
-      <p class="stat">Самый крупный результат: мебельное производство в Москве, <b>с 300 тысяч до 2 миллионов</b> в месяц за квартал.</p>
+      <div class="who">
+        <img class="who-img" src="hero-figure.webp" alt="Сергей Фомичёв" width="687" height="1240" loading="lazy">
+        <div>
+          <p class="lead">Пять лет внутри малого бизнеса руками: строил отделы продаж, нанимал продавцов, писал регламенты, слушал звонки.</p>
+          <p class="stat">Самый крупный результат: мебельное производство в Москве, <b>с 300 тысяч до 2 миллионов</b> в месяц за квартал.</p>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- 8. финал -->
   <section class="final">
     <div class="wrap fade">
-      <p class="lead">Напишите название компании и город. Этого достаточно.</p>
-      <a class="btn" href="https://t.me/Thukydides" target="_blank" rel="noopener">Написать в Telegram</a>
+      <p class="lead">Оставьте телефон, компанию и город. Этого достаточно.</p>
+      <a class="btn" href="#form">Оставить заявку</a>
     </div>
   </section>
 </main>
@@ -303,6 +322,11 @@
 (function(){
   "use strict";
 
+  /* Адрес приёмника заявок. Пусто, пока бэкенд не развёрнут:
+     тогда заявка уходит в Telegram вручную, через буфер обмена. */
+  var ENDPOINT = "";
+  var TG = "https://t.me/Thukydides";
+
   /* появление блоков */
   var fades = [].slice.call(document.querySelectorAll(".fade"));
   if (!("IntersectionObserver" in window)) {
@@ -316,12 +340,13 @@
     fades.forEach(function(el){ io.observe(el); });
   }
 
-  /* заявка: собираем текст, кладём в буфер, открываем чат */
-  var TG = "https://t.me/Thukydides";
   var form = document.getElementById("form");
   var note = document.getElementById("note");
+  var send = document.getElementById("send");
   var phone = document.getElementById("phone");
+  var company = document.getElementById("company");
   var tg = document.getElementById("tg");
+  var trap = document.getElementById("site");
   var pd = document.getElementById("pd");
   var offer = document.getElementById("of");
 
@@ -332,12 +357,52 @@
 
   function digits(s){ return (s || "").replace(/\D/g, ""); }
 
+  function payload(){
+    return {
+      phone: phone.value.trim(),
+      company: company.value.trim(),
+      tg: tg.value.trim(),
+      consent: pd.checked && offer.checked,
+      page: location.href
+    };
+  }
+
+  function asText(p){
+    var lines = ["Заявка на звонок в отдел продаж", "Телефон: " + p.phone];
+    if (p.company) lines.push("Компания и город: " + p.company);
+    if (p.tg) lines.push("Телеграм: " + p.tg);
+    return lines.join("\n");
+  }
+
+  /* запасной путь: текст в буфер и открытый чат */
+  function fallback(p){
+    function done(copied){
+      say(copied
+        ? "Текст заявки скопирован. Вставьте его в чат, я отвечу."
+        : "Открываю чат. Напишите телефон, компанию и город одним сообщением.", "ok");
+      window.open(TG, "_blank", "noopener");
+    }
+    var text = asText(p);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function(){ done(true); }, function(){ done(false); });
+    } else {
+      done(false);
+    }
+  }
+
   form.addEventListener("submit", function(e){
     e.preventDefault();
+
+    if (trap.value) { say("Заявка отправлена.", "ok"); return; }
 
     if (digits(phone.value).length < 10) {
       say("Проверьте номер телефона, нужно не меньше десяти цифр.", "err");
       phone.focus();
+      return;
+    }
+    if (!company.value.trim()) {
+      say("Напишите компанию и город, иначе звонить некуда.", "err");
+      company.focus();
       return;
     }
     if (!pd.checked || !offer.checked) {
@@ -345,23 +410,32 @@
       return;
     }
 
-    var lines = ["Заявка на звонок в отдел продаж", "Телефон: " + phone.value.trim()];
-    if (tg.value.trim()) lines.push("Телеграм: " + tg.value.trim());
-    lines.push("Компания и город: ");
-    var text = lines.join("\n");
+    var p = payload();
 
-    function go(copied){
-      say(copied
-        ? "Текст заявки скопирован. Вставьте его в чат и допишите компанию и город."
-        : "Открываю чат. Напишите телефон, компанию и город одним сообщением.", "ok");
-      window.open(TG, "_blank", "noopener");
-    }
+    if (!ENDPOINT) { fallback(p); return; }
 
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function(){ go(true); }, function(){ go(false); });
-    } else {
-      go(false);
-    }
+    send.disabled = true;
+    say("Отправляю.");
+
+    fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(p)
+    }).then(function(r){
+      if (!r.ok) throw new Error("bad status " + r.status);
+      return r.json();
+    }).then(function(){
+      form.reset();
+      pd.checked = true;
+      offer.checked = true;
+      say("Заявка принята. Позвоню в течение двух дней и пришлю запись с разбором.", "ok");
+      send.disabled = true;
+      send.textContent = "Заявка отправлена";
+    }).catch(function(){
+      send.disabled = false;
+      say("Не получилось отправить. Открываю Telegram, заявка уже в буфере обмена.", "err");
+      fallback(p);
+    });
   });
 })();
 </script>

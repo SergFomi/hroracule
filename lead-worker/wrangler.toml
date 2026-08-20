@@ -1,0 +1,7 @@
+name = "lead-worker"
+main = "worker.js"
+compatibility_date = "2026-08-01"
+
+# Секреты сюда не пишем. Они ставятся командами:
+#   npx wrangler secret put BOT_TOKEN
+#   npx wrangler secret put CHAT_ID
