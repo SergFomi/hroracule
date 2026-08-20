@@ -177,9 +177,15 @@ export default {
     }
 
     // Заявка считается принятой, если её получил хоть один канал.
+    // Короткий статус каналов, чтобы поломку было видно снаружи, без секретов.
+    const status = {
+      telegram: sent ? "ok" : "fail",
+      amo: !amo ? "off" : amo.ok ? "ok " + (amo.id || "") : "fail " + amo.detail.slice(0, 120),
+    };
+
     if (!sent && !(amo && amo.ok)) {
-      return json({ ok: false, error: "delivery" }, 502, origin);
+      return json({ ok: false, error: "delivery", status }, 502, origin);
     }
-    return json({ ok: true }, 200, origin);
+    return json({ ok: true, status }, 200, origin);
   },
 };
