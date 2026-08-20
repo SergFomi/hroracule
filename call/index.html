@@ -3,17 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Позвоню в отдел продаж и покажу, где вы теряете деньги</title>
-<meta name="description" content="Бесплатно позвоню в ваш отдел продаж под видом клиента, пришлю запись разговора и разбор по пяти точкам с оценкой потерь в рублях.">
-<meta property="og:title" content="Позвоню в отдел продаж и покажу, где вы теряете деньги">
-<meta property="og:description" content="Бесплатно. Запись разговора, разбор по пяти точкам и оценка потерь в рублях при вашем потоке заявок.">
+<title>Один звонок в ваш отдел продаж, и вы услышите, как сливают заявки</title>
+<meta name="description" content="Бесплатно позвоню в ваш отдел продаж под видом клиента, пришлю запись разговора и разбор по шести точкам с оценкой потерь в рублях.">
+<meta property="og:title" content="Один звонок в ваш отдел продаж, и вы услышите, как сливают заявки">
+<meta property="og:description" content="Бесплатно. Запись разговора, разбор по шести точкам и оценка потерь в рублях при вашем потоке заявок.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://hr-oracul.ru/call/">
 <meta property="og:site_name" content="Сергей Фомичёв">
 <meta name="theme-color" content="#0a0a0a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Golos+Text:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Golos+Text:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Golos+Text:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Golos+Text:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"></noscript>
 <style>
   :root{
     --bg:#0a0a0a;
@@ -40,56 +42,63 @@
   /* ─── типографика ─────────────────────────────── */
   h1,h2,.num,.stat,.form-t,.item h3,.btn{font-family:"Oswald","Segoe UI",system-ui,sans-serif}
   h1{
-    font-weight:600;font-size:clamp(35px,10.2vw,56px);line-height:1.03;
+    font-weight:600;font-size:clamp(30px,8.4vw,54px);line-height:1.0;
     letter-spacing:-.01em;text-wrap:balance;
   }
   h1 em{font-style:normal;color:var(--red)}
   h2{
-    font-weight:500;font-size:clamp(27px,7.4vw,36px);line-height:1.1;
+    font-weight:500;font-size:clamp(26px,7vw,36px);line-height:1.1;
     text-transform:uppercase;letter-spacing:.005em;
   }
   .kicker{
     font-family:"IBM Plex Mono",ui-monospace,monospace;
     font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);
   }
-  .lead{font-size:clamp(18.5px,5vw,21px);color:var(--dim);line-height:1.5}
+  .lead{font-size:clamp(17.5px,4.7vw,21px);color:var(--dim);line-height:1.45}
   p{color:var(--dim)}
   /* ─── секции ──────────────────────────────────── */
   section{border-top:1px solid var(--line)}
-  .sec{padding:clamp(54px,13vw,78px) 0}
-  .sec-head{margin-bottom:clamp(26px,7vw,38px)}
-  .sec-head .kicker{display:block;margin-bottom:12px}
+  .sec{padding:clamp(46px,11vw,74px) 0}
+  .sec-head{margin-bottom:clamp(22px,6vw,36px)}
+  .sec-head .kicker{display:block;margin-bottom:10px}
   /* ─── первый экран ────────────────────────────── */
-  .hero{border-top:0;padding:clamp(36px,10vw,68px) 0 clamp(44px,12vw,72px)}
-  .hero .kicker{display:block;margin-bottom:20px}
-  .hero p.lead{margin-top:20px;max-width:44ch}
-  .rule{height:3px;background:var(--red);width:56px;margin-top:26px}
+  .hero{border-top:0;padding:clamp(12px,3.5vw,56px) 0 clamp(40px,10vw,68px)}
+  .hero .kicker{display:block;margin-bottom:10px}
+  .hero p.lead{margin-top:12px;max-width:42ch;line-height:1.35}
   /* ─── форма ───────────────────────────────────── */
-  .form{margin-top:clamp(30px,8vw,40px);border:1px solid var(--line);padding:clamp(20px,5vw,28px)}
+  .form{border:1px solid var(--line);padding:clamp(15px,4vw,26px)}
+  .formwrap{margin-top:clamp(16px,4vw,32px)}
+  .offer{font-size:15.5px;line-height:1.38;color:var(--dim)}
+  .offer b{color:var(--fg);font-weight:500}
   .form-t{font-weight:500;font-size:21px;text-transform:uppercase;letter-spacing:.01em}
-  .field{margin-top:18px}
-  .field label{display:block;font-size:14px;letter-spacing:.02em;color:var(--mut);margin-bottom:7px}
+  .field{margin-top:11px}
+  .field label{display:block;font-size:14px;letter-spacing:.02em;color:var(--mut)}
   .field input{
-    width:100%;background:transparent;color:var(--fg);
-    border:1px solid #333;padding:15px 14px;
+    display:block;width:100%;margin-top:5px;background:transparent;color:var(--fg);
+    border:1px solid #333;padding:12px 13px;
     font-family:inherit;font-size:17px;line-height:1.2;
   }
   .field input::placeholder{color:#5c5c5c}
   .field input:focus{border-color:var(--red);outline:none}
   .trap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-  .checks{margin-top:22px;display:flex;flex-direction:column;gap:13px}
-  .check{display:flex;gap:11px;align-items:flex-start;cursor:pointer;font-size:14px;color:var(--mut);line-height:1.4}
+  .checks{margin-top:14px;display:flex;flex-direction:column;gap:2px}
+  .check{
+    display:flex;gap:12px;align-items:flex-start;cursor:pointer;
+    font-size:14px;color:var(--mut);line-height:1.35;padding:7px 0;
+  }
   .check input{position:absolute;opacity:0;width:0;height:0}
   .check .bx{
-    flex:0 0 auto;width:19px;height:19px;border:1px solid #3a3a3a;margin-top:1px;
+    flex:0 0 auto;width:24px;height:24px;border:1px solid #3a3a3a;
     display:grid;place-items:center;
   }
   .check input:checked + .bx{background:var(--red);border-color:var(--red)}
   .check input:checked + .bx::after{
-    content:"";width:9px;height:5px;border:2px solid #fff;border-top:0;border-right:0;
+    content:"";width:11px;height:6px;border:2px solid #fff;border-top:0;border-right:0;
     transform:rotate(-45deg) translate(1px,-1px);
   }
   .check input:focus-visible + .bx{outline:2px solid var(--red);outline-offset:3px}
+  .check span{padding-top:3px}
+  .check a{color:var(--dim);border-bottom:1px solid #4a4a4a;text-decoration:none}
   .btn{
     display:inline-flex;align-items:center;justify-content:center;gap:10px;
     background:var(--red-btn);color:#fff;border:1px solid var(--red-btn);
@@ -101,21 +110,23 @@
   .btn[disabled]{background:#3a3a3a;border-color:#3a3a3a;cursor:default}
   .btn--line{background:transparent;color:var(--fg);border-color:#3a3a3a}
   .btn--line:hover{background:transparent;border-color:var(--fg)}
-  .form .btn{margin-top:24px}
-  .done{margin-top:clamp(30px,8vw,40px);border:1px solid var(--red);padding:clamp(20px,5vw,28px)}
+  .form .btn{margin-top:16px}
+  .under{margin-top:12px;font-size:14px;color:var(--mut);line-height:1.4}
+  .form-note{margin-top:10px;font-size:14px;color:var(--mut);line-height:1.45}
+  .form-note:empty{margin:0}
+  .form-note.ok{color:var(--fg)}
+  .form-note.err{color:var(--red)}
+  .done{border:1px solid var(--red);padding:clamp(20px,5vw,28px)}
   .done p{margin-top:12px;font-size:17px}
   .done .btn{margin-top:22px}
   .done .opt{margin-top:12px;font-size:14px;color:var(--mut)}
-  .form-note{margin-top:14px;font-size:14px;color:var(--mut);line-height:1.45;min-height:1.45em}
-  .form-note.ok{color:var(--fg)}
-  .form-note.err{color:var(--red)}
   /* ─── состав ──────────────────────────────────── */
-  .items{display:flex;flex-direction:column;gap:clamp(24px,6vw,32px)}
-  .item{border-top:1px solid var(--line);padding-top:18px}
+  .items{display:flex;flex-direction:column;gap:clamp(22px,5vw,30px)}
+  .item{border-top:1px solid var(--line);padding-top:16px}
   .item h3{font-weight:500;font-size:23px;line-height:1.15;text-transform:uppercase}
-  .item p{margin-top:9px;font-size:17.5px}
+  .item p{margin-top:8px;font-size:17.5px}
   /* ─── шаги ────────────────────────────────────── */
-  .steps{display:flex;flex-direction:column;gap:clamp(22px,6vw,30px)}
+  .steps{display:flex;flex-direction:column;gap:clamp(20px,5vw,28px)}
   .step{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start}
   .step .num{
     font-family:"IBM Plex Mono",monospace;font-weight:500;font-size:14px;
@@ -133,19 +144,39 @@
   ul.plain li::before{content:"";position:absolute;left:0;top:22px;width:9px;height:2px;background:var(--red)}
   ul.plain li:first-child::before{top:8px}
   .no li::before{width:12px;height:1px;background:#4a4a4a}
-  /* ─── кто звонит ──────────────────────────────── */
-  .who{display:flex;flex-direction:column;gap:24px}
-  .who-img{
-    display:block;width:min(66%,250px);height:auto;
-    filter:grayscale(1) contrast(1.05);
+  /* ─── образец разбора ─────────────────────────── */
+  .sample{border:1px solid var(--line);padding:clamp(18px,4.5vw,26px)}
+  .sample-h{
+    font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--mut);padding-bottom:14px;border-bottom:1px solid var(--line);
   }
-  .stat{font-weight:600;font-size:clamp(23px,6.2vw,29px);line-height:1.2;color:var(--fg);text-transform:uppercase;margin-top:24px}
+  .sample ul{list-style:none;margin-top:6px}
+  .sample li{
+    position:relative;padding:13px 0 13px 26px;border-bottom:1px solid var(--line);
+    font-size:17px;line-height:1.4;color:var(--fg);
+  }
+  .sample li::before{
+    content:"";position:absolute;left:0;top:20px;width:11px;height:2px;background:var(--red);
+  }
+  .sample li:last-child{border-bottom:0}
+  .sample-sum{
+    margin-top:18px;font-family:"Oswald",sans-serif;font-weight:500;
+    font-size:clamp(19px,5vw,24px);line-height:1.25;text-transform:uppercase;color:var(--fg);
+  }
+  .sample-sum b{color:var(--red);font-weight:600}
+  .sample-note{margin-top:14px;font-size:14px;color:var(--mut);line-height:1.45}
+  /* ─── кто звонит ──────────────────────────────── */
+  .who{display:flex;flex-direction:column;gap:22px}
+  .who-img{display:block;width:min(66%,250px);height:auto;filter:grayscale(1) contrast(1.05)}
+  .stat{font-weight:600;font-size:clamp(22px,5.8vw,28px);line-height:1.2;color:var(--fg);text-transform:uppercase;margin-top:22px}
   .stat b{color:var(--red);font-weight:600}
+  .stat-src{margin-top:10px;font-family:"IBM Plex Mono",monospace;font-size:13px;letter-spacing:.06em;color:var(--mut)}
   /* ─── финал ───────────────────────────────────── */
-  .final{padding:clamp(58px,14vw,86px) 0 clamp(64px,15vw,96px)}
-  .final .lead{margin-bottom:26px;max-width:32ch}
-  footer{border-top:1px solid var(--line);padding:26px 0 34px;font-size:14px;color:var(--mut)}
+  .final{padding:clamp(50px,12vw,80px) 0 clamp(56px,13vw,88px)}
+  .final .lead{margin-bottom:8px;max-width:30ch}
+  footer{border-top:1px solid var(--line);padding:26px 0 34px;font-size:14px;color:var(--mut);line-height:1.6}
   footer a{color:var(--mut)}
+  footer .row{margin-top:10px}
   /* ─── появление ───────────────────────────────── */
   .fade{opacity:0;transform:translateY(12px);transition:opacity .35s ease,transform .35s ease}
   .fade.on{opacity:1;transform:none}
@@ -160,19 +191,6 @@
     .who-img{width:min(40%,260px);flex:0 0 auto}
   }
 </style>
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111787831', 'ym');
-
-    ym(111787831, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/111787831" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
 </head>
 <body>
 
@@ -181,49 +199,55 @@
   <section class="hero">
     <div class="wrap">
       <span class="kicker">Проверка отдела продаж</span>
-      <h1>Позвоню в отдел продаж и покажу, <em>где вы теряете деньги</em></h1>
-      <p class="lead">Бесплатно. Пришлю запись разговора и разбор: что спросили, что не спросили, во сколько это обходится в месяц.</p>
-      <div class="rule"></div>
+      <h1>Один звонок в ваш отдел продаж, <em>и вы услышите, как сливают заявки</em></h1>
+      <p class="lead">Бесплатно и без подготовки. Записываю разговор, разбираю по шести точкам и считаю, во сколько это обходится в месяц при вашем потоке заявок.</p>
 
-      <form class="form ym-disable-keys" id="form" novalidate>
-        <div class="form-t">Оставьте заявку</div>
-        <div class="field">
-          <label for="phone">Телефон, на который звонить</label>
-          <input type="tel" id="phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="+7 900 000 00 00">
-        </div>
-        <div class="field">
-          <label for="company">Компания и город</label>
-          <input type="text" id="company" name="company" autocomplete="organization" placeholder="Мебель на заказ, Тюмень">
-        </div>
-        <div class="field">
-          <label for="tg">Телеграм для ответа</label>
-          <input type="text" id="tg" name="tg" autocomplete="username" placeholder="@username">
-        </div>
-        <div class="trap" aria-hidden="true">
-          <label for="site">Не заполняйте это поле</label>
-          <input type="text" id="site" name="site" tabindex="-1" autocomplete="off">
-        </div>
-        <div class="checks">
-          <label class="check">
-            <input type="checkbox" id="pd" checked>
-            <span class="bx"></span>
-            <span>Согласен на обработку персональных данных</span>
-          </label>
-          <label class="check">
-            <input type="checkbox" id="of" checked>
-            <span class="bx"></span>
-            <span>Согласен с условиями оферты</span>
-          </label>
-        </div>
-        <button class="btn" type="submit" id="send">Отправить заявку</button>
-        <div class="form-note" id="note" role="status" aria-live="polite"></div>
-      </form>
+      <div class="formwrap">
+        <form class="form ym-disable-keys" novalidate>
+          <p class="offer"><b>Оставьте телефон, компанию и телеграм.</b> Звоню в течение двух дней, на следующий день после звонка присылаю аудио и разбор. Ничего продавать в ответ не буду: это моя реклама, и мне достаточно того, что вы её услышите.</p>
+          <div class="field">
+            <label>Телефон, на который звонить
+              <input type="tel" name="phone" inputmode="tel" autocomplete="tel" placeholder="+7 900 000 00 00">
+            </label>
+          </div>
+          <div class="field">
+            <label>Компания и город
+              <input type="text" name="company" autocomplete="organization" placeholder="Мебель на заказ, Тюмень">
+            </label>
+          </div>
+          <div class="field">
+            <label>Телеграм, туда пришлю запись и разбор
+              <input type="text" name="tg" autocomplete="username" placeholder="@username">
+            </label>
+          </div>
+          <div class="trap" aria-hidden="true">
+            <label>Не заполняйте это поле
+              <input type="text" name="site" tabindex="-1" autocomplete="off">
+            </label>
+          </div>
+          <div class="checks">
+            <label class="check">
+              <input type="checkbox" name="pd" checked>
+              <span class="bx"></span>
+              <span>Согласен на <a href="/call/policy/" target="_blank" rel="noopener">обработку персональных данных</a></span>
+            </label>
+            <label class="check">
+              <input type="checkbox" name="of" checked>
+              <span class="bx"></span>
+              <span>Согласен с условиями <a href="/call/oferta/" target="_blank" rel="noopener">оферты</a></span>
+            </label>
+          </div>
+          <button class="btn" type="submit">Хочу запись и разбор</button>
+          <div class="under">Позвоню в течение двух дней. Разбор на следующий день после звонка.</div>
+          <div class="form-note" role="status" aria-live="polite"></div>
+        </form>
 
-      <div class="done" id="done" hidden>
-        <div class="form-t">Заявка принята</div>
-        <p>Позвоню в течение двух дней и пришлю запись с разбором. Больше от вас ничего не нужно.</p>
-        <a class="btn btn--line" href="https://t.me/Thukydides" target="_blank" rel="noopener">Открыть чат в Telegram</a>
-        <div class="opt">По желанию, если удобнее переписываться.</div>
+        <div class="done" hidden>
+          <div class="form-t">Заявка принята</div>
+          <p>Позвоню в течение двух дней и пришлю запись с разбором. Больше от вас ничего не нужно.</p>
+          <a class="btn btn--line" href="https://t.me/Thukydides" target="_blank" rel="noopener">Открыть чат в Telegram</a>
+          <div class="opt">По желанию, если удобнее переписываться.</div>
+        </div>
       </div>
     </div>
   </section>
@@ -241,8 +265,8 @@
           <p>Ваш менеджер, ваш реальный разговор. Не пересказ, а аудио.</p>
         </div>
         <div class="item">
-          <h3>Разбор по пяти точкам</h3>
-          <p>Скорость ответа, квалификация, работа с ценой, фиксация контакта, следующий шаг.</p>
+          <h3>Разбор по шести точкам</h3>
+          <p>Скорость ответа, квалификация, работа с ценой, фиксация контакта, следующий шаг и то, что записано после разговора.</p>
         </div>
         <div class="item">
           <h3>Оценка потерь в рублях</h3>
@@ -286,7 +310,29 @@
     </div>
   </section>
 
-  <!-- 5. почему бесплатно -->
+  <!-- 5. образец разбора -->
+  <section>
+    <div class="wrap sec fade">
+      <div class="sec-head">
+        <span class="kicker">Так выглядит разбор</span>
+        <h2>Фрагмент настоящего отчёта</h2>
+      </div>
+      <div class="sample">
+        <div class="sample-h">Звонок в отдел продаж · обезличено</div>
+        <ul>
+          <li>Ответили на 4-м гудке, 41 секунда</li>
+          <li>Бюджет не спросили</li>
+          <li>На «сколько стоит» назвали цену в первую минуту и попрощались</li>
+          <li>Контакт не взяли</li>
+          <li>Следующий шаг не назначили</li>
+        </ul>
+        <div class="sample-sum">При 60 заявках в месяц и чеке 90 000 ₽ это примерно 3 потерянные сделки, <b>270 000 ₽ в месяц</b></div>
+        <div class="sample-note">Название компании, город и голоса из отчёта убраны. Ваш разбор будет такой же по форме и по вашим цифрам.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. почему бесплатно -->
   <section>
     <div class="wrap sec fade">
       <div class="sec-head">
@@ -297,7 +343,18 @@
     </div>
   </section>
 
-  <!-- 6. кому не подойдёт -->
+  <!-- 7. что будет с записью -->
+  <section>
+    <div class="wrap sec fade">
+      <div class="sec-head">
+        <span class="kicker">Что будет с записью</span>
+        <h2>Данные остаются у вас</h2>
+      </div>
+      <p class="lead">Запись я отправляю вам и удаляю у себя. Никому не показываю, в кейсах не использую, в соцсети не выкладываю. Номер компании не попадает ни в какие базы: я звоню один раз и больше не набираю. Менеджеру ничего не сообщаю, это ваше решение, показывать ему разбор или нет.</p>
+    </div>
+  </section>
+
+  <!-- 8. кому не подойдёт -->
   <section>
     <div class="wrap sec fade">
       <div class="sec-head">
@@ -312,7 +369,7 @@
     </div>
   </section>
 
-  <!-- 7. кто звонит -->
+  <!-- 9. кто звонит -->
   <section>
     <div class="wrap sec fade">
       <div class="sec-head">
@@ -323,39 +380,104 @@
         <img class="who-img" src="hero-figure.webp" alt="Сергей Фомичёв" width="687" height="1240" loading="lazy">
         <div>
           <p class="lead">Пять лет внутри малого бизнеса руками: строил отделы продаж, нанимал продавцов, писал регламенты, слушал звонки.</p>
-          <p class="stat">Самый крупный результат: мебельное производство в Москве, <b>с 300 тысяч до 2 миллионов</b> в месяц за квартал.</p>
+          <p class="stat">Самый крупный результат: <b>с 300 тысяч до 2 миллионов</b> в месяц за квартал.</p>
+          <div class="stat-src">Денис, «Сфера Комфорта», мебель на заказ, Москва, 2026</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 8. финал -->
+  <!-- 10. финал -->
   <section class="final">
     <div class="wrap fade">
-      <p class="lead">Оставьте телефон, компанию и город. Этого достаточно.</p>
-      <a class="btn" href="#form">Оставить заявку</a>
+      <p class="lead">Оставьте телефон, компанию и телеграм. Этого достаточно.</p>
+
+      <div class="formwrap">
+        <form class="form ym-disable-keys" novalidate>
+          <div class="field">
+            <label>Телефон, на который звонить
+              <input type="tel" name="phone" inputmode="tel" autocomplete="tel" placeholder="+7 900 000 00 00">
+            </label>
+          </div>
+          <div class="field">
+            <label>Компания и город
+              <input type="text" name="company" autocomplete="organization" placeholder="Мебель на заказ, Тюмень">
+            </label>
+          </div>
+          <div class="field">
+            <label>Телеграм, туда пришлю запись и разбор
+              <input type="text" name="tg" autocomplete="username" placeholder="@username">
+            </label>
+          </div>
+          <div class="trap" aria-hidden="true">
+            <label>Не заполняйте это поле
+              <input type="text" name="site" tabindex="-1" autocomplete="off">
+            </label>
+          </div>
+          <div class="checks">
+            <label class="check">
+              <input type="checkbox" name="pd" checked>
+              <span class="bx"></span>
+              <span>Согласен на <a href="/call/policy/" target="_blank" rel="noopener">обработку персональных данных</a></span>
+            </label>
+            <label class="check">
+              <input type="checkbox" name="of" checked>
+              <span class="bx"></span>
+              <span>Согласен с условиями <a href="/call/oferta/" target="_blank" rel="noopener">оферты</a></span>
+            </label>
+          </div>
+          <button class="btn" type="submit">Хочу запись и разбор</button>
+          <div class="under">Позвоню в течение двух дней. Разбор на следующий день после звонка.</div>
+          <div class="form-note" role="status" aria-live="polite"></div>
+        </form>
+
+        <div class="done" hidden>
+          <div class="form-t">Заявка принята</div>
+          <p>Позвоню в течение двух дней и пришлю запись с разбором. Больше от вас ничего не нужно.</p>
+          <a class="btn btn--line" href="https://t.me/Thukydides" target="_blank" rel="noopener">Открыть чат в Telegram</a>
+          <div class="opt">По желанию, если удобнее переписываться.</div>
+        </div>
+      </div>
     </div>
   </section>
 </main>
 
 <footer>
   <div class="wrap">
-    Сергей Фомичёв · <a href="https://t.me/Thukydides" target="_blank" rel="noopener">@Thukydides</a>
+    <div>Самозанятый Фомичёв Сергей Тимофеевич, Москва, 2026. ИНН [указать ИНН].</div>
+    <div class="row">
+      <a href="/call/policy/">Политика обработки данных</a> ·
+      <a href="/call/oferta/">Оферта</a> ·
+      <a href="https://t.me/Thukydides" target="_blank" rel="noopener">@Thukydides</a>
+    </div>
   </div>
 </footer>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111787831', 'ym');
+
+    ym(111787831, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/111787831" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 
 <script>
 (function(){
   "use strict";
 
-  /* Адрес приёмника заявок. Пока пусто, форма работает запасным путём:
-     складывает заявку в буфер обмена, дальше человек вставляет её в чат. */
   var ENDPOINT = "https://lead-worker.sergfomichv.workers.dev";
   var TG = "https://t.me/Thukydides";
   var COUNTER = 111787831;
+  var started = false;
 
-  /* Цели Метрики. Если счётчик не загрузился или его срезал блокировщик,
-     функция просто ничего не делает и страница работает как обычно. */
+  /* Цели Метрики. Если счётчик срезал блокировщик, функция молчит,
+     а форма продолжает работать. */
   function goal(name){
     try { if (typeof window.ym === "function") window.ym(COUNTER, "reachGoal", name); } catch (e) {}
   }
@@ -373,120 +495,124 @@
     fades.forEach(function(el){ io.observe(el); });
   }
 
-  var form = document.getElementById("form");
-  var started = false;
-  var done = document.getElementById("done");
-  var note = document.getElementById("note");
-  var send = document.getElementById("send");
-  var phone = document.getElementById("phone");
-  var company = document.getElementById("company");
-  var tg = document.getElementById("tg");
-  var trap = document.getElementById("site");
-  var pd = document.getElementById("pd");
-  var offer = document.getElementById("of");
-
-  form.addEventListener("input", function(){
-    if (!started) { started = true; goal("form_start"); }
-  });
-
   document.addEventListener("click", function(e){
     var a = e.target.closest ? e.target.closest('a[href*="t.me/"]') : null;
     if (a) goal("tg_click");
   });
 
-  function say(text, cls){
-    note.textContent = text;
-    note.className = "form-note" + (cls ? " " + cls : "");
-  }
-
   function digits(s){ return (s || "").replace(/\D/g, ""); }
 
-  function payload(){
-    return {
-      phone: phone.value.trim(),
-      company: company.value.trim(),
-      tg: tg.value.trim(),
-      consent: pd.checked && offer.checked,
-      page: location.href
-    };
-  }
+  /* На странице две копии формы, поэтому обработчик общий. */
+  function initForm(wrap){
+    var form = wrap.querySelector("form");
+    var done = wrap.querySelector(".done");
+    var note = wrap.querySelector(".form-note");
+    var send = wrap.querySelector('button[type="submit"]');
+    var f = function(n){ return form.querySelector('[name="' + n + '"]'); };
+    var phone = f("phone"), company = f("company"), tg = f("tg");
+    var trap = f("site"), pd = f("pd"), offer = f("of");
 
-  /* заявка принята: форма уходит, остаётся подтверждение
-     и необязательная кнопка перехода в чат */
-  function accepted(){
-    form.hidden = true;
-    done.hidden = false;
-    done.scrollIntoView({ block:"nearest" });
-  }
-
-  /* запасной путь, пока приёмник не подключён */
-  function fallback(p){
-    var lines = ["Заявка на звонок в отдел продаж", "Телефон: " + p.phone];
-    if (p.company) lines.push("Компания и город: " + p.company);
-    if (p.tg) lines.push("Телеграм: " + p.tg);
-    var text = lines.join("\n");
-    function finish(copied){
-      send.disabled = false;
-      say(copied
-        ? "Заявка скопирована. Откройте Telegram и вставьте её в чат."
-        : "Напишите в Telegram телефон, компанию и город одним сообщением.", "ok");
-      var link = document.createElement("a");
-      link.className = "btn btn--line";
-      link.href = TG;
-      link.target = "_blank";
-      link.rel = "noopener";
-      link.textContent = "Открыть чат в Telegram";
-      link.style.marginTop = "16px";
-      if (!document.getElementById("tglink")) { link.id = "tglink"; note.parentNode.appendChild(link); }
-    }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function(){ finish(true); }, function(){ finish(false); });
-    } else {
-      finish(false);
-    }
-  }
-
-  form.addEventListener("submit", function(e){
-    e.preventDefault();
-
-    if (trap.value) { accepted(); return; }
-
-    if (digits(phone.value).length < 10) {
-      say("Проверьте номер телефона, нужно не меньше десяти цифр.", "err");
-      phone.focus();
-      return;
-    }
-    if (!company.value.trim()) {
-      say("Напишите компанию и город, иначе звонить некуда.", "err");
-      company.focus();
-      return;
-    }
-    if (!pd.checked || !offer.checked) {
-      say("Без согласия на обработку данных и оферты отправить не получится.", "err");
-      return;
-    }
-
-    var p = payload();
-    send.disabled = true;
-
-    if (!ENDPOINT) { fallback(p); return; }
-
-    say("Отправляю.");
-    fetch(ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(p)
-    }).then(function(r){
-      if (!r.ok) throw new Error("status " + r.status);
-      return r.json();
-    }).then(function(){
-      goal("lead");
-      accepted();
-    }).catch(function(){
-      say("Не получилось отправить с сайта. Заявка скопирована, откройте чат и вставьте её.", "err");
-      fallback(p);
+    /* ссылки внутри чекбокса не должны его переключать */
+    [].slice.call(form.querySelectorAll(".check a")).forEach(function(a){
+      a.addEventListener("click", function(e){ e.stopPropagation(); });
     });
-  });
+
+    form.addEventListener("input", function(){
+      if (!started) { started = true; goal("form_start"); }
+    });
+
+    function say(text, cls){
+      note.textContent = text;
+      note.className = "form-note" + (cls ? " " + cls : "");
+    }
+
+    function accepted(){
+      form.hidden = true;
+      done.hidden = false;
+      done.scrollIntoView({ block:"nearest" });
+    }
+
+    /* запасной путь: приёмник недоступен, отдаём заявку через буфер */
+    function fallback(p){
+      var lines = ["Заявка на звонок в отдел продаж", "Телефон: " + p.phone];
+      if (p.company) lines.push("Компания и город: " + p.company);
+      if (p.tg) lines.push("Телеграм: " + p.tg);
+      var text = lines.join("\n");
+      function finish(copied){
+        goal("lead_fallback");
+        send.disabled = false;
+        say(copied
+          ? "Заявка скопирована. Откройте Telegram и вставьте её в чат."
+          : "Напишите в Telegram телефон, компанию и город одним сообщением.", "ok");
+        if (!wrap.querySelector(".tglink")) {
+          var link = document.createElement("a");
+          link.className = "btn btn--line tglink";
+          link.href = TG;
+          link.target = "_blank";
+          link.rel = "noopener";
+          link.textContent = "Открыть чат в Telegram";
+          link.style.marginTop = "16px";
+          note.parentNode.appendChild(link);
+        }
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function(){ finish(true); }, function(){ finish(false); });
+      } else {
+        finish(false);
+      }
+    }
+
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+
+      if (trap.value) { accepted(); return; }
+
+      if (digits(phone.value).length < 10) {
+        say("Проверьте номер телефона, нужно не меньше десяти цифр.", "err");
+        phone.focus();
+        return;
+      }
+      if (!company.value.trim()) {
+        say("Напишите компанию и город, иначе звонить некуда.", "err");
+        company.focus();
+        return;
+      }
+      if (!pd.checked || !offer.checked) {
+        say("Без согласия на обработку данных и оферты отправить не получится.", "err");
+        return;
+      }
+
+      var p = {
+        phone: phone.value.trim(),
+        company: company.value.trim(),
+        tg: tg.value.trim(),
+        consent: pd.checked && offer.checked,
+        page: location.href
+      };
+
+      send.disabled = true;
+
+      if (!ENDPOINT) { fallback(p); return; }
+
+      say("Отправляю.");
+      fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(p)
+      }).then(function(r){
+        if (!r.ok) throw new Error("status " + r.status);
+        return r.json();
+      }).then(function(){
+        goal("lead");
+        accepted();
+      }).catch(function(){
+        say("Не получилось отправить с сайта. Заявка скопирована, откройте чат и вставьте её.", "err");
+        fallback(p);
+      });
+    });
+  }
+
+  [].slice.call(document.querySelectorAll(".formwrap")).forEach(initForm);
 })();
 </script>
 </body>
