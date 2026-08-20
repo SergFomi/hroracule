@@ -99,7 +99,13 @@
   }
   .btn:hover{background:#ef1414;border-color:#ef1414}
   .btn[disabled]{background:#3a3a3a;border-color:#3a3a3a;cursor:default}
+  .btn--line{background:transparent;color:var(--fg);border-color:#3a3a3a}
+  .btn--line:hover{background:transparent;border-color:var(--fg)}
   .form .btn{margin-top:24px}
+  .done{margin-top:clamp(30px,8vw,40px);border:1px solid var(--red);padding:clamp(20px,5vw,28px)}
+  .done p{margin-top:12px;font-size:17px}
+  .done .btn{margin-top:22px}
+  .done .opt{margin-top:12px;font-size:14px;color:var(--mut)}
   .form-note{margin-top:14px;font-size:14px;color:var(--mut);line-height:1.45;min-height:1.45em}
   .form-note.ok{color:var(--fg)}
   .form-note.err{color:var(--red)}
@@ -199,6 +205,13 @@
         <button class="btn" type="submit" id="send">Отправить заявку</button>
         <div class="form-note" id="note" role="status" aria-live="polite"></div>
       </form>
+
+      <div class="done" id="done" hidden>
+        <div class="form-t">Заявка принята</div>
+        <p>Позвоню в течение двух дней и пришлю запись с разбором. Больше от вас ничего не нужно.</p>
+        <a class="btn btn--line" href="https://t.me/Thukydides" target="_blank" rel="noopener">Открыть чат в Telegram</a>
+        <div class="opt">По желанию, если удобнее переписываться.</div>
+      </div>
     </div>
   </section>
 
@@ -322,8 +335,8 @@
 (function(){
   "use strict";
 
-  /* Адрес приёмника заявок. Пусто, пока бэкенд не развёрнут:
-     тогда заявка уходит в Telegram вручную, через буфер обмена. */
+  /* Адрес приёмника заявок. Пока пусто, форма работает запасным путём:
+     складывает заявку в буфер обмена, дальше человек вставляет её в чат. */
   var ENDPOINT = "";
   var TG = "https://t.me/Thukydides";
 
@@ -341,6 +354,7 @@
   }
 
   var form = document.getElementById("form");
+  var done = document.getElementById("done");
   var note = document.getElementById("note");
   var send = document.getElementById("send");
   var phone = document.getElementById("phone");
@@ -367,33 +381,45 @@
     };
   }
 
-  function asText(p){
+  /* заявка принята: форма уходит, остаётся подтверждение
+     и необязательная кнопка перехода в чат */
+  function accepted(){
+    form.hidden = true;
+    done.hidden = false;
+    done.scrollIntoView({ block:"nearest" });
+  }
+
+  /* запасной путь, пока приёмник не подключён */
+  function fallback(p){
     var lines = ["Заявка на звонок в отдел продаж", "Телефон: " + p.phone];
     if (p.company) lines.push("Компания и город: " + p.company);
     if (p.tg) lines.push("Телеграм: " + p.tg);
-    return lines.join("\n");
-  }
-
-  /* запасной путь: текст в буфер и открытый чат */
-  function fallback(p){
-    function done(copied){
+    var text = lines.join("\n");
+    function finish(copied){
+      send.disabled = false;
       say(copied
-        ? "Текст заявки скопирован. Вставьте его в чат, я отвечу."
-        : "Открываю чат. Напишите телефон, компанию и город одним сообщением.", "ok");
-      window.open(TG, "_blank", "noopener");
+        ? "Заявка скопирована. Откройте Telegram и вставьте её в чат."
+        : "Напишите в Telegram телефон, компанию и город одним сообщением.", "ok");
+      var link = document.createElement("a");
+      link.className = "btn btn--line";
+      link.href = TG;
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.textContent = "Открыть чат в Telegram";
+      link.style.marginTop = "16px";
+      if (!document.getElementById("tglink")) { link.id = "tglink"; note.parentNode.appendChild(link); }
     }
-    var text = asText(p);
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function(){ done(true); }, function(){ done(false); });
+      navigator.clipboard.writeText(text).then(function(){ finish(true); }, function(){ finish(false); });
     } else {
-      done(false);
+      finish(false);
     }
   }
 
   form.addEventListener("submit", function(e){
     e.preventDefault();
 
-    if (trap.value) { say("Заявка отправлена.", "ok"); return; }
+    if (trap.value) { accepted(); return; }
 
     if (digits(phone.value).length < 10) {
       say("Проверьте номер телефона, нужно не меньше десяти цифр.", "err");
@@ -411,29 +437,22 @@
     }
 
     var p = payload();
+    send.disabled = true;
 
     if (!ENDPOINT) { fallback(p); return; }
 
-    send.disabled = true;
     say("Отправляю.");
-
     fetch(ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(p)
     }).then(function(r){
-      if (!r.ok) throw new Error("bad status " + r.status);
+      if (!r.ok) throw new Error("status " + r.status);
       return r.json();
     }).then(function(){
-      form.reset();
-      pd.checked = true;
-      offer.checked = true;
-      say("Заявка принята. Позвоню в течение двух дней и пришлю запись с разбором.", "ok");
-      send.disabled = true;
-      send.textContent = "Заявка отправлена";
+      accepted();
     }).catch(function(){
-      send.disabled = false;
-      say("Не получилось отправить. Открываю Telegram, заявка уже в буфере обмена.", "err");
+      say("Не получилось отправить с сайта. Заявка скопирована, откройте чат и вставьте её.", "err");
       fallback(p);
     });
   });
