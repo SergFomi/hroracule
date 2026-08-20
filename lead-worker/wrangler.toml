@@ -2,6 +2,10 @@ name = "lead-worker"
 main = "worker.js"
 compatibility_date = "2026-08-01"
 
-# Секреты сюда не пишем. Они ставятся командами:
+[vars]
+AMO_SUBDOMAIN = "sergfomichv"
+
+# Секреты сюда не пишем, они ставятся командами:
 #   npx wrangler secret put BOT_TOKEN
 #   npx wrangler secret put CHAT_ID
+#   npx wrangler secret put AMO_TOKEN

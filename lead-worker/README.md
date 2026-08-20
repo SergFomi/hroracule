@@ -19,6 +19,7 @@
 npx wrangler login
 npx wrangler secret put BOT_TOKEN
 npx wrangler secret put CHAT_ID
+npx wrangler secret put AMO_TOKEN
 npx wrangler deploy
 ```
 
