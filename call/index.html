@@ -160,6 +160,19 @@
     .who-img{width:min(40%,260px);flex:0 0 auto}
   }
 </style>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111787831', 'ym');
+
+    ym(111787831, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/111787831" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 </head>
 <body>
 
@@ -172,7 +185,7 @@
       <p class="lead">Бесплатно. Пришлю запись разговора и разбор: что спросили, что не спросили, во сколько это обходится в месяц.</p>
       <div class="rule"></div>
 
-      <form class="form" id="form" novalidate>
+      <form class="form ym-disable-keys" id="form" novalidate>
         <div class="form-t">Оставьте заявку</div>
         <div class="field">
           <label for="phone">Телефон, на который звонить</label>
@@ -339,6 +352,13 @@
      складывает заявку в буфер обмена, дальше человек вставляет её в чат. */
   var ENDPOINT = "https://lead-worker.sergfomichv.workers.dev";
   var TG = "https://t.me/Thukydides";
+  var COUNTER = 111787831;
+
+  /* Цели Метрики. Если счётчик не загрузился или его срезал блокировщик,
+     функция просто ничего не делает и страница работает как обычно. */
+  function goal(name){
+    try { if (typeof window.ym === "function") window.ym(COUNTER, "reachGoal", name); } catch (e) {}
+  }
 
   /* появление блоков */
   var fades = [].slice.call(document.querySelectorAll(".fade"));
@@ -354,6 +374,7 @@
   }
 
   var form = document.getElementById("form");
+  var started = false;
   var done = document.getElementById("done");
   var note = document.getElementById("note");
   var send = document.getElementById("send");
@@ -363,6 +384,15 @@
   var trap = document.getElementById("site");
   var pd = document.getElementById("pd");
   var offer = document.getElementById("of");
+
+  form.addEventListener("input", function(){
+    if (!started) { started = true; goal("form_start"); }
+  });
+
+  document.addEventListener("click", function(e){
+    var a = e.target.closest ? e.target.closest('a[href*="t.me/"]') : null;
+    if (a) goal("tg_click");
+  });
 
   function say(text, cls){
     note.textContent = text;
@@ -450,6 +480,7 @@
       if (!r.ok) throw new Error("status " + r.status);
       return r.json();
     }).then(function(){
+      goal("lead");
       accepted();
     }).catch(function(){
       say("Не получилось отправить с сайта. Заявка скопирована, откройте чат и вставьте её.", "err");
