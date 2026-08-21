@@ -1,5 +1,5 @@
 /**
- * Приёмник заявок с лендинга hr-oracul.ru/call/
+ * Приёмник заявок с лендингов hr-oracul.ru/call/ и hr-oracul.ru/rca/
  *
  * Работает на Cloudflare Workers. Принимает JSON, проверяет его, заводит
  * сделку с контактом в amoCRM и присылает уведомление в Telegram.
@@ -21,7 +21,7 @@
  */
 
 const ALLOWED = ["https://hr-oracul.ru", "http://localhost:8788"];
-const LIMITS = { phone: 32, company: 120, tg: 64, page: 200 };
+const LIMITS = { phone: 32, company: 120, tg: 64, task: 200, page: 200 };
 
 function cors(origin) {
   const allow = ALLOWED.includes(origin) ? origin : ALLOWED[0];
@@ -50,20 +50,24 @@ const amoHeaders = (env) => ({
   "Content-Type": "application/json",
 });
 
+/** С какого лендинга пришла заявка. От этого зависят названия в CRM и Telegram. */
+const isRazbor = (lead) => lead.page.indexOf("/rca/") !== -1;
+const leadTitle = (lead) =>
+  isRazbor(lead) ? "Разбор рутины" : "Проверка отдела продаж";
+
 /** Сделка вместе с контактом одним запросом. Этого ответа мы ждём. */
 async function createLead(env, lead) {
+  const contact = { first_name: lead.company || "Заявка с сайта" };
+  // Телефон кладём только когда это действительно телефон: на лендинге
+  // разбора человек может оставить вместо номера имя в Telegram.
+  if (digits(lead.phone).length >= 10) {
+    contact.custom_fields_values = [
+      { field_code: "PHONE", values: [{ enum_code: "WORK", value: lead.phone }] },
+    ];
+  }
   const deal = {
-    name: "Проверка отдела продаж: " + (lead.company || lead.phone),
-    _embedded: {
-      contacts: [
-        {
-          first_name: lead.company || "Заявка с сайта",
-          custom_fields_values: [
-            { field_code: "PHONE", values: [{ enum_code: "WORK", value: lead.phone }] },
-          ],
-        },
-      ],
-    },
+    name: leadTitle(lead) + ": " + (lead.company || lead.phone || lead.tg),
+    _embedded: { contacts: [contact] },
   };
   if (env.AMO_PIPELINE_ID) deal.pipeline_id = Number(env.AMO_PIPELINE_ID);
   if (env.AMO_STATUS_ID) deal.status_id = Number(env.AMO_STATUS_ID);
@@ -83,10 +87,13 @@ async function createLead(env, lead) {
 /** Подробности заявки. Уходит фоном, человек этого не ждёт. */
 async function addNote(env, id, lead) {
   const text = [
-    "Заявка с лендинга «Позвоню в отдел продаж»",
-    "Телефон: " + lead.phone,
+    isRazbor(lead)
+      ? "Заявка с лендинга «Разбор рутины за 20 минут»"
+      : "Заявка с лендинга «Позвоню в отдел продаж»",
+    "Связь: " + lead.phone,
     lead.company ? "Компания и город: " + lead.company : "",
     lead.tg ? "Телеграм: " + lead.tg : "",
+    lead.task ? "Рутина: " + lead.task : "",
     "Страница: " + lead.page,
     "IP: " + lead.ip + " " + lead.country,
   ]
@@ -102,11 +109,12 @@ async function addNote(env, id, lead) {
 
 async function toTelegram(env, lead, amo) {
   const lines = [
-    "<b>Заявка: проверка отдела продаж</b>",
-    "Телефон: " + esc(lead.phone),
+    "<b>Заявка: " + (isRazbor(lead) ? "разбор рутины" : "проверка отдела продаж") + "</b>",
+    "Связь: " + esc(lead.phone),
     "Компания и город: " + esc(lead.company),
   ];
   if (lead.tg) lines.push("Телеграм: " + esc(lead.tg));
+  if (lead.task) lines.push("Рутина: " + esc(lead.task));
   lines.push("");
   if (!amo) lines.push("amoCRM не подключена");
   else if (amo.ok) lines.push("Сделка в amoCRM создана" + (amo.id ? ", номер " + amo.id : ""));
@@ -151,12 +159,17 @@ export default {
       phone: clean(data.phone, LIMITS.phone),
       company: clean(data.company, LIMITS.company),
       tg: clean(data.tg, LIMITS.tg),
+      task: clean(data.task, LIMITS.task),
       page: clean(data.page, LIMITS.page),
       ip: request.headers.get("CF-Connecting-IP") || "",
       country: (request.cf && request.cf.country) || "",
     };
 
-    if (digits(lead.phone).length < 10) return json({ ok: false, error: "phone" }, 400, origin);
+    // Связаться можно либо по телефону, либо через Telegram: на лендинге
+    // разбора человек сам выбирает, что оставить.
+    const byPhone = digits(lead.phone).length >= 10;
+    const byTg = /^@?[a-zA-Z][a-zA-Z0-9_]{3,}$/.test(lead.tg);
+    if (!byPhone && !byTg) return json({ ok: false, error: "phone" }, 400, origin);
     if (!lead.company) return json({ ok: false, error: "company" }, 400, origin);
     if (data.consent !== true) return json({ ok: false, error: "consent" }, 400, origin);
 
