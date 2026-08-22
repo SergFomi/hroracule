@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Покажу за 20 минут, где ИИ может решать ваши задачи вместо вас</title>
-<meta name="description" content="Бесплатный разбор на 20 минут: смотрим вашу реальную неделю и разбираем, какие задачи можно отдать машине уже сейчас. Без презентации и продажи.">
+<meta name="description" content="Бесплатный разбор на 20 минут для компаний 10–50 человек: смотрю вашу неделю и показываю, какие задачи можно отдать машине. Настраиваю я, учиться не нужно.">
 <meta name="theme-color" content="#FBFBFB">
 <link rel="icon" href="/favicon.ico?v=2" sizes="any">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
@@ -60,6 +60,7 @@ p{max-width:68ch}
 .hero{position:relative;overflow:hidden;padding:20px 0 0}
 .blob{position:absolute;z-index:0;top:-70px;right:-120px;width:340px;height:340px;pointer-events:none}
 .hero .wrap{position:relative;z-index:1}
+.hero .over{margin-bottom:8px}
 /* кнопки, поля, чипы */
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border:0;border-radius:50px;background:var(--acc);color:var(--bg);font-size:16px;font-weight:500;line-height:1.2;text-align:center;text-decoration:none;cursor:pointer;transition:background-color .15s}
 .btn:hover,.btn:focus-visible{background:var(--acc-2)}
@@ -110,6 +111,10 @@ p{max-width:68ch}
 .list{list-style:none;margin-top:24px;display:grid;gap:12px}
 .list li{position:relative;padding-left:22px;color:var(--mut)}
 .list li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:8px;border-radius:50%;background:var(--acc)}
+.list--no li::before{top:12px;width:12px;height:2px;border-radius:0}
+.mini{list-style:none;margin-top:12px;display:grid;gap:8px}
+.mini li{position:relative;padding-left:18px;color:var(--mut)}
+.mini li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:var(--acc)}
 /* кто проводит */
 .who{display:flex;align-items:center;gap:16px}
 .face{flex:0 0 auto;width:96px;height:96px;border-radius:50%;background:var(--chip);object-fit:cover}
@@ -160,15 +165,16 @@ footer a{color:var(--mut)}
 <section class="hero">
   <svg class="blob" viewBox="0 0 400 400" aria-hidden="true" focusable="false"><circle cx="200" cy="200" r="200" fill="#EEE9FF"></circle></svg>
   <div class="wrap">
+    <div class="over">бесплатно, для компаний 10–50 человек</div>
     <h1>Покажу за 20 минут, где ИИ может решать ваши задачи вместо вас</h1>
-    <p class="lead">Смотрим вашу реальную неделю, а не абстрактные возможности. Бесплатно, без презентации и продажи.</p>
+    <p class="lead">Смотрю вашу неделю, а не абстрактные возможности. Настраивать буду я, от вас — рассказать, из чего состоит день.</p>
 
     <div class="formwrap">
       <form class="form" novalidate>
         <div class="fields">
           <input class="fld" type="text" name="phone" inputmode="tel" autocomplete="tel" placeholder="@username или +7 900 000 00 00" aria-label="Telegram или телефон">
           <input class="fld" type="text" name="company" autocomplete="organization" placeholder="Мебель на заказ, Тюмень" aria-label="Компания и город">
-          <input class="fld" type="text" name="task" autocomplete="off" placeholder="Каждый вечер свожу отчёт по заявкам" aria-label="Что за рутина отнимает время">
+          <input class="fld" type="text" name="task" autocomplete="off" placeholder="Каждый вечер свожу заявки из трёх чатов в таблицу" aria-label="Что за рутина отнимает время">
           <input class="trap" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
         </div>
         <div class="checks">
@@ -247,21 +253,56 @@ footer a{color:var(--mut)}
   </div>
 </section>
 
+<!-- экран 3а -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="over">чего не будет</div>
+    <h2>Что вы точно не будете делать</h2>
+    <ul class="list list--no">
+      <li>разбираться в интерфейсах и сравнивать сервисы между собой</li>
+      <li>писать промпты и подбирать формулировки</li>
+      <li>покупать подписки наугад и платить за то, что не пригодится</li>
+      <li>проходить обучение, смотреть уроки и вести конспекты</li>
+    </ul>
+    <p class="small" style="margin-top:20px">Настройка на мне. От вас нужен рассказ о том, как устроена неделя, и решение, что из неё стоит отдать.</p>
+  </div>
+</section>
+
 <!-- экран 4 -->
 <section class="sec fade">
   <div class="wrap">
     <div class="over">примеры</div>
-    <h2>Что забирают у человека первым</h2>
-    <div class="chips">
-      <span class="chip">разбор входящих заявок</span>
-      <span class="chip">черновики ответов клиентам</span>
-      <span class="chip">сведение отчётов за неделю</span>
-      <span class="chip">расшифровка звонков</span>
-      <span class="chip">документы по шаблону</span>
-      <span class="chip">описания товаров и услуг</span>
-      <span class="chip">разбор переписки в чатах</span>
+    <h2>Что отдают первым в вашей нише</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="ttl">Мед и косметология</div>
+        <ul class="mini">
+          <li>ответы на заявки и запись на приём</li>
+          <li>напоминания перед визитом и после него</li>
+          <li>ответы на отзывы на картах и площадках</li>
+          <li>сведение отчёта по загрузке кабинетов</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="ttl">Стройка и ремонт</div>
+        <ul class="mini">
+          <li>сметы и коммерческие по шаблону</li>
+          <li>ответы на заявки с сайта и площадок</li>
+          <li>акты и договоры из старых файлов</li>
+          <li>отчёт по объектам за неделю</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="ttl">Мебель, кухни, окна</div>
+        <ul class="mini">
+          <li>описания товаров и карточки на площадках</li>
+          <li>спецификация по замеру</li>
+          <li>переписка с клиентом между замером и договором</li>
+          <li>сведение заявок из трёх чатов в одну таблицу</li>
+        </ul>
+      </div>
     </div>
-    <p class="small" style="margin-top:20px">На разборе список будет другим: он собирается из вашей недели, а не из этого перечня.</p>
+    <p class="small" style="margin-top:20px">Ниша другая — принцип тот же. На разборе список собирается из вашей недели, а не из этого перечня.</p>
   </div>
 </section>
 
@@ -371,7 +412,7 @@ footer a{color:var(--mut)}
           <div class="fields">
             <input class="fld" type="text" name="phone" inputmode="tel" autocomplete="tel" placeholder="@username или +7 900 000 00 00" aria-label="Telegram или телефон">
             <input class="fld" type="text" name="company" autocomplete="organization" placeholder="Мебель на заказ, Тюмень" aria-label="Компания и город">
-            <input class="fld" type="text" name="task" autocomplete="off" placeholder="Каждый вечер свожу отчёт по заявкам" aria-label="Что за рутина отнимает время">
+            <input class="fld" type="text" name="task" autocomplete="off" placeholder="Каждый вечер свожу заявки из трёх чатов в таблицу" aria-label="Что за рутина отнимает время">
             <input class="trap" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
           </div>
           <div class="checks">
