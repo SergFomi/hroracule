@@ -50,10 +50,27 @@ const amoHeaders = (env) => ({
   "Content-Type": "application/json",
 });
 
-/** С какого лендинга пришла заявка. От этого зависят названия в CRM и Telegram. */
+/**
+ * С какого лендинга пришла заявка. Страницы разбора вложены в /rca/, и у
+ * каждой своя тема: с человеком из /content/ и человеком из /docs/ идёт
+ * разный разговор, поэтому тема попадает и в название сделки, и в Telegram.
+ */
 const isRazbor = (lead) => lead.page.indexOf("/rca/") !== -1;
-const leadTitle = (lead) =>
-  isRazbor(lead) ? "Разбор рутины" : "Проверка отдела продаж";
+
+const RAZBOR = [
+  ["/rca/content/", "разбор: тексты"],
+  ["/rca/docs/", "разбор: документы"],
+  ["/rca/leads/", "разбор: входящие"],
+  ["/rca/mama/", "разбор: вечера"],
+];
+
+function leadTitle(lead) {
+  if (!isRazbor(lead)) return "проверка отдела продаж";
+  const hit = RAZBOR.find((r) => lead.page.indexOf(r[0]) !== -1);
+  return hit ? hit[1] : "разбор рутины";
+}
+
+const capital = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
 /** Сделка вместе с контактом одним запросом. Этого ответа мы ждём. */
 async function createLead(env, lead) {
@@ -66,7 +83,7 @@ async function createLead(env, lead) {
     ];
   }
   const deal = {
-    name: leadTitle(lead) + ": " + (lead.company || lead.phone || lead.tg),
+    name: capital(leadTitle(lead)) + " — " + (lead.company || lead.phone || lead.tg),
     _embedded: { contacts: [contact] },
   };
   if (env.AMO_PIPELINE_ID) deal.pipeline_id = Number(env.AMO_PIPELINE_ID);
@@ -87,9 +104,7 @@ async function createLead(env, lead) {
 /** Подробности заявки. Уходит фоном, человек этого не ждёт. */
 async function addNote(env, id, lead) {
   const text = [
-    isRazbor(lead)
-      ? "Заявка с лендинга «Разбор рутины за 20 минут»"
-      : "Заявка с лендинга «Позвоню в отдел продаж»",
+    "Заявка: " + leadTitle(lead),
     "Связь: " + lead.phone,
     lead.company ? "Компания и город: " + lead.company : "",
     lead.tg ? "Телеграм: " + lead.tg : "",
@@ -109,12 +124,13 @@ async function addNote(env, id, lead) {
 
 async function toTelegram(env, lead, amo) {
   const lines = [
-    "<b>Заявка: " + (isRazbor(lead) ? "разбор рутины" : "проверка отдела продаж") + "</b>",
+    "<b>Заявка: " + esc(leadTitle(lead)) + "</b>",
     "Связь: " + esc(lead.phone),
     "Компания и город: " + esc(lead.company),
   ];
   if (lead.tg) lines.push("Телеграм: " + esc(lead.tg));
   if (lead.task) lines.push("Рутина: " + esc(lead.task));
+  lines.push("Страница: " + esc(lead.page));
   lines.push("");
   if (!amo) lines.push("amoCRM не подключена");
   else if (amo.ok) lines.push("Сделка в amoCRM создана" + (amo.id ? ", номер " + amo.id : ""));
