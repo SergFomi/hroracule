@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Покажу, где брать клиентов и как не терять тех, кто уже написал</title>
+<meta name="description" content="Бесплатный разбор на 20 минут: смотрим, откуда к вам приходят обращения, что можно включить ещё и на каком шаге заявки теряются.">
+<meta name="theme-color" content="#FBFBFB">
+<link rel="icon" href="/favicon.ico?v=2" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2">
+<link rel="preload" as="font" type="font/woff2" href="/rca/fonts/unbounded.woff2" crossorigin>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hr-oracul.ru/rca/leads/">
+<meta property="og:title" content="Покажу, где брать клиентов и как не терять тех, кто уже написал">
+<meta property="og:description" content="Бесплатный разбор на 20 минут: смотрим, откуда к вам приходят обращения, что можно включить ещё и на каком шаге заявки теряются.">
+<style>
+@font-face{font-family:"Unbounded";font-style:normal;font-weight:400;font-display:swap;src:url(/rca/fonts/unbounded.woff2) format("woff2")}
+@font-face{font-family:"Unbounded";font-style:normal;font-weight:500;font-display:swap;src:url(/rca/fonts/unbounded.woff2) format("woff2")}
+:root{
+  --bg:#FBFBFB;
+  --fg:#141414;
+  --mut:#655B8E;
+  --over:#3D2E77;
+  --hint:#877CB0;
+  --acc:#7A4AE0;
+  --acc-2:#7D63EC;
+  --card:#F0EBFE;
+  --chip:#EEE9FF;
+  --line:#E5DCFF;
+  --off:#D5D1EA;
+  --dark:#231643;
+  --chip-fg:#3D2E77;
+  --err:#D80D0D;
+  --maxw:1120px;
+  --pad:16px;
+  --gap:56px;
+  --disp:"Unbounded","Segoe UI",system-ui,sans-serif;
+  --text:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--text);font-size:16px;line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--acc-2);outline-offset:2px}
+::selection{background:var(--chip);color:var(--fg)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad)}
+.sec{margin-top:var(--gap)}
+h1,h2,.ttl,.btn,.num,.stat,.over{font-family:var(--disp);font-weight:400}
+h1{font-size:clamp(26px,7.1vw,45px);line-height:1.15;letter-spacing:-.01em}
+h2{font-size:clamp(22px,5.5vw,30px);line-height:1.2;margin-top:10px;max-width:20ch}
+.ttl{font-weight:500;font-size:18px;line-height:1.3}
+.over{font-size:13px;line-height:1.4;color:var(--over);letter-spacing:.02em}
+.num{font-size:13px;color:var(--over)}
+p{max-width:68ch}
+.lead{font-size:clamp(16px,4.2vw,18px);line-height:1.45;color:var(--mut);margin-top:12px}
+.txt{margin-top:10px;color:var(--mut)}
+.small{font-size:13px;line-height:1.4;color:var(--mut)}
+/* первый экран */
+.hero{position:relative;overflow:hidden;padding:20px 0 0}
+.blob{position:absolute;z-index:0;top:-70px;right:-120px;width:340px;height:340px;pointer-events:none}
+.hero .wrap{position:relative;z-index:1}
+.hero .over{margin-bottom:8px}
+/* кнопки, поля, чипы */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border:0;border-radius:50px;background:var(--acc);color:var(--bg);font-size:16px;font-weight:500;line-height:1.2;text-align:center;text-decoration:none;cursor:pointer;transition:background-color .15s}
+.btn:hover,.btn:focus-visible{background:var(--acc-2)}
+.btn[disabled]{background:var(--off);color:var(--mut);cursor:not-allowed}
+.btn--wide{width:100%}
+.btn--line{background:transparent;border:1px solid var(--acc);color:var(--acc)}
+.btn--line:hover,.btn--line:focus-visible{background:transparent;border-color:var(--acc-2);color:var(--acc-2)}
+.btn--send{text-transform:uppercase}
+.fld{width:100%;height:52px;padding:0 20px;border:1px solid var(--line);border-radius:50px;background:#FFFFFF;color:var(--fg);font-family:var(--text);font-size:16px;line-height:1.4}
+.fld::placeholder{color:var(--hint)}
+.fld:focus{border-color:var(--acc);outline:2px solid var(--acc-2);outline-offset:2px}
+.fld.bad{border-color:var(--err)}
+.card{border-radius:30px;background:var(--card);padding:24px}
+.cards{display:grid;gap:12px;margin-top:24px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.chip{border-radius:20px;background:var(--chip);color:var(--chip-fg);padding:10px 16px;font-size:15px;line-height:1.3}
+/* форма */
+.form{margin-top:20px;max-width:520px}
+.fields{display:grid;gap:12px}
+.checks{margin-top:12px;display:grid;gap:2px}
+.check{position:relative;display:flex;align-items:center;gap:10px;min-height:44px;font-size:13px;line-height:1.4;color:var(--mut);cursor:pointer}
+.check input{position:absolute;left:0;opacity:0;width:22px;height:22px;margin:0;cursor:pointer}
+.bx{flex:0 0 auto;width:22px;height:22px;border:1px solid var(--line);border-radius:6px;background:#FFFFFF;position:relative}
+.check input:checked+.bx{background:var(--acc);border-color:var(--acc)}
+.check input:checked+.bx::after{content:"";position:absolute;left:7px;top:3px;width:6px;height:11px;border:solid #FFFFFF;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.check input:focus-visible+.bx{outline:2px solid var(--acc-2);outline-offset:2px}
+.check a{color:var(--acc)}
+.form .btn{margin-top:14px}
+.trap{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.note{margin-top:12px;font-size:13px;line-height:1.4;color:var(--mut)}
+.note:empty{margin-top:0}
+.note.err{color:var(--err)}
+.under{margin-top:10px;font-size:13px;line-height:1.4;color:var(--mut)}
+.done .ttl{margin-bottom:10px}
+.done p{color:var(--mut)}
+.done .btn{margin-top:16px}
+/* шаги */
+.steps{margin-top:24px}
+.step{display:grid;gap:4px;padding:18px 0;border-top:1px solid var(--line)}
+.step:last-child{border-bottom:1px solid var(--line)}
+.step-h{display:flex;gap:12px;align-items:baseline}
+/* тёмный блок */
+.dark{border-radius:30px;background:var(--dark);color:var(--bg);padding:28px 24px}
+.dark h2{color:var(--bg)}
+.dark .over{color:var(--off)}
+.dark p{color:var(--off);margin-top:14px}
+/* список «что делаю сам» */
+.list{list-style:none;margin-top:24px;display:grid;gap:12px}
+.list li{position:relative;padding-left:22px;color:var(--mut)}
+.list li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:8px;border-radius:50%;background:var(--acc)}
+.list--no li::before{top:12px;width:12px;height:2px;border-radius:0}
+.mini{list-style:none;margin-top:12px;display:grid;gap:8px}
+.mini li{position:relative;padding-left:18px;color:var(--mut)}
+.mini li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:var(--acc)}
+/* кто проводит */
+.who{display:flex;align-items:center;gap:16px}
+.face{flex:0 0 auto;width:96px;height:96px;border-radius:50%;background:var(--chip);object-fit:cover}
+.face--sm{width:64px;height:64px}
+.who-n{font-family:var(--disp);font-weight:500;font-size:18px;line-height:1.3}
+.who-r{margin-top:4px}
+.stats{display:flex;flex-wrap:wrap;gap:20px 28px;margin-top:22px}
+.stat{font-weight:500;font-size:24px;line-height:1.2;color:var(--acc)}
+.stat-c{max-width:200px}
+.stat-c .small{margin-top:4px}
+/* повтор формы */
+.band{border-radius:30px;background:var(--card);padding:28px 24px}
+/* подвал */
+footer{margin-top:var(--gap);padding:28px 0 40px;border-top:1px solid var(--line)}
+footer .small+.small{margin-top:8px}
+footer a{color:var(--mut)}
+/* появление блоков */
+.fade{opacity:0;transform:translateY(12px);transition:opacity .3s ease,transform .3s ease}
+.fade.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .fade{opacity:1;transform:none;transition:none}
+  .btn{transition:none}
+}
+@media (min-width:768px){
+  :root{--pad:24px;--gap:96px}
+  .btn{min-height:56px}
+  .card{padding:32px}
+  .cards{grid-template-columns:repeat(3,1fr);gap:20px}
+  .dark{padding:48px}
+  .band{padding:48px}
+  .blob{width:520px;height:520px;top:-120px;right:-140px}
+  .hero{padding:48px 0 0}
+  .step{grid-template-columns:220px 1fr;gap:24px;padding:22px 0}
+  .card-wide{padding:40px}
+  .list{grid-template-columns:1fr 1fr;gap:12px 32px}
+  .face{width:120px;height:120px}
+  .face--sm{width:72px;height:72px}
+}
+@media (min-width:1120px){
+  .hero{padding:64px 0 0}
+}
+</style>
+</head>
+<body>
+<main>
+
+<!-- экран 1 -->
+<section class="hero">
+  <svg class="blob" viewBox="0 0 400 400" aria-hidden="true" focusable="false"><circle cx="200" cy="200" r="200" fill="#EEE9FF"></circle></svg>
+  <div class="wrap">
+    <div class="over">бесплатно, для компаний 10–50 человек</div>
+    <h1>Покажу, где брать клиентов и как не терять тех, кто уже написал</h1>
+    <p class="lead">Двадцать минут: откуда идут обращения, что включить ещё и где вы их теряете. Настраивать буду я.</p>
+
+    <div class="formwrap">
+      <form class="form" novalidate>
+        <div class="fields">
+          <input class="fld" type="text" name="phone" inputmode="tel" autocomplete="tel" placeholder="@username или +7 900 000 00 00" aria-label="Telegram или телефон">
+          <input class="fld" type="text" name="company" autocomplete="organization" placeholder="Мебель на заказ, Тюмень" aria-label="Компания и город">
+          <input class="fld" type="text" name="task" autocomplete="off" placeholder="Заявки приходят в трёх чатах, часть теряется" aria-label="Что происходит с заявками сейчас">
+          <input class="trap" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
+        </div>
+        <div class="checks">
+          <label class="check">
+            <input type="checkbox" name="pd" checked>
+            <span class="bx"></span>
+            <span>Согласен на <a href="/rca/policy/" target="_blank" rel="noopener">обработку персональных данных</a></span>
+          </label>
+          <label class="check">
+            <input type="checkbox" name="of" checked>
+            <span class="bx"></span>
+            <span>Согласен с условиями <a href="/rca/oferta/" target="_blank" rel="noopener">оферты</a></span>
+          </label>
+        </div>
+        <button class="btn btn--wide btn--send" type="submit">Показать разбор</button>
+        <div class="under">Отвечу в течение рабочего дня и предложу время.</div>
+        <div class="note" role="status" aria-live="polite"></div>
+      </form>
+      <div class="done" hidden>
+        <div class="ttl">Заявка принята</div>
+        <p>Отвечу в течение рабочего дня и предложу два-три времени на выбор. Больше от вас ничего не нужно.</p>
+        <a class="btn btn--line" href="https://t.me/Thukydides" target="_blank" rel="noopener">Открыть чат в Telegram</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- экран 2 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="over">откуда приходят</div>
+    <h2>Три источника, которые можно включить или починить</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="ttl">Реклама</div>
+        <ul class="mini">
+          <li>объявления и тексты под каждую услугу</li>
+          <li>минус-слова, чтобы не платить за случайные клики</li>
+          <li>считаем цену обращения, а не количество показов</li>
+          <li>останавливаем то, что не приносит обращений</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="ttl">Площадки и карты</div>
+        <ul class="mini">
+          <li>карточка организации, заполненная целиком</li>
+          <li>объявления на площадках с нормальными описаниями</li>
+          <li>ответы на отзывы, в том числе на злые</li>
+          <li>фото и цены, которые не устарели на год</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="ttl">Своя база</div>
+        <ul class="mini">
+          <li>те, кто спрашивал и не купил</li>
+          <li>те, кто купил год назад и пропал</li>
+          <li>повод написать, а не «просто напоминаем о себе»</li>
+          <li>рассылка, после которой не отписываются</li>
+        </ul>
+      </div>
+    </div>
+    <p class="small" style="margin-top:20px">Клиентов приводит не программа, а реклама, площадки и ваша база. Машина здесь делает работу, на которую у вас не хватает вечеров, и не даёт наделать ошибок по дороге.</p>
+  </div>
+</section>
+
+<!-- экран 3 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="over">где теряются</div>
+    <h2>Куда девается половина обращений</h2>
+    <ul class="list">
+      <li>ответили через три часа, клиент за это время написал ещё в два места</li>
+      <li>обещали перезвонить и забыли, потому что записали на бумажке</li>
+      <li>договорённость не зафиксировали, и через неделю никто не помнит, о чём был разговор</li>
+      <li>заявки лежат в трёх чатах, в почте и в директе, единого списка нет</li>
+      <li>база в две тысячи контактов лежит мёртвым грузом</li>
+      <li>после первого «я подумаю» никто не написал второй раз</li>
+    </ul>
+    <p class="small" style="margin-top:20px">Это дырки в дне ведра. Пока они есть, любая новая реклама льёт воду мимо.</p>
+  </div>
+</section>
+
+<!-- экран 4 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="over">что делает машина</div>
+    <h2>Что берёт на себя, когда настроена</h2>
+    <div class="chips">
+      <span class="chip">собирает заявки из всех чатов в один список</span>
+      <span class="chip">пишет черновик первого ответа</span>
+      <span class="chip">ставит напоминание перезвонить</span>
+      <span class="chip">готовит письма по старой базе</span>
+      <span class="chip">пишет объявления и описания</span>
+      <span class="chip">отвечает на отзывы</span>
+      <span class="chip">сводит отчёт: сколько обращений и откуда</span>
+      <span class="chip">подсказывает, где в настройках ошибка</span>
+    </div>
+    <p class="small" style="margin-top:20px">Решение всегда за вами: машина готовит, вы отправляете. Автоматической переписки с клиентом за вашей спиной не будет.</p>
+  </div>
+</section>
+
+<!-- экран 5 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="over">что получишь</div>
+    <h2>Что останется у вас после этих двадцати минут</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="num">/01</div>
+        <div class="ttl" style="margin-top:10px">Карта ваших обращений</div>
+        <p class="txt">Откуда они приходят сейчас, где оседают и на каком шаге теряются. По пунктам, а не «надо усилить маркетинг».</p>
+      </div>
+      <div class="card">
+        <div class="num">/02</div>
+        <div class="ttl" style="margin-top:10px">Что включить и что починить</div>
+        <p class="txt">Какие источники у вас не работают, хотя уже оплачены, и что стоит добавить в первую очередь.</p>
+      </div>
+      <div class="card">
+        <div class="num">/03</div>
+        <div class="ttl" style="margin-top:10px">Порядок действий</div>
+        <p class="txt">С чего начать, что делается за вечер своими руками и где без настройки не обойтись.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- экран 6 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="over">как проходит</div>
+    <h2>Двадцать минут в Telegram или на созвоне</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-h"><span class="num">/01</span><span class="num">5 минут</span></div>
+        <p>Рассказываете, откуда приходят обращения и что с ними происходит дальше: кто отвечает, куда записывает, когда перезванивает.</p>
+      </div>
+      <div class="step">
+        <div class="step-h"><span class="num">/02</span><span class="num">10 минут</span></div>
+        <p>Разбираем по шагам: где теряется, что можно включить дополнительно, что из этого делает машина, а что придётся руками.</p>
+      </div>
+      <div class="step">
+        <div class="step-h"><span class="num">/03</span><span class="num">5 минут</span></div>
+        <p>Записываем порядок действий: что первым, что вторым и во что это обойдётся по времени. Отправляю списком сразу после разговора.</p>
+      </div>
+      <div class="step">
+        <div class="step-h"><span class="num">/04</span><span class="num">дальше</span></div>
+        <p>Захотите, чтобы настроил я, — обсудим отдельно. Не захотите — список остаётся у вас, и на этом всё.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- экран 7 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="over">моя неделя</div>
+    <h2>Что я сам отдал машине</h2>
+    <ul class="list">
+      <li>собираю сайты и страницы, эту в том числе</li>
+      <li>веду рекламу в Директе: объявления, ставки, отчёты</li>
+      <li>отвечаю клиентам, записываю на время и напоминаю о встрече</li>
+      <li>складываю во внешнюю память всё, что узнал, и достаю обратно по запросу</li>
+      <li>держу задачи в трекере, а встречи в календаре, поэтому ничего не забываю</li>
+      <li>ищу информацию и проверяю её по источникам</li>
+      <li>пишу посты и черновики писем</li>
+      <li>собираю небольшие приложения и ботов под свою задачу</li>
+      <li>разбираю ситуации, где своего опыта нет</li>
+    </ul>
+    <p class="small" style="margin-top:20px">Это не список услуг. Это моя рабочая неделя: по ней видно, какие задачи вообще передаются.</p>
+  </div>
+</section>
+
+<!-- экран 8 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="dark">
+      <div class="over">без подвоха</div>
+      <h2>Почему это бесплатно</h2>
+      <p>Двадцать минут — это моя реклама. Мне проще один раз показать работу, чем рассказывать о ней в объявлениях.</p>
+      <p>Часть людей после разбора уйдёт и сделает всё сама по списку. Так и задумано: список остаётся у вас в любом случае.</p>
+      <p>Часть вернётся, когда упрётся в настройку. Тогда это платная работа: сеанс на два часа или проект. На самом разборе я об этом не говорю.</p>
+    </div>
+  </div>
+</section>
+
+<!-- экран 9 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="over">кому не подойдёт</div>
+    <h2>Когда не стоит занимать время</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="ttl">Нужен поток заявок под ключ</div>
+        <p class="txt">Заявки приносят реклама, площадки и база, и за них надо платить или работать. Кнопки «получить клиентов» нет ни у кого.</p>
+      </div>
+      <div class="card">
+        <div class="ttl">Отвечать всё равно некому</div>
+        <p class="txt">Если обращения приходят, а взять трубку и написать ответ физически некому, начинать надо не с этого.</p>
+      </div>
+      <div class="card">
+        <div class="ttl">Обращений пока нет совсем</div>
+        <p class="txt">Когда бизнес только открылся и потока ещё нет, разбирать нечего. Приходите, когда появятся первые обращения.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- экран 10 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="over">кто проводит</div>
+    <h2>Кто будет смотреть ваши заявки</h2>
+    <div class="card card-wide" style="margin-top:24px">
+      <div class="who">
+        <img class="face" src="/rca/me.webp" width="120" height="120" alt="Сергей Фомичёв" loading="lazy" decoding="async">
+        <div>
+          <div class="who-n">Сергей Фомичёв</div>
+          <div class="small who-r">внешний директор по развитию</div>
+        </div>
+      </div>
+      <p class="txt" style="margin-top:20px">Пять лет работаю внутри малого бизнеса руками: продажи, найм, отчётность, регламенты. Рекламу веду свою же, поэтому знаю, как выглядит слитый бюджет и с какой стороны он утекает.</p>
+      <p class="txt">Разбор веду сам, помощников и менеджеров нет. Поэтому в день их не больше трёх.</p>
+      <div class="stats">
+        <div class="stat-c">
+          <div class="stat">5 лет</div>
+          <div class="small">внутри малого бизнеса</div>
+        </div>
+        <div class="stat-c">
+          <div class="stat">10–50</div>
+          <div class="small">человек в компаниях, с которыми работаю</div>
+        </div>
+        <div class="stat-c">
+          <div class="stat">3 ниши</div>
+          <div class="small">мед и косметология, стройка и ремонт, мебель и окна</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- экран 11 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="band">
+      <div class="over">разбор</div>
+      <h2>Покажите, как к вам приходят клиенты, я покажу, где вы их теряете</h2>
+      <div class="who" style="margin-top:20px">
+        <img class="face face--sm" src="/rca/me.webp" width="72" height="72" alt="Сергей Фомичёв" loading="lazy" decoding="async">
+        <div>
+          <div class="who-n">Сергей Фомичёв</div>
+          <div class="small who-r">разбор веду сам, помощников нет</div>
+        </div>
+      </div>
+      <div class="formwrap">
+        <form class="form" novalidate>
+          <div class="fields">
+            <input class="fld" type="text" name="phone" inputmode="tel" autocomplete="tel" placeholder="@username или +7 900 000 00 00" aria-label="Telegram или телефон">
+            <input class="fld" type="text" name="company" autocomplete="organization" placeholder="Мебель на заказ, Тюмень" aria-label="Компания и город">
+            <input class="fld" type="text" name="task" autocomplete="off" placeholder="Заявки приходят в трёх чатах, часть теряется" aria-label="Что происходит с заявками сейчас">
+            <input class="trap" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
+          </div>
+          <div class="checks">
+            <label class="check">
+              <input type="checkbox" name="pd" checked>
+              <span class="bx"></span>
+              <span>Согласен на <a href="/rca/policy/" target="_blank" rel="noopener">обработку персональных данных</a></span>
+            </label>
+            <label class="check">
+              <input type="checkbox" name="of" checked>
+              <span class="bx"></span>
+              <span>Согласен с условиями <a href="/rca/oferta/" target="_blank" rel="noopener">оферты</a></span>
+            </label>
+          </div>
+          <button class="btn btn--wide btn--send" type="submit">Показать разбор</button>
+          <div class="under">Отвечу в течение рабочего дня и предложу время.</div>
+          <div class="note" role="status" aria-live="polite"></div>
+        </form>
+        <div class="done" hidden>
+          <div class="ttl">Заявка принята</div>
+          <p>Отвечу в течение рабочего дня и предложу два-три времени на выбор. Больше от вас ничего не нужно.</p>
+          <a class="btn btn--line" href="https://t.me/Thukydides" target="_blank" rel="noopener">Открыть чат в Telegram</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="small">Самозанятый Фомичёв Сергей Тимофеевич, Москва, 2026. ИНН 072502035358.</div>
+    <div class="small"><a href="/rca/policy/">Политика обработки данных</a> · <a href="/rca/oferta/">Оферта</a> · <a href="https://t.me/Thukydides" target="_blank" rel="noopener">@Thukydides</a></div>
+    <div class="small">Сайт собирает обезличенную статистику посещений через cookie. Подробности — в <a href="/rca/policy/">политике обработки данных</a>.</div>
+  </div>
+</footer>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111830217', 'ym');
+
+    ym(111830217, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/111830217" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+<script>
+(function(){
+  "use strict";
+
+  var ENDPOINT = "https://lead-worker.sergfomichv.workers.dev";
+  var TG = "https://t.me/Thukydides";
+  var COUNTER = 111830217;
+  var started = false; /* form_start — один раз на весь документ */
+
+  /* Цели Метрики. Срезал блокировщик — функция молчит, форма работает. */
+  function goal(name){
+    try { if (typeof window.ym === "function") window.ym(COUNTER, "reachGoal", name); } catch (e) {}
+  }
+
+  /* появление блоков */
+  var fades = [].slice.call(document.querySelectorAll(".fade"));
+  if (!("IntersectionObserver" in window)) {
+    fades.forEach(function(el){ el.classList.add("on"); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); }
+      });
+    }, { rootMargin:"0px 0px -8% 0px", threshold:0.05 });
+    fades.forEach(function(el){ io.observe(el); });
+  }
+
+  document.addEventListener("click", function(e){
+    var a = e.target.closest ? e.target.closest("a[href*='t.me/']") : null;
+    if (a) goal("tg_click");
+  });
+
+  function digits(s){ return (s || "").replace(/\D/g, ""); }
+
+  /* На странице две копии формы, обработчик общий. */
+  function initForm(wrap){
+    var form = wrap.querySelector("form");
+    var done = wrap.querySelector(".done");
+    var note = wrap.querySelector(".note");
+    var send = wrap.querySelector("button[type='submit']");
+    var f = function(n){ return form.querySelector("[name='" + n + "']"); };
+    var phone = f("phone"), company = f("company"), task = f("task");
+    var trap = f("site"), pd = f("pd"), offer = f("of");
+
+    /* ссылка внутри подписи не должна переключать чекбокс */
+    [].slice.call(form.querySelectorAll(".check a")).forEach(function(a){
+      a.addEventListener("click", function(e){ e.stopPropagation(); });
+    });
+
+    /* кнопка оживает только после двух галочек, поставленных руками */
+    function lock(){ send.disabled = !(pd.checked && offer.checked); }
+    pd.addEventListener("change", lock);
+    offer.addEventListener("change", lock);
+    lock();
+
+    form.addEventListener("input", function(){
+      if (!started) { started = true; goal("form_start"); }
+    });
+
+    function say(text, cls){
+      note.textContent = text || "";
+      note.className = "note" + (cls ? " " + cls : "");
+    }
+
+    function bad(field, text){
+      say(text, "err");
+      field.classList.add("bad");
+      field.focus();
+    }
+
+    function accepted(){
+      form.hidden = true;
+      done.hidden = false;
+      done.scrollIntoView({ block:"nearest" });
+    }
+
+    /* запасной путь: приёмник молчит, заявка уходит в буфер обмена */
+    function fallback(p){
+      var lines = ["Заявка на разбор рутины", "Связь: " + p.phone, "Компания и город: " + p.company];
+      if (p.task) lines.push("Рутина: " + p.task);
+      var text = lines.join("\n");
+      function finish(copied){
+        goal("lead_fallback");
+        send.disabled = false;
+        say(copied
+          ? "Не получилось отправить с сайта. Заявка скопирована, откройте чат и вставьте её."
+          : "Не получилось отправить с сайта. Напишите в Telegram связь, компанию и город одним сообщением.", "err");
+        if (!wrap.querySelector(".tglink")) {
+          var link = document.createElement("a");
+          link.className = "btn btn--line tglink";
+          link.href = TG;
+          link.target = "_blank";
+          link.rel = "noopener";
+          link.textContent = "Открыть чат в Telegram";
+          link.style.marginTop = "16px";
+          note.parentNode.appendChild(link);
+        }
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function(){ finish(true); }, function(){ finish(false); });
+      } else {
+        finish(false);
+      }
+    }
+
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+
+      /* ловушка для ботов: показываем благодарность и ничего не шлём */
+      if (trap.value) { accepted(); return; }
+
+      phone.classList.remove("bad");
+      company.classList.remove("bad");
+
+      var contact = phone.value.trim();
+      var handle = contact.replace(/^https?:\/\/t\.me\//i, "");
+      var isPhone = digits(contact).length >= 10;
+      var isTg = /^@?[a-zA-Z][a-zA-Z0-9_]{3,}$/.test(handle);
+      if (!isPhone && !isTg) {
+        bad(phone, "Оставьте телефон с кодом города или имя в Telegram, иначе ответить некуда.");
+        return;
+      }
+      if (!company.value.trim()) {
+        bad(company, "Напишите компанию и город. Без этого разбор не назначаю.");
+        return;
+      }
+      if (!pd.checked || !offer.checked) {
+        say("Отметьте оба согласия, иначе отправить не получится.", "err");
+        return;
+      }
+
+      var p = {
+        phone: contact,
+        company: company.value.trim(),
+        tg: !isPhone ? handle : "",
+        task: task.value.trim(),
+        consent: pd.checked && offer.checked,
+        page: location.href
+      };
+
+      send.disabled = true;
+      say("Отправляю.");
+
+      fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(p)
+      }).then(function(r){
+        if (!r.ok) throw new Error("status " + r.status);
+        return r.json();
+      }).then(function(){
+        goal("lead");
+        accepted();
+      }).catch(function(){
+        fallback(p);
+      });
+    });
+  }
+
+  [].slice.call(document.querySelectorAll(".formwrap")).forEach(initForm);
+})();
+</script>
+</body>
+</html>
