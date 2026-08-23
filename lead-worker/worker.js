@@ -74,7 +74,7 @@ const capital = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
 /** Сделка вместе с контактом одним запросом. Этого ответа мы ждём. */
 async function createLead(env, lead) {
-  const contact = { first_name: lead.company || "Заявка с сайта" };
+  const contact = { first_name: lead.company || lead.tg || lead.phone || "Заявка с сайта" };
   // Телефон кладём только когда это действительно телефон: на лендинге
   // разбора человек может оставить вместо номера имя в Telegram.
   if (digits(lead.phone).length >= 10) {
@@ -105,9 +105,9 @@ async function createLead(env, lead) {
 async function addNote(env, id, lead) {
   const text = [
     "Заявка: " + leadTitle(lead),
-    "Связь: " + lead.phone,
-    lead.company ? "Компания и город: " + lead.company : "",
+    lead.phone ? "Телефон: " + lead.phone : "",
     lead.tg ? "Телеграм: " + lead.tg : "",
+    lead.company ? "Компания и город: " + lead.company : "",
     lead.task ? "Рутина: " + lead.task : "",
     "Страница: " + lead.page,
     "IP: " + lead.ip + " " + lead.country,
@@ -123,12 +123,10 @@ async function addNote(env, id, lead) {
 }
 
 async function toTelegram(env, lead, amo) {
-  const lines = [
-    "<b>Заявка: " + esc(leadTitle(lead)) + "</b>",
-    "Связь: " + esc(lead.phone),
-    "Компания и город: " + esc(lead.company),
-  ];
+  const lines = ["<b>Заявка: " + esc(leadTitle(lead)) + "</b>"];
+  if (lead.phone) lines.push("Телефон: " + esc(lead.phone));
   if (lead.tg) lines.push("Телеграм: " + esc(lead.tg));
+  if (lead.company) lines.push("Компания и город: " + esc(lead.company));
   if (lead.task) lines.push("Рутина: " + esc(lead.task));
   lines.push("Страница: " + esc(lead.page));
   lines.push("");
@@ -184,9 +182,8 @@ export default {
     // Связаться можно либо по телефону, либо через Telegram: на лендинге
     // разбора человек сам выбирает, что оставить.
     const byPhone = digits(lead.phone).length >= 10;
-    const byTg = /^@?[a-zA-Z][a-zA-Z0-9_]{3,}$/.test(lead.tg);
+    const byTg = /^@?[a-zA-Z][a-zA-Z0-9_]{3,30}[a-zA-Z0-9]$/.test(lead.tg);
     if (!byPhone && !byTg) return json({ ok: false, error: "phone" }, 400, origin);
-    if (!lead.company) return json({ ok: false, error: "company" }, 400, origin);
     if (data.consent !== true) return json({ ok: false, error: "consent" }, 400, origin);
 
     const amoOn = Boolean(env.AMO_SUBDOMAIN && env.AMO_TOKEN);

@@ -172,9 +172,8 @@ footer a{color:var(--mut)}
     <div class="formwrap">
       <form class="form" novalidate>
         <div class="fields">
-          <input class="fld" type="text" name="phone" inputmode="tel" autocomplete="tel" placeholder="@username или +7 900 000 00 00" aria-label="Telegram или телефон">
-          <input class="fld" type="text" name="company" autocomplete="organization" placeholder="Мебель на заказ, Тюмень" aria-label="Компания и город">
-          <input class="fld" type="text" name="task" autocomplete="off" placeholder="Каждый договор собираю руками из старого файла" aria-label="Какие документы отнимают время">
+          <input class="fld" type="tel" name="phone" inputmode="tel" autocomplete="tel" placeholder="+7 900 000 00 00" aria-label="Телефон">
+          <input class="fld" type="text" name="tg" autocomplete="off" spellcheck="false" placeholder="@username в Telegram" aria-label="Логин в Telegram">
           <input class="trap" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
         </div>
         <div class="checks">
@@ -431,9 +430,8 @@ footer a{color:var(--mut)}
       <div class="formwrap">
         <form class="form" novalidate>
           <div class="fields">
-            <input class="fld" type="text" name="phone" inputmode="tel" autocomplete="tel" placeholder="@username или +7 900 000 00 00" aria-label="Telegram или телефон">
-            <input class="fld" type="text" name="company" autocomplete="organization" placeholder="Мебель на заказ, Тюмень" aria-label="Компания и город">
-            <input class="fld" type="text" name="task" autocomplete="off" placeholder="Каждый договор собираю руками из старого файла" aria-label="Какие документы отнимают время">
+            <input class="fld" type="tel" name="phone" inputmode="tel" autocomplete="tel" placeholder="+7 900 000 00 00" aria-label="Телефон">
+            <input class="fld" type="text" name="tg" autocomplete="off" spellcheck="false" placeholder="@username в Telegram" aria-label="Логин в Telegram">
             <input class="trap" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
           </div>
           <div class="checks">
@@ -520,6 +518,24 @@ footer a{color:var(--mut)}
 
   function digits(s){ return (s || "").replace(/\D/g, ""); }
 
+  /* Телефон: от десяти до пятнадцати цифр и не одна цифра, повторённая подряд. */
+  function okPhone(v){
+    var d = digits(v);
+    if (d.length < 10 || d.length > 15) return false;
+    if (d === d.charAt(0).repeat(d.length)) return false;
+    return true;
+  }
+
+  /* Логин Telegram: латиница, цифры и подчёркивание, от пяти до тридцати двух
+     знаков, начинается с буквы. Ссылку t.me и знак @ отрезаем сами. */
+  function tgLogin(v){
+    var s = (v || "").trim()
+      .replace(/^https?:\/\//i, "")
+      .replace(/^t\.me\//i, "")
+      .replace(/^@/, "");
+    return /^[a-zA-Z][a-zA-Z0-9_]{3,30}[a-zA-Z0-9]$/.test(s) ? "@" + s : "";
+  }
+
   /* На странице две копии формы, обработчик общий. */
   function initForm(wrap){
     var form = wrap.querySelector("form");
@@ -527,7 +543,7 @@ footer a{color:var(--mut)}
     var note = wrap.querySelector(".note");
     var send = wrap.querySelector("button[type='submit']");
     var f = function(n){ return form.querySelector("[name='" + n + "']"); };
-    var phone = f("phone"), company = f("company"), task = f("task");
+    var phone = f("phone"), tg = f("tg");
     var trap = f("site"), pd = f("pd"), offer = f("of");
 
     /* ссылка внутри подписи не должна переключать чекбокс */
@@ -535,7 +551,7 @@ footer a{color:var(--mut)}
       a.addEventListener("click", function(e){ e.stopPropagation(); });
     });
 
-    /* кнопка оживает только после двух галочек, поставленных руками */
+    /* кнопка гаснет, если снять любое из согласий */
     function lock(){ send.disabled = !(pd.checked && offer.checked); }
     pd.addEventListener("change", lock);
     offer.addEventListener("change", lock);
@@ -564,15 +580,17 @@ footer a{color:var(--mut)}
 
     /* запасной путь: приёмник молчит, заявка уходит в буфер обмена */
     function fallback(p){
-      var lines = ["Заявка на разбор рутины", "Связь: " + p.phone, "Компания и город: " + p.company];
-      if (p.task) lines.push("Рутина: " + p.task);
-      var text = lines.join("\n");
+      var lines = ["Заявка на разбор"];
+      if (p.phone) lines.push("Телефон: " + p.phone);
+      if (p.tg) lines.push("Telegram: " + p.tg);
+      lines.push("Страница: " + p.page);
+      var text = lines.join(String.fromCharCode(10));
       function finish(copied){
         goal("lead_fallback");
         send.disabled = false;
         say(copied
           ? "Не получилось отправить с сайта. Заявка скопирована, откройте чат и вставьте её."
-          : "Не получилось отправить с сайта. Напишите в Telegram связь, компанию и город одним сообщением.", "err");
+          : "Не получилось отправить с сайта. Напишите в Telegram, я отвечу.", "err");
         if (!wrap.querySelector(".tglink")) {
           var link = document.createElement("a");
           link.className = "btn btn--line tglink";
@@ -598,18 +616,22 @@ footer a{color:var(--mut)}
       if (trap.value) { accepted(); return; }
 
       phone.classList.remove("bad");
-      company.classList.remove("bad");
+      tg.classList.remove("bad");
 
-      var contact = phone.value.trim();
-      var handle = contact.replace(/^https?:\/\/t\.me\//i, "");
-      var isPhone = digits(contact).length >= 10;
-      var isTg = /^@?[a-zA-Z][a-zA-Z0-9_]{3,}$/.test(handle);
-      if (!isPhone && !isTg) {
-        bad(phone, "Оставьте телефон с кодом города или имя в Telegram, иначе ответить некуда.");
+      var phoneVal = phone.value.trim();
+      var tgVal = tg.value.trim();
+      var tgOk = tgLogin(tgVal);
+
+      if (!phoneVal && !tgVal) {
+        bad(phone, "Оставьте телефон или логин в Telegram, иначе ответить некуда.");
         return;
       }
-      if (!company.value.trim()) {
-        bad(company, "Напишите компанию и город. Без этого разбор не назначаю.");
+      if (phoneVal && !okPhone(phoneVal)) {
+        bad(phone, "Проверьте номер: нужен код страны и десять цифр, например +7 900 000 00 00.");
+        return;
+      }
+      if (tgVal && !tgOk) {
+        bad(tg, "Логин в Telegram выглядит так: @username. Латиница, цифры и подчёркивание, от пяти знаков.");
         return;
       }
       if (!pd.checked || !offer.checked) {
@@ -618,10 +640,8 @@ footer a{color:var(--mut)}
       }
 
       var p = {
-        phone: contact,
-        company: company.value.trim(),
-        tg: !isPhone ? handle : "",
-        task: task.value.trim(),
+        phone: phoneVal,
+        tg: tgOk,
         consent: pd.checked && offer.checked,
         page: location.href
       };
