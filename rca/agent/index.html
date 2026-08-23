@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ассистент за 3 000 ₽ в месяц</title>
+<meta name="description" content="Агент живёт на сервере, читает ваши чаты, отвечает за вас и напоминает про обещания. Я собрал такого себе, соберу такого вам. Разворачиваю за 2–3 дня.">
+<meta name="theme-color" content="#FFFCF0">
+<link rel="icon" href="/favicon.ico?v=2" sizes="any">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2">
+<link rel="preload" as="font" type="font/woff2" href="/rca/fonts/unbounded.woff2" crossorigin>
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://hr-oracul.ru/rca/agent/">
+<meta property="og:title" content="Ассистент за 3 000 ₽ в месяц">
+<meta property="og:description" content="Читает ваши чаты, отвечает за вас, напоминает про обещания. Ставится на ваш сервер, отключается за минуту.">
+<style>
+@font-face{font-family:"Unbounded";font-style:normal;font-weight:400;font-display:swap;src:url(/rca/fonts/unbounded.woff2) format("woff2")}
+@font-face{font-family:"Unbounded";font-style:normal;font-weight:500;font-display:swap;src:url(/rca/fonts/unbounded.woff2) format("woff2")}
+:root{
+  --bg:#FFFCF0;
+  --fg:#141414;
+  --mut:#655B8E;
+  --over:#3D2E77;
+  --hint:#877CB0;
+  --acc:#7A4AE0;
+  --acc-2:#7D63EC;
+  --card:#F0EBFE;
+  --chip:#EEE9FF;
+  --line:#E5DCFF;
+  --off:#D5D1EA;
+  --dark:#231643;
+  --chip-fg:#3D2E77;
+  --err:#D80D0D;
+  --grn:#0C2E1F;
+  --grn-fg:#C6DCCD;
+  --gold:#F2E1A6;
+  --maxw:1120px;
+  --pad:16px;
+  --gap:56px;
+  --disp:"Unbounded","Segoe UI",system-ui,sans-serif;
+  --text:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;background:#07200F}
+/* белое золото сверху, зелень к концу страницы */
+body{
+  color:var(--fg);font-family:var(--text);font-size:16px;line-height:1.55;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  background-color:var(--bg);
+  background-image:linear-gradient(180deg,#FFFCF0 0%,#FAF1D6 9%,#FDF8EB 22%,#FCFBF4 44%,#F5F9F1 64%,#E7F1E4 80%,#D2E6D4 92%,#BFDCC4 100%);
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--acc-2);outline-offset:2px}
+::selection{background:var(--chip);color:var(--fg)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad)}
+.sec{margin-top:var(--gap)}
+h1,h2,.ttl,.btn,.num,.stat,.over{font-family:var(--disp);font-weight:400}
+h1{font-size:clamp(26px,7.6vw,48px);line-height:1.14;letter-spacing:-.01em}
+h2{font-size:clamp(22px,5.5vw,30px);line-height:1.2;margin-top:10px;max-width:20ch}
+.ttl{font-weight:500;font-size:18px;line-height:1.3}
+.over{font-size:13px;line-height:1.4;color:var(--over);letter-spacing:.02em}
+.num{font-size:13px;color:var(--over)}
+p{max-width:68ch}
+.lead{font-size:clamp(16px,4.2vw,18px);line-height:1.45;color:var(--mut);margin-top:12px}
+.txt{margin-top:10px;color:var(--mut)}
+.small{font-size:13px;line-height:1.4;color:var(--mut)}
+.prose p+p{margin-top:14px}
+/* первый экран */
+.hero{position:relative;overflow:hidden;padding:20px 0 0}
+.blob{position:absolute;z-index:0;top:-70px;right:-120px;width:340px;height:340px;pointer-events:none}
+.hero .wrap{position:relative;z-index:1}
+.hero .over{margin-bottom:8px}
+.hero .btn{margin-top:20px}
+/* кнопки, поля, чипы */
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border:0;border-radius:50px;background:var(--acc);color:#FFFFFF;font-size:16px;font-weight:500;line-height:1.2;text-align:center;text-decoration:none;cursor:pointer;transition:background-color .15s}
+.btn:hover,.btn:focus-visible{background:var(--acc-2)}
+.btn[disabled]{background:var(--off);color:var(--mut);cursor:not-allowed}
+.btn--wide{width:100%}
+.btn--line{background:transparent;border:1px solid var(--acc);color:var(--acc)}
+.btn--line:hover,.btn--line:focus-visible{background:transparent;border-color:var(--acc-2);color:var(--acc-2)}
+.btn--gold{background:var(--gold);color:#12301F}
+.btn--gold:hover,.btn--gold:focus-visible{background:#FFEFBE}
+.btn--gold[disabled]{background:#3C5A4A;color:#8FA898}
+.fld{width:100%;height:52px;padding:0 20px;border:1px solid var(--line);border-radius:50px;background:#FFFFFF;color:var(--fg);font-family:var(--text);font-size:16px;line-height:1.4}
+.fld--area{height:auto;min-height:104px;padding:14px 20px;border-radius:22px;resize:vertical;line-height:1.45}
+.fld::placeholder{color:var(--hint)}
+.fld:focus{border-color:var(--acc);outline:2px solid var(--acc-2);outline-offset:2px}
+.fld.bad{border-color:var(--err)}
+.card{border-radius:30px;background:var(--card);padding:24px}
+.card--plain{background:#FFFFFF;border:1px solid var(--line)}
+.cards{display:grid;gap:12px;margin-top:24px}
+.cards--3{display:grid;gap:12px;margin-top:24px}
+.cards--2{display:grid;gap:12px;margin-top:24px}
+/* демонстрация: расшифровка разговора */
+.chat{margin-top:24px;max-width:560px;border:1px solid var(--line);border-radius:26px;background:#FFFFFF;padding:16px;display:grid;gap:10px}
+.msg{max-width:90%;padding:10px 14px;font-size:15px;line-height:1.45}
+.msg--me{justify-self:end;background:var(--chip);color:var(--chip-fg);border-radius:16px 16px 6px 16px}
+.msg--bot{justify-self:start;background:#F4F4F6;color:var(--fg);border-radius:16px 16px 16px 6px}
+.chat-cap{margin-top:10px}
+/* карточки умений */
+.skill{border-radius:24px;background:var(--card);padding:20px}
+.skill .txt{margin-top:6px;font-size:15px}
+/* сравнение и стоимость */
+.col{border-radius:24px;padding:20px}
+.col--in{background:var(--card)}
+.col--out{background:#FFFFFF;border:1px solid var(--line)}
+.col--alt{background:var(--chip)}
+.col h3{font-family:var(--disp);font-weight:500;font-size:17px;line-height:1.3}
+/* шаги */
+.steps{margin-top:24px}
+.step{display:grid;gap:4px;padding:18px 0;border-top:1px solid var(--line)}
+.step:last-child{border-bottom:1px solid var(--line)}
+.step-h{display:flex;gap:12px;align-items:baseline}
+/* тёмный блок про историю */
+.dark{border-radius:30px;background:var(--dark);color:#FFFFFF;padding:28px 24px}
+.dark h2{color:#FFFFFF}
+.dark .over{color:var(--off)}
+.dark p{color:var(--off);margin-top:14px}
+/* списки */
+.list{list-style:none;margin-top:24px;display:grid;gap:12px}
+.list li{position:relative;padding-left:22px;color:var(--mut)}
+.list li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:8px;border-radius:50%;background:var(--acc)}
+.list--no li::before{top:12px;width:12px;height:2px;border-radius:0}
+.list--wide li{max-width:60ch}
+.mini{list-style:none;margin-top:12px;display:grid;gap:8px}
+.mini li{position:relative;padding-left:18px;color:var(--mut)}
+.mini li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:var(--acc)}
+/* кто собирает */
+.who{display:flex;align-items:center;gap:16px}
+.face{flex:0 0 auto;width:96px;height:96px;border-radius:50%;background:var(--chip);object-fit:cover}
+.face--sm{width:64px;height:64px}
+.who-n{font-family:var(--disp);font-weight:500;font-size:18px;line-height:1.3}
+.who-r{margin-top:4px}
+/* зелёный финал с кодом */
+.green{position:relative;overflow:hidden;border-radius:30px;background:var(--grn);color:#FFFFFF;padding:28px 24px}
+.green h2,.green .ttl{color:#FFFFFF}
+.green .over{color:#8FCFA6}
+.green p,.green .small,.green .txt,.green .under{color:var(--grn-fg)}
+.green .check{color:var(--grn-fg)}
+.green .check a{color:var(--gold)}
+.green .who-r{color:var(--grn-fg)}
+.green .inner{position:relative;z-index:1}
+.code{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;padding:14px 16px;font-family:var(--mono);font-size:12px;line-height:1.65;white-space:pre;color:#5FE39A;opacity:.14}
+/* картинка-подложка у формы */
+.formgrid{display:grid;gap:24px;margin-top:24px}
+.agentpic{position:relative;order:2;border-radius:26px;background:radial-gradient(ellipse at 50% 46%,#FFFFFF 0%,#FFFDF3 44%,#F0E3C0 100%);display:flex;align-items:center;justify-content:center;padding:20px;min-height:220px}
+.agentpic img{display:block;width:100%;max-width:308px;height:auto;-webkit-mask-image:radial-gradient(ellipse at 50% 46%,#000 70%,rgba(0,0,0,0) 100%);mask-image:radial-gradient(ellipse at 50% 46%,#000 70%,rgba(0,0,0,0) 100%)}
+/* форма */
+.form{margin-top:20px;max-width:520px}
+.fields{display:grid;gap:12px}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.opt{position:relative;display:inline-block}
+.opt input{position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;margin:0;cursor:pointer;z-index:1}
+.opt span{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border-radius:20px;background:#FFFFFF;border:1px solid var(--line);font-size:15px;line-height:1.2;color:var(--fg)}
+.opt input:checked+span{background:var(--acc);border-color:var(--acc);color:#FFFFFF}
+.opt input:focus-visible+span{outline:2px solid var(--acc-2);outline-offset:2px}
+.checks{margin-top:14px;display:grid;gap:2px}
+.check{position:relative;display:flex;align-items:center;gap:10px;min-height:44px;font-size:13px;line-height:1.4;color:var(--mut);cursor:pointer}
+.check input{position:absolute;left:0;opacity:0;width:22px;height:22px;margin:0;cursor:pointer}
+.bx{flex:0 0 auto;width:22px;height:22px;border:1px solid var(--line);border-radius:6px;background:#FFFFFF;position:relative}
+.check input:checked+.bx{background:var(--acc);border-color:var(--acc)}
+.check input:checked+.bx::after{content:"";position:absolute;left:7px;top:3px;width:6px;height:11px;border:solid #FFFFFF;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.check input:focus-visible+.bx{outline:2px solid var(--acc-2);outline-offset:2px}
+.check a{color:var(--acc)}
+.form .btn{margin-top:16px}
+.trap{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.note{margin-top:12px;font-size:13px;line-height:1.4;color:var(--mut)}
+.note:empty{margin-top:0}
+.note.err{color:#FF8A8A}
+.under{margin-top:10px;font-size:13px;line-height:1.4;color:var(--mut)}
+.done .ttl{margin-bottom:10px}
+.done .btn{margin-top:16px}
+/* подвал */
+footer{margin-top:var(--gap);padding:32px 0 40px;background:#07200F;color:var(--grn-fg)}
+footer .small{color:var(--grn-fg)}
+footer .small+.small{margin-top:8px}
+footer a{color:#9CD9B4}
+/* появление блоков */
+.fade{opacity:0;transform:translateY(12px);transition:opacity .3s ease,transform .3s ease}
+.fade.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .fade{opacity:1;transform:none;transition:none}
+  .btn{transition:none}
+}
+@media (min-width:768px){
+  :root{--pad:24px;--gap:96px}
+  .btn{min-height:56px}
+  .card{padding:32px}
+  .cards--3{grid-template-columns:repeat(3,1fr);gap:20px}
+  .cards--2{grid-template-columns:repeat(2,1fr);gap:20px}
+  .dark{padding:48px}
+  .green{padding:48px}
+  .blob{width:520px;height:520px;top:-120px;right:-140px}
+  .hero{padding:48px 0 0}
+  .step{grid-template-columns:220px 1fr;gap:24px;padding:22px 0}
+  .list{grid-template-columns:1fr 1fr;gap:12px 32px}
+  .face{width:120px;height:120px}
+  .face--sm{width:72px;height:72px}
+  .formgrid{grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+  .agentpic{min-height:360px;padding:32px}
+  .agentpic img{max-width:100%}
+  .code{font-size:13px}
+}
+@media (min-width:1120px){
+  .hero{padding:64px 0 0}
+}
+</style>
+</head>
+<body>
+<main>
+
+<!-- экран 1 -->
+<section class="hero">
+  <svg class="blob" viewBox="0 0 400 400" aria-hidden="true" focusable="false"><circle cx="200" cy="200" r="200" fill="#FAF0D2"></circle></svg>
+  <div class="wrap">
+    <div class="over">разворачиваю за 2–3 дня</div>
+    <h1>Ассистент за 3 000 ₽ в месяц</h1>
+    <p class="lead">Живёт на сервере, читает ваши чаты, отвечает за вас, напоминает о встречах и обещаниях. Я собрал такого себе. Соберу такого вам.</p>
+
+    <a class="btn" href="#form">Опишите задачу — скажу, потянет её агент</a>
+    <div class="small" style="margin-top:10px">Отвечаю в Telegram. Разворачиваю за 2–3 дня.</div>
+
+    <div class="chat">
+      <div class="msg msg--me">что сегодня горит</div>
+      <div class="msg msg--bot">Три вещи. Игорю обещали смету до пятницы — пятница сегодня. В чате «Объект» за ночь 214 сообщений, вас касаются два: подрядчик просит доступ в среду и сдвинул сроки на неделю. В 15:00 созвон, ссылка в календаре.</div>
+      <div class="msg msg--me">напиши Игорю, что смета будет к шести</div>
+      <div class="msg msg--bot">Черновик готов, отправляю? «Игорь, добрый день. Смету пришлю сегодня к 18:00, считаю последний раздел».</div>
+    </div>
+    <div class="small chat-cap">Так выглядит разговор с агентом. Пример, не рекламный ролик.</div>
+  </div>
+</section>
+
+<!-- экран 2 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="over">почему я это предлагаю</div>
+    <h2>Сначала я собрал такого себе</h2>
+    <div class="prose">
+      <p class="txt">Первым я отдал агенту то, что не любил больше всего, — утренний разбор чатов. Четыре рабочих чата, за ночь под двести сообщений, из них меня касаются пять. Раньше я выгребал это руками до одиннадцати. Теперь в восемь у меня лежит короткий список: кто чего ждёт, где я обещал и не сделал, что горит сегодня.</p>
+      <p class="txt">Дальше он забрал почту и календарь. Встреча, о которой договорились в переписке, сама оказывается в календаре, и я перестал её туда переносить и перестал забывать. Он же готовит ответы: на простое отвечает сам, на спорное пишет черновик и ждёт, пока я нажму.</p>
+      <p class="txt">В первую неделю он мне соврал. Клиент спросил цену, агент нашёл её в переписке годовой давности и назвал старую, на треть ниже. Я заметил случайно, через час. После этого я запретил ему отправлять что-либо про деньги, сроки и обязательства без моей подписи — такие ответы он теперь только готовит. Ошибок такого рода с тех пор не было, а скорость почти не упала: подписать черновик — это секунды.</p>
+      <p class="txt">Это не эксперимент на выходные. Агент работает у меня каждый день, и когда сервер однажды лёг на полдня, я это заметил примерно так же, как замечают отсутствие интернета.</p>
+    </div>
+  </div>
+</section>
+
+<!-- экран 3 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="over">что он делает</div>
+    <h2>Девять вещей, которые он снимает с вас</h2>
+    <div class="cards--3">
+      <div class="skill">
+        <div class="ttl">Отвечает в мессенджерах</div>
+        <div class="txt">Ночью пришёл вопрос про сроки — утром там уже висит ответ или черновик на вашу подпись</div>
+      </div>
+      <div class="skill">
+        <div class="ttl">Сжимает чаты</div>
+        <div class="txt">300 сообщений в рабочем чате — пять строк с тем, что касается вас</div>
+      </div>
+      <div class="skill">
+        <div class="ttl">Помнит обещания</div>
+        <div class="txt">«Вы обещали Игорю смету до пятницы. Пятница сегодня»</div>
+      </div>
+      <div class="skill">
+        <div class="ttl">Держит календарь</div>
+        <div class="txt">Встречи, задачи и дедлайны, вытащенные прямо из переписки</div>
+      </div>
+      <div class="skill">
+        <div class="ttl">Ищет информацию</div>
+        <div class="txt">По вашим источникам и вашим документам, а не «в интернете вообще»</div>
+      </div>
+      <div class="skill">
+        <div class="ttl">Пишет контент</div>
+        <div class="txt">Сторис и посты вашим языком — учится на том, что вы уже писали</div>
+      </div>
+      <div class="skill">
+        <div class="ttl">Находит клиентов</div>
+        <div class="txt">Приносит список подходящих под ваши признаки и повод написать каждому</div>
+      </div>
+      <div class="skill">
+        <div class="ttl">Достаёт инсайты</div>
+        <div class="txt">Кто тормозит сделку и где вы теряете деньги на ровном месте</div>
+      </div>
+      <div class="skill">
+        <div class="ttl">Работает на любой модели</div>
+        <div class="txt">GPT, Claude, локальная — меняется одной строкой в настройках</div>
+      </div>
+    </div>
+    <p class="txt" style="margin-top:20px">Про поиск клиентов отдельно: агент приносит список и повод написать, но массовых рассылок не делает. За них блокируют аккаунт, и восстановить его вы не сможете.</p>
+  </div>
+</section>
+
+<!-- экран 4 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="over">три тысячи в месяц</div>
+    <h2>Что стоит за этой цифрой</h2>
+    <p class="txt">Цена выглядит слишком хорошо, поэтому разложу её сразу, пока вы не начали искать подвох.</p>
+    <div class="cards--3">
+      <div class="col col--in">
+        <h3>Входит в 3 000 ₽</h3>
+        <ul class="mini">
+          <li>Разворачивание — бесплатно</li>
+          <li>Настройка под первую задачу</li>
+          <li>Сервер, на котором он живёт</li>
+          <li>Две недели правок по факту работы</li>
+        </ul>
+      </div>
+      <div class="col col--out">
+        <h3>Не входит</h3>
+        <ul class="mini">
+          <li>Платные запросы к модели сверх лимита</li>
+          <li>Интеграция с вашей CRM</li>
+          <li>Доработка под процессы отдела</li>
+          <li>Задачи, где нужен не помощник, а разработка</li>
+        </ul>
+      </div>
+      <div class="col col--alt">
+        <h3>Для сравнения</h3>
+        <ul class="mini">
+          <li>Ассистент на удалёнке — 40–60 тысяч в месяц</li>
+          <li>Плюс налоги и взносы</li>
+          <li>Плюс отпуск и больничные</li>
+          <li>Плюс поиск замены, когда он уйдёт</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- экран 5 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="over">честно</div>
+    <h2>Помощник-человек и агент</h2>
+    <div class="cards--2">
+      <div class="col col--out">
+        <h3>Человек</h3>
+        <ul class="mini">
+          <li>Работает в свои часы и уходит в отпуск</li>
+          <li>Держит в голове контекст, но не весь</li>
+          <li>Стоит 40–60 тысяч плюс налоги</li>
+          <li>Учится месяц и может уволиться</li>
+        </ul>
+      </div>
+      <div class="col col--in">
+        <h3>Агент</h3>
+        <ul class="mini">
+          <li>Круглосуточно, без выходных и настроения</li>
+          <li>Помнит всю переписку, к которой есть доступ</li>
+          <li>Стоит 3 000 ₽ в месяц</li>
+          <li>Настраивается за 2–3 дня, копируется за час</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card card--plain" style="margin-top:20px">
+      <div class="ttl">Где человек выигрывает</div>
+      <ul class="mini">
+        <li>Позвонить и договориться голосом</li>
+        <li>Взять на себя ответственность за решение</li>
+        <li>Понять, что вы имели в виду, а не что сказали</li>
+        <li>Сходить ногами туда, где нет интерфейса</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- экран 6 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="over">доступы</div>
+    <h2>Что происходит с вашей перепиской</h2>
+    <p class="txt">Это главный вопрос, и я отвечаю на него до того, как вы его зададите. Агент читает ваши чаты — те, к которым вы сами дали ему доступ. Находит то, что вы просили не упустить: кто что обещал, где повис ответ, какая сделка молчит третью неделю. Своими аккаунтами вы управляете сами.</p>
+    <ul class="list list--wide">
+      <li><b>Где он живёт.</b> На вашем сервере или на моём — выбираете вы. На вашем у меня нет постоянного доступа: вы даёте его на время настройки и забираете обратно.</li>
+      <li><b>Куда он дотягивается.</b> Только туда, где вы сами выдали ключ. Не выдали доступ к почте — почты для него не существует.</li>
+      <li><b>Что вижу я.</b> Пока идёт настройка — примеры ваших сообщений, иначе агента не на чем учить. После — только технические логи: время, ошибка, номер задачи, текст переписки в них не пишется. Если нужно, чтобы я не видел ничего, ставим на ваш сервер и настраиваем по вашему экрану на созвоне.</li>
+      <li><b>Как отозвать доступ.</b> В Telegram — «Устройства», завершить сеанс. В почте — отозвать пароль приложения. Минута, спрашивать меня не нужно.</li>
+      <li><b>Куда уходит текст.</b> В ту модель, которую выбрали вы. Если данные не должны покидать ваш контур, ставим локальную модель на вашем железе.</li>
+      <li><b>Почему нет рассылок.</b> Массовая отправка в личку — это бан аккаунта. Я такое не собираю и не буду.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- экран 7 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="over">как это происходит</div>
+    <h2>Четыре шага, сроки настоящие</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-h"><span class="num">01</span><span class="ttl">Вы описываете одну задачу</span></div>
+        <div class="txt">Десять минут в Telegram. Одна задача, которую вы делаете руками каждый день.</div>
+      </div>
+      <div class="step">
+        <div class="step-h"><span class="num">02</span><span class="ttl">Созвон на двадцать минут</span></div>
+        <div class="txt">Смотрим, где эта задача живёт и к чему агенту нужен доступ. Если не потянет — скажу на этом созвоне.</div>
+      </div>
+      <div class="step">
+        <div class="step-h"><span class="num">03</span><span class="ttl">Разворачиваю и настраиваю</span></div>
+        <div class="txt">Два-три дня. От вас — выдать доступы и один раз посмотреть, что он делает.</div>
+      </div>
+      <div class="step">
+        <div class="step-h"><span class="num">04</span><span class="ttl">Две недели правим по факту</span></div>
+        <div class="txt">Первые дни агент ошибается, это нормально. Правки в эти две недели входят в те же 3 000 ₽.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- экран 8 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="over">ограничения</div>
+    <h2>Чего он не может</h2>
+    <ul class="list list--no">
+      <li>Ошибается. Поэтому в спорных местах готовит черновик, а не отправляет сам.</li>
+      <li>Не работает с тем, к чему нет доступа снаружи: закрытая CRM без API, бумага, чужой личный кабинет.</li>
+      <li>Не заменит человека там, где нужен голос и ответственность за решение.</li>
+      <li>Первые две недели требует вашего внимания. Дальше почти не требует.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- экран 9 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="over">кому не подойдёт</div>
+    <h2>Когда не стоит писать</h2>
+    <ul class="list list--no">
+      <li>Если вы хотите рассылать по холодной базе — я такое не собираю.</li>
+      <li>Если нужен доступ к чужой переписке — тем более.</li>
+      <li>Если у вас нет ни одной задачи, которую вы делаете каждый день руками, — агенту нечего у вас делать.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- экран 10 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="dark">
+      <div class="over">чужая история</div>
+      <h2>Штат агентов вместо штата людей</h2>
+      <p>На это меня подтолкнул один собственник. У него не один агент, а целый штат — по агенту на участок работы. Экономия на фонде оплаты труда — около 500 000 ₽. Больше всего в этой истории мне нравится, как он её объясняет: он просто не любит людей.</p>
+      <p>Это его результат, не мой, и я не обещаю вам такой же. Но идея, что агентов может быть несколько и каждый занят своим участком, — рабочая, и начинается она с одного.</p>
+    </div>
+  </div>
+</section>
+
+<!-- экран 11 -->
+<section class="sec fade">
+  <div class="wrap">
+    <div class="over">вопросы</div>
+    <h2>То, что спрашивают до созвона</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-h"><span class="ttl">А если я не разбираюсь в технике?</span></div>
+        <div class="txt">Это и не нужно. Вы пишете агенту в Telegram обычными словами, как писали бы помощнику. Всё остальное настраиваю я.</div>
+      </div>
+      <div class="step">
+        <div class="step-h"><span class="ttl">Где хранятся мои данные?</span></div>
+        <div class="txt">На сервере, который выбрали вы: свой или мой. Переписка не копируется никуда ещё, в модель уходит только то, что нужно для конкретного ответа.</div>
+      </div>
+      <div class="step">
+        <div class="step-h"><span class="ttl">Что будет, если вы пропадёте?</span></div>
+        <div class="txt">Агент остаётся у вас. Доступы ваши, сервер ваш или переносится к вам, документацию отдаю в конце настройки. Ничего, что работает только через меня, там нет.</div>
+      </div>
+      <div class="step">
+        <div class="step-h"><span class="ttl">Можно поменять модель потом?</span></div>
+        <div class="txt">Да, это одна строка в настройках. Люди обычно начинают с облачной, а на чувствительных данных переезжают на локальную.</div>
+      </div>
+      <div class="step">
+        <div class="step-h"><span class="ttl">Почему так дёшево?</span></div>
+        <div class="txt">Потому что я уже собрал такого себе, и второй такой же — это настройка, а не разработка с нуля. Мне сейчас нужны живые задачи и созвоны больше, чем деньги. Когда шаблонов станет меньше, чем работы, цена вырастет.</div>
+      </div>
+      <div class="step">
+        <div class="step-h"><span class="ttl">Сколько ждать?</span></div>
+        <div class="txt">Созвон — в ближайшие дни. Разворачивание — два-три дня после него. Первую пользу видно на первой же неделе.</div>
+      </div>
+    </div>
+    <div class="card card--plain" style="margin-top:24px">
+      <div class="ttl">Если задача крупнее</div>
+      <p class="txt">Если это не «мне лично разгрести чаты», а «у отдела продаж тонут заявки» — это другая работа и другие деньги. Напишите, обсудим на созвоне.</p>
+    </div>
+  </div>
+</section>
+
+<!-- экран 12 -->
+<section class="sec fade" id="form">
+  <div class="wrap">
+    <div class="green">
+      <div class="code" aria-hidden="true">agent.on("message", async (m) =&gt; {
+  const ctx = await memory.recall(m.chat);
+  if (ctx.promise &amp;&amp; ctx.due &lt;= today) remind(ctx.owner);
+  const draft = await model.reply(m, ctx);
+  return draft.safe ? send(draft) : review(draft);
+});
+
+cron("08:00", async () =&gt; {
+  const night = await chats.since(lastSeen);
+  const mine = night.filter(touches.me);
+  await telegram.send(summarize(mine, 5));
+});
+
+policy.deny(["broadcast", "price", "deadline"]);
+access.revoke = () =&gt; keys.drop(user.id);
+</div>
+      <div class="inner">
+        <div class="over">заявка</div>
+        <h2>Опишите одну задачу — скажу, потянет её агент</h2>
+        <div class="formgrid">
+          <div class="agentpic">
+            <img src="/rca/agent/agent.webp" width="616" height="432" alt="Агент" loading="lazy" decoding="async">
+          </div>
+          <div class="formwrap">
+            <form class="form" novalidate>
+              <div class="fields">
+                <input class="fld" type="text" name="name" autocomplete="name" placeholder="Как к вам обращаться" aria-label="Как к вам обращаться">
+                <input class="fld" type="text" name="tg" autocomplete="off" spellcheck="false" placeholder="@username в Telegram" aria-label="Логин в Telegram">
+                <textarea class="fld fld--area" name="task" rows="3" placeholder="Какую задачу отдадите первой? Например: каждое утро разгребаю 200 сообщений в четырёх чатах и выписываю оттуда задачи" aria-label="Какую задачу отдадите агенту первой"></textarea>
+                <input class="trap" type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true">
+              </div>
+              <fieldset style="border:0;padding:0;margin:0">
+                <legend class="small" style="color:inherit">Где сейчас живёт ваша переписка</legend>
+                <div class="opts">
+                  <label class="opt"><input type="checkbox" name="ch" value="Telegram"><span>Telegram</span></label>
+                  <label class="opt"><input type="checkbox" name="ch" value="WhatsApp"><span>WhatsApp</span></label>
+                  <label class="opt"><input type="checkbox" name="ch" value="почта"><span>почта</span></label>
+                  <label class="opt"><input type="checkbox" name="ch" value="CRM"><span>CRM</span></label>
+                  <label class="opt"><input type="checkbox" name="ch" value="другое"><span>другое</span></label>
+                </div>
+              </fieldset>
+              <div class="checks">
+                <label class="check">
+                  <input type="checkbox" name="pd">
+                  <span class="bx"></span>
+                  <span>Согласен на <a href="/rca/policy/" target="_blank" rel="noopener">обработку персональных данных</a></span>
+                </label>
+                <label class="check">
+                  <input type="checkbox" name="of">
+                  <span class="bx"></span>
+                  <span>Согласен с условиями <a href="/rca/oferta/" target="_blank" rel="noopener">оферты</a></span>
+                </label>
+              </div>
+              <button class="btn btn--wide btn--gold" type="submit">Разверните мне такого</button>
+              <div class="under">Отвечаю в Telegram в течение рабочего дня. Разворачиваю за 2–3 дня.</div>
+              <div class="note" role="status" aria-live="polite"></div>
+            </form>
+            <div class="done" hidden>
+              <div class="ttl">Заявка принята</div>
+              <p>Отвечу в Telegram в течение рабочего дня и предложу время на созвон. Больше от вас ничего не нужно.</p>
+              <a class="btn btn--gold" href="https://t.me/Thukydides" target="_blank" rel="noopener">Открыть чат в Telegram</a>
+            </div>
+          </div>
+        </div>
+        <div class="who" style="margin-top:28px">
+          <img class="face face--sm" src="/rca/me.webp" width="72" height="72" alt="Сергей Фомичёв" loading="lazy" decoding="async">
+          <div>
+            <div class="who-n">Сергей Фомичёв</div>
+            <div class="small who-r">собираю и настраиваю сам, помощников нет</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="small">Самозанятый Фомичёв Сергей Тимофеевич, Москва, 2026. ИНН 072502035358.</div>
+    <div class="small"><a href="/rca/policy/">Политика обработки данных</a> · <a href="/rca/oferta/">Оферта</a> · <a href="https://t.me/Thukydides" target="_blank" rel="noopener">@Thukydides</a></div>
+    <div class="small">Сайт собирает обезличенную статистику посещений через cookie. Подробности — в <a href="/rca/policy/">политике обработки данных</a>.</div>
+  </div>
+</footer>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111830217', 'ym');
+
+    ym(111830217, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/111830217" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+<script>
+(function(){
+  "use strict";
+
+  var ENDPOINT = "https://lead-worker.sergfomichv.workers.dev";
+  var TG = "https://t.me/Thukydides";
+  var COUNTER = 111830217;
+  var started = false; /* form_start — один раз на весь документ */
+
+  function goal(name){
+    try { if (typeof window.ym === "function") window.ym(COUNTER, "reachGoal", name); } catch (e) {}
+  }
+
+  /* появление блоков */
+  var fades = [].slice.call(document.querySelectorAll(".fade"));
+  if (!("IntersectionObserver" in window)) {
+    fades.forEach(function(el){ el.classList.add("on"); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); }
+      });
+    }, { rootMargin:"0px 0px -8% 0px", threshold:0.05 });
+    fades.forEach(function(el){ io.observe(el); });
+  }
+
+  document.addEventListener("click", function(e){
+    var a = e.target.closest ? e.target.closest("a[href*='t.me/']") : null;
+    if (a) goal("tg_click");
+  });
+
+  /* Логин Telegram: латиница, цифры и подчёркивание, от пяти до тридцати двух
+     знаков, начинается с буквы. Ссылку t.me и знак @ отрезаем сами. */
+  function tgLogin(v){
+    var s = (v || "").trim()
+      .replace(/^https?:\/\//i, "")
+      .replace(/^t\.me\//i, "")
+      .replace(/^@/, "");
+    return /^[a-zA-Z][a-zA-Z0-9_]{3,30}[a-zA-Z0-9]$/.test(s) ? "@" + s : "";
+  }
+
+  function initForm(wrap){
+    var form = wrap.querySelector("form");
+    var done = wrap.querySelector(".done");
+    var note = wrap.querySelector(".note");
+    var send = wrap.querySelector("button[type='submit']");
+    var f = function(n){ return form.querySelector("[name='" + n + "']"); };
+    var name = f("name"), tg = f("tg"), task = f("task");
+    var trap = f("site"), pd = f("pd"), offer = f("of");
+    var chans = [].slice.call(form.querySelectorAll("[name='ch']"));
+
+    /* ссылка внутри подписи не должна переключать чекбокс */
+    [].slice.call(form.querySelectorAll(".check a")).forEach(function(a){
+      a.addEventListener("click", function(e){ e.stopPropagation(); });
+    });
+
+    /* кнопка гаснет, если снять любое из согласий */
+    function lock(){ send.disabled = !(pd.checked && offer.checked); }
+    pd.addEventListener("change", lock);
+    offer.addEventListener("change", lock);
+    lock();
+
+    form.addEventListener("input", function(){
+      if (!started) { started = true; goal("form_start"); }
+    });
+
+    function say(text, cls){
+      note.textContent = text || "";
+      note.className = "note" + (cls ? " " + cls : "");
+    }
+
+    function bad(field, text){
+      say(text, "err");
+      field.classList.add("bad");
+      field.focus();
+    }
+
+    function accepted(){
+      form.hidden = true;
+      done.hidden = false;
+      done.scrollIntoView({ block:"nearest" });
+    }
+
+    /* запасной путь: приёмник молчит, заявка уходит в буфер обмена */
+    function fallback(p){
+      var lines = ["Заявка на агента"];
+      if (p.name) lines.push("Имя: " + p.name);
+      if (p.tg) lines.push("Telegram: " + p.tg);
+      if (p.task) lines.push("Задача: " + p.task);
+      if (p.channels) lines.push("Переписка: " + p.channels);
+      lines.push("Страница: " + p.page);
+      var text = lines.join(String.fromCharCode(10));
+      function finish(copied){
+        goal("lead_fallback");
+        send.disabled = false;
+        say(copied
+          ? "Не получилось отправить с сайта. Заявка скопирована, откройте чат и вставьте её."
+          : "Не получилось отправить с сайта. Напишите в Telegram, я отвечу.", "err");
+        if (!wrap.querySelector(".tglink")) {
+          var link = document.createElement("a");
+          link.className = "btn btn--gold tglink";
+          link.href = TG;
+          link.target = "_blank";
+          link.rel = "noopener";
+          link.textContent = "Открыть чат в Telegram";
+          link.style.marginTop = "16px";
+          note.parentNode.appendChild(link);
+        }
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function(){ finish(true); }, function(){ finish(false); });
+      } else {
+        finish(false);
+      }
+    }
+
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+
+      /* ловушка для ботов: показываем благодарность и ничего не шлём */
+      if (trap.value) { accepted(); return; }
+
+      name.classList.remove("bad");
+      tg.classList.remove("bad");
+      task.classList.remove("bad");
+
+      var nameVal = name.value.trim();
+      var tgVal = tg.value.trim();
+      var taskVal = task.value.trim();
+      var tgOk = tgLogin(tgVal);
+
+      if (nameVal.length < 2) {
+        bad(name, "Напишите, как к вам обращаться.");
+        return;
+      }
+      if (!tgVal) {
+        bad(tg, "Оставьте логин в Telegram, отвечать я буду туда.");
+        return;
+      }
+      if (!tgOk) {
+        bad(tg, "Логин в Telegram выглядит так: @username. Латиница, цифры и подчёркивание, от пяти знаков.");
+        return;
+      }
+      if (taskVal.length < 10) {
+        bad(task, "Опишите задачу хотя бы одной фразой, иначе я не смогу сказать, потянет её агент.");
+        return;
+      }
+      if (!pd.checked || !offer.checked) {
+        say("Отметьте оба согласия, иначе отправить не получится.", "err");
+        return;
+      }
+
+      var picked = chans.filter(function(c){ return c.checked; }).map(function(c){ return c.value; });
+
+      var p = {
+        name: nameVal,
+        tg: tgOk,
+        task: taskVal,
+        channels: picked.join(", "),
+        consent: pd.checked && offer.checked,
+        page: location.href
+      };
+
+      send.disabled = true;
+      say("Отправляю.");
+
+      fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(p)
+      }).then(function(r){
+        if (!r.ok) throw new Error("status " + r.status);
+        return r.json();
+      }).then(function(){
+        goal("lead");
+        accepted();
+      }).catch(function(){
+        fallback(p);
+      });
+    });
+  }
+
+  [].slice.call(document.querySelectorAll(".formwrap")).forEach(initForm);
+})();
+</script>
+</body>
+</html>

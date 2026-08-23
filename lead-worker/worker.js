@@ -21,7 +21,7 @@
  */
 
 const ALLOWED = ["https://hr-oracul.ru", "http://localhost:8788"];
-const LIMITS = { phone: 32, company: 120, tg: 64, task: 200, page: 200 };
+const LIMITS = { name: 80, phone: 32, company: 120, tg: 64, task: 600, channels: 120, page: 200 };
 
 function cors(origin) {
   const allow = ALLOWED.includes(origin) ? origin : ALLOWED[0];
@@ -66,6 +66,11 @@ const RAZBOR = [
 
 function leadTitle(lead) {
   if (!isRazbor(lead)) return "проверка отдела продаж";
+  // На /rca/agent/ тема сделки — сама задача, которую отдают агенту первой.
+  if (lead.page.indexOf("/rca/agent/") !== -1) {
+    const task = lead.task.slice(0, 60).trim();
+    return task ? "агент: " + task : "агент";
+  }
   const hit = RAZBOR.find((r) => lead.page.indexOf(r[0]) !== -1);
   return hit ? hit[1] : "разбор рутины";
 }
@@ -74,7 +79,7 @@ const capital = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
 /** Сделка вместе с контактом одним запросом. Этого ответа мы ждём. */
 async function createLead(env, lead) {
-  const contact = { first_name: lead.company || lead.tg || lead.phone || "Заявка с сайта" };
+  const contact = { first_name: lead.name || lead.company || lead.tg || lead.phone || "Заявка с сайта" };
   // Телефон кладём только когда это действительно телефон: на лендинге
   // разбора человек может оставить вместо номера имя в Telegram.
   if (digits(lead.phone).length >= 10) {
@@ -83,7 +88,7 @@ async function createLead(env, lead) {
     ];
   }
   const deal = {
-    name: capital(leadTitle(lead)) + " — " + (lead.company || lead.phone || lead.tg),
+    name: capital(leadTitle(lead)) + " — " + (lead.name || lead.company || lead.phone || lead.tg),
     _embedded: { contacts: [contact] },
   };
   if (env.AMO_PIPELINE_ID) deal.pipeline_id = Number(env.AMO_PIPELINE_ID);
@@ -105,10 +110,12 @@ async function createLead(env, lead) {
 async function addNote(env, id, lead) {
   const text = [
     "Заявка: " + leadTitle(lead),
+    lead.name ? "Имя: " + lead.name : "",
     lead.phone ? "Телефон: " + lead.phone : "",
     lead.tg ? "Телеграм: " + lead.tg : "",
     lead.company ? "Компания и город: " + lead.company : "",
-    lead.task ? "Рутина: " + lead.task : "",
+    lead.task ? "Задача: " + lead.task : "",
+    lead.channels ? "Переписка: " + lead.channels : "",
     "Страница: " + lead.page,
     "IP: " + lead.ip + " " + lead.country,
   ]
@@ -124,10 +131,12 @@ async function addNote(env, id, lead) {
 
 async function toTelegram(env, lead, amo) {
   const lines = ["<b>Заявка: " + esc(leadTitle(lead)) + "</b>"];
+  if (lead.name) lines.push("Имя: " + esc(lead.name));
   if (lead.phone) lines.push("Телефон: " + esc(lead.phone));
   if (lead.tg) lines.push("Телеграм: " + esc(lead.tg));
   if (lead.company) lines.push("Компания и город: " + esc(lead.company));
-  if (lead.task) lines.push("Рутина: " + esc(lead.task));
+  if (lead.task) lines.push("Задача: " + esc(lead.task));
+  if (lead.channels) lines.push("Переписка: " + esc(lead.channels));
   lines.push("Страница: " + esc(lead.page));
   lines.push("");
   if (!amo) lines.push("amoCRM не подключена");
@@ -170,10 +179,12 @@ export default {
     }
 
     const lead = {
+      name: clean(data.name, LIMITS.name),
       phone: clean(data.phone, LIMITS.phone),
       company: clean(data.company, LIMITS.company),
       tg: clean(data.tg, LIMITS.tg),
       task: clean(data.task, LIMITS.task),
+      channels: clean(data.channels, LIMITS.channels),
       page: clean(data.page, LIMITS.page),
       ip: request.headers.get("CF-Connecting-IP") || "",
       country: (request.cf && request.cf.country) || "",
