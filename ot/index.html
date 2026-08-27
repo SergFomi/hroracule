@@ -21,13 +21,17 @@
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,"Liberation Mono",monospace;
   --pad:20px;
+  --hh:56px;        /* высота фиксированной шапки */
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+html{-webkit-text-size-adjust:100%}
 body{
   background:var(--bg);color:var(--dim);
   font-family:var(--sans);font-size:19px;line-height:1.55;
-  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  /* именно clip, а не hidden: hidden на body ломает position:sticky */
+  overflow-x:clip;
+  padding-top:var(--hh);
 }
 img{max-width:100%;display:block}
 a{color:var(--fg)}
@@ -36,29 +40,10 @@ a{color:var(--fg)}
 .wrap{max-width:1180px;margin:0 auto;padding:0 var(--pad)}
 .col{max-width:820px}
 
-section{padding:0 0 84px}
-
 h1,h2,h3{color:var(--fg);font-weight:700;line-height:1.04;letter-spacing:-0.03em}
 h1{font-size:clamp(42px,10.5vw,92px);letter-spacing:-0.045em}
-h3{font-size:clamp(22px,4.4vw,29px);letter-spacing:-0.02em;margin-bottom:12px}
+h3{font-size:clamp(24px,4.6vw,38px);letter-spacing:-0.025em;margin-bottom:16px}
 p+p{margin-top:16px}
-
-/* --- чёрная плашка заголовка секции --- */
-.band{
-  background:var(--fg);color:#fff;
-  margin:0 calc(var(--pad) * -1) 44px;
-  padding:38px var(--pad) 40px;
-}
-.band h2{
-  color:#fff;text-transform:uppercase;
-  font-size:clamp(30px,7.6vw,64px);
-  line-height:1.02;letter-spacing:-0.025em;
-  max-width:18ch;
-}
-.band .sub{
-  margin-top:18px;color:var(--mut-inv);
-  font-size:clamp(17px,2.3vw,21px);line-height:1.5;max-width:44ch;
-}
 
 .eyebrow{
   font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;
@@ -66,10 +51,30 @@ p+p{margin-top:16px}
 }
 .lead{font-size:clamp(20px,2.8vw,26px);color:var(--dim);line-height:1.45}
 .mut{color:var(--mut)}
-.note{max-width:44ch;font-size:clamp(19px,2.4vw,23px);margin-top:8px}
+.note{max-width:46ch;font-size:clamp(19px,2.4vw,23px)}
 
-/* --- первый экран --- */
-.hero{padding-top:40px;padding-bottom:84px}
+/* ---------- фиксированная шапка ---------- */
+.topbar{
+  position:fixed;top:0;left:0;right:0;height:var(--hh);z-index:60;
+  background:var(--bg);border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;padding:0 var(--pad);
+}
+.topbar .who{
+  font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--fg);text-decoration:none;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;
+  display:inline-flex;align-items:center;min-height:44px;
+}
+.topbar .cta{
+  flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;
+  min-height:40px;padding:8px 18px;background:var(--fg);color:#fff;
+  font-size:15px;font-weight:600;text-decoration:none;border:2px solid var(--fg);
+}
+.topbar .cta:hover{background:#fff;color:var(--fg)}
+
+/* ---------- первый экран ---------- */
+.hero{padding-top:44px;padding-bottom:88px}
 .hero-grid{display:grid;gap:36px}
 .hero h1{margin:22px 0 26px}
 .hero .lead{max-width:24ch}
@@ -79,13 +84,13 @@ p+p{margin-top:16px}
   display:flex;flex-wrap:wrap;gap:10px 26px;
 }
 .portrait{background:var(--wash);border:1px solid var(--line)}
-.portrait img{width:100%;height:auto;object-fit:cover}
+.portrait img{width:100%;height:auto}
 .portrait figcaption{
   padding:14px 16px;border-top:1px solid var(--line);
   font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);
 }
 
-/* --- кнопки --- */
+/* ---------- кнопки ---------- */
 .btns{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
 .btn{
   display:inline-flex;align-items:center;justify-content:center;
@@ -99,90 +104,116 @@ p+p{margin-top:16px}
 .btn-ghost:hover{background:var(--fg);color:#fff}
 .btn:disabled{opacity:.4;cursor:default}
 
-/* --- карусель --- */
-.rail-head{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:16px;margin-bottom:18px;
+/* ---------- глава: липкий чёрный заголовок ---------- */
+.chapter{position:relative}
+.chapter-head{
+  position:sticky;top:var(--hh);z-index:20;
+  background:var(--fg);color:#fff;
+  padding:20px 0 22px;
+  transition:padding .25s ease;
 }
-.rail-hint{
-  font-family:var(--mono);font-size:12px;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--mut);
+/* прилип — поджимается в узкую полосу, чтобы не съедать экран */
+.chapter-head.stuck{padding:12px 0 13px}
+.chapter-head.stuck .sub{display:none}
+.chapter-head.stuck h2{font-size:clamp(17px,3.6vw,26px);max-width:none}
+.chapter-head h2{transition:font-size .25s ease}
+.sentinel{position:absolute;top:0;height:1px;width:1px}
+.chapter-head h2{
+  color:#fff;text-transform:uppercase;
+  font-size:clamp(23px,5.2vw,44px);
+  line-height:1.03;letter-spacing:-0.02em;max-width:20ch;
 }
-.rail-nav{display:flex;gap:10px;flex:0 0 auto}
-.rnav{
-  width:52px;height:52px;border:2px solid var(--fg);background:transparent;
-  color:var(--fg);font-size:20px;line-height:1;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:background .15s,color .15s,opacity .15s;
+.chapter-head .sub{
+  margin-top:10px;color:var(--mut-inv);
+  font-size:clamp(15px,1.9vw,19px);line-height:1.45;max-width:52ch;
 }
-.rnav:hover:not(:disabled){background:var(--fg);color:#fff}
-.rnav:disabled{opacity:.25;cursor:default}
-.rail{
-  display:flex;gap:18px;overflow-x:auto;overflow-y:hidden;
-  scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
-  margin:0 calc(var(--pad) * -1);
-  padding:4px var(--pad) 10px;
+/* счётчик разворотов справа в липкой шапке */
+.chapter-head .count{
+  position:absolute;right:var(--pad);bottom:22px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--mut-inv);
 }
-.rail::-webkit-scrollbar{display:none}
-.card{
-  flex:0 0 clamp(268px,80vw,352px);
-  min-height:480px;
-  scroll-snap-align:start;
-  border:2px solid var(--fg);
-  padding:30px 26px 32px;
-  display:flex;flex-direction:column;
-  background:var(--bg);
-  transition:transform .25s ease;
+
+/* ---------- разворот ---------- */
+.panel{
+  border-bottom:1px solid var(--line);
+  padding:40px 0 44px;
 }
-.card:hover{transform:translateY(-6px)}
-.card .num{
+.chapter .panel:last-of-type{border-bottom:0}
+.panel-in{display:grid;gap:28px;align-items:center}
+.panel .num{
   font-family:var(--mono);font-size:13px;letter-spacing:.14em;color:var(--mut);
-  display:block;margin-bottom:auto;padding-bottom:26px;
+  display:block;margin-bottom:18px;
 }
-.card p{font-size:18px;line-height:1.5;color:var(--dim)}
-.card .term{
-  font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--mut);margin-top:20px;display:block;
+.panel p{font-size:clamp(18px,2.1vw,21px);line-height:1.5}
+.panel .term{
+  font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--mut);margin-top:22px;display:block;
 }
-.card .res{
-  align-self:flex-start;margin-bottom:auto;
-  font-family:var(--mono);font-size:14px;letter-spacing:.06em;
+.panel .res{
+  display:inline-block;margin-bottom:18px;
+  font-family:var(--mono);font-size:15px;letter-spacing:.06em;
   border-bottom:3px solid currentColor;padding-bottom:4px;
 }
-.card .big{
-  font-size:clamp(40px,9vw,60px);font-weight:700;line-height:1;
-  letter-spacing:-0.045em;color:var(--fg);
-  font-variant-numeric:tabular-nums;margin-bottom:18px;
+.txt{max-width:38ch}
+
+/* тёмный разворот */
+.panel.dark{background:var(--fg);border-bottom-color:var(--fg)}
+.panel.dark h3{color:#fff}
+.panel.dark p{color:var(--mut-inv)}
+.panel.dark .num,.panel.dark .res{color:#fff}
+
+/* место под фото */
+.shot{
+  border:2px dashed #bdbdbd;background:var(--wash);
+  aspect-ratio:4/5;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;
+  padding:26px;text-align:center;
 }
-.card.dark{background:var(--fg);border-color:var(--fg)}
-.card.dark h3{color:#fff}
-.card.dark p{color:var(--mut-inv)}
-.card.dark .num,.card.dark .res,.card.dark .big{color:#fff}
-.card.ph{border:2px dashed #b5b5b5;background:var(--wash);justify-content:center;text-align:center}
-.card.ph .t{
-  font-family:var(--mono);font-size:12px;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--mut);line-height:1.7;
+.shot .lbl{
+  font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:#8a8a8a;
+}
+.shot .what{font-size:17px;line-height:1.4;color:var(--mut);max-width:24ch}
+.panel.dark .shot{border-color:#3a3a3a;background:#141414}
+.panel.dark .shot .what{color:var(--mut-inv)}
+.shot.real{border:1px solid var(--line);padding:0;display:block;aspect-ratio:auto}
+.shot.real img{width:100%;height:auto}
+
+/* гигантская цифра вместо фото */
+.figure-big{
+  border:2px solid currentColor;aspect-ratio:4/5;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:14px;padding:26px;text-align:center;
+}
+.figure-big .n{
+  font-size:clamp(48px,11vw,104px);font-weight:700;line-height:.95;
+  letter-spacing:-0.05em;color:#fff;font-variant-numeric:tabular-nums;
+}
+.figure-big .cap{
+  font-family:var(--mono);font-size:12px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--mut-inv);
 }
 
-/* --- появление при прокрутке --- */
-.rise{opacity:0;transform:translateY(34px)}
-.rise.in{opacity:1;transform:none;transition:opacity .55s cubic-bezier(.2,.7,.3,1),transform .55s cubic-bezier(.2,.7,.3,1)}
-@media(prefers-reduced-motion:reduce){
-  .rise{opacity:1;transform:none}
-  .card:hover{transform:none}
-  html{scroll-behavior:auto}
-}
+/* ---------- появление ---------- */
+.rise{opacity:0;transform:translateY(30px)}
+.rise.in{opacity:1;transform:none;transition:opacity .6s cubic-bezier(.2,.7,.3,1),transform .6s cubic-bezier(.2,.7,.3,1)}
+@media(prefers-reduced-motion:reduce){.rise{opacity:1;transform:none}}
 
-/* --- отрасли --- */
+/* ---------- прочее ---------- */
+.plain{padding:44px 0 72px}
 .tags{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:40px}
 .tag{border:2px solid var(--fg);padding:12px 18px;font-size:18px;font-weight:500}
-
-/* --- обо мне --- */
 .about-grid{display:grid;gap:36px}
 .about-grid .portrait{max-width:460px}
+.slots{display:grid;gap:14px;grid-template-columns:1fr}
+.slot{
+  border:2px dashed #bdbdbd;background:var(--wash);min-height:150px;
+  display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--mut);line-height:1.7;
+}
 
-/* --- форма --- */
+/* ---------- форма ---------- */
 .formwrap{max-width:620px}
 .field{margin-top:26px}
 .field label{
@@ -206,29 +237,61 @@ p+p{margin-top:16px}
 .done h3{margin-bottom:12px}
 .hidden{display:none}
 
-/* --- подвал --- */
+/* ---------- подвал ---------- */
 footer{background:var(--fg);color:var(--mut-inv);padding:56px 0 64px;font-size:17px}
 footer a{color:#fff;display:inline-flex;align-items:center;min-height:44px}
 footer strong{color:#fff}
 .fgrid{display:grid;gap:30px}
 .fgrid p+p{margin-top:6px}
 
+/* ---------- десктоп ---------- */
 @media(min-width:900px){
-  :root{--pad:32px}
-  section{padding:0 0 120px}
-  .hero{padding-top:52px;padding-bottom:120px}
+  :root{--pad:32px;--hh:64px}
+  .hero{padding-top:64px;padding-bottom:128px}
   .hero-grid{grid-template-columns:1.25fr .75fr;gap:56px;align-items:center}
-  .band{padding:54px var(--pad) 58px;margin-bottom:56px}
+  .chapter-head{padding:32px 0 34px}
+  .panel{
+    /* разворот занимает остаток экрана под липким заголовком */
+    min-height:calc(100vh - var(--hh) - 150px);
+    display:flex;align-items:center;
+    padding:56px 0;
+  }
+  .panel-in{grid-template-columns:1fr 1fr;gap:64px;width:100%}
+  /* фото по очереди: справа, слева, справа… */
+  .panel:nth-of-type(even) .visual{order:-1}
+  .plain{padding:64px 0 104px}
   .about-grid{grid-template-columns:.85fr 1.15fr;gap:60px;align-items:start}
+  .slots{grid-template-columns:repeat(3,1fr)}
   .fgrid{grid-template-columns:1.2fr .9fr .9fr}
+}
+
+/* на телефоне разворот не растягиваем на весь экран:
+   сорок обязательных свайпов — плохая идея. Заголовок главы
+   поджимается в узкую полосу и остаётся липким. */
+@media(max-width:620px){
+  .who-full{display:none}
+}
+@media(min-width:621px){
+  .who-short{display:none}
+}
+@media(max-width:899px){
+  .chapter-head h2{font-size:clamp(21px,5.4vw,30px)}
+  .chapter-head .count{display:none}
+  .shot{aspect-ratio:3/2}
+  .figure-big{aspect-ratio:3/2}
 }
 </style>
 </head>
 <body>
 
-<main>
+<header class="topbar">
+  <a class="who" href="#top"><span class="who-full">Олеся Грачева — охрана труда</span><span class="who-short">Олеся Грачева</span></a>
+  <a class="cta" href="#form">Написать</a>
+</header>
 
-<!-- 1. ПЕРВЫЙ ЭКРАН -->
+<main id="top">
+
+<!-- ПЕРВЫЙ ЭКРАН -->
 <section class="hero wrap">
   <div class="hero-grid">
     <div>
@@ -259,202 +322,317 @@ footer strong{color:#fff}
   </div>
 </section>
 
-<!-- 2. КОГДА КО МНЕ ПРИХОДЯТ -->
-<section id="when">
-  <div class="wrap">
-    <div class="band rise"><h2>Три ситуации, в которых я нужна</h2></div>
-    <div class="rail-head">
-      <span class="rail-hint">Листайте вбок</span>
-      <div class="rail-nav">
-        <button class="rnav" type="button" data-rail="r-when" data-dir="-1" aria-label="Предыдущая карточка">←</button>
-        <button class="rnav" type="button" data-rail="r-when" data-dir="1" aria-label="Следующая карточка">→</button>
-      </div>
-    </div>
-    <div class="rail" id="r-when" tabindex="0" role="group" aria-label="Ситуации, в которых нужен специалист">
-      <article class="card rise">
+<!-- ГЛАВА: КОГДА ПРИХОДЯТ -->
+<section class="chapter" id="when">
+  <div class="chapter-head">
+    <div class="wrap"><h2>Три ситуации, в которых я нужна</h2><span class="count">01 — 03</span></div>
+  </div>
+
+  <article class="panel">
+    <div class="wrap panel-in">
+      <div class="txt rise">
         <span class="num">01</span>
         <h3>Назначена проверка</h3>
         <p>Уточняю у инспектора точный перечень документов по вашему предмету проверки, собираю чек-лист, провожу аудит и готовлю папку сканов — в том виде, в котором её примут. К проверке вы приходите не с надеждой, а со списком, где всё закрыто.</p>
-      </article>
-      <article class="card rise">
+      </div>
+      <div class="visual rise">
+        <div class="shot"><span class="lbl">Место под фото</span><span class="what">Папка документов, подготовленная к проверке</span></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="panel">
+    <div class="wrap panel-in">
+      <div class="txt rise">
         <span class="num">02</span>
         <h3>Пришло предписание или жалоба</h3>
         <p>Разбираю, что именно нарушено, что закрывается за день, а что требует денег и времени. Получаете перечень мероприятий со сроками и ответственными — по нему видно, за что браться первым.</p>
-      </article>
-      <article class="card rise">
+      </div>
+      <div class="visual rise">
+        <div class="shot"><span class="lbl">Место под фото</span><span class="what">Перечень мероприятий со сроками — обезличенный скриншот</span></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="panel">
+    <div class="wrap panel-in">
+      <div class="txt rise">
         <span class="num">03</span>
         <h3>Ничего не горит, но и порядка нет</h3>
         <p>Самый спокойный и самый дешёвый вариант. Профилактика, запуск объекта, новое подразделение, смена ответственного. Здесь работа идёт по плану, а не в режиме тушения.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- 3. УСЛУГИ -->
-<section id="services">
-  <div class="wrap">
-    <div class="band rise"><h2>Что я делаю</h2></div>
-    <div class="rail-head">
-      <span class="rail-hint">4 направления</span>
-      <div class="rail-nav">
-        <button class="rnav" type="button" data-rail="r-serv" data-dir="-1" aria-label="Предыдущая карточка">←</button>
-        <button class="rnav" type="button" data-rail="r-serv" data-dir="1" aria-label="Следующая карточка">→</button>
+      </div>
+      <div class="visual rise">
+        <div class="shot"><span class="lbl">Место под фото</span><span class="what">Рабочий момент на объекте: обход, осмотр площадки</span></div>
       </div>
     </div>
-    <div class="rail" id="r-serv" tabindex="0" role="group" aria-label="Услуги">
-      <article class="card rise">
+  </article>
+</section>
+
+<!-- ГЛАВА: УСЛУГИ -->
+<section class="chapter" id="services">
+  <div class="chapter-head">
+    <div class="wrap"><h2>Что я делаю</h2><span class="count">01 — 04</span></div>
+  </div>
+
+  <article class="panel">
+    <div class="wrap panel-in">
+      <div class="txt rise">
         <span class="num">Документы</span>
         <h3>Разработка документации</h3>
         <p>Инструкции, положения, приказы, регламенты, чек-листы, памятки. Под вашу структуру, ваши профессии и ваши виды работ — не типовой шаблон из интернета, в котором инспектор за минуту найдёт чужое название.</p>
         <span class="term">Срок — от 1 дня</span>
-      </article>
-      <article class="card rise">
+      </div>
+      <div class="visual rise">
+        <div class="shot"><span class="lbl">Место под фото</span><span class="what">Стопка готовых инструкций или разворот положения</span></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="panel">
+    <div class="wrap panel-in">
+      <div class="txt rise">
         <span class="num">Аудит</span>
         <h3>Аудит документации по охране труда</h3>
         <p>Проверяю, что есть, чего нет и что оформлено так, что не считается. На выходе — перечень мероприятий с приоритетами и сроками. Документ, по которому можно работать самостоятельно, даже если дальше вы пойдёте без меня.</p>
         <span class="term">Срок — от 1 дня</span>
-      </article>
-      <article class="card rise">
+      </div>
+      <div class="visual rise">
+        <div class="shot"><span class="lbl">Место под фото</span><span class="what">Чек-лист аудита с отметками — обезличенный</span></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="panel">
+    <div class="wrap panel-in">
+      <div class="txt rise">
         <span class="num">Обучение</span>
         <h3>Вебинары и лекции</h3>
         <p>Охрана труда, пожарная безопасность, промышленная безопасность, ГО и ЧС. Для рабочих, руководителей и ответственных лиц. Дистанционно, без отрыва людей от объекта — это важно там, где вахта и удалённые площадки.</p>
         <span class="term">Срок — от 1 дня</span>
-      </article>
-      <article class="card rise">
+      </div>
+      <div class="visual rise">
+        <div class="shot"><span class="lbl">Место под фото</span><span class="what">Кадр с вебинара: экран с презентацией и сеткой участников</span></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="panel">
+    <div class="wrap panel-in">
+      <div class="txt rise">
         <span class="num">Программы</span>
         <h3>Программы обучения для учебных центров</h3>
         <p>Разрабатываю программы, по которым будут преподавать ваши преподаватели. Работа для тех, кто сам обучает.</p>
         <span class="term">Срок — от 1 дня</span>
-      </article>
-    </div>
-    <p class="note mut">Стоимость называю после короткого разговора: она зависит от численности, видов работ и того, что уже сделано до меня.</p>
-  </div>
-</section>
-
-<!-- 4. КАК СТРОИТСЯ РАБОТА -->
-<section id="work">
-  <div class="wrap">
-    <div class="band rise">
-      <h2>Как выглядит работа с нуля</h2>
-      <p class="sub">Пример — буровая компания, где охраны труда не было вообще. Не «примерно так бывает», а как было.</p>
-    </div>
-    <div class="rail-head">
-      <span class="rail-hint">3 месяца по шагам</span>
-      <div class="rail-nav">
-        <button class="rnav" type="button" data-rail="r-work" data-dir="-1" aria-label="Предыдущая карточка">←</button>
-        <button class="rnav" type="button" data-rail="r-work" data-dir="1" aria-label="Следующая карточка">→</button>
+      </div>
+      <div class="visual rise">
+        <div class="shot"><span class="lbl">Место под фото</span><span class="what">Разворот программы обучения или учебный класс</span></div>
       </div>
     </div>
-    <div class="rail" id="r-work" tabindex="0" role="group" aria-label="Этапы работы">
-      <article class="card rise">
+  </article>
+</section>
+
+<!-- ГЛАВА: КАК СТРОИТСЯ РАБОТА -->
+<section class="chapter" id="work">
+  <div class="chapter-head">
+    <div class="wrap">
+      <h2>Как выглядит работа с нуля</h2>
+      <p class="sub">Пример — буровая компания, где охраны труда не было вообще. Не «примерно так бывает», а как было.</p>
+      <span class="count">0 — 3</span>
+    </div>
+  </div>
+
+  <article class="panel">
+    <div class="wrap panel-in">
+      <div class="txt rise">
         <span class="num">Шаг 0</span>
         <h3>Аудит и чек-лист</h3>
         <p>Что есть, чего нет, в каком порядке закрывать, к какому сроку и кто отвечает.</p>
-      </article>
-      <article class="card rise">
+      </div>
+      <div class="visual rise">
+        <div class="shot"><span class="lbl">Место под фото</span><span class="what">Первый выезд на площадку: что было на входе</span></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="panel">
+    <div class="wrap panel-in">
+      <div class="txt rise">
         <span class="num">Месяц 1</span>
         <h3>Документы и ответственность</h3>
         <p>Разработка локальных нормативных актов, ознакомление работников, распределение обязанностей и ответственности, обеспечение ответственных журналами, инструкциями и рабочими материалами.</p>
-      </article>
-      <article class="card rise">
+      </div>
+      <div class="visual rise">
+        <div class="shot"><span class="lbl">Место под фото</span><span class="what">Журналы и папки, выданные ответственным</span></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="panel">
+    <div class="wrap panel-in">
+      <div class="txt rise">
         <span class="num">Месяц 2</span>
         <h3>Люди</h3>
         <p>Инструктажи всем сотрудникам, направление на медицинские осмотры и обучение, оформление допусков.</p>
-      </article>
-      <article class="card rise">
+      </div>
+      <div class="visual rise">
+        <div class="shot"><span class="lbl">Место под фото</span><span class="what">Инструктаж на площадке: бригада, журнал, подписи</span></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="panel">
+    <div class="wrap panel-in">
+      <div class="txt rise">
         <span class="num">Месяц 3</span>
         <h3>Обеспечение и система</h3>
         <p>Закупка и выдача спецодежды, постановка учёта, внедрение культуры безопасности — чтобы система работала после моего ухода, а не рассыпалась.</p>
-      </article>
-      <article class="card dark rise">
-        <span class="num">Итог</span>
-        <h3>3 месяца от «нет ничего» до рабочей системы</h3>
-        <p>Документы, обученные и допущенные люди, выданные СИЗ, работающий учёт.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- 5. КЕЙСЫ -->
-<section id="cases">
-  <div class="wrap">
-    <div class="band rise"><h2>Чем это заканчивалось</h2></div>
-    <div class="rail-head">
-      <span class="rail-hint">Цифры и кейсы</span>
-      <div class="rail-nav">
-        <button class="rnav" type="button" data-rail="r-cases" data-dir="-1" aria-label="Предыдущая карточка">←</button>
-        <button class="rnav" type="button" data-rail="r-cases" data-dir="1" aria-label="Следующая карточка">→</button>
+      </div>
+      <div class="visual rise">
+        <div class="shot"><span class="lbl">Место под фото</span><span class="what">Выдача СИЗ: склад, спецодежда, ведомость</span></div>
       </div>
     </div>
-    <div class="rail" id="r-cases" tabindex="0" role="group" aria-label="Кейсы и результаты">
-      <article class="card dark rise">
+  </article>
+
+  <article class="panel dark">
+    <div class="wrap panel-in">
+      <div class="txt rise">
+        <span class="num">Итог</span>
+        <h3>3 месяца от «нет ничего» до рабочей системы</h3>
+        <p>Документы, обученные и допущенные люди, выданные СИЗ, работающий учёт. Система осталась работать без меня.</p>
+      </div>
+      <div class="visual rise">
+        <div class="figure-big"><span class="n">3</span><span class="cap">месяца</span></div>
+      </div>
+    </div>
+  </article>
+</section>
+
+<!-- ГЛАВА: КЕЙСЫ -->
+<section class="chapter" id="cases">
+  <div class="chapter-head">
+    <div class="wrap"><h2>Чем это заканчивалось</h2><span class="count">01 — 04</span></div>
+  </div>
+
+  <article class="panel dark">
+    <div class="wrap panel-in">
+      <div class="txt rise">
         <span class="num">Ростехнадзор</span>
-        <div class="big">0 ₽</div>
-        <p>Штраф вместо возможных 200 000 ₽. Отчётность подготовлена и сдана в срок.</p>
-      </article>
-      <article class="card dark rise">
+        <h3>Отчётность сдана в срок</h3>
+        <p>Риск — штраф до 200 000 ₽. Отчётность подготовлена и сдана вовремя. Штрафа не было.</p>
+      </div>
+      <div class="visual rise">
+        <div class="figure-big"><span class="n">0 ₽</span><span class="cap">штраф</span></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="panel dark">
+    <div class="wrap panel-in">
+      <div class="txt rise">
         <span class="num">Природопользование</span>
-        <div class="big">490 000 ₽</div>
-        <p>Сохранено компании: санкция на юридическое лицо до 500 000 ₽ снижена до 10 000 ₽ на должностное лицо.</p>
-      </article>
-      <article class="card rise">
+        <h3>500 000 ₽ снизили до 10 000 ₽</h3>
+        <p>Нарушение природоохранного законодательства, санкция на юридическое лицо — до 500 000 ₽. По итогу разбирательства — 10 000 ₽ на должностное лицо.</p>
+      </div>
+      <div class="visual rise">
+        <div class="figure-big"><span class="n">490 000 ₽</span><span class="cap">сохранено компании</span></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="panel">
+    <div class="wrap panel-in">
+      <div class="txt rise">
         <span class="res">Без замечаний</span>
         <h3>Инспекция труда по жалобе работника</h3>
         <p>Проверку назначили по жалобе. Уточнила у инспектора точный перечень документов, составила чек-лист, провела аудит документации, подготовила папку сканов к дате проверки. Проверка завершилась без замечаний.</p>
-      </article>
-      <article class="card rise">
+      </div>
+      <div class="visual rise">
+        <div class="shot"><span class="lbl">Место под фото</span><span class="what">Папка сканов, подготовленная к визиту инспектора</span></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="panel">
+    <div class="wrap panel-in">
+      <div class="txt rise">
         <span class="res">Система с нуля</span>
         <h3>Буровая компания</h3>
         <p>На входе — охраны труда нет. На выходе — документы, обученные и допущенные люди, выданные СИЗ, работающий учёт. За три месяца по помесячному плану.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- 6. НА ЧЁМ ПОПАДАЮТСЯ -->
-<section id="news">
-  <div class="wrap">
-    <div class="band rise">
-      <h2>О чём узнают уже на проверке</h2>
-      <p class="sub">Требования изменились за последние два-три года. Чаще всего попадаются на этих четырёх.</p>
-    </div>
-    <div class="rail-head">
-      <span class="rail-hint">4 изменения</span>
-      <div class="rail-nav">
-        <button class="rnav" type="button" data-rail="r-news" data-dir="-1" aria-label="Предыдущая карточка">←</button>
-        <button class="rnav" type="button" data-rail="r-news" data-dir="1" aria-label="Следующая карточка">→</button>
+      </div>
+      <div class="visual rise">
+        <div class="shot"><span class="lbl">Место под фото</span><span class="what">Буровая площадка или вахтовый посёлок</span></div>
       </div>
     </div>
-    <div class="rail" id="r-news" tabindex="0" role="group" aria-label="Изменения в требованиях">
-      <article class="card rise">
+  </article>
+</section>
+
+<!-- ГЛАВА: ИЗМЕНЕНИЯ -->
+<section class="chapter" id="news">
+  <div class="chapter-head">
+    <div class="wrap">
+      <h2>О чём узнают уже на проверке</h2>
+      <p class="sub">Требования изменились за последние два-три года. Чаще всего попадаются на этих четырёх.</p>
+      <span class="count">01 — 04</span>
+    </div>
+  </div>
+
+  <article class="panel">
+    <div class="wrap panel-in">
+      <div class="txt rise">
         <span class="num">01</span>
         <h3>Обучение нужно регистрировать в реестре Минтруда</h3>
         <p>Провели обучение, выдали удостоверения — а записи в реестре нет. Для инспектора это значит, что обучения не было.</p>
-      </article>
-      <article class="card rise">
+      </div>
+      <div class="visual rise">
+        <div class="shot"><span class="lbl">Место под фото</span><span class="what">Скриншот карточки в реестре обучения</span></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="panel">
+    <div class="wrap panel-in">
+      <div class="txt rise">
         <span class="num">02</span>
         <h3>Декларация по результатам СОУТ подаётся через Госуслуги</h3>
         <p>Спецоценка сделана, декларация — нет. Или подана по старой схеме и не зарегистрирована.</p>
-      </article>
-      <article class="card rise">
+      </div>
+      <div class="visual rise">
+        <div class="shot"><span class="lbl">Место под фото</span><span class="what">Скриншот поданной декларации — обезличенный</span></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="panel">
+    <div class="wrap panel-in">
+      <div class="txt rise">
         <span class="num">03</span>
         <h3>Правила выдачи СИЗ изменились</h3>
         <p>Выдача по старым типовым нормам, без оценки рисков и без нормального учёта выданного. Одно из самых частых и самых дорогих несоответствий.</p>
-      </article>
-      <article class="card rise">
+      </div>
+      <div class="visual rise">
+        <div class="shot"><span class="lbl">Место под фото</span><span class="what">Спецодежда и СИЗ, ведомость выдачи</span></div>
+      </div>
+    </div>
+  </article>
+
+  <article class="panel">
+    <div class="wrap panel-in">
+      <div class="txt rise">
         <span class="num">04</span>
         <h3>Микроповреждения нужно учитывать</h3>
         <p>Порезался, ушибся, обошлось без больничного — многие считают, что фиксировать нечего. Учёт микротравм обязателен, и его отсутствие видно сразу.</p>
-      </article>
+      </div>
+      <div class="visual rise">
+        <div class="shot"><span class="lbl">Место под фото</span><span class="what">Журнал учёта микроповреждений</span></div>
+      </div>
     </div>
-    <p class="note"><strong>Не уверены хотя бы по одному пункту — это уже повод написать.</strong></p>
-  </div>
+  </article>
 </section>
 
-<!-- 7. ОТРАСЛИ -->
-<section id="fields">
-  <div class="wrap">
-    <div class="band rise"><h2>Где я работала</h2></div>
+<!-- ОТРАСЛИ -->
+<section class="chapter" id="fields">
+  <div class="chapter-head"><div class="wrap"><h2>Где я работала</h2></div></div>
+  <div class="wrap plain">
     <div class="tags rise">
       <span class="tag">Строительство</span>
       <span class="tag">Бурение</span>
@@ -473,10 +651,10 @@ footer strong{color:#fff}
   </div>
 </section>
 
-<!-- 8. ОБО МНЕ -->
-<section id="about">
-  <div class="wrap">
-    <div class="band rise"><h2>Олеся Грачева</h2></div>
+<!-- ОБО МНЕ -->
+<section class="chapter" id="about">
+  <div class="chapter-head"><div class="wrap"><h2>Олеся Грачева</h2></div></div>
+  <div class="wrap plain">
     <div class="about-grid">
       <figure class="portrait rise">
         <img src="img/olesya-object.jpg" alt="Олеся Грачева на строительном объекте в защитной каске и сигнальном жилете" width="959" height="1280" loading="lazy">
@@ -492,74 +670,52 @@ footer strong{color:#fff}
   </div>
 </section>
 
-<!-- 9. ДОКУМЕНТЫ — ЗАГЛУШКА -->
-<section id="docs">
-  <div class="wrap">
-    <div class="band rise"><h2>Документы</h2></div>
-    <div class="rail-head">
-      <span class="rail-hint">Документы</span>
-      <div class="rail-nav">
-        <button class="rnav" type="button" data-rail="r-docs" data-dir="-1" aria-label="Предыдущая карточка">←</button>
-        <button class="rnav" type="button" data-rail="r-docs" data-dir="1" aria-label="Следующая карточка">→</button>
-      </div>
+<!-- ДОКУМЕНТЫ, ОТЗЫВЫ, ЛОГОТИПЫ — ЗАГЛУШКИ -->
+<section class="chapter" id="docs">
+  <div class="chapter-head"><div class="wrap"><h2>Документы</h2></div></div>
+  <div class="wrap plain">
+    <div class="slots rise">
+      <div class="slot">Скан диплома<br>охрана труда и экология</div>
+      <div class="slot">Скан документа<br>пожарная безопасность</div>
+      <div class="slot">Место под ещё<br>один документ</div>
     </div>
-    <div class="rail" id="r-docs" tabindex="0" role="group" aria-label="Документы">
-      <article class="card ph rise"><span class="t">Скан диплома<br>охрана труда и экология</span></article>
-      <article class="card ph rise"><span class="t">Скан документа<br>пожарная безопасность</span></article>
-      <article class="card ph rise"><span class="t">Место под ещё<br>один документ</span></article>
-    </div>
-    <p class="note mut"><strong>Черновик.</strong> Нужны файлы сканов, год выдачи и учебное заведение по каждому документу.</p>
+    <p class="note mut rise" style="margin-top:22px"><strong>Черновик.</strong> Нужны файлы сканов, год выдачи и учебное заведение по каждому документу.</p>
   </div>
 </section>
 
-<!-- 10. ОТЗЫВЫ — ЗАГЛУШКА -->
-<section id="reviews">
-  <div class="wrap">
-    <div class="band rise"><h2>Отзывы</h2></div>
-    <div class="rail-head">
-      <span class="rail-hint">Отзывы</span>
-      <div class="rail-nav">
-        <button class="rnav" type="button" data-rail="r-rev" data-dir="-1" aria-label="Предыдущая карточка">←</button>
-        <button class="rnav" type="button" data-rail="r-rev" data-dir="1" aria-label="Следующая карточка">→</button>
-      </div>
+<section class="chapter" id="reviews">
+  <div class="chapter-head"><div class="wrap"><h2>Отзывы</h2></div></div>
+  <div class="wrap plain">
+    <div class="slots rise">
+      <div class="slot">Отзыв 1<br>имя · должность · компания</div>
+      <div class="slot">Отзыв 2<br>имя · должность · компания</div>
+      <div class="slot">Отзыв 3<br>имя · должность · компания</div>
     </div>
-    <div class="rail" id="r-rev" tabindex="0" role="group" aria-label="Отзывы">
-      <article class="card ph rise"><span class="t">Отзыв 1<br>имя · должность · компания</span></article>
-      <article class="card ph rise"><span class="t">Отзыв 2<br>имя · должность · компания</span></article>
-      <article class="card ph rise"><span class="t">Отзыв 3<br>имя · должность · компания</span></article>
-    </div>
-    <p class="note mut"><strong>Черновик.</strong> Нужны три настоящих отзыва: текст, имя, должность, компания. Придуманных здесь не будет.</p>
+    <p class="note mut rise" style="margin-top:22px"><strong>Черновик.</strong> Нужны три настоящих отзыва: текст, имя, должность, компания. Придуманных здесь не будет.</p>
   </div>
 </section>
 
-<!-- 11. ЛОГОТИПЫ — ЗАГЛУШКА -->
-<section id="clients">
-  <div class="wrap">
-    <div class="band rise"><h2>С кем работала</h2></div>
-    <div class="rail-head">
-      <span class="rail-hint">Клиенты</span>
-      <div class="rail-nav">
-        <button class="rnav" type="button" data-rail="r-cli" data-dir="-1" aria-label="Предыдущая карточка">←</button>
-        <button class="rnav" type="button" data-rail="r-cli" data-dir="1" aria-label="Следующая карточка">→</button>
-      </div>
+<section class="chapter" id="clients">
+  <div class="chapter-head"><div class="wrap"><h2>С кем работала</h2></div></div>
+  <div class="wrap plain">
+    <div class="slots rise">
+      <div class="slot">Логотип</div>
+      <div class="slot">Логотип</div>
+      <div class="slot">Логотип</div>
     </div>
-    <div class="rail" id="r-cli" tabindex="0" role="group" aria-label="Клиенты">
-      <article class="card ph rise"><span class="t">Логотип</span></article>
-      <article class="card ph rise"><span class="t">Логотип</span></article>
-      <article class="card ph rise"><span class="t">Логотип</span></article>
-    </div>
-    <p class="note mut"><strong>Черновик.</strong> Нужны 4–6 логотипов и согласие клиентов на публикацию названия.</p>
+    <p class="note mut rise" style="margin-top:22px"><strong>Черновик.</strong> Нужны 4–6 логотипов и согласие клиентов на публикацию названия.</p>
   </div>
 </section>
 
-<!-- 12. ФОРМА -->
-<section id="form">
-  <div class="wrap">
-    <div class="band rise">
+<!-- ФОРМА -->
+<section class="chapter" id="form">
+  <div class="chapter-head">
+    <div class="wrap">
       <h2>Напишите, что у вас происходит</h2>
-      <p class="sub">Опишите ситуацию в двух предложениях: что за компания и чего не хватает. Отвечу в течение часа и скажу, что делать в первую очередь — даже если дальше вы решите обойтись без меня.</p>
+      <p class="sub">Опишите ситуацию в двух предложениях: что за компания и чего не хватает. Отвечу в течение часа и скажу, что делать в первую очередь.</p>
     </div>
-
+  </div>
+  <div class="wrap plain">
     <div class="formwrap rise">
       <form id="lead" novalidate>
         <div class="field">
@@ -664,16 +820,12 @@ footer strong{color:#fff}
     }
   }
 
-  /* ---------- плавная прокрутка своими руками ----------
-     Нативный behavior:"smooth" молчит в части движков (включая
-     встроенные webview), поэтому анимируем сами.                 */
+  /* ---------- плавная прокрутка по якорям ----------
+     Нативный behavior:"smooth" молчит в части движков, поэтому сами. */
   var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
   function ease(t){ return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2; }
-
   function glide(el, prop, to, ms){
-    var from = el[prop];
-    var dist = to - from;
+    var from = el[prop], dist = to - from;
     if (!dist) return;
     if (reduceMotion){ el[prop] = to; return; }
     var t0 = performance.now();
@@ -683,86 +835,51 @@ footer strong{color:#fff}
       if (k < 1) requestAnimationFrame(frame);
     })(t0);
   }
-
-  // якорные ссылки внутри страницы
+  function headerH(){
+    return parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--hh")) || 56;
+  }
   [].forEach.call(document.querySelectorAll('a[href^="#"]'), function(a){
     a.addEventListener("click", function(e){
       var id = a.getAttribute("href").slice(1);
       var target = id && document.getElementById(id);
       if (!target) return;
       e.preventDefault();
-      var y = target.getBoundingClientRect().top + window.pageYOffset - 12;
       var doc = document.scrollingElement || document.documentElement;
-      glide(doc, "scrollTop", y, 620);
+      var y = target.getBoundingClientRect().top + window.pageYOffset - headerH();
+      glide(doc, "scrollTop", Math.max(0, y), 620);
     });
   });
 
-  /* ---------- карусели ---------- */
-  function step(rail){
-    var card = rail.querySelector(".card");
-    if (!card) return rail.clientWidth;
-    var cs = getComputedStyle(rail);
-    var gap = parseFloat(cs.columnGap || cs.gap || 18);
-    return card.getBoundingClientRect().width + (isNaN(gap) ? 18 : gap);
-  }
-
-  function syncNav(rail){
-    var btns = document.querySelectorAll('.rnav[data-rail="' + rail.id + '"]');
-    var max = rail.scrollWidth - rail.clientWidth - 2;
-    // в покое scrollLeft равен внутреннему отступу ленты, а не нулю
-    var start = parseFloat(getComputedStyle(rail).paddingLeft) || 0;
-    [].forEach.call(btns, function(b){
-      var dir = parseInt(b.getAttribute("data-dir"), 10);
-      b.disabled = dir < 0 ? rail.scrollLeft <= start + 2 : rail.scrollLeft >= max;
+  /* ---------- липкий заголовок главы поджимается ----------
+     Ставим невидимый маячок над заголовком: ушёл за верх окна —
+     значит заголовок прилип, и его можно сжать в полосу.       */
+  if ("IntersectionObserver" in window){
+    [].forEach.call(document.querySelectorAll(".chapter-head"), function(headEl){
+      var chapter = headEl.parentElement;
+      var mark = document.createElement("div");
+      mark.className = "sentinel";
+      chapter.insertBefore(mark, headEl);
+      new IntersectionObserver(function(entries){
+        headEl.classList.toggle("stuck", !entries[0].isIntersecting);
+      }, {rootMargin: "-" + (headerH() + 1) + "px 0px 0px 0px", threshold: 0}).observe(mark);
     });
   }
-
-  [].forEach.call(document.querySelectorAll(".rail"), function(rail){
-    syncNav(rail);
-    rail.addEventListener("scroll", function(){ syncNav(rail); }, {passive:true});
-    rail.addEventListener("keydown", function(e){
-      if (e.key === "ArrowRight"){ e.preventDefault(); glide(rail, "scrollLeft", rail.scrollLeft + step(rail), 420); }
-      if (e.key === "ArrowLeft"){  e.preventDefault(); glide(rail, "scrollLeft", rail.scrollLeft - step(rail), 420); }
-    });
-  });
-
-  [].forEach.call(document.querySelectorAll(".rnav"), function(btn){
-    btn.addEventListener("click", function(){
-      var rail = document.getElementById(btn.getAttribute("data-rail"));
-      if (!rail) return;
-      var dir = parseInt(btn.getAttribute("data-dir"), 10);
-      var max = rail.scrollWidth - rail.clientWidth;
-      var to = Math.max(0, Math.min(max, rail.scrollLeft + dir * step(rail)));
-      glide(rail, "scrollLeft", to, 420);
-    });
-  });
-
-  window.addEventListener("resize", function(){
-    [].forEach.call(document.querySelectorAll(".rail"), syncNav);
-  });
 
   /* ---------- появление при прокрутке ---------- */
-  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var rise = [].slice.call(document.querySelectorAll(".rise"));
-
-  if (reduce || !("IntersectionObserver" in window)){
+  if (reduceMotion || !("IntersectionObserver" in window)){
     rise.forEach(function(el){ el.classList.add("in"); });
   } else {
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(en){
         if (!en.isIntersecting) return;
-        var el = en.target;
-        var sibs = el.parentElement ? [].slice.call(el.parentElement.children) : [];
-        var i = sibs.indexOf(el);
-        el.style.transitionDelay = (i > 0 ? Math.min(i, 5) * 70 : 0) + "ms";
-        el.classList.add("in");
-        io.unobserve(el);
+        en.target.classList.add("in");
+        io.unobserve(en.target);
       });
-    }, {rootMargin: "0px 0px -8% 0px", threshold: 0.12});
+    }, {rootMargin: "0px 0px -10% 0px", threshold: 0.1});
     rise.forEach(function(el){ io.observe(el); });
 
-    // страховка: если наблюдатель почему-то не отработал, показываем всё,
-    // чтобы страница ни при каких условиях не осталась пустой
+    // страховка: если наблюдатель не отработал, показываем всё
     setTimeout(function(){
       if (!document.querySelector(".rise.in")){
         rise.forEach(function(el){ el.classList.add("in"); });
@@ -786,7 +903,7 @@ footer strong{color:#fff}
     form.classList.add("hidden");
     done.classList.remove("hidden");
     var doc = document.scrollingElement || document.documentElement;
-    var y = done.getBoundingClientRect().top + window.pageYOffset - (window.innerHeight - done.offsetHeight) / 2;
+    var y = done.getBoundingClientRect().top + window.pageYOffset - headerH() - 24;
     glide(doc, "scrollTop", Math.max(0, y), 500);
   }
 
