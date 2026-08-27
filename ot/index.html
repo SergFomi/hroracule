@@ -22,6 +22,7 @@
   --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,"Liberation Mono",monospace;
   --pad:20px;
   --hh:56px;        /* высота фиксированной шапки */
+  --headh:46px;     /* высота липкого заголовка главы в сжатом виде */
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -133,12 +134,27 @@ p+p{margin-top:16px}
   font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--mut-inv);
 }
 
-/* ---------- разворот ---------- */
-.panel{
-  border-bottom:1px solid var(--line);
-  padding:40px 0 44px;
+/* ---------- разворот: залипающая сцена ----------
+   Высота разворота — два экрана прокрутки. Внутри сцена, прилипшая
+   под заголовком главы: она не двигается, пока крутишь эти два экрана,
+   а прокрутка внутри превращается в наводку резкости. Соседних
+   разворотов не видно: сцена непрозрачная и во весь свободный экран. */
+.panel{position:relative;height:200vh}
+.stage{
+  position:sticky;top:calc(var(--hh) + var(--headh));
+  height:calc(100vh - var(--hh) - var(--headh));
+  display:flex;align-items:center;overflow:hidden;
+  background:var(--bg);z-index:1;
 }
-.chapter .panel:last-of-type{border-bottom:0}
+.panel.dark .stage{background:var(--fg)}
+.stage-in{
+  width:100%;
+  --p:1;                                   /* 0 — пусто, 1 — в фокусе */
+  opacity:calc(.08 + var(--p) * .92);
+  filter:blur(calc((1 - var(--p)) * 16px)) contrast(calc(.55 + var(--p) * .45));
+  transform:scale(calc(1 + (1 - var(--p)) * .035));
+  will-change:filter,opacity,transform;
+}
 .panel-in{display:grid;gap:28px;align-items:center}
 .panel .num{
   font-family:var(--mono);font-size:13px;letter-spacing:.14em;color:var(--mut);
@@ -246,16 +262,10 @@ footer strong{color:#fff}
 
 /* ---------- десктоп ---------- */
 @media(min-width:900px){
-  :root{--pad:32px;--hh:64px}
+  :root{--pad:32px;--hh:64px;--headh:56px}
   .hero{padding-top:64px;padding-bottom:128px}
   .hero-grid{grid-template-columns:1.25fr .75fr;gap:56px;align-items:center}
   .chapter-head{padding:32px 0 34px}
-  .panel{
-    /* разворот занимает остаток экрана под липким заголовком */
-    min-height:calc(100vh - var(--hh) - 150px);
-    display:flex;align-items:center;
-    padding:56px 0;
-  }
   .panel-in{grid-template-columns:1fr 1fr;gap:64px;width:100%}
   /* фото по очереди: справа, слева, справа… */
   .panel:nth-of-type(even) .visual{order:-1}
@@ -329,42 +339,48 @@ footer strong{color:#fff}
   </div>
 
   <article class="panel">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="num">01</span>
         <h3>Назначена проверка</h3>
         <p>Уточняю у инспектора точный перечень документов по вашему предмету проверки, собираю чек-лист, провожу аудит и готовлю папку сканов — в том виде, в котором её примут. К проверке вы приходите не с надеждой, а со списком, где всё закрыто.</p>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="shot"><span class="lbl">Место под фото</span><span class="what">Папка документов, подготовленная к проверке</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 
   <article class="panel">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="num">02</span>
         <h3>Пришло предписание или жалоба</h3>
         <p>Разбираю, что именно нарушено, что закрывается за день, а что требует денег и времени. Получаете перечень мероприятий со сроками и ответственными — по нему видно, за что браться первым.</p>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="shot"><span class="lbl">Место под фото</span><span class="what">Перечень мероприятий со сроками — обезличенный скриншот</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 
   <article class="panel">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="num">03</span>
         <h3>Ничего не горит, но и порядка нет</h3>
         <p>Самый спокойный и самый дешёвый вариант. Профилактика, запуск объекта, новое подразделение, смена ответственного. Здесь работа идёт по плану, а не в режиме тушения.</p>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="shot"><span class="lbl">Место под фото</span><span class="what">Рабочий момент на объекте: обход, осмотр площадки</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 </section>
 
@@ -375,59 +391,67 @@ footer strong{color:#fff}
   </div>
 
   <article class="panel">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="num">Документы</span>
         <h3>Разработка документации</h3>
         <p>Инструкции, положения, приказы, регламенты, чек-листы, памятки. Под вашу структуру, ваши профессии и ваши виды работ — не типовой шаблон из интернета, в котором инспектор за минуту найдёт чужое название.</p>
         <span class="term">Срок — от 1 дня</span>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="shot"><span class="lbl">Место под фото</span><span class="what">Стопка готовых инструкций или разворот положения</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 
   <article class="panel">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="num">Аудит</span>
         <h3>Аудит документации по охране труда</h3>
         <p>Проверяю, что есть, чего нет и что оформлено так, что не считается. На выходе — перечень мероприятий с приоритетами и сроками. Документ, по которому можно работать самостоятельно, даже если дальше вы пойдёте без меня.</p>
         <span class="term">Срок — от 1 дня</span>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="shot"><span class="lbl">Место под фото</span><span class="what">Чек-лист аудита с отметками — обезличенный</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 
   <article class="panel">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="num">Обучение</span>
         <h3>Вебинары и лекции</h3>
         <p>Охрана труда, пожарная безопасность, промышленная безопасность, ГО и ЧС. Для рабочих, руководителей и ответственных лиц. Дистанционно, без отрыва людей от объекта — это важно там, где вахта и удалённые площадки.</p>
         <span class="term">Срок — от 1 дня</span>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="shot"><span class="lbl">Место под фото</span><span class="what">Кадр с вебинара: экран с презентацией и сеткой участников</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 
   <article class="panel">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="num">Программы</span>
         <h3>Программы обучения для учебных центров</h3>
         <p>Разрабатываю программы, по которым будут преподавать ваши преподаватели. Работа для тех, кто сам обучает.</p>
         <span class="term">Срок — от 1 дня</span>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="shot"><span class="lbl">Место под фото</span><span class="what">Разворот программы обучения или учебный класс</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 </section>
 
@@ -442,68 +466,78 @@ footer strong{color:#fff}
   </div>
 
   <article class="panel">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="num">Шаг 0</span>
         <h3>Аудит и чек-лист</h3>
         <p>Что есть, чего нет, в каком порядке закрывать, к какому сроку и кто отвечает.</p>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="shot"><span class="lbl">Место под фото</span><span class="what">Первый выезд на площадку: что было на входе</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 
   <article class="panel">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="num">Месяц 1</span>
         <h3>Документы и ответственность</h3>
         <p>Разработка локальных нормативных актов, ознакомление работников, распределение обязанностей и ответственности, обеспечение ответственных журналами, инструкциями и рабочими материалами.</p>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="shot"><span class="lbl">Место под фото</span><span class="what">Журналы и папки, выданные ответственным</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 
   <article class="panel">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="num">Месяц 2</span>
         <h3>Люди</h3>
         <p>Инструктажи всем сотрудникам, направление на медицинские осмотры и обучение, оформление допусков.</p>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="shot"><span class="lbl">Место под фото</span><span class="what">Инструктаж на площадке: бригада, журнал, подписи</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 
   <article class="panel">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="num">Месяц 3</span>
         <h3>Обеспечение и система</h3>
         <p>Закупка и выдача спецодежды, постановка учёта, внедрение культуры безопасности — чтобы система работала после моего ухода, а не рассыпалась.</p>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="shot"><span class="lbl">Место под фото</span><span class="what">Выдача СИЗ: склад, спецодежда, ведомость</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 
   <article class="panel dark">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="num">Итог</span>
         <h3>3 месяца от «нет ничего» до рабочей системы</h3>
         <p>Документы, обученные и допущенные люди, выданные СИЗ, работающий учёт. Система осталась работать без меня.</p>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="figure-big"><span class="n">3</span><span class="cap">месяца</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 </section>
 
@@ -514,55 +548,63 @@ footer strong{color:#fff}
   </div>
 
   <article class="panel dark">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="num">Ростехнадзор</span>
         <h3>Отчётность сдана в срок</h3>
         <p>Риск — штраф до 200 000 ₽. Отчётность подготовлена и сдана вовремя. Штрафа не было.</p>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="figure-big"><span class="n">0 ₽</span><span class="cap">штраф</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 
   <article class="panel dark">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="num">Природопользование</span>
         <h3>500 000 ₽ снизили до 10 000 ₽</h3>
         <p>Нарушение природоохранного законодательства, санкция на юридическое лицо — до 500 000 ₽. По итогу разбирательства — 10 000 ₽ на должностное лицо.</p>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="figure-big"><span class="n">490 000 ₽</span><span class="cap">сохранено компании</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 
   <article class="panel">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="res">Без замечаний</span>
         <h3>Инспекция труда по жалобе работника</h3>
         <p>Проверку назначили по жалобе. Уточнила у инспектора точный перечень документов, составила чек-лист, провела аудит документации, подготовила папку сканов к дате проверки. Проверка завершилась без замечаний.</p>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="shot"><span class="lbl">Место под фото</span><span class="what">Папка сканов, подготовленная к визиту инспектора</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 
   <article class="panel">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="res">Система с нуля</span>
         <h3>Буровая компания</h3>
         <p>На входе — охраны труда нет. На выходе — документы, обученные и допущенные люди, выданные СИЗ, работающий учёт. За три месяца по помесячному плану.</p>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="shot"><span class="lbl">Место под фото</span><span class="what">Буровая площадка или вахтовый посёлок</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 </section>
 
@@ -577,55 +619,63 @@ footer strong{color:#fff}
   </div>
 
   <article class="panel">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="num">01</span>
         <h3>Обучение нужно регистрировать в реестре Минтруда</h3>
         <p>Провели обучение, выдали удостоверения — а записи в реестре нет. Для инспектора это значит, что обучения не было.</p>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="shot"><span class="lbl">Место под фото</span><span class="what">Скриншот карточки в реестре обучения</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 
   <article class="panel">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="num">02</span>
         <h3>Декларация по результатам СОУТ подаётся через Госуслуги</h3>
         <p>Спецоценка сделана, декларация — нет. Или подана по старой схеме и не зарегистрирована.</p>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="shot"><span class="lbl">Место под фото</span><span class="what">Скриншот поданной декларации — обезличенный</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 
   <article class="panel">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="num">03</span>
         <h3>Правила выдачи СИЗ изменились</h3>
         <p>Выдача по старым типовым нормам, без оценки рисков и без нормального учёта выданного. Одно из самых частых и самых дорогих несоответствий.</p>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="shot"><span class="lbl">Место под фото</span><span class="what">Спецодежда и СИЗ, ведомость выдачи</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 
   <article class="panel">
-    <div class="wrap panel-in">
-      <div class="txt rise">
+    <div class="stage"><div class="stage-in">
+<div class="wrap panel-in">
+      <div class="txt">
         <span class="num">04</span>
         <h3>Микроповреждения нужно учитывать</h3>
         <p>Порезался, ушибся, обошлось без больничного — многие считают, что фиксировать нечего. Учёт микротравм обязателен, и его отсутствие видно сразу.</p>
       </div>
-      <div class="visual rise">
+      <div class="visual">
         <div class="shot"><span class="lbl">Место под фото</span><span class="what">Журнал учёта микроповреждений</span></div>
       </div>
     </div>
+    </div></div>
   </article>
 </section>
 
@@ -864,6 +914,61 @@ footer strong{color:#fff}
       }, {rootMargin: "-" + (headerH() + 1) + "px 0px 0px 0px", threshold: 0}).observe(mark);
     });
   }
+
+  /* ---------- наводка резкости от прокрутки ----------
+     Разворот высотой в два экрана, внутри залипшая сцена. Пройденная
+     доля разворота = прогресс сборки: 0 — размытое пятно, 1 — резко.
+     Крутишь назад — разбирается обратно.                            */
+  (function focusPull(){
+    var panels = [].slice.call(document.querySelectorAll(".panel"));
+    if (!panels.length) return;
+
+    var items = panels.map(function(panel){
+      return {panel: panel, inner: panel.querySelector(".stage-in"), last: -1};
+    }).filter(function(it){ return it.inner; });
+
+    if (reduceMotion){
+      items.forEach(function(it){ it.inner.style.setProperty("--p", "1"); });
+      return;
+    }
+
+    var ticking = false;
+
+    function clamp01(v){ return v < 0 ? 0 : v > 1 ? 1 : v; }
+
+    function paint(){
+      ticking = false;
+      var vh = window.innerHeight;
+
+      items.forEach(function(it){
+        var r = it.panel.getBoundingClientRect();
+        // разворот далеко — не считаем
+        if (r.bottom < -vh || r.top > vh * 2) return;
+
+        var travel = r.height - vh;                 // сколько сцена «стоит»
+        var passed = travel > 0 ? -r.top / travel : 0;
+
+        // резкость набирается на первой трети пути и держится дальше
+        var p = clamp01((passed - 0.02) / 0.34);
+        p = Math.round(p * 100) / 100;
+
+        if (p !== it.last){
+          it.last = p;
+          it.inner.style.setProperty("--p", p);
+        }
+      });
+    }
+
+    function onScroll(){
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(paint);
+    }
+
+    window.addEventListener("scroll", onScroll, {passive:true});
+    window.addEventListener("resize", onScroll);
+    paint();
+  })();
 
   /* ---------- появление при прокрутке ---------- */
   var rise = [].slice.call(document.querySelectorAll(".rise"));
