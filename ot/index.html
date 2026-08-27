@@ -14,188 +14,225 @@
   --bg:#ffffff;
   --fg:#0a0a0a;
   --mut:#6e6e6e;
-  --dim:#2a2a2a;
-  --line:#e3e3e3;
-  --line2:#111111;
-  --wash:#f6f6f4;
+  --mut-inv:#a9a9a9;
+  --dim:#242424;
+  --line:#e0e0e0;
+  --wash:#f5f5f3;
   --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,"Liberation Mono",monospace;
+  --pad:20px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{
   background:var(--bg);color:var(--dim);
-  font-family:var(--sans);font-size:17px;line-height:1.6;
-  -webkit-font-smoothing:antialiased;
+  font-family:var(--sans);font-size:19px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
 img{max-width:100%;display:block}
 a{color:var(--fg)}
-:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+:focus-visible{outline:3px solid var(--fg);outline-offset:3px}
 
-.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
-.col{max-width:760px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--pad)}
+.col{max-width:820px}
 
-section{padding:72px 0;border-top:1px solid var(--line)}
-section:first-of-type{border-top:0}
+section{padding:0 0 84px}
 
-h1,h2,h3{color:var(--fg);font-weight:600;line-height:1.08;letter-spacing:-0.02em}
-h1{font-size:clamp(34px,8.2vw,68px);letter-spacing:-0.035em}
-h2{font-size:clamp(26px,5.4vw,42px);margin-bottom:28px}
-h3{font-size:clamp(19px,3.4vw,23px);letter-spacing:-0.01em;margin-bottom:8px}
-p+p{margin-top:14px}
+h1,h2,h3{color:var(--fg);font-weight:700;line-height:1.04;letter-spacing:-0.03em}
+h1{font-size:clamp(42px,10.5vw,92px);letter-spacing:-0.045em}
+h3{font-size:clamp(22px,4.4vw,29px);letter-spacing:-0.02em;margin-bottom:12px}
+p+p{margin-top:16px}
+
+/* --- чёрная плашка заголовка секции --- */
+.band{
+  background:var(--fg);color:#fff;
+  margin:0 calc(var(--pad) * -1) 44px;
+  padding:38px var(--pad) 40px;
+}
+.band h2{
+  color:#fff;text-transform:uppercase;
+  font-size:clamp(30px,7.6vw,64px);
+  line-height:1.02;letter-spacing:-0.025em;
+  max-width:18ch;
+}
+.band .sub{
+  margin-top:18px;color:var(--mut-inv);
+  font-size:clamp(17px,2.3vw,21px);line-height:1.5;max-width:44ch;
+}
 
 .eyebrow{
-  font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--mut);margin-bottom:20px;
+  font-family:var(--mono);font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--mut);
 }
-.lead{font-size:clamp(18px,2.4vw,21px);color:var(--dim);line-height:1.55}
+.lead{font-size:clamp(20px,2.8vw,26px);color:var(--dim);line-height:1.45}
 .mut{color:var(--mut)}
+.note{max-width:44ch;font-size:clamp(19px,2.4vw,23px);margin-top:8px}
 
-/* --- hero --- */
-.hero{padding:44px 0 76px;border-top:0}
-.hero-grid{display:grid;gap:40px}
-.hero h1{margin:0 0 24px}
-.hero .lead{max-width:34em}
+/* --- первый экран --- */
+.hero{padding-top:40px;padding-bottom:84px}
+.hero-grid{display:grid;gap:36px}
+.hero h1{margin:22px 0 26px}
+.hero .lead{max-width:24ch}
 .hero-meta{
-  margin-top:26px;padding-top:20px;border-top:1px solid var(--line);
-  font-family:var(--mono);font-size:13px;letter-spacing:.04em;color:var(--mut);
-  display:flex;flex-wrap:wrap;gap:8px 22px;
+  margin-top:34px;padding-top:22px;border-top:2px solid var(--fg);
+  font-family:var(--mono);font-size:14px;letter-spacing:.05em;color:var(--mut);
+  display:flex;flex-wrap:wrap;gap:10px 26px;
 }
-.idcard{display:flex;align-items:center;gap:16px;margin-bottom:26px}
-.idcard .eyebrow{margin-bottom:0;line-height:1.5}
-.avatar{
-  flex:0 0 84px;width:84px;height:84px;border-radius:50%;overflow:hidden;
-  background:var(--wash);border:1px solid var(--line);display:block;
-}
-.avatar img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
-.about-grid{display:grid;gap:36px}
-.about-grid .photo{max-width:420px}
-.photo{position:relative;background:var(--wash);border:1px solid var(--line)}
-.photo img{width:100%;height:auto;object-fit:cover}
-.photo figcaption{
-  padding:10px 12px;border-top:1px solid var(--line);
-  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);
+.portrait{background:var(--wash);border:1px solid var(--line)}
+.portrait img{width:100%;height:auto;object-fit:cover}
+.portrait figcaption{
+  padding:14px 16px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);
 }
 
-/* --- buttons --- */
-.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+/* --- кнопки --- */
+.btns{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px}
 .btn{
   display:inline-flex;align-items:center;justify-content:center;
-  min-height:52px;padding:14px 26px;
-  font-size:16px;font-weight:500;text-decoration:none;
-  border:1px solid var(--fg);border-radius:0;cursor:pointer;
-  font-family:inherit;transition:background .15s,color .15s;
+  min-height:60px;padding:16px 32px;
+  font-size:18px;font-weight:600;text-decoration:none;
+  border:2px solid var(--fg);cursor:pointer;font-family:inherit;
+  transition:background .15s,color .15s;
 }
 .btn-solid{background:var(--fg);color:#fff}
-.btn-solid:hover{background:#000}
 .btn-ghost{background:transparent;color:var(--fg)}
 .btn-ghost:hover{background:var(--fg);color:#fff}
-.btn:disabled{opacity:.45;cursor:default}
+.btn:disabled{opacity:.4;cursor:default}
 
-/* --- generic lists --- */
-.stack{display:grid;gap:40px}
-.item{padding-top:26px;border-top:1px solid var(--line)}
-.item .num{
-  font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--mut);
-  display:block;margin-bottom:12px;
+/* --- карусель --- */
+.rail-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;margin-bottom:18px;
 }
-.term{
-  font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--mut);margin-top:12px;display:block;
+.rail-hint{
+  font-family:var(--mono);font-size:12px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--mut);
+}
+.rail-nav{display:flex;gap:10px;flex:0 0 auto}
+.rnav{
+  width:52px;height:52px;border:2px solid var(--fg);background:transparent;
+  color:var(--fg);font-size:20px;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s,color .15s,opacity .15s;
+}
+.rnav:hover:not(:disabled){background:var(--fg);color:#fff}
+.rnav:disabled{opacity:.25;cursor:default}
+.rail{
+  display:flex;gap:18px;overflow-x:auto;overflow-y:hidden;
+  scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  margin:0 calc(var(--pad) * -1);
+  padding:4px var(--pad) 10px;
+}
+.rail::-webkit-scrollbar{display:none}
+.card{
+  flex:0 0 clamp(268px,80vw,352px);
+  min-height:480px;
+  scroll-snap-align:start;
+  border:2px solid var(--fg);
+  padding:30px 26px 32px;
+  display:flex;flex-direction:column;
+  background:var(--bg);
+  transition:transform .25s ease;
+}
+.card:hover{transform:translateY(-6px)}
+.card .num{
+  font-family:var(--mono);font-size:13px;letter-spacing:.14em;color:var(--mut);
+  display:block;margin-bottom:auto;padding-bottom:26px;
+}
+.card p{font-size:18px;line-height:1.5;color:var(--dim)}
+.card .term{
+  font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--mut);margin-top:20px;display:block;
+}
+.card .res{
+  align-self:flex-start;margin-bottom:auto;
+  font-family:var(--mono);font-size:14px;letter-spacing:.06em;
+  border-bottom:3px solid currentColor;padding-bottom:4px;
+}
+.card .big{
+  font-size:clamp(40px,9vw,60px);font-weight:700;line-height:1;
+  letter-spacing:-0.045em;color:var(--fg);
+  font-variant-numeric:tabular-nums;margin-bottom:18px;
+}
+.card.dark{background:var(--fg);border-color:var(--fg)}
+.card.dark h3{color:#fff}
+.card.dark p{color:var(--mut-inv)}
+.card.dark .num,.card.dark .res,.card.dark .big{color:#fff}
+.card.ph{border:2px dashed #b5b5b5;background:var(--wash);justify-content:center;text-align:center}
+.card.ph .t{
+  font-family:var(--mono);font-size:12px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--mut);line-height:1.7;
 }
 
-/* --- numbers --- */
-.figs{display:grid;gap:28px;margin-top:8px}
-.fig .n{
-  font-size:clamp(38px,8vw,58px);line-height:1;color:var(--fg);
-  font-weight:600;letter-spacing:-0.04em;font-variant-numeric:tabular-nums;
-}
-.fig .t{margin-top:10px;font-size:15px;color:var(--mut);max-width:22em}
-
-/* --- case --- */
-.case{padding-top:28px;border-top:1px solid var(--line2)}
-.case .res{
-  display:inline-block;margin-bottom:14px;font-family:var(--mono);
-  font-size:13px;letter-spacing:.06em;color:var(--fg);
-  border-bottom:2px solid var(--fg);padding-bottom:3px;
+/* --- появление при прокрутке --- */
+.rise{opacity:0;transform:translateY(34px)}
+.rise.in{opacity:1;transform:none;transition:opacity .55s cubic-bezier(.2,.7,.3,1),transform .55s cubic-bezier(.2,.7,.3,1)}
+@media(prefers-reduced-motion:reduce){
+  .rise{opacity:1;transform:none}
+  .card:hover{transform:none}
+  html{scroll-behavior:auto}
 }
 
-/* --- tags --- */
-.tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px}
-.tag{
-  border:1px solid var(--line);padding:9px 14px;font-size:15px;color:var(--dim);
-}
+/* --- отрасли --- */
+.tags{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:40px}
+.tag{border:2px solid var(--fg);padding:12px 18px;font-size:18px;font-weight:500}
 
-/* --- placeholder blocks --- */
-.ph{
-  border:1px dashed #bdbdbd;background:var(--wash);
-  padding:24px 20px;color:var(--mut);font-size:15px;
-}
-.ph b{color:var(--dim);font-weight:600}
-.ph-grid{display:grid;gap:14px;grid-template-columns:1fr}
-.ph-box{
-  border:1px dashed #bdbdbd;background:var(--wash);
-  min-height:120px;display:flex;align-items:center;justify-content:center;
-  text-align:center;padding:18px;line-height:1.5;
-  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);
-}
+/* --- обо мне --- */
+.about-grid{display:grid;gap:36px}
+.about-grid .portrait{max-width:460px}
 
-/* --- form --- */
-.formwrap{max-width:560px}
-.field{margin-top:22px}
+/* --- форма --- */
+.formwrap{max-width:620px}
+.field{margin-top:26px}
 .field label{
-  display:block;font-family:var(--mono);font-size:12px;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--mut);margin-bottom:8px;
+  display:block;font-family:var(--mono);font-size:13px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--mut);margin-bottom:10px;
 }
 .field input,.field textarea{
-  width:100%;font-family:inherit;font-size:17px;color:var(--fg);
-  background:transparent;border:0;border-bottom:1px solid var(--fg);
-  padding:12px 2px;min-height:48px;border-radius:0;
+  width:100%;font-family:inherit;font-size:19px;color:var(--fg);
+  background:transparent;border:0;border-bottom:2px solid var(--fg);
+  padding:14px 2px;min-height:54px;border-radius:0;
 }
-.field textarea{min-height:96px;resize:vertical;line-height:1.5}
-.field input::placeholder,.field textarea::placeholder{color:#a8a8a8}
-.consent{display:flex;gap:12px;align-items:flex-start;margin-top:26px;font-size:15px;color:var(--mut)}
-.consent input{width:22px;height:22px;flex:0 0 22px;margin-top:2px;accent-color:#0a0a0a}
+.field textarea{min-height:112px;resize:vertical;line-height:1.5}
+.field input::placeholder,.field textarea::placeholder{color:#a3a3a3}
+.consent{display:flex;gap:14px;align-items:flex-start;margin-top:30px;font-size:17px;color:var(--mut)}
+.consent input{width:26px;height:26px;flex:0 0 26px;margin-top:2px;accent-color:#0a0a0a}
 .consent label{cursor:pointer}
 .trap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-.msg{margin-top:18px;font-size:15px;min-height:1.2em}
-.msg.err{color:#b00000}
-.done{border-top:2px solid var(--fg);padding-top:24px}
-.done h3{margin-bottom:10px}
+.msg{margin-top:20px;font-size:17px;min-height:1.2em}
+.msg.err{color:#a80000}
+.done{border-top:3px solid var(--fg);padding-top:28px}
+.done h3{margin-bottom:12px}
 .hidden{display:none}
 
-/* --- footer --- */
-footer{border-top:1px solid var(--fg);padding:44px 0 60px;font-size:15px;color:var(--mut)}
-footer a{color:var(--dim);display:inline-flex;align-items:center;min-height:44px}
-.fgrid{display:grid;gap:26px}
-.fgrid p+p{margin-top:8px}
+/* --- подвал --- */
+footer{background:var(--fg);color:var(--mut-inv);padding:56px 0 64px;font-size:17px}
+footer a{color:#fff;display:inline-flex;align-items:center;min-height:44px}
+footer strong{color:#fff}
+.fgrid{display:grid;gap:30px}
+.fgrid p+p{margin-top:6px}
 
-@media(min-width:760px){
-  section{padding:104px 0}
-  .hero{padding:56px 0 104px}
-  .hero h1{max-width:15ch}
-  .about-grid{grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start}
-  .stack.two{grid-template-columns:1fr 1fr;gap:44px 48px}
-  .figs{grid-template-columns:repeat(3,1fr);gap:36px}
-  .ph-grid{grid-template-columns:repeat(3,1fr)}
-  .fgrid{grid-template-columns:1.2fr .8fr .8fr}
+@media(min-width:900px){
+  :root{--pad:32px}
+  section{padding:0 0 120px}
+  .hero{padding-top:52px;padding-bottom:120px}
+  .hero-grid{grid-template-columns:1.25fr .75fr;gap:56px;align-items:center}
+  .band{padding:54px var(--pad) 58px;margin-bottom:56px}
+  .about-grid{grid-template-columns:.85fr 1.15fr;gap:60px;align-items:start}
+  .fgrid{grid-template-columns:1.2fr .9fr .9fr}
 }
 </style>
 </head>
 <body>
 
-<main class="wrap">
+<main>
 
 <!-- 1. ПЕРВЫЙ ЭКРАН -->
-<section class="hero">
+<section class="hero wrap">
   <div class="hero-grid">
     <div>
-      <div class="idcard">
-        <span class="avatar">
-          <img src="img/olesya-avatar.jpg" alt="Олеся Грачева, портрет" width="560" height="560">
-        </span>
-        <p class="eyebrow">Олеся Сергеевна Грачева<br>специалист по охране труда</p>
-      </div>
+      <p class="eyebrow">Олеся Сергеевна Грачева — специалист по охране труда</p>
       <h1>Охрана труда — без штрафов и судов</h1>
       <p class="lead">
         Разрабатываю документацию, провожу аудит и обучение по охране труда,
@@ -215,280 +252,351 @@ footer a{color:var(--dim);display:inline-flex;align-items:center;min-height:44px
       </p>
     </div>
 
+    <figure class="portrait">
+      <img src="img/olesya-portrait.jpg" alt="Олеся Грачева, портрет" width="1124" height="1280">
+      <figcaption>Олеся Грачева</figcaption>
+    </figure>
   </div>
 </section>
 
 <!-- 2. КОГДА КО МНЕ ПРИХОДЯТ -->
 <section id="when">
-  <div class="col"><h2>Три ситуации, в которых я нужна</h2></div>
-  <div class="stack two">
-    <div class="item">
-      <span class="num">01</span>
-      <h3>Назначена проверка</h3>
-      <p>Уточняю у инспектора точный перечень документов по вашему предмету проверки, собираю чек-лист, провожу аудит и готовлю папку сканов — в том виде, в котором её примут. К проверке вы приходите не с надеждой, а со списком, где всё закрыто.</p>
+  <div class="wrap">
+    <div class="band rise"><h2>Три ситуации, в которых я нужна</h2></div>
+    <div class="rail-head">
+      <span class="rail-hint">Листайте вбок</span>
+      <div class="rail-nav">
+        <button class="rnav" type="button" data-rail="r-when" data-dir="-1" aria-label="Предыдущая карточка">←</button>
+        <button class="rnav" type="button" data-rail="r-when" data-dir="1" aria-label="Следующая карточка">→</button>
+      </div>
     </div>
-    <div class="item">
-      <span class="num">02</span>
-      <h3>Пришло предписание или жалоба</h3>
-      <p>Разбираю, что именно нарушено, что закрывается за день, а что требует денег и времени. Получаете перечень мероприятий со сроками и ответственными — по нему видно, за что браться первым.</p>
-    </div>
-    <div class="item">
-      <span class="num">03</span>
-      <h3>Ничего не горит, но и порядка нет</h3>
-      <p>Самый спокойный и самый дешёвый вариант. Профилактика, запуск объекта, новое подразделение, смена ответственного. Здесь работа идёт по плану, а не в режиме тушения.</p>
+    <div class="rail" id="r-when" tabindex="0" role="group" aria-label="Ситуации, в которых нужен специалист">
+      <article class="card rise">
+        <span class="num">01</span>
+        <h3>Назначена проверка</h3>
+        <p>Уточняю у инспектора точный перечень документов по вашему предмету проверки, собираю чек-лист, провожу аудит и готовлю папку сканов — в том виде, в котором её примут. К проверке вы приходите не с надеждой, а со списком, где всё закрыто.</p>
+      </article>
+      <article class="card rise">
+        <span class="num">02</span>
+        <h3>Пришло предписание или жалоба</h3>
+        <p>Разбираю, что именно нарушено, что закрывается за день, а что требует денег и времени. Получаете перечень мероприятий со сроками и ответственными — по нему видно, за что браться первым.</p>
+      </article>
+      <article class="card rise">
+        <span class="num">03</span>
+        <h3>Ничего не горит, но и порядка нет</h3>
+        <p>Самый спокойный и самый дешёвый вариант. Профилактика, запуск объекта, новое подразделение, смена ответственного. Здесь работа идёт по плану, а не в режиме тушения.</p>
+      </article>
     </div>
   </div>
 </section>
 
 <!-- 3. УСЛУГИ -->
 <section id="services">
-  <div class="col"><h2>Что я делаю</h2></div>
-  <div class="stack two">
-    <div class="item">
-      <h3>Разработка документации</h3>
-      <p>Инструкции, положения, приказы, регламенты, чек-листы, памятки. Под вашу структуру, ваши профессии и ваши виды работ — не типовой шаблон из интернета, в котором инспектор за минуту найдёт чужое название.</p>
-      <span class="term">Срок — от 1 дня</span>
+  <div class="wrap">
+    <div class="band rise"><h2>Что я делаю</h2></div>
+    <div class="rail-head">
+      <span class="rail-hint">4 направления</span>
+      <div class="rail-nav">
+        <button class="rnav" type="button" data-rail="r-serv" data-dir="-1" aria-label="Предыдущая карточка">←</button>
+        <button class="rnav" type="button" data-rail="r-serv" data-dir="1" aria-label="Следующая карточка">→</button>
+      </div>
     </div>
-    <div class="item">
-      <h3>Аудит документации по охране труда</h3>
-      <p>Проверяю, что есть, чего нет и что оформлено так, что не считается. На выходе — перечень мероприятий с приоритетами и сроками. Документ, по которому можно работать самостоятельно, даже если дальше вы пойдёте без меня.</p>
-      <span class="term">Срок — от 1 дня</span>
+    <div class="rail" id="r-serv" tabindex="0" role="group" aria-label="Услуги">
+      <article class="card rise">
+        <span class="num">Документы</span>
+        <h3>Разработка документации</h3>
+        <p>Инструкции, положения, приказы, регламенты, чек-листы, памятки. Под вашу структуру, ваши профессии и ваши виды работ — не типовой шаблон из интернета, в котором инспектор за минуту найдёт чужое название.</p>
+        <span class="term">Срок — от 1 дня</span>
+      </article>
+      <article class="card rise">
+        <span class="num">Аудит</span>
+        <h3>Аудит документации по охране труда</h3>
+        <p>Проверяю, что есть, чего нет и что оформлено так, что не считается. На выходе — перечень мероприятий с приоритетами и сроками. Документ, по которому можно работать самостоятельно, даже если дальше вы пойдёте без меня.</p>
+        <span class="term">Срок — от 1 дня</span>
+      </article>
+      <article class="card rise">
+        <span class="num">Обучение</span>
+        <h3>Вебинары и лекции</h3>
+        <p>Охрана труда, пожарная безопасность, промышленная безопасность, ГО и ЧС. Для рабочих, руководителей и ответственных лиц. Дистанционно, без отрыва людей от объекта — это важно там, где вахта и удалённые площадки.</p>
+        <span class="term">Срок — от 1 дня</span>
+      </article>
+      <article class="card rise">
+        <span class="num">Программы</span>
+        <h3>Программы обучения для учебных центров</h3>
+        <p>Разрабатываю программы, по которым будут преподавать ваши преподаватели. Работа для тех, кто сам обучает.</p>
+        <span class="term">Срок — от 1 дня</span>
+      </article>
     </div>
-    <div class="item">
-      <h3>Обучение: вебинары и лекции</h3>
-      <p>Охрана труда, пожарная безопасность, промышленная безопасность, ГО и ЧС. Для рабочих, руководителей и ответственных лиц. Дистанционно, без отрыва людей от объекта — это важно там, где вахта и удалённые площадки.</p>
-      <span class="term">Срок — от 1 дня</span>
-    </div>
-    <div class="item">
-      <h3>Программы обучения для учебных центров</h3>
-      <p>Разрабатываю программы, по которым будут преподавать ваши преподаватели. Работа для тех, кто сам обучает.</p>
-      <span class="term">Срок — от 1 дня</span>
-    </div>
-  </div>
-  <div class="col" style="margin-top:44px">
-    <p class="mut">Стоимость называю после короткого разговора: она зависит от численности, видов работ и того, что уже сделано до меня.</p>
+    <p class="note mut">Стоимость называю после короткого разговора: она зависит от численности, видов работ и того, что уже сделано до меня.</p>
   </div>
 </section>
 
 <!-- 4. КАК СТРОИТСЯ РАБОТА -->
 <section id="work">
-  <div class="col">
-    <h2>Как выглядит работа с нуля</h2>
-    <p class="lead">Пример — буровая компания, где охраны труда не было вообще. Не «примерно так бывает», а как было.</p>
-  </div>
-  <div class="stack two" style="margin-top:44px">
-    <div class="item">
-      <span class="num">Шаг 0</span>
-      <h3>Аудит и чек-лист</h3>
-      <p>Что есть, чего нет, в каком порядке закрывать, к какому сроку и кто отвечает.</p>
+  <div class="wrap">
+    <div class="band rise">
+      <h2>Как выглядит работа с нуля</h2>
+      <p class="sub">Пример — буровая компания, где охраны труда не было вообще. Не «примерно так бывает», а как было.</p>
     </div>
-    <div class="item">
-      <span class="num">Месяц 1</span>
-      <h3>Документы и ответственность</h3>
-      <p>Разработка локальных нормативных актов, ознакомление работников, распределение обязанностей и ответственности, обеспечение ответственных журналами, инструкциями и рабочими материалами.</p>
+    <div class="rail-head">
+      <span class="rail-hint">3 месяца по шагам</span>
+      <div class="rail-nav">
+        <button class="rnav" type="button" data-rail="r-work" data-dir="-1" aria-label="Предыдущая карточка">←</button>
+        <button class="rnav" type="button" data-rail="r-work" data-dir="1" aria-label="Следующая карточка">→</button>
+      </div>
     </div>
-    <div class="item">
-      <span class="num">Месяц 2</span>
-      <h3>Люди</h3>
-      <p>Инструктажи всем сотрудникам, направление на медицинские осмотры и обучение, оформление допусков.</p>
+    <div class="rail" id="r-work" tabindex="0" role="group" aria-label="Этапы работы">
+      <article class="card rise">
+        <span class="num">Шаг 0</span>
+        <h3>Аудит и чек-лист</h3>
+        <p>Что есть, чего нет, в каком порядке закрывать, к какому сроку и кто отвечает.</p>
+      </article>
+      <article class="card rise">
+        <span class="num">Месяц 1</span>
+        <h3>Документы и ответственность</h3>
+        <p>Разработка локальных нормативных актов, ознакомление работников, распределение обязанностей и ответственности, обеспечение ответственных журналами, инструкциями и рабочими материалами.</p>
+      </article>
+      <article class="card rise">
+        <span class="num">Месяц 2</span>
+        <h3>Люди</h3>
+        <p>Инструктажи всем сотрудникам, направление на медицинские осмотры и обучение, оформление допусков.</p>
+      </article>
+      <article class="card rise">
+        <span class="num">Месяц 3</span>
+        <h3>Обеспечение и система</h3>
+        <p>Закупка и выдача спецодежды, постановка учёта, внедрение культуры безопасности — чтобы система работала после моего ухода, а не рассыпалась.</p>
+      </article>
+      <article class="card dark rise">
+        <span class="num">Итог</span>
+        <h3>3 месяца от «нет ничего» до рабочей системы</h3>
+        <p>Документы, обученные и допущенные люди, выданные СИЗ, работающий учёт.</p>
+      </article>
     </div>
-    <div class="item">
-      <span class="num">Месяц 3</span>
-      <h3>Обеспечение и система</h3>
-      <p>Закупка и выдача спецодежды, постановка учёта, внедрение культуры безопасности — чтобы система работала после моего ухода, а не рассыпалась.</p>
-    </div>
-  </div>
-  <div class="col" style="margin-top:44px">
-    <p><strong>Итог: 3 месяца от «нет ничего» до рабочей системы охраны труда.</strong></p>
   </div>
 </section>
 
 <!-- 5. КЕЙСЫ -->
 <section id="cases">
-  <div class="col"><h2>Чем это заканчивалось</h2></div>
-
-  <div class="figs" style="margin-bottom:56px">
-    <div class="fig"><div class="n">0 ₽</div><div class="t">штраф вместо возможных 200 000 ₽ по линии Ростехнадзора</div></div>
-    <div class="fig"><div class="n">490 000 ₽</div><div class="t">сохранено компании: санкция 500 000 ₽ снижена до 10 000 ₽</div></div>
-    <div class="fig"><div class="n">3 месяца</div><div class="t">от полного отсутствия охраны труда до работающей системы на буровой</div></div>
-  </div>
-
-  <div class="stack two">
-    <div class="case">
-      <span class="res">Без замечаний</span>
-      <h3>Инспекция труда по жалобе работника</h3>
-      <p>Проверку назначили по жалобе. Уточнила у инспектора точный перечень документов, составила чек-лист, провела аудит документации, подготовила папку сканов к дате проверки. Проверка завершилась без замечаний.</p>
+  <div class="wrap">
+    <div class="band rise"><h2>Чем это заканчивалось</h2></div>
+    <div class="rail-head">
+      <span class="rail-hint">Цифры и кейсы</span>
+      <div class="rail-nav">
+        <button class="rnav" type="button" data-rail="r-cases" data-dir="-1" aria-label="Предыдущая карточка">←</button>
+        <button class="rnav" type="button" data-rail="r-cases" data-dir="1" aria-label="Следующая карточка">→</button>
+      </div>
     </div>
-    <div class="case">
-      <span class="res">Штрафа нет</span>
-      <h3>Ростехнадзор, отчётность</h3>
-      <p>Риск — до 200 000 ₽. Отчётность подготовлена и сдана в срок. Штрафа не было.</p>
-    </div>
-    <div class="case">
-      <span class="res">500 000 ₽ → 10 000 ₽</span>
-      <h3>Природопользование</h3>
-      <p>Нарушение природоохранного законодательства, санкция на юридическое лицо — до 500 000 ₽. По итогу разбирательства — 10 000 ₽ на должностное лицо. Компания сохранила 490 000 ₽.</p>
-    </div>
-    <div class="case">
-      <span class="res">Система с нуля</span>
-      <h3>Буровая компания</h3>
-      <p>На входе — охраны труда нет. На выходе — документы, обученные и допущенные люди, выданные СИЗ, работающий учёт. По помесячному плану из блока выше.</p>
+    <div class="rail" id="r-cases" tabindex="0" role="group" aria-label="Кейсы и результаты">
+      <article class="card dark rise">
+        <span class="num">Ростехнадзор</span>
+        <div class="big">0 ₽</div>
+        <p>Штраф вместо возможных 200 000 ₽. Отчётность подготовлена и сдана в срок.</p>
+      </article>
+      <article class="card dark rise">
+        <span class="num">Природопользование</span>
+        <div class="big">490 000 ₽</div>
+        <p>Сохранено компании: санкция на юридическое лицо до 500 000 ₽ снижена до 10 000 ₽ на должностное лицо.</p>
+      </article>
+      <article class="card rise">
+        <span class="res">Без замечаний</span>
+        <h3>Инспекция труда по жалобе работника</h3>
+        <p>Проверку назначили по жалобе. Уточнила у инспектора точный перечень документов, составила чек-лист, провела аудит документации, подготовила папку сканов к дате проверки. Проверка завершилась без замечаний.</p>
+      </article>
+      <article class="card rise">
+        <span class="res">Система с нуля</span>
+        <h3>Буровая компания</h3>
+        <p>На входе — охраны труда нет. На выходе — документы, обученные и допущенные люди, выданные СИЗ, работающий учёт. За три месяца по помесячному плану.</p>
+      </article>
     </div>
   </div>
 </section>
 
 <!-- 6. НА ЧЁМ ПОПАДАЮТСЯ -->
 <section id="news">
-  <div class="col">
-    <h2>Четыре вещи, о которых узнают уже на проверке</h2>
-    <p class="lead">Требования изменились за последние два-три года. Чаще всего попадаются на этом.</p>
-  </div>
-  <div class="stack two" style="margin-top:44px">
-    <div class="item">
-      <span class="num">01</span>
-      <h3>Обучение нужно регистрировать в реестре Минтруда</h3>
-      <p>Провели обучение, выдали удостоверения — а записи в реестре нет. Для инспектора это значит, что обучения не было.</p>
+  <div class="wrap">
+    <div class="band rise">
+      <h2>О чём узнают уже на проверке</h2>
+      <p class="sub">Требования изменились за последние два-три года. Чаще всего попадаются на этих четырёх.</p>
     </div>
-    <div class="item">
-      <span class="num">02</span>
-      <h3>Декларация по результатам СОУТ подаётся через Госуслуги</h3>
-      <p>Спецоценка сделана, декларация — нет. Или подана по старой схеме и не зарегистрирована.</p>
+    <div class="rail-head">
+      <span class="rail-hint">4 изменения</span>
+      <div class="rail-nav">
+        <button class="rnav" type="button" data-rail="r-news" data-dir="-1" aria-label="Предыдущая карточка">←</button>
+        <button class="rnav" type="button" data-rail="r-news" data-dir="1" aria-label="Следующая карточка">→</button>
+      </div>
     </div>
-    <div class="item">
-      <span class="num">03</span>
-      <h3>Правила выдачи СИЗ изменились</h3>
-      <p>Выдача по старым типовым нормам, без оценки рисков и без нормального учёта выданного. Одно из самых частых и самых дорогих несоответствий.</p>
+    <div class="rail" id="r-news" tabindex="0" role="group" aria-label="Изменения в требованиях">
+      <article class="card rise">
+        <span class="num">01</span>
+        <h3>Обучение нужно регистрировать в реестре Минтруда</h3>
+        <p>Провели обучение, выдали удостоверения — а записи в реестре нет. Для инспектора это значит, что обучения не было.</p>
+      </article>
+      <article class="card rise">
+        <span class="num">02</span>
+        <h3>Декларация по результатам СОУТ подаётся через Госуслуги</h3>
+        <p>Спецоценка сделана, декларация — нет. Или подана по старой схеме и не зарегистрирована.</p>
+      </article>
+      <article class="card rise">
+        <span class="num">03</span>
+        <h3>Правила выдачи СИЗ изменились</h3>
+        <p>Выдача по старым типовым нормам, без оценки рисков и без нормального учёта выданного. Одно из самых частых и самых дорогих несоответствий.</p>
+      </article>
+      <article class="card rise">
+        <span class="num">04</span>
+        <h3>Микроповреждения нужно учитывать</h3>
+        <p>Порезался, ушибся, обошлось без больничного — многие считают, что фиксировать нечего. Учёт микротравм обязателен, и его отсутствие видно сразу.</p>
+      </article>
     </div>
-    <div class="item">
-      <span class="num">04</span>
-      <h3>Микроповреждения нужно учитывать</h3>
-      <p>Порезался, ушибся, обошлось без больничного — многие считают, что фиксировать нечего. Учёт микротравм обязателен, и его отсутствие видно сразу.</p>
-    </div>
-  </div>
-  <div class="col" style="margin-top:44px">
-    <p><strong>Если по любому из четырёх пунктов вы не уверены — это уже повод написать.</strong></p>
+    <p class="note"><strong>Не уверены хотя бы по одному пункту — это уже повод написать.</strong></p>
   </div>
 </section>
 
 <!-- 7. ОТРАСЛИ -->
 <section id="fields">
-  <div class="col"><h2>Где я работала</h2></div>
-  <div class="tags">
-    <span class="tag">Строительство</span>
-    <span class="tag">Бурение</span>
-    <span class="tag">Нефтегазовая отрасль</span>
-    <span class="tag">Производство</span>
-    <span class="tag">Химическое производство</span>
-    <span class="tag">Автотранспорт</span>
-    <span class="tag">Ремонт и обслуживание</span>
-    <span class="tag">Управляющие компании</span>
-    <span class="tag">Бюджетные организации</span>
-  </div>
-  <div class="col item">
-    <h3>Отдельно — вахта и удалённые объекты</h3>
-    <p>Самое сложное в практике. Люди на площадке за сотни километров, смены не совпадают с рабочей неделей, собрать всех в одном месте невозможно. Работа с такими объектами строится иначе — и я это умею.</p>
+  <div class="wrap">
+    <div class="band rise"><h2>Где я работала</h2></div>
+    <div class="tags rise">
+      <span class="tag">Строительство</span>
+      <span class="tag">Бурение</span>
+      <span class="tag">Нефтегазовая отрасль</span>
+      <span class="tag">Производство</span>
+      <span class="tag">Химическое производство</span>
+      <span class="tag">Автотранспорт</span>
+      <span class="tag">Ремонт и обслуживание</span>
+      <span class="tag">Управляющие компании</span>
+      <span class="tag">Бюджетные организации</span>
+    </div>
+    <div class="col rise">
+      <h3>Отдельно — вахта и удалённые объекты</h3>
+      <p>Самое сложное в практике. Люди на площадке за сотни километров, смены не совпадают с рабочей неделей, собрать всех в одном месте невозможно. Работа с такими объектами строится иначе — и я это умею.</p>
+    </div>
   </div>
 </section>
 
 <!-- 8. ОБО МНЕ -->
 <section id="about">
-  <div class="about-grid">
-  <figure class="photo">
-    <img src="img/olesya-object.jpg" alt="Олеся Грачева на строительном объекте в защитной каске и сигнальном жилете" width="959" height="1280" loading="lazy">
-    <figcaption>На объекте</figcaption>
-  </figure>
-  <div>
-    <h2>Олеся Грачева</h2>
-    <p class="lead">13 лет в охране труда. 30 компаний. Девять отраслей.</p>
-    <p style="margin-top:24px">Высшее образование по охране труда и экологии, дополнительно — пожарная безопасность.</p>
-    <p><strong>Почему я веду и охрану труда, и экологию.</strong> Это два разных направления, по каждому у меня своё образование. Но обе задачи — про одно: техносферную безопасность. Разделять их на практике неудобно: на одном и том же объекте инспектор по труду и природоохранный надзор смотрят разные документы, а отвечает перед обоими один руководитель.</p>
-    <p><strong>Работаю дистанционно</strong> — документы, аудит и обучение по всей России. Отвечаю в течение часа.</p>
-  </div>
+  <div class="wrap">
+    <div class="band rise"><h2>Олеся Грачева</h2></div>
+    <div class="about-grid">
+      <figure class="portrait rise">
+        <img src="img/olesya-object.jpg" alt="Олеся Грачева на строительном объекте в защитной каске и сигнальном жилете" width="959" height="1280" loading="lazy">
+        <figcaption>На объекте</figcaption>
+      </figure>
+      <div class="rise">
+        <p class="lead">13 лет в охране труда. 30 компаний. Девять отраслей.</p>
+        <p style="margin-top:26px">Высшее образование по охране труда и экологии, дополнительно — пожарная безопасность.</p>
+        <p><strong>Почему я веду и охрану труда, и экологию.</strong> Это два разных направления, по каждому у меня своё образование. Но обе задачи — про одно: техносферную безопасность. Разделять их на практике неудобно: на одном и том же объекте инспектор по труду и природоохранный надзор смотрят разные документы, а отвечает перед обоими один руководитель.</p>
+        <p><strong>Работаю дистанционно</strong> — документы, аудит и обучение по всей России. Отвечаю в течение часа.</p>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- 9. ДОКУМЕНТЫ — ЗАГЛУШКА -->
 <section id="docs">
-  <div class="col"><h2>Документы</h2></div>
-  <div class="ph-grid">
-    <div class="ph-box">Скан диплома<br>охрана труда и экология</div>
-    <div class="ph-box">Скан документа<br>пожарная безопасность</div>
-    <div class="ph-box">Место под ещё<br>один документ</div>
-  </div>
-  <div class="ph" style="margin-top:14px">
-    <b>Черновик.</b> Нужны файлы сканов, год выдачи и учебное заведение по каждому документу.
+  <div class="wrap">
+    <div class="band rise"><h2>Документы</h2></div>
+    <div class="rail-head">
+      <span class="rail-hint">Документы</span>
+      <div class="rail-nav">
+        <button class="rnav" type="button" data-rail="r-docs" data-dir="-1" aria-label="Предыдущая карточка">←</button>
+        <button class="rnav" type="button" data-rail="r-docs" data-dir="1" aria-label="Следующая карточка">→</button>
+      </div>
+    </div>
+    <div class="rail" id="r-docs" tabindex="0" role="group" aria-label="Документы">
+      <article class="card ph rise"><span class="t">Скан диплома<br>охрана труда и экология</span></article>
+      <article class="card ph rise"><span class="t">Скан документа<br>пожарная безопасность</span></article>
+      <article class="card ph rise"><span class="t">Место под ещё<br>один документ</span></article>
+    </div>
+    <p class="note mut"><strong>Черновик.</strong> Нужны файлы сканов, год выдачи и учебное заведение по каждому документу.</p>
   </div>
 </section>
 
 <!-- 10. ОТЗЫВЫ — ЗАГЛУШКА -->
 <section id="reviews">
-  <div class="col"><h2>Отзывы</h2></div>
-  <div class="ph-grid">
-    <div class="ph-box">Отзыв 1<br>имя · должность · компания</div>
-    <div class="ph-box">Отзыв 2<br>имя · должность · компания</div>
-    <div class="ph-box">Отзыв 3<br>имя · должность · компания</div>
-  </div>
-  <div class="ph" style="margin-top:14px">
-    <b>Черновик.</b> Нужны три настоящих отзыва: текст, имя, должность, компания. Придуманных здесь не будет — блок либо наполняется, либо снимается.
+  <div class="wrap">
+    <div class="band rise"><h2>Отзывы</h2></div>
+    <div class="rail-head">
+      <span class="rail-hint">Отзывы</span>
+      <div class="rail-nav">
+        <button class="rnav" type="button" data-rail="r-rev" data-dir="-1" aria-label="Предыдущая карточка">←</button>
+        <button class="rnav" type="button" data-rail="r-rev" data-dir="1" aria-label="Следующая карточка">→</button>
+      </div>
+    </div>
+    <div class="rail" id="r-rev" tabindex="0" role="group" aria-label="Отзывы">
+      <article class="card ph rise"><span class="t">Отзыв 1<br>имя · должность · компания</span></article>
+      <article class="card ph rise"><span class="t">Отзыв 2<br>имя · должность · компания</span></article>
+      <article class="card ph rise"><span class="t">Отзыв 3<br>имя · должность · компания</span></article>
+    </div>
+    <p class="note mut"><strong>Черновик.</strong> Нужны три настоящих отзыва: текст, имя, должность, компания. Придуманных здесь не будет.</p>
   </div>
 </section>
 
 <!-- 11. ЛОГОТИПЫ — ЗАГЛУШКА -->
 <section id="clients">
-  <div class="col"><h2>С кем работала</h2></div>
-  <div class="ph-grid">
-    <div class="ph-box">Логотип</div>
-    <div class="ph-box">Логотип</div>
-    <div class="ph-box">Логотип</div>
-  </div>
-  <div class="ph" style="margin-top:14px">
-    <b>Черновик.</b> Нужны 4–6 логотипов и согласие клиентов на публикацию названия.
+  <div class="wrap">
+    <div class="band rise"><h2>С кем работала</h2></div>
+    <div class="rail-head">
+      <span class="rail-hint">Клиенты</span>
+      <div class="rail-nav">
+        <button class="rnav" type="button" data-rail="r-cli" data-dir="-1" aria-label="Предыдущая карточка">←</button>
+        <button class="rnav" type="button" data-rail="r-cli" data-dir="1" aria-label="Следующая карточка">→</button>
+      </div>
+    </div>
+    <div class="rail" id="r-cli" tabindex="0" role="group" aria-label="Клиенты">
+      <article class="card ph rise"><span class="t">Логотип</span></article>
+      <article class="card ph rise"><span class="t">Логотип</span></article>
+      <article class="card ph rise"><span class="t">Логотип</span></article>
+    </div>
+    <p class="note mut"><strong>Черновик.</strong> Нужны 4–6 логотипов и согласие клиентов на публикацию названия.</p>
   </div>
 </section>
 
 <!-- 12. ФОРМА -->
 <section id="form">
-  <div class="col">
-    <h2>Напишите, что у вас происходит</h2>
-    <p class="lead">Опишите ситуацию в двух предложениях: что за компания и чего не хватает. Отвечу в течение часа и скажу, что делать в первую очередь — даже если дальше вы решите обойтись без меня.</p>
-  </div>
+  <div class="wrap">
+    <div class="band rise">
+      <h2>Напишите, что у вас происходит</h2>
+      <p class="sub">Опишите ситуацию в двух предложениях: что за компания и чего не хватает. Отвечу в течение часа и скажу, что делать в первую очередь — даже если дальше вы решите обойтись без меня.</p>
+    </div>
 
-  <div class="formwrap" style="margin-top:36px">
-    <form id="lead" novalidate>
-      <div class="field">
-        <label for="name">Как к вам обращаться</label>
-        <input id="name" name="name" type="text" autocomplete="name" placeholder="Имя">
-      </div>
-      <div class="field">
-        <label for="contact">Телефон или Telegram</label>
-        <input id="contact" name="contact" type="text" autocomplete="tel" placeholder="+7 900 000-00-00 или @nickname">
-      </div>
-      <div class="field">
-        <label for="task">Что у вас происходит</label>
-        <textarea id="task" name="task" placeholder="Строительная компания, 40 человек. Через две недели проверка, документов почти нет."></textarea>
-      </div>
+    <div class="formwrap rise">
+      <form id="lead" novalidate>
+        <div class="field">
+          <label for="name">Как к вам обращаться</label>
+          <input id="name" name="name" type="text" autocomplete="name" placeholder="Имя">
+        </div>
+        <div class="field">
+          <label for="contact">Телефон или Telegram</label>
+          <input id="contact" name="contact" type="text" autocomplete="tel" placeholder="+7 900 000-00-00 или @nickname">
+        </div>
+        <div class="field">
+          <label for="task">Что у вас происходит</label>
+          <textarea id="task" name="task" placeholder="Строительная компания, 40 человек. Через две недели проверка, документов почти нет."></textarea>
+        </div>
 
-      <div class="trap">
-        <label for="company2">Не заполняйте это поле</label>
-        <input id="company2" name="company2" type="text" tabindex="-1" autocomplete="off">
+        <div class="trap">
+          <label for="company2">Не заполняйте это поле</label>
+          <input id="company2" name="company2" type="text" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="consent">
+          <input id="pd" name="pd" type="checkbox">
+          <label for="pd">Согласен на обработку персональных данных и принимаю <a href="policy.html">политику конфиденциальности</a></label>
+        </div>
+
+        <div class="btns">
+          <button class="btn btn-solid" id="send" type="submit">Отправить</button>
+          <a class="btn btn-ghost" id="tglink" href="#">Написать в Telegram</a>
+        </div>
+
+        <p class="msg" id="msg" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="done hidden" id="done">
+        <h3>Заявка ушла</h3>
+        <p>Отвечу в течение часа — в рабочее время обычно быстрее. Если срочно, напишите в Telegram: там я вижу сообщение сразу.</p>
       </div>
-
-      <div class="consent">
-        <input id="pd" name="pd" type="checkbox">
-        <label for="pd">Согласен на обработку персональных данных и принимаю <a href="policy.html">политику конфиденциальности</a></label>
-      </div>
-
-      <div class="btns">
-        <button class="btn btn-solid" id="send" type="submit">Отправить</button>
-        <a class="btn btn-ghost" id="tglink" href="#">Написать в Telegram</a>
-      </div>
-
-      <p class="msg" id="msg" role="status" aria-live="polite"></p>
-    </form>
-
-    <div class="done hidden" id="done">
-      <h3>Заявка ушла</h3>
-      <p>Отвечу в течение часа — в рабочее время обычно быстрее. Если срочно, напишите в Telegram: там я вижу сообщение сразу.</p>
     </div>
   </div>
 </section>
@@ -498,7 +606,7 @@ footer a{color:var(--dim);display:inline-flex;align-items:center;min-height:44px
 <footer>
   <div class="wrap fgrid">
     <div>
-      <p><strong style="color:var(--fg)">Олеся Сергеевна Грачева</strong></p>
+      <p><strong>Олеся Сергеевна Грачева</strong></p>
       <p>Специалист по охране труда и техносферной безопасности</p>
       <p>Самозанятая, налог на профессиональный доход</p>
       <p>ИНН: <span id="f-inn">— указать —</span></p>
@@ -512,7 +620,7 @@ footer a{color:var(--dim);display:inline-flex;align-items:center;min-height:44px
       <p>Работаю дистанционно по всей России</p>
       <p>Отвечаю в течение часа</p>
       <p><a href="policy.html">Политика конфиденциальности</a></p>
-      <p style="margin-top:14px">© 2026</p>
+      <p style="margin-top:16px">© 2026</p>
     </div>
   </div>
 </footer>
@@ -533,6 +641,7 @@ footer a{color:var(--dim);display:inline-flex;align-items:center;min-height:44px
   var INN      = "";     // ИНН самозанятой
   /* =============================================== */
 
+  /* ---------- контакты ---------- */
   function setLink(id, href, text){
     var el = document.getElementById(id);
     if (!el || !href) return;
@@ -555,6 +664,113 @@ footer a{color:var(--dim);display:inline-flex;align-items:center;min-height:44px
     }
   }
 
+  /* ---------- плавная прокрутка своими руками ----------
+     Нативный behavior:"smooth" молчит в части движков (включая
+     встроенные webview), поэтому анимируем сами.                 */
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function ease(t){ return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2; }
+
+  function glide(el, prop, to, ms){
+    var from = el[prop];
+    var dist = to - from;
+    if (!dist) return;
+    if (reduceMotion){ el[prop] = to; return; }
+    var t0 = performance.now();
+    (function frame(now){
+      var k = Math.min(1, (now - t0) / ms);
+      el[prop] = from + dist * ease(k);
+      if (k < 1) requestAnimationFrame(frame);
+    })(t0);
+  }
+
+  // якорные ссылки внутри страницы
+  [].forEach.call(document.querySelectorAll('a[href^="#"]'), function(a){
+    a.addEventListener("click", function(e){
+      var id = a.getAttribute("href").slice(1);
+      var target = id && document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      var y = target.getBoundingClientRect().top + window.pageYOffset - 12;
+      var doc = document.scrollingElement || document.documentElement;
+      glide(doc, "scrollTop", y, 620);
+    });
+  });
+
+  /* ---------- карусели ---------- */
+  function step(rail){
+    var card = rail.querySelector(".card");
+    if (!card) return rail.clientWidth;
+    var cs = getComputedStyle(rail);
+    var gap = parseFloat(cs.columnGap || cs.gap || 18);
+    return card.getBoundingClientRect().width + (isNaN(gap) ? 18 : gap);
+  }
+
+  function syncNav(rail){
+    var btns = document.querySelectorAll('.rnav[data-rail="' + rail.id + '"]');
+    var max = rail.scrollWidth - rail.clientWidth - 2;
+    // в покое scrollLeft равен внутреннему отступу ленты, а не нулю
+    var start = parseFloat(getComputedStyle(rail).paddingLeft) || 0;
+    [].forEach.call(btns, function(b){
+      var dir = parseInt(b.getAttribute("data-dir"), 10);
+      b.disabled = dir < 0 ? rail.scrollLeft <= start + 2 : rail.scrollLeft >= max;
+    });
+  }
+
+  [].forEach.call(document.querySelectorAll(".rail"), function(rail){
+    syncNav(rail);
+    rail.addEventListener("scroll", function(){ syncNav(rail); }, {passive:true});
+    rail.addEventListener("keydown", function(e){
+      if (e.key === "ArrowRight"){ e.preventDefault(); glide(rail, "scrollLeft", rail.scrollLeft + step(rail), 420); }
+      if (e.key === "ArrowLeft"){  e.preventDefault(); glide(rail, "scrollLeft", rail.scrollLeft - step(rail), 420); }
+    });
+  });
+
+  [].forEach.call(document.querySelectorAll(".rnav"), function(btn){
+    btn.addEventListener("click", function(){
+      var rail = document.getElementById(btn.getAttribute("data-rail"));
+      if (!rail) return;
+      var dir = parseInt(btn.getAttribute("data-dir"), 10);
+      var max = rail.scrollWidth - rail.clientWidth;
+      var to = Math.max(0, Math.min(max, rail.scrollLeft + dir * step(rail)));
+      glide(rail, "scrollLeft", to, 420);
+    });
+  });
+
+  window.addEventListener("resize", function(){
+    [].forEach.call(document.querySelectorAll(".rail"), syncNav);
+  });
+
+  /* ---------- появление при прокрутке ---------- */
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var rise = [].slice.call(document.querySelectorAll(".rise"));
+
+  if (reduce || !("IntersectionObserver" in window)){
+    rise.forEach(function(el){ el.classList.add("in"); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (!en.isIntersecting) return;
+        var el = en.target;
+        var sibs = el.parentElement ? [].slice.call(el.parentElement.children) : [];
+        var i = sibs.indexOf(el);
+        el.style.transitionDelay = (i > 0 ? Math.min(i, 5) * 70 : 0) + "ms";
+        el.classList.add("in");
+        io.unobserve(el);
+      });
+    }, {rootMargin: "0px 0px -8% 0px", threshold: 0.12});
+    rise.forEach(function(el){ io.observe(el); });
+
+    // страховка: если наблюдатель почему-то не отработал, показываем всё,
+    // чтобы страница ни при каких условиях не осталась пустой
+    setTimeout(function(){
+      if (!document.querySelector(".rise.in")){
+        rise.forEach(function(el){ el.classList.add("in"); });
+      }
+    }, 2500);
+  }
+
+  /* ---------- форма ---------- */
   var form = document.getElementById("lead");
   var msg  = document.getElementById("msg");
   var done = document.getElementById("done");
@@ -569,7 +785,9 @@ footer a{color:var(--dim);display:inline-flex;align-items:center;min-height:44px
   function accepted(){
     form.classList.add("hidden");
     done.classList.remove("hidden");
-    done.scrollIntoView({behavior:"smooth", block:"center"});
+    var doc = document.scrollingElement || document.documentElement;
+    var y = done.getBoundingClientRect().top + window.pageYOffset - (window.innerHeight - done.offsetHeight) / 2;
+    glide(doc, "scrollTop", Math.max(0, y), 500);
   }
 
   function fallback(p){
