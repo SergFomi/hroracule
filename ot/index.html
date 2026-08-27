@@ -25,7 +25,12 @@
   --headh:46px;     /* высота липкого заголовка главы в сжатом виде */
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{
+  -webkit-text-size-adjust:100%;
+  /* мягкая привязка: кадр доводится до центра, но скролл не отбирается */
+  scroll-snap-type:y proximity;
+}
+.snap{position:absolute;left:0;width:1px;height:1px;scroll-snap-align:start;pointer-events:none}
 body{
   background:var(--bg);color:var(--dim);
   font-family:var(--sans);font-size:19px;line-height:1.55;
@@ -262,6 +267,37 @@ footer strong{color:#fff}
 .fgrid{display:grid;gap:30px}
 .fgrid p+p{margin-top:6px}
 
+
+/* ---------- счётчик в шапке ---------- */
+.ticker{
+  flex:1 1 auto;text-align:center;white-space:nowrap;
+  font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--mut);overflow:hidden;text-overflow:ellipsis;
+}
+.ticker b{color:var(--fg);font-weight:600;margin-left:8px;font-variant-numeric:tabular-nums}
+.ticker-s{display:none}
+
+/* ---------- кнопка наверх ---------- */
+.toup{
+  position:fixed;right:var(--pad);bottom:24px;z-index:55;
+  width:52px;height:52px;border:2px solid var(--fg);background:var(--bg);
+  color:var(--fg);font-size:22px;line-height:1;cursor:pointer;font-family:inherit;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(10px);transition:opacity .2s,transform .2s,background .15s,color .15s;
+}
+.toup.show{opacity:1;transform:none}
+.toup:hover{background:var(--fg);color:#fff}
+.toup[hidden]{display:none}
+
+/* ---------- место под видео ---------- */
+.shot.video{aspect-ratio:16/9}
+.shot.video .lbl::after{content:" ▶"}
+
+/* ---------- светлый вариант большой плашки ---------- */
+.figure-big.light{border-color:var(--fg)}
+.figure-big.light .n{color:var(--fg);font-size:clamp(34px,6vw,62px)}
+.figure-big.light .cap{color:var(--mut)}
+
 /* ---------- десктоп ---------- */
 @media(min-width:900px){
   :root{--pad:32px;--hh:64px;--headh:56px}
@@ -283,6 +319,14 @@ footer strong{color:#fff}
 @media(max-width:620px){
   .who-full{display:none}
 }
+@media(max-width:860px){
+  .ticker-l{display:none}
+  .ticker-s{display:inline}
+}
+@media(max-width:520px){
+  .topbar .who{display:none}
+  .ticker{text-align:left}
+}
 @media(min-width:621px){
   .who-short{display:none}
 }
@@ -298,6 +342,11 @@ footer strong{color:#fff}
 
 <header class="topbar">
   <a class="who" href="#top"><span class="who-full">Олеся Грачева — охрана труда</span><span class="who-short">Олеся Грачева</span></a>
+  <p class="ticker" title="Оценка: около 250 000 несчастных случаев и микротравм на рабочих местах в год, пересчитано на прошедшую часть суток">
+    <span class="ticker-l">ЧП по охране труда в России за сутки</span>
+    <span class="ticker-s">ЧП за сутки</span>
+    <b id="ticker-n">≈&nbsp;0</b>
+  </p>
   <a class="cta" href="#form">Написать</a>
 </header>
 
@@ -447,6 +496,30 @@ footer strong{color:#fff}
   </div>
 </section>
 
+<!-- ГЛАВА: ВИДЕО -->
+<section class="chapter" id="video">
+  <div class="chapter-head">
+    <div class="wrap"><h2>Коротко о себе — видео</h2></div>
+  </div>
+  <div class="reel" style="--n:1">
+    <div class="reel-stage"><div class="reel-track">
+      <article class="panel">
+        <div class="wrap panel-in">
+          <div class="txt">
+            <span class="num">Видео</span>
+            <h3>Посмотрите, прежде чем звонить</h3>
+            <p>Я расскажу о себе, о том, как я работаю и как много денег, сил и времени я сэкономила для своих заказчиков в сфере промышленности и стройки.</p>
+            <span class="term">3–5 минут</span>
+          </div>
+          <div class="visual">
+            <div class="shot video"><span class="lbl">Место под видео</span><span class="what">Ролик на 3–5 минут: кто вы, как строится работа, два примера с цифрами</span></div>
+          </div>
+        </div>
+      </article>
+    </div></div>
+  </div>
+</section>
+
 <!-- ГЛАВА: КАК СТРОИТСЯ РАБОТА -->
 <section class="chapter" id="work">
   <div class="chapter-head">
@@ -528,7 +601,7 @@ footer strong{color:#fff}
 <!-- ГЛАВА: КЕЙСЫ -->
 <section class="chapter" id="cases">
   <div class="chapter-head">
-    <div class="wrap"><h2>Чем это заканчивалось</h2><span class="count">01 — 04</span></div>
+    <div class="wrap"><h2>Результаты моей работы</h2><span class="count">01 — 04</span></div>
   </div>  <div class="reel" style="--n:4">
     <div class="reel-stage"><div class="reel-track">
   <article class="panel dark">
@@ -586,67 +659,89 @@ footer strong{color:#fff}
   </div>
 </section>
 
-<!-- ГЛАВА: ИЗМЕНЕНИЯ -->
-<section class="chapter" id="news">
+<!-- ГЛАВА: ВОПРОСЫ И ОТВЕТЫ -->
+<section class="chapter" id="faq">
   <div class="chapter-head">
     <div class="wrap">
-      <h2>О чём узнают уже на проверке</h2>
-      <p class="sub">Требования изменились за последние два-три года. Чаще всего попадаются на этих четырёх.</p>
-      <span class="count">01 — 04</span>
+      <h2>Вопросы и ответы</h2>
+      <p class="sub">То, что чаще всего спрашивают собственники и руководители, — и что я отвечаю.</p>
+      <span class="count">01 — 06</span>
     </div>
-  </div>  <div class="reel" style="--n:4">
+  </div>
+  <div class="reel" style="--n:6">
     <div class="reel-stage"><div class="reel-track">
-  <article class="panel">
-      <div class="wrap panel-in">
-        <div class="txt">
-          <span class="num">01</span>
-          <h3>Обучение нужно регистрировать в реестре Минтруда</h3>
-          <p>Провели обучение, выдали удостоверения — а записи в реестре нет. Для инспектора это значит, что обучения не было.</p>
+      <article class="panel">
+        <div class="wrap panel-in">
+          <div class="txt">
+            <span class="num">01</span>
+            <h3>У нас 15 человек. Охрана труда вообще нужна?</h3>
+            <p>Обязанности работодателя по охране труда не зависят от численности: инструктажи, обучение, оценка рисков, СИЗ и медосмотры нужны и в компании на 15 человек, и на 1500. Разница только в том, кто это ведёт. При небольшой численности руководитель может вести охрану труда сам или привлечь специалиста по договору — второе обычно дешевле, чем держать штатную единицу.</p>
+          </div>
+          <div class="visual">
+            <div class="figure-big light"><span class="n">Да, нужна</span><span class="cap">короткий ответ</span></div>
+          </div>
         </div>
-        <div class="visual">
-          <div class="shot"><span class="lbl">Место под фото</span><span class="what">Скриншот карточки в реестре обучения</span></div>
+      </article>
+      <article class="panel">
+        <div class="wrap panel-in">
+          <div class="txt">
+            <span class="num">02</span>
+            <h3>Мы отправили людей в учебный центр. Этого достаточно?</h3>
+            <p>Само обучение — половина дела. Сведения о нём должны попасть в реестр Минтруда. Если записи нет, для инспектора обучения не было: удостоверение на руках ситуацию не спасает. Проверьте по каждому обученному, что он в реестре есть, и что программа соответствует его должности и видам работ.</p>
+          </div>
+          <div class="visual">
+            <div class="figure-big light"><span class="n">Не хватит</span><span class="cap">короткий ответ</span></div>
+          </div>
         </div>
-      </div>
-    </article>
-  
-    <article class="panel">
-      <div class="wrap panel-in">
-        <div class="txt">
-          <span class="num">02</span>
-          <h3>Декларация по результатам СОУТ подаётся через Госуслуги</h3>
-          <p>Спецоценка сделана, декларация — нет. Или подана по старой схеме и не зарегистрирована.</p>
+      </article>
+      <article class="panel">
+        <div class="wrap panel-in">
+          <div class="txt">
+            <span class="num">03</span>
+            <h3>Спецоценку сделали. Вопрос закрыт?</h3>
+            <p>СОУТ — это отчёт организации, которая её проводила. Дальше работодатель сам подаёт декларацию соответствия по рабочим местам, где вредных факторов не выявлено, и делает это через Госуслуги. Сделанная спецоценка без поданной декларации — типичная дыра, которую находят за пять минут.</p>
+          </div>
+          <div class="visual">
+            <div class="figure-big light"><span class="n">Не всё</span><span class="cap">короткий ответ</span></div>
+          </div>
         </div>
-        <div class="visual">
-          <div class="shot"><span class="lbl">Место под фото</span><span class="what">Скриншот поданной декларации — обезличенный</span></div>
+      </article>
+      <article class="panel">
+        <div class="wrap panel-in">
+          <div class="txt">
+            <span class="num">04</span>
+            <h3>Спецодежду выдаём. Что не так может быть?</h3>
+            <p>Правила выдачи изменились: теперь основа — единые типовые нормы и оценка профессиональных рисков на конкретном рабочем месте, а не старые отраслевые перечни. Плюс нужен нормальный учёт: кому, что, когда выдано и на какой срок. Чаще всего нарушение выглядит так: спецодежда есть, а обосновать, почему именно эта и по какой норме, нечем.</p>
+          </div>
+          <div class="visual">
+            <div class="figure-big light"><span class="n">Уже не так</span><span class="cap">короткий ответ</span></div>
+          </div>
         </div>
-      </div>
-    </article>
-  
-    <article class="panel">
-      <div class="wrap panel-in">
-        <div class="txt">
-          <span class="num">03</span>
-          <h3>Правила выдачи СИЗ изменились</h3>
-          <p>Выдача по старым типовым нормам, без оценки рисков и без нормального учёта выданного. Одно из самых частых и самых дорогих несоответствий.</p>
+      </article>
+      <article class="panel">
+        <div class="wrap panel-in">
+          <div class="txt">
+            <span class="num">05</span>
+            <h3>Работник порезался, больничный не открывал. Оформлять?</h3>
+            <p>Да. Учёт микроповреждений обязателен: обстоятельства рассматриваются, запись вносится в журнал. Смысл не в бумажке — по микротравмам видно, где через полгода произойдёт настоящий несчастный случай. Отсутствие учёта инспектор замечает сразу, потому что журнала просто нет.</p>
+          </div>
+          <div class="visual">
+            <div class="figure-big light"><span class="n">Надо</span><span class="cap">короткий ответ</span></div>
+          </div>
         </div>
-        <div class="visual">
-          <div class="shot"><span class="lbl">Место под фото</span><span class="what">Спецодежда и СИЗ, ведомость выдачи</span></div>
+      </article>
+      <article class="panel">
+        <div class="wrap panel-in">
+          <div class="txt">
+            <span class="num">06</span>
+            <h3>Сколько это стоит и с чего начинать?</h3>
+            <p>Начинать всегда с аудита: пока не понятно, что есть и чего нет, любая цена — гадание. Аудит даёт перечень мероприятий с приоритетами и сроками, и уже по нему видно объём. Стоимость называю после короткого разговора: она зависит от численности, видов работ и того, что сделано до меня.</p>
+          </div>
+          <div class="visual">
+            <div class="figure-big light"><span class="n">С аудита</span><span class="cap">короткий ответ</span></div>
+          </div>
         </div>
-      </div>
-    </article>
-  
-    <article class="panel">
-      <div class="wrap panel-in">
-        <div class="txt">
-          <span class="num">04</span>
-          <h3>Микроповреждения нужно учитывать</h3>
-          <p>Порезался, ушибся, обошлось без больничного — многие считают, что фиксировать нечего. Учёт микротравм обязателен, и его отсутствие видно сразу.</p>
-        </div>
-        <div class="visual">
-          <div class="shot"><span class="lbl">Место под фото</span><span class="what">Журнал учёта микроповреждений</span></div>
-        </div>
-      </div>
-    </article>
+      </article>
     </div></div>
   </div>
 </section>
@@ -780,6 +875,8 @@ footer strong{color:#fff}
 </section>
 
 </main>
+
+<button class="toup" id="toup" type="button" aria-label="Наверх" hidden>↑</button>
 
 <footer>
   <div class="wrap fgrid">
@@ -944,8 +1041,10 @@ footer strong{color:#fff}
 
         it.panels.forEach(function(el, i){
           // чем дальше разворот от центра сцены, тем сильнее размыт
+          // широкая зона полной резкости: пока разворот ближе 0.42 хода
+          // к центру — он чёткий целиком, размывается только на переходе
           var d = Math.abs(pos - i);
-          var p = clamp(1 - d * 1.15, 0, 1);
+          var p = clamp(1 - Math.max(0, d - 0.42) * 2.8, 0, 1);
           p = Math.round(p * 100) / 100;
           if (el.__p !== p){
             el.__p = p;
@@ -961,12 +1060,72 @@ footer strong{color:#fff}
       requestAnimationFrame(paint);
     }
 
+    /* Точки привязки: по одной на разворот. Прокрутка мягко доводит
+       ленту до целого кадра, поэтому «между двумя» и не в фокусе
+       страница не зависает.                                        */
+    function snapPoints(){
+      items.forEach(function(it){
+        [].forEach.call(it.reel.querySelectorAll(".snap"), function(el){ el.remove(); });
+        var n = it.panels.length;
+        if (n < 2) return;
+        var stageH = it.stage.getBoundingClientRect().height;
+        var travel = it.reel.getBoundingClientRect().height - stageH;
+        if (travel <= 0) return;
+        for (var i = 0; i < n; i++){
+          var mark = document.createElement("div");
+          mark.className = "snap";
+          mark.style.top = (travel * i / (n - 1)) + "px";
+          it.reel.appendChild(mark);
+        }
+      });
+    }
+
     window.addEventListener("scroll", onScroll, {passive:true});
     window.addEventListener("resize", function(){
       items.forEach(function(it){ it.lastX = null; });
+      snapPoints();
       onScroll();
     });
+    snapPoints();
     paint();
+  })();
+
+  /* ---------- счётчик происшествий ----------
+     Модельная оценка, не сводка в реальном времени: около 250 000
+     несчастных случаев и микроповреждений на рабочих местах в год,
+     разложенные ровно по суткам. Показываем, сколько «набежало»
+     с начала текущих суток. Поэтому число со знаком «≈».          */
+  (function ticker(){
+    var out = document.getElementById("ticker-n");
+    if (!out) return;
+
+    var PER_YEAR = 250000;
+    var perDay = PER_YEAR / 365;
+
+    function tick(){
+      var now = new Date();
+      var since = (now - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 86400000;
+      var n = Math.floor(perDay * since);
+      out.textContent = "≈ " + n.toLocaleString("ru-RU");
+    }
+    tick();
+    setInterval(tick, 20000);
+  })();
+
+  /* ---------- кнопка наверх ---------- */
+  (function toTop(){
+    var btn = document.getElementById("toup");
+    if (!btn) return;
+    btn.hidden = false;
+
+    function sync(){
+      btn.classList.toggle("show", window.pageYOffset > window.innerHeight * 0.8);
+    }
+    window.addEventListener("scroll", sync, {passive:true});
+    btn.addEventListener("click", function(){
+      glide(document.scrollingElement || document.documentElement, "scrollTop", 0, 700);
+    });
+    sync();
   })();
 
   /* ---------- появление при прокрутке ---------- */
