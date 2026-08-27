@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Олеся Грачева — охрана труда без штрафов и судов</title>
+<meta name="description" content="Охрана труда, пожарная и промышленная безопасность, экология. Разработка документации, аудит, обучение. 13 лет, 30 компаний, 9 отраслей. Дистанционно. Ответ в течение часа.">
+<meta property="og:title" content="Олеся Грачева — охрана труда без штрафов и судов">
+<meta property="og:description" content="Документация, аудит и обучение по охране труда. 13 лет, 30 компаний. Дистанционно, ответ в течение часа.">
+<meta property="og:type" content="website">
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --bg:#ffffff;
+  --fg:#0a0a0a;
+  --mut:#6e6e6e;
+  --dim:#2a2a2a;
+  --line:#e3e3e3;
+  --line2:#111111;
+  --wash:#f6f6f4;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,"Liberation Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg);color:var(--dim);
+  font-family:var(--sans);font-size:17px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:var(--fg)}
+:focus-visible{outline:2px solid var(--fg);outline-offset:3px}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.col{max-width:760px}
+
+section{padding:72px 0;border-top:1px solid var(--line)}
+section:first-of-type{border-top:0}
+
+h1,h2,h3{color:var(--fg);font-weight:600;line-height:1.08;letter-spacing:-0.02em}
+h1{font-size:clamp(34px,8.2vw,68px);letter-spacing:-0.035em}
+h2{font-size:clamp(26px,5.4vw,42px);margin-bottom:28px}
+h3{font-size:clamp(19px,3.4vw,23px);letter-spacing:-0.01em;margin-bottom:8px}
+p+p{margin-top:14px}
+
+.eyebrow{
+  font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--mut);margin-bottom:20px;
+}
+.lead{font-size:clamp(18px,2.4vw,21px);color:var(--dim);line-height:1.55}
+.mut{color:var(--mut)}
+
+/* --- hero --- */
+.hero{padding:44px 0 76px;border-top:0}
+.hero-grid{display:grid;gap:40px}
+.hero h1{margin:0 0 24px}
+.hero .lead{max-width:34em}
+.hero-meta{
+  margin-top:26px;padding-top:20px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:13px;letter-spacing:.04em;color:var(--mut);
+  display:flex;flex-wrap:wrap;gap:8px 22px;
+}
+.idcard{display:flex;align-items:center;gap:16px;margin-bottom:26px}
+.idcard .eyebrow{margin-bottom:0;line-height:1.5}
+.avatar{
+  flex:0 0 84px;width:84px;height:84px;border-radius:50%;overflow:hidden;
+  background:var(--wash);border:1px solid var(--line);display:block;
+}
+.avatar img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.about-grid{display:grid;gap:36px}
+.about-grid .photo{max-width:420px}
+.photo{position:relative;background:var(--wash);border:1px solid var(--line)}
+.photo img{width:100%;height:auto;object-fit:cover}
+.photo figcaption{
+  padding:10px 12px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);
+}
+
+/* --- buttons --- */
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:52px;padding:14px 26px;
+  font-size:16px;font-weight:500;text-decoration:none;
+  border:1px solid var(--fg);border-radius:0;cursor:pointer;
+  font-family:inherit;transition:background .15s,color .15s;
+}
+.btn-solid{background:var(--fg);color:#fff}
+.btn-solid:hover{background:#000}
+.btn-ghost{background:transparent;color:var(--fg)}
+.btn-ghost:hover{background:var(--fg);color:#fff}
+.btn:disabled{opacity:.45;cursor:default}
+
+/* --- generic lists --- */
+.stack{display:grid;gap:40px}
+.item{padding-top:26px;border-top:1px solid var(--line)}
+.item .num{
+  font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--mut);
+  display:block;margin-bottom:12px;
+}
+.term{
+  font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--mut);margin-top:12px;display:block;
+}
+
+/* --- numbers --- */
+.figs{display:grid;gap:28px;margin-top:8px}
+.fig .n{
+  font-size:clamp(38px,8vw,58px);line-height:1;color:var(--fg);
+  font-weight:600;letter-spacing:-0.04em;font-variant-numeric:tabular-nums;
+}
+.fig .t{margin-top:10px;font-size:15px;color:var(--mut);max-width:22em}
+
+/* --- case --- */
+.case{padding-top:28px;border-top:1px solid var(--line2)}
+.case .res{
+  display:inline-block;margin-bottom:14px;font-family:var(--mono);
+  font-size:13px;letter-spacing:.06em;color:var(--fg);
+  border-bottom:2px solid var(--fg);padding-bottom:3px;
+}
+
+/* --- tags --- */
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px}
+.tag{
+  border:1px solid var(--line);padding:9px 14px;font-size:15px;color:var(--dim);
+}
+
+/* --- placeholder blocks --- */
+.ph{
+  border:1px dashed #bdbdbd;background:var(--wash);
+  padding:24px 20px;color:var(--mut);font-size:15px;
+}
+.ph b{color:var(--dim);font-weight:600}
+.ph-grid{display:grid;gap:14px;grid-template-columns:1fr}
+.ph-box{
+  border:1px dashed #bdbdbd;background:var(--wash);
+  min-height:120px;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:18px;line-height:1.5;
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);
+}
+
+/* --- form --- */
+.formwrap{max-width:560px}
+.field{margin-top:22px}
+.field label{
+  display:block;font-family:var(--mono);font-size:12px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--mut);margin-bottom:8px;
+}
+.field input,.field textarea{
+  width:100%;font-family:inherit;font-size:17px;color:var(--fg);
+  background:transparent;border:0;border-bottom:1px solid var(--fg);
+  padding:12px 2px;min-height:48px;border-radius:0;
+}
+.field textarea{min-height:96px;resize:vertical;line-height:1.5}
+.field input::placeholder,.field textarea::placeholder{color:#a8a8a8}
+.consent{display:flex;gap:12px;align-items:flex-start;margin-top:26px;font-size:15px;color:var(--mut)}
+.consent input{width:22px;height:22px;flex:0 0 22px;margin-top:2px;accent-color:#0a0a0a}
+.consent label{cursor:pointer}
+.trap{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.msg{margin-top:18px;font-size:15px;min-height:1.2em}
+.msg.err{color:#b00000}
+.done{border-top:2px solid var(--fg);padding-top:24px}
+.done h3{margin-bottom:10px}
+.hidden{display:none}
+
+/* --- footer --- */
+footer{border-top:1px solid var(--fg);padding:44px 0 60px;font-size:15px;color:var(--mut)}
+footer a{color:var(--dim);display:inline-flex;align-items:center;min-height:44px}
+.fgrid{display:grid;gap:26px}
+.fgrid p+p{margin-top:8px}
+
+@media(min-width:760px){
+  section{padding:104px 0}
+  .hero{padding:56px 0 104px}
+  .hero h1{max-width:15ch}
+  .about-grid{grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start}
+  .stack.two{grid-template-columns:1fr 1fr;gap:44px 48px}
+  .figs{grid-template-columns:repeat(3,1fr);gap:36px}
+  .ph-grid{grid-template-columns:repeat(3,1fr)}
+  .fgrid{grid-template-columns:1.2fr .8fr .8fr}
+}
+</style>
+</head>
+<body>
+
+<main class="wrap">
+
+<!-- 1. ПЕРВЫЙ ЭКРАН -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="idcard">
+        <span class="avatar">
+          <img src="img/olesya-avatar.jpg" alt="Олеся Грачева, портрет" width="560" height="560">
+        </span>
+        <p class="eyebrow">Олеся Сергеевна Грачева<br>специалист по охране труда</p>
+      </div>
+      <h1>Охрана труда — без штрафов и судов</h1>
+      <p class="lead">
+        Разрабатываю документацию, провожу аудит и обучение по охране труда,
+        пожарной и промышленной безопасности, ГО и ЧС. Довожу до состояния,
+        в котором проверка заканчивается без замечаний.
+      </p>
+      <div class="btns">
+        <a class="btn btn-solid" href="#form">Написать мне</a>
+        <a class="btn btn-ghost" href="#work">Как строится работа</a>
+      </div>
+      <p class="hero-meta">
+        <span>13 лет в профессии</span>
+        <span>30 компаний</span>
+        <span>9 отраслей</span>
+        <span>Дистанционно</span>
+        <span>Ответ в течение часа</span>
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- 2. КОГДА КО МНЕ ПРИХОДЯТ -->
+<section id="when">
+  <div class="col"><h2>Три ситуации, в которых я нужна</h2></div>
+  <div class="stack two">
+    <div class="item">
+      <span class="num">01</span>
+      <h3>Назначена проверка</h3>
+      <p>Уточняю у инспектора точный перечень документов по вашему предмету проверки, собираю чек-лист, провожу аудит и готовлю папку сканов — в том виде, в котором её примут. К проверке вы приходите не с надеждой, а со списком, где всё закрыто.</p>
+    </div>
+    <div class="item">
+      <span class="num">02</span>
+      <h3>Пришло предписание или жалоба</h3>
+      <p>Разбираю, что именно нарушено, что закрывается за день, а что требует денег и времени. Получаете перечень мероприятий со сроками и ответственными — по нему видно, за что браться первым.</p>
+    </div>
+    <div class="item">
+      <span class="num">03</span>
+      <h3>Ничего не горит, но и порядка нет</h3>
+      <p>Самый спокойный и самый дешёвый вариант. Профилактика, запуск объекта, новое подразделение, смена ответственного. Здесь работа идёт по плану, а не в режиме тушения.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. УСЛУГИ -->
+<section id="services">
+  <div class="col"><h2>Что я делаю</h2></div>
+  <div class="stack two">
+    <div class="item">
+      <h3>Разработка документации</h3>
+      <p>Инструкции, положения, приказы, регламенты, чек-листы, памятки. Под вашу структуру, ваши профессии и ваши виды работ — не типовой шаблон из интернета, в котором инспектор за минуту найдёт чужое название.</p>
+      <span class="term">Срок — от 1 дня</span>
+    </div>
+    <div class="item">
+      <h3>Аудит документации по охране труда</h3>
+      <p>Проверяю, что есть, чего нет и что оформлено так, что не считается. На выходе — перечень мероприятий с приоритетами и сроками. Документ, по которому можно работать самостоятельно, даже если дальше вы пойдёте без меня.</p>
+      <span class="term">Срок — от 1 дня</span>
+    </div>
+    <div class="item">
+      <h3>Обучение: вебинары и лекции</h3>
+      <p>Охрана труда, пожарная безопасность, промышленная безопасность, ГО и ЧС. Для рабочих, руководителей и ответственных лиц. Дистанционно, без отрыва людей от объекта — это важно там, где вахта и удалённые площадки.</p>
+      <span class="term">Срок — от 1 дня</span>
+    </div>
+    <div class="item">
+      <h3>Программы обучения для учебных центров</h3>
+      <p>Разрабатываю программы, по которым будут преподавать ваши преподаватели. Работа для тех, кто сам обучает.</p>
+      <span class="term">Срок — от 1 дня</span>
+    </div>
+  </div>
+  <div class="col" style="margin-top:44px">
+    <p class="mut">Стоимость называю после короткого разговора: она зависит от численности, видов работ и того, что уже сделано до меня.</p>
+  </div>
+</section>
+
+<!-- 4. КАК СТРОИТСЯ РАБОТА -->
+<section id="work">
+  <div class="col">
+    <h2>Как выглядит работа с нуля</h2>
+    <p class="lead">Пример — буровая компания, где охраны труда не было вообще. Не «примерно так бывает», а как было.</p>
+  </div>
+  <div class="stack two" style="margin-top:44px">
+    <div class="item">
+      <span class="num">Шаг 0</span>
+      <h3>Аудит и чек-лист</h3>
+      <p>Что есть, чего нет, в каком порядке закрывать, к какому сроку и кто отвечает.</p>
+    </div>
+    <div class="item">
+      <span class="num">Месяц 1</span>
+      <h3>Документы и ответственность</h3>
+      <p>Разработка локальных нормативных актов, ознакомление работников, распределение обязанностей и ответственности, обеспечение ответственных журналами, инструкциями и рабочими материалами.</p>
+    </div>
+    <div class="item">
+      <span class="num">Месяц 2</span>
+      <h3>Люди</h3>
+      <p>Инструктажи всем сотрудникам, направление на медицинские осмотры и обучение, оформление допусков.</p>
+    </div>
+    <div class="item">
+      <span class="num">Месяц 3</span>
+      <h3>Обеспечение и система</h3>
+      <p>Закупка и выдача спецодежды, постановка учёта, внедрение культуры безопасности — чтобы система работала после моего ухода, а не рассыпалась.</p>
+    </div>
+  </div>
+  <div class="col" style="margin-top:44px">
+    <p><strong>Итог: 3 месяца от «нет ничего» до рабочей системы охраны труда.</strong></p>
+  </div>
+</section>
+
+<!-- 5. КЕЙСЫ -->
+<section id="cases">
+  <div class="col"><h2>Чем это заканчивалось</h2></div>
+
+  <div class="figs" style="margin-bottom:56px">
+    <div class="fig"><div class="n">0 ₽</div><div class="t">штраф вместо возможных 200 000 ₽ по линии Ростехнадзора</div></div>
+    <div class="fig"><div class="n">490 000 ₽</div><div class="t">сохранено компании: санкция 500 000 ₽ снижена до 10 000 ₽</div></div>
+    <div class="fig"><div class="n">3 месяца</div><div class="t">от полного отсутствия охраны труда до работающей системы на буровой</div></div>
+  </div>
+
+  <div class="stack two">
+    <div class="case">
+      <span class="res">Без замечаний</span>
+      <h3>Инспекция труда по жалобе работника</h3>
+      <p>Проверку назначили по жалобе. Уточнила у инспектора точный перечень документов, составила чек-лист, провела аудит документации, подготовила папку сканов к дате проверки. Проверка завершилась без замечаний.</p>
+    </div>
+    <div class="case">
+      <span class="res">Штрафа нет</span>
+      <h3>Ростехнадзор, отчётность</h3>
+      <p>Риск — до 200 000 ₽. Отчётность подготовлена и сдана в срок. Штрафа не было.</p>
+    </div>
+    <div class="case">
+      <span class="res">500 000 ₽ → 10 000 ₽</span>
+      <h3>Природопользование</h3>
+      <p>Нарушение природоохранного законодательства, санкция на юридическое лицо — до 500 000 ₽. По итогу разбирательства — 10 000 ₽ на должностное лицо. Компания сохранила 490 000 ₽.</p>
+    </div>
+    <div class="case">
+      <span class="res">Система с нуля</span>
+      <h3>Буровая компания</h3>
+      <p>На входе — охраны труда нет. На выходе — документы, обученные и допущенные люди, выданные СИЗ, работающий учёт. По помесячному плану из блока выше.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6. НА ЧЁМ ПОПАДАЮТСЯ -->
+<section id="news">
+  <div class="col">
+    <h2>Четыре вещи, о которых узнают уже на проверке</h2>
+    <p class="lead">Требования изменились за последние два-три года. Чаще всего попадаются на этом.</p>
+  </div>
+  <div class="stack two" style="margin-top:44px">
+    <div class="item">
+      <span class="num">01</span>
+      <h3>Обучение нужно регистрировать в реестре Минтруда</h3>
+      <p>Провели обучение, выдали удостоверения — а записи в реестре нет. Для инспектора это значит, что обучения не было.</p>
+    </div>
+    <div class="item">
+      <span class="num">02</span>
+      <h3>Декларация по результатам СОУТ подаётся через Госуслуги</h3>
+      <p>Спецоценка сделана, декларация — нет. Или подана по старой схеме и не зарегистрирована.</p>
+    </div>
+    <div class="item">
+      <span class="num">03</span>
+      <h3>Правила выдачи СИЗ изменились</h3>
+      <p>Выдача по старым типовым нормам, без оценки рисков и без нормального учёта выданного. Одно из самых частых и самых дорогих несоответствий.</p>
+    </div>
+    <div class="item">
+      <span class="num">04</span>
+      <h3>Микроповреждения нужно учитывать</h3>
+      <p>Порезался, ушибся, обошлось без больничного — многие считают, что фиксировать нечего. Учёт микротравм обязателен, и его отсутствие видно сразу.</p>
+    </div>
+  </div>
+  <div class="col" style="margin-top:44px">
+    <p><strong>Если по любому из четырёх пунктов вы не уверены — это уже повод написать.</strong></p>
+  </div>
+</section>
+
+<!-- 7. ОТРАСЛИ -->
+<section id="fields">
+  <div class="col"><h2>Где я работала</h2></div>
+  <div class="tags">
+    <span class="tag">Строительство</span>
+    <span class="tag">Бурение</span>
+    <span class="tag">Нефтегазовая отрасль</span>
+    <span class="tag">Производство</span>
+    <span class="tag">Химическое производство</span>
+    <span class="tag">Автотранспорт</span>
+    <span class="tag">Ремонт и обслуживание</span>
+    <span class="tag">Управляющие компании</span>
+    <span class="tag">Бюджетные организации</span>
+  </div>
+  <div class="col item">
+    <h3>Отдельно — вахта и удалённые объекты</h3>
+    <p>Самое сложное в практике. Люди на площадке за сотни километров, смены не совпадают с рабочей неделей, собрать всех в одном месте невозможно. Работа с такими объектами строится иначе — и я это умею.</p>
+  </div>
+</section>
+
+<!-- 8. ОБО МНЕ -->
+<section id="about">
+  <div class="about-grid">
+  <figure class="photo">
+    <img src="img/olesya-object.jpg" alt="Олеся Грачева на строительном объекте в защитной каске и сигнальном жилете" width="959" height="1280" loading="lazy">
+    <figcaption>На объекте</figcaption>
+  </figure>
+  <div>
+    <h2>Олеся Грачева</h2>
+    <p class="lead">13 лет в охране труда. 30 компаний. Девять отраслей.</p>
+    <p style="margin-top:24px">Высшее образование по охране труда и экологии, дополнительно — пожарная безопасность.</p>
+    <p><strong>Почему я веду и охрану труда, и экологию.</strong> Это два разных направления, по каждому у меня своё образование. Но обе задачи — про одно: техносферную безопасность. Разделять их на практике неудобно: на одном и том же объекте инспектор по труду и природоохранный надзор смотрят разные документы, а отвечает перед обоими один руководитель.</p>
+    <p><strong>Работаю дистанционно</strong> — документы, аудит и обучение по всей России. Отвечаю в течение часа.</p>
+  </div>
+  </div>
+</section>
+
+<!-- 9. ДОКУМЕНТЫ — ЗАГЛУШКА -->
+<section id="docs">
+  <div class="col"><h2>Документы</h2></div>
+  <div class="ph-grid">
+    <div class="ph-box">Скан диплома<br>охрана труда и экология</div>
+    <div class="ph-box">Скан документа<br>пожарная безопасность</div>
+    <div class="ph-box">Место под ещё<br>один документ</div>
+  </div>
+  <div class="ph" style="margin-top:14px">
+    <b>Черновик.</b> Нужны файлы сканов, год выдачи и учебное заведение по каждому документу.
+  </div>
+</section>
+
+<!-- 10. ОТЗЫВЫ — ЗАГЛУШКА -->
+<section id="reviews">
+  <div class="col"><h2>Отзывы</h2></div>
+  <div class="ph-grid">
+    <div class="ph-box">Отзыв 1<br>имя · должность · компания</div>
+    <div class="ph-box">Отзыв 2<br>имя · должность · компания</div>
+    <div class="ph-box">Отзыв 3<br>имя · должность · компания</div>
+  </div>
+  <div class="ph" style="margin-top:14px">
+    <b>Черновик.</b> Нужны три настоящих отзыва: текст, имя, должность, компания. Придуманных здесь не будет — блок либо наполняется, либо снимается.
+  </div>
+</section>
+
+<!-- 11. ЛОГОТИПЫ — ЗАГЛУШКА -->
+<section id="clients">
+  <div class="col"><h2>С кем работала</h2></div>
+  <div class="ph-grid">
+    <div class="ph-box">Логотип</div>
+    <div class="ph-box">Логотип</div>
+    <div class="ph-box">Логотип</div>
+  </div>
+  <div class="ph" style="margin-top:14px">
+    <b>Черновик.</b> Нужны 4–6 логотипов и согласие клиентов на публикацию названия.
+  </div>
+</section>
+
+<!-- 12. ФОРМА -->
+<section id="form">
+  <div class="col">
+    <h2>Напишите, что у вас происходит</h2>
+    <p class="lead">Опишите ситуацию в двух предложениях: что за компания и чего не хватает. Отвечу в течение часа и скажу, что делать в первую очередь — даже если дальше вы решите обойтись без меня.</p>
+  </div>
+
+  <div class="formwrap" style="margin-top:36px">
+    <form id="lead" novalidate>
+      <div class="field">
+        <label for="name">Как к вам обращаться</label>
+        <input id="name" name="name" type="text" autocomplete="name" placeholder="Имя">
+      </div>
+      <div class="field">
+        <label for="contact">Телефон или Telegram</label>
+        <input id="contact" name="contact" type="text" autocomplete="tel" placeholder="+7 900 000-00-00 или @nickname">
+      </div>
+      <div class="field">
+        <label for="task">Что у вас происходит</label>
+        <textarea id="task" name="task" placeholder="Строительная компания, 40 человек. Через две недели проверка, документов почти нет."></textarea>
+      </div>
+
+      <div class="trap">
+        <label for="company2">Не заполняйте это поле</label>
+        <input id="company2" name="company2" type="text" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="consent">
+        <input id="pd" name="pd" type="checkbox">
+        <label for="pd">Согласен на обработку персональных данных и принимаю <a href="policy.html">политику конфиденциальности</a></label>
+      </div>
+
+      <div class="btns">
+        <button class="btn btn-solid" id="send" type="submit">Отправить</button>
+        <a class="btn btn-ghost" id="tglink" href="#">Написать в Telegram</a>
+      </div>
+
+      <p class="msg" id="msg" role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="done hidden" id="done">
+      <h3>Заявка ушла</h3>
+      <p>Отвечу в течение часа — в рабочее время обычно быстрее. Если срочно, напишите в Telegram: там я вижу сообщение сразу.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap fgrid">
+    <div>
+      <p><strong style="color:var(--fg)">Олеся Сергеевна Грачева</strong></p>
+      <p>Специалист по охране труда и техносферной безопасности</p>
+      <p>Самозанятая, налог на профессиональный доход</p>
+      <p>ИНН: <span id="f-inn">— указать —</span></p>
+    </div>
+    <div>
+      <p><a id="f-phone" href="#">— указать телефон —</a></p>
+      <p><a id="f-tg" href="#">— указать Telegram —</a></p>
+      <p><a id="f-mail" href="#">— указать почту —</a></p>
+    </div>
+    <div>
+      <p>Работаю дистанционно по всей России</p>
+      <p>Отвечаю в течение часа</p>
+      <p><a href="policy.html">Политика конфиденциальности</a></p>
+      <p style="margin-top:14px">© 2026</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============ НАСТРОЙКИ — ЗАПОЛНИТЬ ============
+     Секретов здесь нет и быть не должно: всё, что в HTML, видит посетитель.
+     ENDPOINT — адрес приёмника заявок (Cloudflare Worker -> почта / CRM).
+     Пока ENDPOINT пуст, заявка не теряется: текст копируется в буфер
+     и открывается чат в Telegram.                                    */
+  var ENDPOINT = "";     // напр. "https://ot-lead.xxx.workers.dev"
+  var TG       = "";     // ник без @, напр. "olesya_ot"
+  var PHONE    = "";     // напр. "+79000000000"
+  var EMAIL    = "";     // напр. "olesya@example.ru"
+  var INN      = "";     // ИНН самозанятой
+  /* =============================================== */
+
+  function setLink(id, href, text){
+    var el = document.getElementById(id);
+    if (!el || !href) return;
+    el.setAttribute("href", href);
+    el.textContent = text;
+  }
+  if (PHONE) setLink("f-phone", "tel:" + PHONE.replace(/[^\d+]/g, ""), PHONE);
+  if (TG)    setLink("f-tg", "https://t.me/" + TG, "@" + TG);
+  if (EMAIL) setLink("f-mail", "mailto:" + EMAIL, EMAIL);
+  if (INN){ var innEl = document.getElementById("f-inn"); if (innEl) innEl.textContent = INN; }
+
+  var tgBtn = document.getElementById("tglink");
+  if (tgBtn){
+    if (TG){
+      tgBtn.setAttribute("href", "https://t.me/" + TG);
+      tgBtn.setAttribute("target", "_blank");
+      tgBtn.setAttribute("rel", "noopener");
+    } else {
+      tgBtn.classList.add("hidden");
+    }
+  }
+
+  var form = document.getElementById("lead");
+  var msg  = document.getElementById("msg");
+  var done = document.getElementById("done");
+  var send = document.getElementById("send");
+  if (!form) return;
+
+  function say(text, kind){
+    msg.textContent = text || "";
+    msg.className = "msg" + (kind === "err" ? " err" : "");
+  }
+
+  function accepted(){
+    form.classList.add("hidden");
+    done.classList.remove("hidden");
+    done.scrollIntoView({behavior:"smooth", block:"center"});
+  }
+
+  function fallback(p){
+    var text = "Заявка с сайта\nИмя: " + p.name + "\nКонтакт: " + p.contact + "\nЗадача: " + p.task;
+    try { if (navigator.clipboard) navigator.clipboard.writeText(text); } catch(e){}
+    if (TG){
+      say("Приёмник заявок ещё не подключён. Текст скопирован — откройте Telegram и вставьте его.", "err");
+      window.open("https://t.me/" + TG, "_blank", "noopener");
+    } else {
+      say("Приёмник заявок ещё не подключён. Текст заявки скопирован в буфер обмена.", "err");
+    }
+    send.disabled = false;
+  }
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    var name    = document.getElementById("name");
+    var contact = document.getElementById("contact");
+    var task    = document.getElementById("task");
+    var pd      = document.getElementById("pd");
+    var trap    = document.getElementById("company2");
+
+    if (trap.value){ accepted(); return; }
+
+    if (!name.value.trim()){
+      say("Напишите, как к вам обращаться.", "err"); name.focus(); return;
+    }
+    if (contact.value.trim().length < 5){
+      say("Оставьте телефон или ник в Telegram — иначе мне некуда ответить.", "err"); contact.focus(); return;
+    }
+    if (!task.value.trim()){
+      say("Опишите ситуацию хотя бы одним предложением.", "err"); task.focus(); return;
+    }
+    if (!pd.checked){
+      say("Без согласия на обработку персональных данных отправить не получится.", "err"); pd.focus(); return;
+    }
+
+    var p = {
+      name: name.value.trim(),
+      contact: contact.value.trim(),
+      task: task.value.trim(),
+      consent: true,
+      page: location.href
+    };
+
+    send.disabled = true;
+
+    if (!ENDPOINT){ fallback(p); return; }
+
+    say("Отправляю.");
+    fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(p)
+    }).then(function(r){
+      if (!r.ok) throw new Error("status " + r.status);
+      return r.json();
+    }).then(function(){
+      accepted();
+    }).catch(function(){
+      say("Не удалось отправить — что-то с соединением. Текст сохранён в полях, вводить заново не нужно.", "err");
+      fallback(p);
+    });
+  });
+})();
+</script>
+</body>
+</html>
