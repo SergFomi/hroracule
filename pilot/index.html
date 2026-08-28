@@ -1,0 +1,1037 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Пилот: один процесс, две недели — ИИ-агент под ваш процесс</title>
+<meta name="description" content="Цифровой сотрудник для одного рутинного процесса из ваших продаж. Пилот за две недели: разбор процесса, сборка агента, правки по факту работы, документация и передача доступов.">
+<meta name="robots" content="noindex">
+<style>
+:root{
+  --wash:#f5f5f5;
+  --panel:#ffffff;
+  --panel-dark:#1a1a1a;
+  --ink:#1a1a1a;
+  --ink-light:#555555;
+  --acc:#2e7d32;
+  --danger:#c62828;
+  --line:#bdbdbd;
+  --mono:ui-monospace,"SF Mono","Cascadia Code","Roboto Mono",monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --pad:20px;
+  --hh:56px;
+  --headh:46px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  overflow-anchor:none;
+  background:var(--wash);color:var(--ink);
+  font-family:var(--sans);font-size:19px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:clip;
+  padding-top:var(--hh);
+}
+h1,h2,h3{color:var(--ink);font-weight:700;line-height:1.05;letter-spacing:-0.03em}
+h1{font-size:clamp(34px,7vw,62px);letter-spacing:-0.04em;max-width:16ch}
+h3{font-size:clamp(23px,4.4vw,34px);letter-spacing:-0.025em}
+p+p{margin-top:16px}
+a{color:var(--ink);display:inline-flex;align-items:center;min-height:44px;vertical-align:middle}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+
+.wrap{max-width:76ch;margin-left:auto;margin-right:auto;padding-left:var(--pad);padding-right:var(--pad)}
+.txt{max-width:44ch}
+.mono{
+  font-family:var(--mono);font-size:clamp(12px,1.1vw,13px);
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-light);
+}
+.lead{font-size:clamp(20px,2.6vw,25px);line-height:1.4;max-width:40ch;color:var(--ink-light)}
+.dim{color:var(--ink-light)}
+
+/* ---------- шапка ---------- */
+.topbar{
+  position:fixed;top:0;left:0;right:0;height:var(--hh);z-index:60;
+  background:var(--panel);border-bottom:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;
+  gap:14px;padding-left:var(--pad);padding-right:var(--pad);
+}
+.topbar .who{
+  font-family:var(--mono);font-size:clamp(12px,1.1vw,13px);letter-spacing:.14em;
+  text-decoration:none;white-space:nowrap;overflow:clip;text-overflow:ellipsis;
+  flex:0 1 auto;min-width:0;display:block;line-height:56px;
+}
+.topbar .cta{
+  flex:0 0 auto;justify-content:center;
+  min-height:44px;padding-left:16px;padding-right:16px;
+  background:var(--ink);color:var(--panel);
+  font-size:clamp(14px,1.5vw,15px);font-weight:600;text-decoration:none;
+  border:2px solid var(--ink);
+}
+.topbar .cta:hover{background:var(--panel);color:var(--ink)}
+
+/* ---------- кнопки ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:54px;padding-left:26px;padding-right:26px;
+  padding-top:12px;padding-bottom:12px;
+  font-size:clamp(17px,1.8vw,18px);font-weight:600;text-decoration:none;
+  border:2px solid var(--ink);cursor:pointer;font-family:inherit;
+  background:var(--ink);color:var(--panel);
+}
+.btn:hover{background:var(--panel);color:var(--ink)}
+.btn-ghost{background:transparent;color:var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--panel)}
+.btn:disabled{opacity:.45;cursor:default}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+
+/* ---------- первый экран ---------- */
+.hero{padding-top:34px;padding-bottom:60px}
+.hero-grid{display:grid;gap:34px}
+.hero h1{margin-top:14px;margin-bottom:16px}
+.hero .under{margin-top:18px;max-width:40ch}
+
+/* ---------- глава ---------- */
+.chapter{position:relative}
+.chapter-head{
+  position:sticky;top:var(--hh);z-index:20;
+  background:var(--panel-dark);
+  padding-top:20px;padding-bottom:22px;
+  transition:padding .25s ease;
+}
+.chapter-head.stuck{padding-top:12px;padding-bottom:13px}
+.chapter-head.stuck .sub{display:none}
+.chapter-head.stuck h2{max-width:none}
+.chapter-head h2{
+  color:var(--panel);text-transform:uppercase;
+  font-size:clamp(22px,5vw,42px);
+  line-height:1.04;letter-spacing:-0.02em;max-width:18ch;
+  transition:font-size .25s ease;
+}
+.chapter-head .sub{
+  margin-top:10px;color:var(--line);
+  font-size:clamp(15px,1.9vw,19px);line-height:1.45;max-width:46ch;
+}
+.sentinel{position:absolute;top:0;height:1px;width:1px}
+.body-block{padding-top:52px;padding-bottom:60px}
+
+/* ---------- лента ---------- */
+.reel{position:relative;height:calc(var(--n) * 100vh)}
+.reel-stage{
+  position:sticky;top:calc(var(--hh) + var(--headh));
+  height:calc(100vh - var(--hh) - var(--headh));
+  overflow:clip;background:var(--wash);z-index:1;
+}
+.reel-track{display:flex;height:100%;will-change:transform}
+.panel{flex:0 0 100%;height:100%;display:flex;align-items:center;background:var(--wash)}
+.panel.dark{background:var(--panel-dark)}
+.panel.dark h3,.panel.dark p{color:var(--panel)}
+.panel.dark .mono{color:var(--line)}
+/* на тёмном развороте рамки задаются явно, а не наследуются от светлого */
+.panel.dark .card,.panel.dark .slot,.panel.dark .slot-flat,.panel.dark .list li{border-color:var(--line)}
+.panel-in{
+  display:grid;gap:26px;align-items:center;width:100%;
+  --p:1;
+  opacity:calc(.12 + var(--p) * .88);
+  filter:blur(calc((1 - var(--p)) * 14px)) contrast(calc(.65 + var(--p) * .35));
+  will-change:filter,opacity;
+}
+.panel p{font-size:clamp(18px,2vw,21px);line-height:1.5;max-width:44ch}
+.giant{
+  font-family:var(--mono);font-weight:700;
+  font-size:clamp(76px,16vw,180px);line-height:.9;letter-spacing:-0.05em;
+  color:var(--ink);white-space:nowrap;
+}
+.panel.dark .giant{color:var(--panel)}
+
+/* ---------- карточки и списки ---------- */
+.card{
+  background:var(--panel);border:1px solid var(--line);
+  padding-top:26px;padding-bottom:26px;padding-left:24px;padding-right:24px;
+}
+.grid2{display:grid;gap:22px}
+.list{list-style:none}
+.list li{
+  font-size:clamp(18px,2vw,21px);line-height:1.5;max-width:46ch;
+  padding-top:14px;padding-bottom:14px;border-top:1px solid var(--line);
+}
+.list li:first-child{border-top:0}
+/* акцент задан прямо в главе 3.3 — единственном месте, где он есть */
+.marker{display:inline-block;margin-bottom:16px;padding-bottom:6px;border-bottom-width:3px;border-bottom-style:solid}
+.marker.no{color:var(--danger);border-bottom-color:var(--danger)}
+
+/* ---------- заглушка ---------- */
+.slot{
+  border:2px dashed var(--line);background:var(--wash);
+  aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;
+  padding-left:20px;padding-right:20px;
+}
+.slot .mono{max-width:34ch;text-align:center;line-height:1.7}
+.slot-note{margin-top:16px;max-width:44ch;color:var(--ink-light)}
+.slot-flat{
+  border:2px dashed var(--line);background:var(--panel);
+  padding-top:26px;padding-bottom:26px;padding-left:24px;padding-right:24px;
+  max-width:46ch;
+}
+.slot-flat .mono{line-height:1.7}
+
+/* ---------- вопросы ---------- */
+.faq{display:grid;gap:14px}
+.qa{
+  order:0;display:grid;gap:18px;background:var(--panel);
+  border:1px solid var(--line);
+  padding-top:24px;padding-bottom:24px;padding-left:22px;padding-right:22px;
+}
+.qa .q{order:0;font-size:clamp(19px,2.2vw,24px);font-weight:700;max-width:34ch;line-height:1.25}
+.qa .a{order:0;max-width:44ch;color:var(--ink-light)}
+
+/* ---------- форма ---------- */
+.field{margin-bottom:22px;max-width:46ch}
+.field label{display:block;margin-bottom:8px;font-weight:600;font-size:clamp(17px,1.8vw,19px)}
+.field input[type=text],.field textarea{
+  width:100%;min-height:54px;
+  padding-top:14px;padding-bottom:14px;padding-left:14px;padding-right:14px;
+  border:2px solid var(--ink);background:var(--panel);color:var(--ink);
+  font-family:inherit;font-size:clamp(17px,1.9vw,19px);line-height:1.4;
+}
+.field textarea{min-height:9em;resize:vertical}
+.field input[aria-invalid=true],.field textarea[aria-invalid=true]{border-color:var(--danger)}
+.err{
+  display:block;margin-top:8px;color:var(--danger);
+  font-size:clamp(15px,1.6vw,16px);line-height:1.4;
+}
+.consent{display:flex;align-items:flex-start;gap:12px;max-width:46ch}
+.consent input[type=checkbox]{
+  flex:0 0 auto;width:44px;height:44px;accent-color:var(--ink);cursor:pointer;
+}
+.consent .txt-c{font-size:clamp(16px,1.7vw,18px);line-height:1.45;color:var(--ink-light)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:clip}
+.hp input{height:44px}
+.msg{margin-top:18px;max-width:44ch;color:var(--danger)}
+.hidden{display:none}
+.done{
+  border:2px solid var(--ink);background:var(--panel);
+  padding-top:30px;padding-bottom:30px;padding-left:26px;padding-right:26px;
+  max-width:46ch;
+}
+
+/* ---------- подвал ---------- */
+.foot{
+  background:var(--panel-dark);color:var(--panel);
+  padding-top:48px;padding-bottom:56px;margin-top:20px;
+}
+.foot a{color:var(--panel)}
+.foot .mono{color:var(--line)}
+.foot .rows{display:grid;gap:8px;margin-top:18px}
+
+/* ---------- наверх ---------- */
+.toup{
+  position:fixed;right:var(--pad);bottom:var(--pad);z-index:70;
+  width:54px;height:54px;min-height:54px;
+  padding-top:0;padding-bottom:0;padding-left:0;padding-right:0;
+  border:2px solid var(--ink);background:var(--panel);color:var(--ink);
+  cursor:pointer;font-family:var(--mono);font-size:clamp(17px,1.8vw,19px);
+  align-items:center;justify-content:center;display:none;
+}
+.toup.show{display:inline-flex}
+
+@media (min-width:900px){
+  :root{--pad:40px}
+  .hero-grid{grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+  .grid2{grid-template-columns:1fr 1fr;gap:48px}
+  .faq{grid-template-columns:1fr 1fr;gap:18px}
+  .qa{grid-template-columns:1fr 1fr;gap:30px;align-items:start}
+  .panel-in{grid-template-columns:1fr 1fr;gap:56px}
+  .panel-in.one{grid-template-columns:1fr}
+  .chapter-head{padding-top:30px;padding-bottom:32px}
+  .body-block{padding-top:70px;padding-bottom:84px}
+}
+@media not all and (min-width:900px){
+  .reel{height:auto}
+  .reel-stage{position:static;height:auto;overflow:visible;background:transparent}
+  .reel-track{display:block;transform:none !important;will-change:auto}
+  .panel{display:block;height:auto;padding-top:34px;padding-bottom:34px}
+  .panel-in{opacity:1 !important;filter:none !important}
+}
+@media (prefers-reduced-motion:reduce){
+  .panel-in{filter:none !important;opacity:1 !important}
+  .chapter-head,.chapter-head h2{transition:none}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="who" href="#top">Сергей Фомичев — ИИ-агенты</a>
+  <a class="cta" href="#form">Опишите процесс</a>
+</header>
+
+<main id="top">
+
+<!-- ============ 3.1 HERO ============ -->
+<section class="hero wrap">
+  <div class="hero-grid">
+    <div>
+      <span class="mono">Пилот: один процесс, две недели</span>
+      <h1>ИИ-агент для одного процесса за две недели</h1>
+      <p class="lead">Не чат-бот. Цифровой сотрудник, который берёт на себя рутинный процесс из ваших продаж — без программистов и долгих внедрений.</p>
+      <div class="btns"><a class="btn" href="#form">Опишите процесс</a></div>
+      <p class="under dim">Отвечаю в Telegram. Пилот стартует в течение недели.</p>
+    </div>
+    <div>
+      <div class="slot">
+        <span class="mono">МЕСТО ПОД ДЕМО: запишите 30-секундный ролик, показывающий, как агент отвечает на типовой запрос в интерфейсе.</span>
+      </div>
+      <p class="slot-note">Снимите экран, где в вашу систему приходит типовой запрос и агент отвечает на него сам. Без монтажа и музыки: один дубль, реальный интерфейс, видно время ответа.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3.2 С ЧЕГО ОБЫЧНО НАЧИНАЮТ ============ -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="wrap">
+      <h2>С чего обычно начинают</h2>
+      <p class="sub">Шесть процессов, которые чаще всего отдают агенту первыми.</p>
+    </div>
+  </div>
+  <div class="reel" style="--n:6">
+    <div class="reel-stage"><div class="reel-track">
+
+      <div class="panel"><div class="wrap panel-in">
+        <div><span class="mono">Список</span>
+          <h3>Обработка входящих заявок и квалификация лидов</h3></div>
+        <div><p class="dim">Заявка приходит — агент отвечает первым, задаёт уточняющие вопросы и отделяет целевые обращения от случайных.</p></div>
+      </div></div>
+
+      <div class="panel"><div class="wrap panel-in">
+        <div><span class="mono">Список</span>
+          <h3>Ведение сделок в CRM: статусы, заметки, напоминания</h3></div>
+        <div><p class="dim">Карточка не остаётся пустой: агент фиксирует договорённости, двигает статус и напоминает о том, что пора вернуться к сделке.</p></div>
+      </div></div>
+
+      <div class="panel"><div class="wrap panel-in">
+        <div><span class="mono">Список</span>
+          <h3>Подготовка коммерческих предложений по шаблону</h3></div>
+        <div><p class="dim">Из данных сделки и вашего шаблона собирается готовый документ — человеку остаётся прочитать и отправить.</p></div>
+      </div></div>
+
+      <div class="panel"><div class="wrap panel-in">
+        <div><span class="mono">Список</span>
+          <h3>Ответы на частые вопросы клиентов в мессенджерах</h3></div>
+        <div><p class="dim">Повторяющиеся вопросы закрываются сразу, редкие — передаются человеку с уже собранным контекстом.</p></div>
+      </div></div>
+
+      <div class="panel"><div class="wrap panel-in">
+        <div><span class="mono">Список</span>
+          <h3>Планирование звонков и встреч, синхронизация с календарём</h3></div>
+        <div><p class="dim">Агент согласует время, ставит встречу в календарь и напоминает о ней обеим сторонам.</p></div>
+      </div></div>
+
+      <div class="panel"><div class="wrap panel-in">
+        <div><span class="mono">Список</span>
+          <h3>Отправка уведомлений о статусе заказа и оплате</h3></div>
+        <div><p class="dim">Клиент узнаёт об изменении статуса без напоминаний с его стороны, менеджер не тратит на это день.</p></div>
+      </div></div>
+
+    </div></div>
+  </div>
+</section>
+
+<!-- ============ 3.3 ЧТО ВХОДИТ В ПИЛОТ (единственная глава с акцентом) ============ -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="wrap">
+      <h2>Что входит в пилот</h2>
+      <p class="sub">Границы работы названы заранее — с обеих сторон.</p>
+    </div>
+  </div>
+  <div class="body-block"><div class="wrap">
+    <div class="grid2">
+      <div class="card">
+        <span class="mono marker" style="color:var(--acc);border-bottom-color:var(--acc)">Входит</span>
+        <ul class="list">
+          <li>разбор процесса на созвоне и письменная постановка задачи</li>
+          <li>сервер, на котором живёт агент, оформляется на вас</li>
+          <li>сборка агента и подключение к вашим системам, к которым есть доступ</li>
+          <li>обучение на ваших данных: как вы пишете, что считается хорошим ответом</li>
+          <li>две недели правок по факту работы</li>
+          <li>документация и передача доступов</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="mono marker no">Не входит</span>
+        <ul class="list">
+          <li>доработка вашей CRM</li>
+          <li>покупка сторонних сервисов</li>
+          <li>интеграция с системами без внешнего доступа</li>
+          <li>работа с бумажными архивами</li>
+        </ul>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============ 3.4 ДВЕ НЕДЕЛИ ПО ДНЯМ ============ -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="wrap">
+      <h2>Две недели по дням</h2>
+      <p class="sub">Что происходит на каждом отрезке пилота.</p>
+    </div>
+  </div>
+  <div class="reel" style="--n:5">
+    <div class="reel-stage"><div class="reel-track">
+
+      <div class="panel"><div class="wrap panel-in">
+        <div class="giant">1</div>
+        <div><p>День 1. Созвон: разбираем ваш процесс и фиксируем задачу</p></div>
+      </div></div>
+
+      <div class="panel"><div class="wrap panel-in">
+        <div class="giant">2&ndash;4</div>
+        <div><p>Дни 2&ndash;4. Сборка агента и подключение к вашим системам</p></div>
+      </div></div>
+
+      <div class="panel"><div class="wrap panel-in">
+        <div class="giant">5</div>
+        <div><p>День 5. Первая рабочая версия: тестируем на реальных данных</p></div>
+      </div></div>
+
+      <div class="panel"><div class="wrap panel-in">
+        <div class="giant">6&ndash;12</div>
+        <div><p>Дни 6&ndash;12. Правки по факту работы: агент учится на ваших примерах</p></div>
+      </div></div>
+
+      <div class="panel"><div class="wrap panel-in">
+        <div class="giant">14</div>
+        <div><p>День 14. Документация и передача доступов</p></div>
+      </div></div>
+
+    </div></div>
+  </div>
+</section>
+
+<!-- ============ 3.5 КАК ЭТО ВЫГЛЯДИТ ============ -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="wrap">
+      <h2>Как это выглядит</h2>
+      <p class="sub">Одна запись вместо описания.</p>
+    </div>
+  </div>
+  <div class="body-block"><div class="wrap">
+    <div class="grid2">
+      <div>
+        <div class="slot">
+          <span class="mono">МЕСТО ПОД ДЕМО: запишите 30-секундный ролик, показывающий, как агент отвечает на типовой запрос в интерфейсе.</span>
+        </div>
+      </div>
+      <div>
+        <p class="txt dim">Ролик заменяет этот блок целиком. Возьмите запрос, который у вас приходит каждый день, и покажите путь целиком: сообщение клиента, ответ агента, запись в системе.</p>
+        <p class="txt dim">Снимайте в том окне, где процесс живёт на самом деле, без постановочных данных. Если в кадр попадают имена и телефоны — закройте их прямо в записи.</p>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============ 3.6 КТО ЭТО ДЕЛАЕТ ============ -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="wrap">
+      <h2>Кто это делает</h2>
+      <p class="sub">Без агентства и подрядчиков во втором ряду.</p>
+    </div>
+  </div>
+  <div class="body-block"><div class="wrap">
+    <div class="grid2">
+      <div>
+        <ul class="list">
+          <li>собираю сам, помощников нет: с кем говорите на созвоне, тот и делает</li>
+          <li>поэтому не берусь за всё подряд и говорю прямо, если задача не моя</li>
+          <li>поэтому сроки короткие: нет согласований и передачи между отделами</li>
+          <li>поэтому не могу взять больше двух-трёх проектов одновременно</li>
+        </ul>
+      </div>
+      <div>
+        <div class="slot">
+          <span class="mono">МЕСТО ПОД ФОТО: разместите портрет владельца (или рабочего пространства), 800&times;1000 px.</span>
+        </div>
+        <p class="slot-note">Снимок должен быть узнаваемым: то же лицо, которое клиент увидит на созвоне, при дневном свете и без обработки. Вертикальный кадр, лицо занимает верхнюю треть.</p>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============ 3.7 ЧТО ОСТАЁТСЯ У ВАС ============ -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="wrap">
+      <h2>Что остаётся у вас</h2>
+      <p class="sub">После пилота вы не привязаны ни ко мне, ни к одному поставщику.</p>
+    </div>
+  </div>
+  <div class="body-block"><div class="wrap">
+    <ul class="list">
+      <li>сервер оформлен на вас, доступы ваши</li>
+      <li>документация передаётся в конце пилота</li>
+      <li>ничего, что работает только через меня, в схеме нет</li>
+      <li>модель меняется одной строкой в настройках, вы не привязаны ни к одной нейросети</li>
+    </ul>
+  </div></div>
+</section>
+
+<!-- ============ 3.8 КОМУ НЕ ПОДОЙДЁТ ============ -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="wrap">
+      <h2>Кому не подойдёт</h2>
+      <p class="sub">Проще сказать сразу, чем выяснить это на второй неделе.</p>
+    </div>
+  </div>
+  <div class="body-block"><div class="wrap">
+    <ul class="list">
+      <li>если процесс не описан и никто в компании не может рассказать, как он устроен</li>
+      <li>если нужен доступ к чужой переписке или обход блокировок — не берусь</li>
+      <li>если ожидание «ИИ сам придумает, что улучшить» — так не работает, задачу ставите вы</li>
+      <li>если задача типовая и закрывается коробочным сервисом — скажу об этом на созвоне и не возьму деньги</li>
+    </ul>
+  </div></div>
+</section>
+
+<!-- ============ 3.9 ЧЕСТНЫЕ ОГРАНИЧЕНИЯ ============ -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="wrap">
+      <h2>Честные ограничения</h2>
+      <p class="sub">То, что обычно выясняется уже в работе.</p>
+    </div>
+  </div>
+  <div class="reel" style="--n:4">
+    <div class="reel-stage"><div class="reel-track">
+
+      <div class="panel dark"><div class="wrap panel-in">
+        <div><span class="mono">Ограничение</span>
+          <h3>Агент ошибается</h3></div>
+        <div><p>агент ошибается; там, где цена ошибки высока, он готовит черновик, а не действует сам</p></div>
+      </div></div>
+
+      <div class="panel dark"><div class="wrap panel-in">
+        <div><span class="mono">Ограничение</span>
+          <h3>Нужен ваш человек рядом</h3></div>
+        <div><p>первые две недели требует внимания вашего сотрудника</p></div>
+      </div></div>
+
+      <div class="panel dark"><div class="wrap panel-in">
+        <div><span class="mono">Ограничение</span>
+          <h3>Не заменяет человека</h3></div>
+        <div><p>не заменяет человека там, где нужен голос и ответственность</p></div>
+      </div></div>
+
+      <div class="panel dark"><div class="wrap panel-in">
+        <div><span class="mono">Ограничение</span>
+          <h3>Закрытые системы</h3></div>
+        <div><p>не работает с системами, у которых нет внешнего доступа</p></div>
+      </div></div>
+
+    </div></div>
+  </div>
+</section>
+
+<!-- ============ 3.10 ВОПРОСЫ ============ -->
+<section class="chapter">
+  <div class="chapter-head">
+    <div class="wrap">
+      <h2>Вопросы</h2>
+      <p class="sub">Шесть, которые задают чаще всего.</p>
+    </div>
+  </div>
+  <div class="body-block"><div class="wrap">
+    <div class="faq">
+
+      <div class="qa">
+        <p class="q">Что если за две недели не получится?</p>
+        <p class="a">Если за две недели не получится довести агента до рабочего состояния, вы не платите за пилот. Я честно скажу, если процесс требует больше времени, и мы обсудим варианты.</p>
+      </div>
+
+      <div class="qa">
+        <p class="q">Нужен ли нам технический специалист?</p>
+        <p class="a">Нет. Нужен один человек, который знает процесс и может две недели отвечать на вопросы.</p>
+      </div>
+
+      <div class="qa">
+        <p class="q">Можно начать не с продаж?</p>
+        <p class="a">Да. Любой из процессов выше — продажи стоят первыми только потому, что с них чаще начинают.</p>
+      </div>
+
+      <div class="qa">
+        <p class="q">Какие данные нужны для обучения?</p>
+        <p class="a">Примеры переписок, шаблоны документов, инструкции — всё, что вы используете сейчас. Достаточно 20&ndash;30 примеров, чтобы агент начал работать.</p>
+      </div>
+
+      <div class="qa">
+        <p class="q">Что будет после пилота?</p>
+        <p class="a">Вы получите работающего агента, документацию и все доступы. Дальше вы можете развивать его сами или договориться о поддержке.</p>
+      </div>
+
+      <div class="qa">
+        <p class="q">Как быстро вы сможете начать?</p>
+        <p class="a">Пилот стартует в течение недели после согласования задачи.</p>
+      </div>
+
+    </div>
+
+    <div class="slot-flat" style="margin-top:28px">
+      <span class="mono">МЕСТО ПОД FAQ: добавьте четыре пары вопрос-ответ, которые часто задают клиенты о пилоте.</span>
+      <p class="slot-note">Четыре пары выше, кроме первой, поставлены как предложенные — замените их формулировками, которые вы уже произносили клиентам вслух.</p>
+      <p class="slot-note">Берите вопросы из реальной переписки, а не придуманные: тот, который задают на созвоне первым, и тот, после которого чаще всего пропадают.</p>
+    </div>
+  </div></div>
+</section>
+
+<!-- ============ 3.11 ФОРМА ============ -->
+<section class="chapter" id="form">
+  <div class="chapter-head">
+    <div class="wrap">
+      <h2>Опишите процесс</h2>
+      <p class="sub">Опишите один процесс — отвечу в Telegram и скажу, берусь или нет.</p>
+    </div>
+  </div>
+  <div class="body-block"><div class="wrap">
+
+    <div class="slot-flat" style="margin-bottom:34px">
+      <span class="mono">МЕСТО ПОД ФОРМУЛИРОВКУ ПРО ДЕНЬГИ: владелец должен выбрать вариант А (фиксированная стоимость), Б (по результату) или В (обсуждается индивидуально) и вставить текст.</span>
+      <p class="slot-note">Вариант А — назвать одну сумму за пилот и что в неё входит. Вариант Б — назвать условие, при котором пилот оплачивается, и кто определяет, что оно выполнено.</p>
+      <p class="slot-note">Вариант В — написать, на созвоне какого шага называется сумма и от чего она зависит. Пустое место здесь читается хуже любого из трёх вариантов.</p>
+    </div>
+
+    <form id="lead" novalidate>
+      <div class="field">
+        <label for="f-name">Как обращаться</label>
+        <input type="text" id="f-name" name="name" autocomplete="name" aria-describedby="e-name">
+        <span class="err" id="e-name"></span>
+      </div>
+
+      <div class="field">
+        <label for="f-contact">Telegram или почта</label>
+        <input type="text" id="f-contact" name="contact" autocomplete="off" aria-describedby="e-contact">
+        <span class="err" id="e-contact"></span>
+      </div>
+
+      <div class="field">
+        <label for="f-company">Компания и чем занимаетесь</label>
+        <input type="text" id="f-company" name="company" autocomplete="organization" aria-describedby="e-company">
+        <span class="err" id="e-company"></span>
+      </div>
+
+      <div class="field">
+        <label for="f-task">Какой процесс хотите отдать агенту</label>
+        <textarea id="f-task" name="task" placeholder="Например: обработка входящих заявок с сайта и запись лидов в CRM" aria-describedby="e-task"></textarea>
+        <span class="err" id="e-task"></span>
+      </div>
+
+      <div class="field">
+        <label for="f-people">Сколько человек сейчас на этом процессе</label>
+        <input type="text" id="f-people" name="people" autocomplete="off" aria-describedby="e-people">
+        <span class="err" id="e-people"></span>
+      </div>
+
+      <div class="field">
+        <div class="consent">
+          <input type="checkbox" id="f-agree" name="agree" aria-describedby="e-agree">
+          <label class="txt-c" for="f-agree">Согласен на обработку персональных данных, <a href="privacy.html">политика обработки</a></label>
+        </div>
+        <span class="err" id="e-agree"></span>
+      </div>
+
+      <div class="hp" aria-hidden="true">
+        <label for="f-site">Не заполняйте это поле</label>
+        <input type="text" id="f-site" name="site" tabindex="-1" autocomplete="off">
+      </div>
+
+      <button class="btn" type="submit" id="send">Опишите процесс</button>
+      <p class="msg" id="msg"></p>
+      <div class="btns hidden" id="fallback-btns">
+        <a class="btn btn-ghost tg" href="https://t.me/Thukydides" target="_blank" rel="noopener">Написать в Telegram</a>
+      </div>
+      <div class="slot-flat hidden" id="fallback-mail" style="margin-top:16px">
+        <span class="mono">МЕСТО ПОД ПОЧТУ: вставьте адрес, на который дублировать заявки, если форма не отправляется.</span>
+        <p class="slot-note">Нужен ящик, который читают каждый день, и подпись, за сколько на него отвечают.</p>
+      </div>
+    </form>
+
+    <div class="done hidden" id="done">
+      <h3>Заявка принята</h3>
+      <p class="dim" style="margin-top:14px">Отвечаю в Telegram. Пилот стартует в течение недели.</p>
+    </div>
+
+  </div></div>
+</section>
+
+</main>
+
+<!-- ============ 3.12 ПОДВАЛ ============ -->
+<footer class="foot">
+  <div class="wrap">
+    <span class="mono">Сергей Фомичев</span>
+    <div class="rows">
+      <div><a class="tg" href="https://t.me/Thukydides" target="_blank" rel="noopener">Telegram: @Thukydides</a></div>
+      <div><a href="privacy.html">Политика обработки персональных данных</a></div>
+    </div>
+  </div>
+</footer>
+
+<button class="toup" id="toup" type="button" aria-label="Наверх">&uarr;</button>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- счётчик ----------
+     ID не выдан: пока METRIKA_ID === null, к внешним адресам
+     не уходит ни одного запроса.                              */
+  var METRIKA_ID = null; // заменить на реальный ID перед платным трафиком
+
+  function goal(name){
+    if (METRIKA_ID === null) return;
+    try { window["yaCounter" + METRIKA_ID] && window["yaCounter" + METRIKA_ID].reachGoal(name); } catch(e){}
+  }
+
+  if (METRIKA_ID === null){
+    console.log("Metrika ID not set");
+  } else {
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+    window.ym(METRIKA_ID,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});
+  }
+
+  /* приёмник заявок: пусто — форма честно показывает запасной путь */
+  var ENDPOINT = "";
+
+  var reduceMotion = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function headerH(){
+    var bar = document.querySelector(".topbar");
+    return bar ? bar.getBoundingClientRect().height : 0;
+  }
+  function ease(k){ return k < .5 ? 4*k*k*k : 1 - Math.pow(-2*k + 2, 3) / 2; }
+
+  /* прокрутка к цели считается покадрово, браузерная плавная прокрутка не используется */
+  function glide(el, prop, to, ms){
+    if (reduceMotion){ el[prop] = to; return; }
+    var from = el[prop], dist = to - from, t0 = performance.now(), done = false;
+    (function frame(now){
+      var k = Math.min(1, (now - t0) / ms);
+      el[prop] = from + dist * ease(k);
+      if (k < 1){ requestAnimationFrame(frame); } else { done = true; }
+    })(t0);
+    /* если кадры не идут (вкладка в фоне), доводим позицию без анимации */
+    setTimeout(function(){ if (!done) el[prop] = to; }, ms + 220);
+  }
+
+  [].forEach.call(document.querySelectorAll('a[href^="#"]'), function(a){
+    a.addEventListener("click", function(e){
+      var id = a.getAttribute("href").slice(1);
+      var target = id && document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      var doc = document.scrollingElement || document.documentElement;
+      var y = target.getBoundingClientRect().top + window.pageYOffset - headerH();
+      glide(doc, "scrollTop", Math.max(0, y), 620);
+    });
+  });
+
+  /* цель на каждую ссылку в Telegram: шапка, hero, запасной путь, подвал */
+  [].forEach.call(document.querySelectorAll('a[href*="t.me/"]'), function(a){
+    a.addEventListener("click", function(){ goal("tg_click"); });
+  });
+
+  /* ---------- липкий заголовок главы поджимается ---------- */
+  if ("IntersectionObserver" in window){
+    [].forEach.call(document.querySelectorAll(".chapter-head"), function(headEl){
+      var chapter = headEl.parentElement;
+      var mark = document.createElement("div");
+      mark.className = "sentinel";
+      chapter.insertBefore(mark, headEl);
+      new IntersectionObserver(function(entries){
+        headEl.classList.toggle("stuck", !entries[0].isIntersecting);
+      }, {rootMargin: "-" + (headerH() + 1) + "px 0px 0px 0px", threshold: 0}).observe(mark);
+    });
+  }
+
+  /* ---------- лента: вертикальный скролл -> горизонтальный ход ---------- */
+  (function reels(){
+    var reels = [].slice.call(document.querySelectorAll(".reel"));
+    if (!reels.length) return;
+
+    var items = reels.map(function(reel){
+      return {
+        reel: reel,
+        stage: reel.querySelector(".reel-stage"),
+        track: reel.querySelector(".reel-track"),
+        panels: [].slice.call(reel.querySelectorAll(".panel-in")),
+        lastX: null
+      };
+    });
+
+    function clamp(v, a, b){ return v < a ? a : v > b ? b : v; }
+    function narrow(){ return window.innerWidth < 900; }
+
+    if (reduceMotion){
+      items.forEach(function(it){
+        it.panels.forEach(function(el){ el.style.setProperty("--p", "1"); });
+      });
+    }
+
+    var ticking = false;
+    var settleTimer = null, settling = false;
+
+    function paint(){
+      ticking = false;
+      if (narrow()) return;
+      var vh = window.innerHeight;
+
+      items.forEach(function(it){
+        var r = it.reel.getBoundingClientRect();
+        if (r.bottom < -vh * 0.5 || r.top > vh * 1.5) return;
+
+        var n = it.panels.length;
+        if (n < 2) return;
+
+        var stageH = it.stage.getBoundingClientRect().height;
+        var travel = r.height - stageH;
+        var passed = travel > 0 ? clamp(-r.top / travel, 0, 1) : 0;
+
+        var pos = passed * (n - 1);
+        var w = it.stage.getBoundingClientRect().width;
+        var x = -pos * w;
+
+        if (x !== it.lastX){
+          it.lastX = x;
+          it.track.style.transform = "translate3d(" + x.toFixed(1) + "px,0,0)";
+        }
+
+        if (reduceMotion) return;
+
+        it.panels.forEach(function(el, i){
+          /* чем дальше разворот от центра сцены, тем сильнее размыт */
+          var p = clamp(1 - Math.max(0, Math.abs(pos-i) - 0.42) * 2.8, 0, 1);
+          p = Math.round(p * 100) / 100;
+          if (el.__p !== p){
+            el.__p = p;
+            el.style.setProperty("--p", p);
+          }
+        });
+      });
+    }
+
+    function onScroll(){
+      if (!ticking){
+        ticking = true;
+        requestAnimationFrame(paint);
+      }
+      if (reduceMotion || settling) return;
+      clearTimeout(settleTimer);
+      settleTimer = setTimeout(settle, 160);
+    }
+
+    /* доводка, которую можно перебить: разошлись больше чем на 2px — уходим */
+    function driveTo(doc, to, ms){
+      var from = doc.scrollTop;
+      var dist = to - from;
+      if (!dist) return;
+      settling = true;
+      var t0 = performance.now();
+      var expect = from;
+
+      (function frame(now){
+        if (Math.abs(doc.scrollTop - expect) > 2){
+          settling = false;
+          return;
+        }
+        var k = Math.min(1, (now - t0) / ms);
+        expect = from + dist * ease(k);
+        doc.scrollTop = expect;
+        if (k < 1){
+          requestAnimationFrame(frame);
+        } else {
+          settling = false;
+        }
+      })(t0);
+    }
+
+    function settle(){
+      if (settling || narrow()) return;
+      var vh = window.innerHeight;
+
+      for (var k = 0; k < items.length; k++){
+        var it = items[k];
+        var n = it.panels.length;
+        if (n < 2) continue;
+
+        var r = it.reel.getBoundingClientRect();
+        var stageH = it.stage.getBoundingClientRect().height;
+        var travel = r.height - stageH;
+        if (travel <= 0) continue;
+        if (r.top > vh * 0.2 || r.bottom < vh * 0.8) continue;
+
+        var passed = clamp(-r.top / travel, 0, 1);
+        var pos = passed * (n - 1);
+        var near = Math.round(pos);
+        if (Math.abs(pos - near) < 0.03) return;
+
+        var doc = document.scrollingElement || document.documentElement;
+        var to = Math.max(0, r.top + window.pageYOffset + travel * near / (n - 1));
+        driveTo(doc, to, 260);
+        return;
+      }
+    }
+
+    window.addEventListener("scroll", onScroll, {passive:true});
+    window.addEventListener("resize", function(){
+      items.forEach(function(it){
+        it.lastX = null;
+        if (narrow()) it.track.style.transform = "";
+      });
+      onScroll();
+    });
+    paint();
+  })();
+
+  /* ---------- кнопка наверх ---------- */
+  (function toTop(){
+    var btn = document.getElementById("toup");
+    if (!btn) return;
+    function sync(){
+      btn.classList.toggle("show", window.pageYOffset > window.innerHeight * 0.9);
+    }
+    window.addEventListener("scroll", sync, {passive:true});
+    btn.addEventListener("click", function(){
+      glide(document.scrollingElement || document.documentElement, "scrollTop", 0, 700);
+    });
+    sync();
+  })();
+
+  /* ---------- форма ---------- */
+  (function leadForm(){
+    var form = document.getElementById("lead");
+    if (!form) return;
+
+    var send = document.getElementById("send");
+    var msg  = document.getElementById("msg");
+    var done = document.getElementById("done");
+    var fbBtns = document.getElementById("fallback-btns");
+    var fbMail = document.getElementById("fallback-mail");
+
+    var firstFocus = 0;
+    form.addEventListener("focusin", function(){
+      if (!firstFocus) firstFocus = Date.now();
+    });
+
+    var required = [
+      {id:"f-name",    err:"e-name",    text:"Напишите, как к вам обращаться"},
+      {id:"f-contact", err:"e-contact", text:"Оставьте Telegram или почту, иначе ответить некуда"},
+      {id:"f-task",    err:"e-task",    text:"Опишите процесс хотя бы одной фразой"}
+    ];
+
+    function clearErr(f){
+      var el = document.getElementById(f.id);
+      el.removeAttribute("aria-invalid");
+      document.getElementById(f.err).textContent = "";
+    }
+    function setErr(f){
+      var el = document.getElementById(f.id);
+      el.setAttribute("aria-invalid", "true");
+      document.getElementById(f.err).textContent = f.text;
+    }
+
+    required.forEach(function(f){
+      document.getElementById(f.id).addEventListener("input", function(){
+        if (document.getElementById(f.id).value.trim()) clearErr(f);
+      });
+    });
+
+    var agree = document.getElementById("f-agree");
+    var agreeErr = document.getElementById("e-agree");
+    agree.addEventListener("change", function(){
+      if (agree.checked){
+        agree.removeAttribute("aria-invalid");
+        agreeErr.textContent = "";
+      }
+    });
+
+    function say(text){ msg.textContent = text || ""; }
+
+    function showFallback(){
+      say("Форма временно не отправляется. Напишите в Telegram — отвечу так же быстро.");
+      fbBtns.classList.remove("hidden");
+      fbMail.classList.remove("hidden");
+      send.disabled = false;
+    }
+
+    function accepted(){
+      goal("form_sent");
+      form.classList.add("hidden");
+      done.classList.remove("hidden");
+      var doc = document.scrollingElement || document.documentElement;
+      var y = done.getBoundingClientRect().top + window.pageYOffset - headerH() - 24;
+      glide(doc, "scrollTop", Math.max(0, y), 500);
+    }
+
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      say("");
+
+      var bad = null;
+      required.forEach(function(f){
+        var el = document.getElementById(f.id);
+        if (!el.value.trim()){
+          setErr(f);
+          if (!bad) bad = el;
+        } else {
+          clearErr(f);
+        }
+      });
+
+      if (!agree.checked){
+        agree.setAttribute("aria-invalid", "true");
+        agreeErr.textContent = "Без согласия на обработку я не имею права хранить контакт";
+        if (!bad) bad = agree;
+      }
+
+      if (bad){ bad.focus(); return; }
+
+      /* приманка заполнена или отправка быстрее трёх секунд — тихо выходим */
+      if (document.getElementById("f-site").value){ return; }
+      if (!firstFocus || Date.now() - firstFocus < 3000){
+        say("Слишком быстро. Проверьте поля и отправьте ещё раз.");
+        return;
+      }
+
+      if (!ENDPOINT){ showFallback(); return; }
+
+      send.disabled = true;
+
+      var body = new URLSearchParams({
+        name:    document.getElementById("f-name").value.trim(),
+        contact: document.getElementById("f-contact").value.trim(),
+        company: document.getElementById("f-company").value.trim(),
+        task:    document.getElementById("f-task").value.trim(),
+        people:  document.getElementById("f-people").value.trim()
+      });
+
+      fetch(ENDPOINT, {
+        method: "POST",
+        headers: {"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"},
+        body: body.toString()
+      }).then(function(r){
+        if (r.ok){ accepted(); } else { showFallback(); }
+      }).catch(function(){ showFallback(); });
+    });
+  })();
+
+})();
+</script>
+</body>
+</html>
