@@ -270,7 +270,7 @@ LEGIONES.forEach((l,i)=>{
   const s = document.createElement('section');
   s.className='screen'; s.id='s'+(i+1);
   s.innerHTML = `
-    <img class="bg-media" alt="" data-img="${esc(l.img)}">
+    <img class="bg-media" alt="" loading="${i===0?'eager':'lazy'}" data-img="${esc(l.img)}">
     <div class="bg-overlay" aria-hidden="true"></div>
     <div class="col-text">
       <h2 class="latin">${dots(l.latin)}</h2>
